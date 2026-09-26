@@ -1,5 +1,5 @@
+```html
 <!DOCTYPE html>
-
 <html lang="pl">
 <head>
 <meta charset="UTF-8">
@@ -18,14 +18,16 @@ html,body{
   height:100%;
   overflow:hidden;
   background:#020207;
-  color:#fff;
+  color:white;
   font-family:Arial,sans-serif;
+  user-select:none;
 }
 
 button{
-  font-family:Arial,sans-serif;
+  font:inherit;
   border:0;
   cursor:pointer;
+  user-select:none;
 }
 
 button:active{
@@ -42,12 +44,12 @@ button:active{
   overflow:auto;
   text-align:center;
   background:
-    radial-gradient(circle at 50% 15%,#25255e,#09091c 50%,#020207);
+    radial-gradient(circle at 50% 10%,#292967,#09091d 48%,#020207);
 }
 
 .logo{
   margin:0;
-  padding-top:55px;
+  padding-top:45px;
   font-size:clamp(48px,11vw,100px);
   font-weight:900;
   letter-spacing:6px;
@@ -118,7 +120,7 @@ button:active{
   color:#00ffff;
 }
 
-.levelTitle{
+.levelTitleHome{
   color:#aaa;
   margin:25px 0 12px;
   letter-spacing:2px;
@@ -183,6 +185,7 @@ canvas{
   display:flex;
   gap:8px;
   z-index:5;
+  pointer-events:none;
 }
 
 .topButton{
@@ -190,9 +193,10 @@ canvas{
   height:42px;
   border-radius:10px;
   color:white;
-  background:#10101dcc;
+  background:#10101ddd;
   border:1px solid #444;
   font-size:18px;
+  pointer-events:auto;
 }
 
 #bar{
@@ -209,6 +213,7 @@ canvas{
   height:100%;
   background:#00ffff;
   box-shadow:0 0 15px #00ffff;
+  transition:width .03s linear;
 }
 
 #levelTitle{
@@ -217,23 +222,26 @@ canvas{
   left:15px;
   z-index:5;
   font-weight:bold;
+  text-shadow:0 0 8px #000;
+  pointer-events:none;
 }
 
 #mobileJump{
   position:absolute;
-  bottom:25px;
+  bottom:24px;
   left:50%;
   transform:translateX(-50%);
-  width:115px;
-  height:70px;
+  width:125px;
+  height:72px;
   border-radius:18px;
   background:#00ffff22;
   border:2px solid #00ffff88;
   color:white;
   font-weight:bold;
   font-size:18px;
-  z-index:5;
+  z-index:6;
   display:none;
+  touch-action:none;
 }
 
 /* =========================
@@ -247,7 +255,7 @@ canvas{
   align-items:center;
   justify-content:center;
   padding:15px;
-  background:#000b;
+  background:#000c;
   z-index:30;
 }
 
@@ -300,6 +308,10 @@ canvas{
   opacity:.3;
 }
 
+/* =========================
+   OSIĄGNIĘCIA
+========================= */
+
 .achievement{
   margin:8px 0;
   padding:12px;
@@ -331,6 +343,10 @@ canvas{
   text-align:left;
 }
 
+.settingText{
+  flex:1;
+}
+
 .settingText b{
   display:block;
   margin-bottom:4px;
@@ -356,23 +372,18 @@ canvas{
 }
 
 /* =========================
-   ANIMACJA WYGRANEJ
+   WIN
 ========================= */
 
 #winPanel{
   background:
-    radial-gradient(
-      circle,
-      #00ffff22,
-      #000d 55%
-    );
+    radial-gradient(circle,#00ffff22,#000d 55%);
 }
 
 .winBox{
   position:relative;
   overflow:hidden;
-  animation:
-    winBoxIn .55s cubic-bezier(.2,1.5,.4,1);
+  animation:winBoxIn .55s cubic-bezier(.2,1.5,.4,1);
   border-color:#00ffff;
   box-shadow:
     0 0 25px #00ffff66,
@@ -396,37 +407,26 @@ canvas{
 .winTitle{
   font-size:clamp(28px,7vw,44px);
   font-weight:900;
-  color:#fff;
   text-shadow:
     0 0 10px #00ffff,
     0 0 30px #00ffff,
     0 0 50px #8a2cff;
-  animation:
-    winTitle .8s infinite alternate;
+  animation:winTitle .8s infinite alternate;
 }
 
 @keyframes winTitle{
-  from{
-    transform:scale(1);
-  }
-  to{
-    transform:scale(1.06);
-  }
+  from{transform:scale(1)}
+  to{transform:scale(1.06)}
 }
 
 .winIcon{
   font-size:70px;
-  animation:
-    trophySpin 1s ease;
+  animation:trophySpin 1s ease;
 }
 
 @keyframes trophySpin{
-  0%{
-    transform:rotateY(0) scale(.2);
-  }
-  100%{
-    transform:rotateY(720deg) scale(1);
-  }
+  0%{transform:rotateY(0) scale(.2)}
+  100%{transform:rotateY(720deg) scale(1)}
 }
 
 .winStats{
@@ -464,7 +464,7 @@ canvas{
     opacity:1;
   }
   100%{
-    transform:translateY(600px) rotate(900deg);
+    transform:translateY(650px) rotate(900deg);
     opacity:0;
   }
 }
@@ -487,6 +487,7 @@ canvas{
   transition:.3s;
   pointer-events:none;
   font-weight:bold;
+  white-space:nowrap;
 }
 
 #toast.show{
@@ -503,9 +504,16 @@ canvas{
   .levelList{
     grid-template-columns:1fr;
   }
+
+  .menuLevels{
+    grid-template-columns:1fr;
+  }
+
+  .box{
+    padding:20px;
+  }
 }
 </style>
-
 </head>
 
 <body>
@@ -513,7 +521,7 @@ canvas{
 <div id="toast"></div>
 
 <!-- =========================
-     MENU GŁÓWNE
+     MENU
 ========================= -->
 
 <div id="home">
@@ -525,60 +533,48 @@ canvas{
   </div>
 
   <div class="mainButtons">
+    <button class="mainButton primary" id="playButton">
+      ▶ GRAJ
+    </button>
 
-```
-<button class="mainButton primary"
-        onclick="startGame()">
-  ▶ GRAJ
-</button>
+    <button class="mainButton" id="levelsHomeButton">
+      🎮 POZIOMY
+    </button>
 
-<button class="mainButton"
-        onclick="openLevelsMenu()">
-  🎮 POZIOMY
-</button>
+    <button class="mainButton" id="achievementsHomeButton">
+      🏆 OSIĄGNIĘCIA
+    </button>
 
-<button class="mainButton"
-        onclick="openAchievements()">
-  🏆 OSIĄGNIĘCIA
-</button>
-
-<button class="mainButton"
-        onclick="openSettings()">
-  ⚙️ USTAWIENIA
-</button>
-```
-
+    <button class="mainButton" id="settingsHomeButton">
+      ⚙️ USTAWIENIA
+    </button>
   </div>
 
   <div class="homeStats">
+    <div class="stat">
+      <b id="completedCount">0/12</b>
+      POZIOMY
+    </div>
 
-```
-<div class="stat">
-  <b id="completedCount">0/12</b>
-  POZIOMY
-</div>
+    <div class="stat">
+      <b id="coinCount">0/36</b>
+      MONETY
+    </div>
 
-<div class="stat">
-  <b id="coinCount">0/36</b>
-  MONETY
-</div>
-
-<div class="stat">
-  <b id="achievementCount">0/8</b>
-  OSIĄGNIĘCIA
-</div>
-```
-
+    <div class="stat">
+      <b id="achievementCount">0/8</b>
+      OSIĄGNIĘCIA
+    </div>
   </div>
 
-  <div class="levelTitle">
+  <div class="levelTitleHome">
     POZIOMY
   </div>
 
-  <div class="levelList"
-       id="levelList"></div>
+  <div class="levelList" id="levelList"></div>
 
 </div>
+
 
 <!-- =========================
      GRA
@@ -586,31 +582,25 @@ canvas{
 
 <div id="game">
 
-<canvas id="canvas"></canvas>
+  <canvas id="canvas"></canvas>
 
   <div id="top">
 
-```
-<button class="topButton"
-        onclick="pauseGame()">
-  Ⅱ
-</button>
+    <button class="topButton" id="pauseButton">
+      Ⅱ
+    </button>
 
-<div id="bar">
-  <div id="barFill"></div>
-</div>
+    <div id="bar">
+      <div id="barFill"></div>
+    </div>
 
-<button class="topButton"
-        id="soundButton"
-        onclick="toggleSound()">
-  🔊
-</button>
+    <button class="topButton" id="soundButton">
+      🔊
+    </button>
 
-<button class="topButton"
-        onclick="showLevels()">
-  ☰
-</button>
-```
+    <button class="topButton" id="levelsButton">
+      ☰
+    </button>
 
   </div>
 
@@ -620,258 +610,221 @@ canvas{
     JUMP
   </button>
 
+
   <!-- PAUZA -->
 
-  <div class="panel"
-       id="pausePanel">
+  <div class="panel" id="pausePanel">
+    <div class="box">
 
-```
-<div class="box">
+      <h2>⏸ PAUZA</h2>
 
-  <h2>⏸ PAUZA</h2>
+      <button class="actionButton primary" id="resumeButton">
+        ▶ KONTYNUUJ
+      </button>
 
-  <button class="actionButton primary"
-          onclick="resumeGame()">
-    ▶ KONTYNUUJ
-  </button>
+      <button class="actionButton" id="restartPauseButton">
+        ↻ RESTART
+      </button>
 
-  <button class="actionButton"
-          onclick="restartLevel()">
-    ↻ RESTART
-  </button>
+      <button class="actionButton" id="levelsPauseButton">
+        🎮 POZIOMY
+      </button>
 
-  <button class="actionButton"
-          onclick="showLevels()">
-    🎮 POZIOMY
-  </button>
+      <button class="actionButton" id="homePauseButton">
+        🏠 MENU GŁÓWNE
+      </button>
 
-  <button class="actionButton"
-          onclick="backHome()">
-    🏠 MENU GŁÓWNE
-  </button>
-
-</div>
-```
-
+    </div>
   </div>
+
 
   <!-- POZIOMY -->
 
-  <div class="panel"
-       id="levelsPanel">
+  <div class="panel" id="levelsPanel">
 
-```
-<div class="box">
+    <div class="box">
 
-  <h2>🎮 POZIOMY</h2>
+      <h2>🎮 POZIOMY</h2>
 
-  <div class="menuLevels"
-       id="menuLevels"></div>
+      <div class="menuLevels" id="menuLevels"></div>
 
-  <button class="actionButton"
-          onclick="closeLevels()">
-    WRÓĆ
-  </button>
+      <button class="actionButton" id="closeLevelsButton">
+        WRÓĆ
+      </button>
 
-</div>
-```
+    </div>
 
   </div>
+
 
   <!-- OSIĄGNIĘCIA -->
 
-  <div class="panel"
-       id="achievementsPanel">
+  <div class="panel" id="achievementsPanel">
 
-```
-<div class="box">
+    <div class="box">
 
-  <h2>🏆 OSIĄGNIĘCIA</h2>
+      <h2>🏆 OSIĄGNIĘCIA</h2>
 
-  <div id="achievementList"></div>
+      <div id="achievementList"></div>
 
-  <button class="actionButton"
-          onclick="backHome()">
-    WRÓĆ
-  </button>
+      <button class="actionButton" id="closeAchievementsButton">
+        WRÓĆ
+      </button>
 
-</div>
-```
+    </div>
 
   </div>
+
 
   <!-- USTAWIENIA -->
 
-  <div class="panel"
-       id="settingsPanel">
+  <div class="panel" id="settingsPanel">
 
-```
-<div class="box">
+    <div class="box">
 
-  <h2>⚙️ USTAWIENIA</h2>
+      <h2>⚙️ USTAWIENIA</h2>
 
-  <div class="settingRow">
+      <div class="settingRow">
 
-    <div class="settingText">
-      <b>🔊 Dźwięk</b>
-      <small>Efekty dźwiękowe gry</small>
+        <div class="settingText">
+          <b>🔊 Dźwięk</b>
+          <small>Efekty dźwiękowe gry</small>
+        </div>
+
+        <button class="toggle" id="soundToggle">
+          OFF
+        </button>
+
+      </div>
+
+
+      <div class="settingRow">
+
+        <div class="settingText">
+          <b>✨ Efekty</b>
+          <small>Neon, cząsteczki i animacje</small>
+        </div>
+
+        <button class="toggle" id="effectsToggle">
+          ON
+        </button>
+
+      </div>
+
+
+      <div class="settingRow">
+
+        <div class="settingText">
+          <b>📳 Wibracje</b>
+          <small>Wibracja telefonu przy akcjach</small>
+        </div>
+
+        <button class="toggle" id="vibrationToggle">
+          ON
+        </button>
+
+      </div>
+
+
+      <button class="actionButton" id="resetButton">
+        🗑️ RESETUJ POSTĘP
+      </button>
+
+      <button class="actionButton" id="closeSettingsButton">
+        WRÓĆ DO MENU
+      </button>
+
     </div>
 
-    <button
-      class="toggle"
-      id="soundToggle"
-      onclick="toggleSound()">
-      OFF
-    </button>
-
   </div>
 
-
-  <div class="settingRow">
-
-    <div class="settingText">
-      <b>✨ Efekty</b>
-      <small>Neon, cząsteczki i animacje</small>
-    </div>
-
-    <button
-      class="toggle"
-      id="effectsToggle"
-      onclick="toggleEffects()">
-      ON
-    </button>
-
-  </div>
-
-
-  <div class="settingRow">
-
-    <div class="settingText">
-      <b>📳 Wibracje</b>
-      <small>Wibracja telefonu przy akcjach</small>
-    </div>
-
-    <button
-      class="toggle"
-      id="vibrationToggle"
-      onclick="toggleVibration()">
-      ON
-    </button>
-
-  </div>
-
-
-  <button class="actionButton"
-          onclick="resetProgress()">
-    🗑️ RESETUJ POSTĘP
-  </button>
-
-  <button class="actionButton"
-          onclick="backHome()">
-    WRÓĆ DO MENU
-  </button>
-
-</div>
-```
-
-  </div>
 
   <!-- ŚMIERĆ -->
 
-  <div class="panel"
-       id="deadPanel">
+  <div class="panel" id="deadPanel">
 
-```
-<div class="box">
+    <div class="box">
 
-  <h2>💥 KONIEC</h2>
+      <h2>💥 KONIEC</h2>
 
-  <p id="deadInfo">
-    Spróbuj jeszcze raz!
-  </p>
+      <p id="deadInfo">
+        Spróbuj jeszcze raz!
+      </p>
 
-  <button class="actionButton primary"
-          onclick="restartLevel()">
-    ↻ SPRÓBUJ PONOWNIE
-  </button>
+      <button class="actionButton primary" id="restartDeadButton">
+        ↻ SPRÓBUJ PONOWNIE
+      </button>
 
-  <button class="actionButton"
-          onclick="showLevels()">
-    🎮 POZIOMY
-  </button>
+      <button class="actionButton" id="levelsDeadButton">
+        🎮 POZIOMY
+      </button>
 
-  <button class="actionButton"
-          onclick="backHome()">
-    🏠 MENU GŁÓWNE
-  </button>
+      <button class="actionButton" id="homeDeadButton">
+        🏠 MENU GŁÓWNE
+      </button>
 
-</div>
-```
+    </div>
 
   </div>
+
 
   <!-- WYGRANA -->
 
-  <div class="panel"
-       id="winPanel">
+  <div class="panel" id="winPanel">
 
-```
-<div class="box winBox">
+    <div class="box winBox">
 
-  <div class="winIcon">
-    🏆
-  </div>
+      <div class="winIcon">
+        🏆
+      </div>
 
-  <div class="winTitle">
-    LEVEL UKOŃCZONY!
-  </div>
+      <div class="winTitle">
+        LEVEL UKOŃCZONY!
+      </div>
 
-  <p id="winInfo"></p>
+      <p id="winInfo"></p>
 
-  <div class="winStats">
+      <div class="winStats">
 
-    <div class="winStat">
-      <b id="winCoins">0/3</b>
-      MONETY
+        <div class="winStat">
+          <b id="winCoins">0/3</b>
+          MONETY
+        </div>
+
+        <div class="winStat">
+          <b id="winPercent">100%</b>
+          POSTĘP
+        </div>
+
+      </div>
+
+      <button class="actionButton primary" id="nextLevelButton">
+        ▶ NASTĘPNY POZIOM
+      </button>
+
+      <button class="actionButton" id="restartWinButton">
+        ↻ ZAGRAJ PONOWNIE
+      </button>
+
+      <button class="actionButton" id="homeWinButton">
+        🏠 MENU GŁÓWNE
+      </button>
+
     </div>
-
-    <div class="winStat">
-      <b id="winPercent">100%</b>
-      POSTĘP
-    </div>
-
-  </div>
-
-  <button class="actionButton primary"
-          id="nextLevelButton"
-          onclick="nextLevel()">
-    ▶ NASTĘPNY POZIOM
-  </button>
-
-  <button class="actionButton"
-          onclick="restartLevel()">
-    ↻ ZAGRAJ PONOWNIE
-  </button>
-
-  <button class="actionButton"
-          onclick="backHome()">
-    🏠 MENU GŁÓWNE
-  </button>
-
-</div>
-```
 
   </div>
 
 </div>
+
 
 <script>
+"use strict";
 
-/* =========================
-   DANE
-========================= */
+/* =========================================================
+   DANE POZIOMÓW
+========================================================= */
 
-const levels=[
+const levels = [
   ["NEON RUSH","#00ffff",5.8,7000],
   ["CRYSTAL DRIVE","#6fa8ff",6.0,7300],
   ["LAVA PULSE","#ff482e",6.2,7600],
@@ -887,43 +840,35 @@ const levels=[
 ];
 
 
-/* =========================
+/* =========================================================
    ZAPIS
-========================= */
+========================================================= */
 
-let completed=
-  JSON.parse(
-    localStorage.getItem("nd_completed")||"[]"
-  );
+function readArray(key){
+  try{
+    const value = JSON.parse(localStorage.getItem(key) || "[]");
+    return Array.isArray(value) ? value : [];
+  }catch{
+    return [];
+  }
+}
 
-let levelCoins=
-  JSON.parse(
-    localStorage.getItem("nd_coins")||"[]"
-  );
+function readObject(key){
+  try{
+    const value = JSON.parse(localStorage.getItem(key) || "{}");
+    return value && typeof value === "object" ? value : {};
+  }catch{
+    return {};
+  }
+}
 
-let achievements=
-  JSON.parse(
-    localStorage.getItem("nd_achievements")||"{}"
-  );
+let completed = readArray("nd_completed");
+let levelCoins = readArray("nd_coins");
+let achievements = readObject("nd_achievements");
 
-let sound=
-  localStorage.getItem("nd_sound")!=="off";
-
-let effects=
-  localStorage.getItem("nd_effects")!=="off";
-
-let vibration=
-  localStorage.getItem("nd_vibration")!=="off";
-
-if(!Array.isArray(completed))
-  completed=[];
-
-if(!Array.isArray(levelCoins))
-  levelCoins=[];
-
-if(!achievements ||
-   typeof achievements!=="object")
-  achievements={};
+let sound = localStorage.getItem("nd_sound") !== "off";
+let effects = localStorage.getItem("nd_effects") !== "off";
+let vibration = localStorage.getItem("nd_vibration") !== "off";
 
 
 function save(){
@@ -945,350 +890,392 @@ function save(){
 
   localStorage.setItem(
     "nd_sound",
-    sound?"on":"off"
+    sound ? "on" : "off"
   );
 
   localStorage.setItem(
     "nd_effects",
-    effects?"on":"off"
+    effects ? "on" : "off"
   );
 
   localStorage.setItem(
     "nd_vibration",
-    vibration?"on":"off"
+    vibration ? "on" : "off"
   );
 }
 
 
+/* =========================================================
+   OSIĄGNIĘCIA
+========================================================= */
+
+const achievementData = [
+
+  ["first","🚀 PIERWSZY KROK",
+   "Ukończ pierwszy poziom."],
+
+  ["three","🔥 ROZGRZEWKA",
+   "Ukończ 3 poziomy."],
+
+  ["six","⚡ POŁOWA DROGI",
+   "Ukończ 6 poziomów."],
+
+  ["all","👑 NEON MASTER",
+   "Ukończ wszystkie poziomy."],
+
+  ["coins10","🪙 KOLEKCJONER",
+   "Zdobądź 10 monet."],
+
+  ["coins25","💰 SKARBNIK",
+   "Zdobądź 25 monet."],
+
+  ["perfect","💎 PERFEKCJA",
+   "Zdobądź 3/3 monety w poziomie."],
+
+  ["survivor","☠️ SURVIVOR",
+   "Ukończ poziom bez śmierci."]
+];
+
+
 function completedTotal(){
 
-  let n=0;
+  let result = 0;
 
-  for(let i=0;i<levels.length;i++)
-    if(completed[i])n++;
+  for(let i=0;i<levels.length;i++){
 
-  return n;
+    if(completed[i] === true){
+      result++;
+    }
+
+  }
+
+  return result;
 }
 
 
 function coinsTotal(){
 
-  let n=0;
+  let result = 0;
 
-  for(let i=0;i<levels.length;i++)
-    n+=Number(levelCoins[i]||0);
+  for(let i=0;i<levels.length;i++){
 
-  return n;
+    result += Math.max(
+      0,
+      Math.min(3,Number(levelCoins[i]) || 0)
+    );
+
+  }
+
+  return result;
 }
-
-
-/* =========================
-   OSIĄGNIĘCIA
-========================= */
-
-const achievementData=[
-
-  ["first","🚀 PIERWSZY KROK","Ukończ pierwszy poziom."],
-  ["three","🔥 ROZGRZEWKA","Ukończ 3 poziomy."],
-  ["six","⚡ POŁOWA DROGI","Ukończ 6 poziomów."],
-  ["all","👑 NEON MASTER","Ukończ wszystkie poziomy."],
-  ["coins10","🪙 KOLEKCJONER","Zdobądź 10 monet."],
-  ["coins25","💰 SKARBNIK","Zdobądź 25 monet."],
-  ["perfect","💎 PERFEKCJA","Zdobądź 3/3 monety w poziomie."],
-  ["survivor","☠️ SURVIVOR","Ukończ poziom bez śmierci."]
-];
 
 
 function achievementTotal(){
 
-  let n=0;
+  let result = 0;
 
-  for(const a of achievementData)
-    if(achievements[a[0]])n++;
+  for(const item of achievementData){
 
-  return n;
-}
-
-
-function checkAchievements(){
-
-  function unlock(id){
-
-    if(!achievements[id]){
-
-      achievements[id]=true;
-
-      const a=
-        achievementData.find(
-          x=>x[0]===id
-        );
-
-      if(a)
-        toast("🏆 "+a[1]);
+    if(achievements[item[0]]){
+      result++;
     }
+
   }
 
-  if(completedTotal()>=1)
-    unlock("first");
-
-  if(completedTotal()>=3)
-    unlock("three");
-
-  if(completedTotal()>=6)
-    unlock("six");
-
-  if(completedTotal()>=12)
-    unlock("all");
-
-  if(coinsTotal()>=10)
-    unlock("coins10");
-
-  if(coinsTotal()>=25)
-    unlock("coins25");
-
-  if(collected===3)
-    unlock("perfect");
-
-  if(levelDeaths===0)
-    unlock("survivor");
-
-  save();
+  return result;
 }
 
 
-/* =========================
+/* =========================================================
    DOM
-========================= */
+========================================================= */
 
-const home=
-  document.getElementById("home");
+const home = document.getElementById("home");
+const game = document.getElementById("game");
 
-const game=
-  document.getElementById("game");
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
 
-const canvas=
-  document.getElementById("canvas");
-
-const ctx=
-  canvas.getContext("2d");
-
-const pausePanel=
-  document.getElementById("pausePanel");
-
-const levelsPanel=
-  document.getElementById("levelsPanel");
-
-const achievementsPanel=
-  document.getElementById("achievementsPanel");
-
-const settingsPanel=
-  document.getElementById("settingsPanel");
-
-const deadPanel=
-  document.getElementById("deadPanel");
-
-const winPanel=
-  document.getElementById("winPanel");
-
-const levelList=
-  document.getElementById("levelList");
-
-const menuLevels=
-  document.getElementById("menuLevels");
-
-const achievementList=
-  document.getElementById("achievementList");
-
-const completedCount=
-  document.getElementById("completedCount");
-
-const coinCount=
-  document.getElementById("coinCount");
-
-const achievementCount=
-  document.getElementById("achievementCount");
-
-const barFill=
-  document.getElementById("barFill");
-
-const soundButton=
-  document.getElementById("soundButton");
-
-const soundToggle=
-  document.getElementById("soundToggle");
-
-const effectsToggle=
-  document.getElementById("effectsToggle");
-
-const vibrationToggle=
-  document.getElementById("vibrationToggle");
-
-const mobileJump=
-  document.getElementById("mobileJump");
-
-const winInfo=
-  document.getElementById("winInfo");
-
-const winCoins=
-  document.getElementById("winCoins");
-
-const winPercent=
-  document.getElementById("winPercent");
-
-const nextLevelButton=
-  document.getElementById("nextLevelButton");
-
-const levelTitle=
-  document.getElementById("levelTitle");
-
-const deadInfo=
-  document.getElementById("deadInfo");
-
-const toastElement=
+const toastElement =
   document.getElementById("toast");
 
+const pausePanel =
+  document.getElementById("pausePanel");
 
-/* =========================
+const levelsPanel =
+  document.getElementById("levelsPanel");
+
+const achievementsPanel =
+  document.getElementById("achievementsPanel");
+
+const settingsPanel =
+  document.getElementById("settingsPanel");
+
+const deadPanel =
+  document.getElementById("deadPanel");
+
+const winPanel =
+  document.getElementById("winPanel");
+
+const levelList =
+  document.getElementById("levelList");
+
+const menuLevels =
+  document.getElementById("menuLevels");
+
+const achievementList =
+  document.getElementById("achievementList");
+
+const completedCount =
+  document.getElementById("completedCount");
+
+const coinCount =
+  document.getElementById("coinCount");
+
+const achievementCount =
+  document.getElementById("achievementCount");
+
+const barFill =
+  document.getElementById("barFill");
+
+const levelTitle =
+  document.getElementById("levelTitle");
+
+const soundButton =
+  document.getElementById("soundButton");
+
+const soundToggle =
+  document.getElementById("soundToggle");
+
+const effectsToggle =
+  document.getElementById("effectsToggle");
+
+const vibrationToggle =
+  document.getElementById("vibrationToggle");
+
+const mobileJump =
+  document.getElementById("mobileJump");
+
+const deadInfo =
+  document.getElementById("deadInfo");
+
+const winInfo =
+  document.getElementById("winInfo");
+
+const winCoins =
+  document.getElementById("winCoins");
+
+const winPercent =
+  document.getElementById("winPercent");
+
+const nextLevelButton =
+  document.getElementById("nextLevelButton");
+
+
+/* =========================================================
    CANVAS
-========================= */
+========================================================= */
 
-let W=0;
-let H=0;
-let dpr=1;
+let W = 0;
+let H = 0;
+let dpr = 1;
+
 
 function resize(){
 
-  dpr=
-    Math.min(
-      window.devicePixelRatio||1,
-      2
-    );
+  W = Math.max(320,window.innerWidth);
+  H = Math.max(320,window.innerHeight);
 
-  W=window.innerWidth;
-  H=window.innerHeight;
+  dpr = Math.min(
+    window.devicePixelRatio || 1,
+    2
+  );
 
-  canvas.width=W*dpr;
-  canvas.height=H*dpr;
+  canvas.width = Math.floor(W*dpr);
+  canvas.height = Math.floor(H*dpr);
 
-  canvas.style.width=W+"px";
-  canvas.style.height=H+"px";
+  canvas.style.width = W+"px";
+  canvas.style.height = H+"px";
 
   ctx.setTransform(
     dpr,0,0,dpr,0,0
   );
 
-  makeStars();
+  createStars();
 }
+
 
 window.addEventListener(
   "resize",
-  resize
+  resize,
+  {passive:true}
 );
 
 
-/* =========================
-   GRA
-========================= */
+/* =========================================================
+   STAN GRY
+========================================================= */
 
-let currentLevel=0;
+let currentLevel = 0;
 
-let playing=false;
-let paused=false;
-let dead=false;
-let won=false;
+let playing = false;
+let paused = false;
+let dead = false;
+let won = false;
 
-let progress=0;
-let lastTime=0;
+let progress = 0;
 
-let obstacles=[];
-let coins=[];
-let particles=[];
-let stars=[];
-let trail=[];
-let pads=[];
-let portals=[];
+let lastTime = 0;
 
-let collected=0;
-let currentSpeed=1;
-let gravityDir=1;
+let obstacles = [];
+let coins = [];
+let pads = [];
+let portals = [];
 
-let levelDeaths=0;
+let particles = [];
+let stars = [];
+let trail = [];
 
-let shake=0;
-let flash=0;
+let collected = 0;
+let currentSpeed = 1;
+let gravityDir = 1;
+
+let levelDeaths = 0;
+
+let shake = 0;
+let flash = 0;
+
+let previousProgress = 0;
 
 
-/* =========================
+/* =========================================================
    GRACZ
-========================= */
+========================================================= */
 
-const player={
+const player = {
+
   x:120,
   y:0,
+
   size:32,
+
   vy:0,
+
   grounded:true,
+
   rotation:0
+
 };
 
+
+/* =========================================================
+   ŚWIAT
+========================================================= */
+
 function ground(){
-  return H*.78;
+
+  return Math.max(
+    220,
+    H * .78
+  );
+
 }
+
 
 function ceiling(){
+
   return 75;
+
 }
 
 
-/* =========================
+/* =========================================================
    GWIAZDY
-========================= */
+========================================================= */
 
-function makeStars(){
+function createStars(){
 
-  stars=[];
+  stars = [];
 
   for(let i=0;i<100;i++){
 
     stars.push({
+
       x:Math.random()*W,
+
       y:Math.random()*H*.7,
+
       r:.5+Math.random()*1.7,
+
       speed:.2+Math.random()*.8
+
     });
+
   }
+
 }
 
 
-/* =========================
-   POZIOM
-========================= */
+/* =========================================================
+   GENEROWANIE POZIOMU
+========================================================= */
 
 function createLevel(){
 
-  obstacles=[];
-  coins=[];
-  particles=[];
-  trail=[];
-  pads=[];
-  portals=[];
+  obstacles = [];
+  coins = [];
+  pads = [];
+  portals = [];
 
-  progress=0;
-  collected=0;
-  currentSpeed=1;
-  gravityDir=1;
-  levelDeaths=0;
+  particles = [];
+  trail = [];
 
-  const length=
+  progress = 0;
+  previousProgress = 0;
+
+  collected = 0;
+
+  currentSpeed = 1;
+  gravityDir = 1;
+
+  levelDeaths = 0;
+
+  const length =
     levels[currentLevel][3];
 
-  let x=500;
+  /*
+    Stały układ zamiast losowania.
+    Dzięki temu restart nie zmienia poziomu.
+  */
 
-  while(x<length-450){
+  const patterns = [
 
-    const type=Math.random();
+    "spike",
+    "double",
+    "saw",
+    "gap",
+    "spike",
+    "saw",
+    "double",
+    "gap",
+    "spike",
+    "saw",
+    "gap",
+    "double",
+    "spike",
+    "saw",
+    "gap"
+  ];
 
-    if(type<.50){
+  let x = 500;
+  let patternIndex = 0;
+
+  while(x < length-500){
+
+    const type =
+      patterns[patternIndex % patterns.length];
+
+    if(type === "spike"){
 
       obstacles.push({
         type:"spike",
@@ -1297,97 +1284,187 @@ function createLevel(){
         h:40
       });
 
-      if(Math.random()<.2){
+    }
 
-        obstacles.push({
-          type:"spike",
-          x:x+42,
-          w:38,
-          h:40
-        });
+    else if(type === "double"){
 
-        x+=42;
-      }
+      obstacles.push({
+        type:"spike",
+        x:x,
+        w:38,
+        h:40
+      });
 
-    }else if(type<.72){
+      obstacles.push({
+        type:"spike",
+        x:x+42,
+        w:38,
+        h:40
+      });
+
+    }
+
+    else if(type === "saw"){
 
       obstacles.push({
         type:"saw",
         x:x,
-        w:46,
-        h:46
+        w:48,
+        h:48
       });
 
-    }else{
+    }
+
+    else if(type === "gap"){
 
       obstacles.push({
         type:"gap",
         x:x,
-        w:80+Math.random()*35
+        w:90
       });
+
     }
 
-    x+=280+Math.random()*260;
+    x += 320;
+    patternIndex++;
+
   }
 
 
-  /* PADY */
+  /*
+    PADY
+  */
 
-  pads=[
-    {x:length*.20,power:13},
-    {x:length*.47,power:15},
-    {x:length*.76,power:14}
+  pads = [
+
+    {
+      x:length*.20,
+      power:13,
+      used:false
+    },
+
+    {
+      x:length*.47,
+      power:15,
+      used:false
+    },
+
+    {
+      x:length*.76,
+      power:14,
+      used:false
+    }
+
   ];
 
 
-  /* PORTALE */
+  /*
+    PORTALE
+  */
 
-  portals=[
-    {x:length*.34,type:"speed",mult:1.25,used:false},
-    {x:length*.52,type:"gravity",mult:1,used:false},
-    {x:length*.62,type:"speed",mult:.82,used:false},
-    {x:length*.72,type:"gravity",mult:1,used:false},
-    {x:length*.86,type:"speed",mult:1.35,used:false}
+  portals = [
+
+    {
+      x:length*.34,
+      type:"speed",
+      mult:1.25,
+      used:false
+    },
+
+    {
+      x:length*.52,
+      type:"gravity",
+      used:false
+    },
+
+    {
+      x:length*.62,
+      type:"speed",
+      mult:.82,
+      used:false
+    },
+
+    {
+      x:length*.72,
+      type:"gravity",
+      used:false
+    },
+
+    {
+      x:length*.86,
+      type:"speed",
+      mult:1.35,
+      used:false
+    }
+
   ];
 
 
-  /* 3 MONETY */
+  /*
+    MONETY
+  */
 
-  const positions=[
+  const coinPositions = [
+
     length*.27,
     length*.55,
     length*.80
+
   ];
 
   for(let i=0;i<3;i++){
 
     coins.push({
-      x:positions[i],
-      y:ground()-100-(i===1?65:0),
+
+      x:coinPositions[i],
+
+      /*
+        Monety są umieszczone
+        w bezpiecznej wysokości.
+      */
+
+      y:
+        gravityDir > 0
+        ? ground()-105-(i===1?50:0)
+        : ceiling()+105+(i===1?50:0),
+
       collected:false,
+
       r:11
+
     });
+
   }
 
 
-  player.x=120;
-  player.y=ground()-player.size;
-  player.vy=0;
-  player.grounded=true;
-  player.rotation=0;
+  /*
+    START
+  */
+
+  player.x = 120;
+
+  player.y =
+    ground()-player.size;
+
+  player.vy = 0;
+
+  player.grounded = true;
+
+  player.rotation = 0;
+
 }
 
 
-/* =========================
+/* =========================================================
    TŁO
-========================= */
+========================================================= */
 
 function drawBackground(){
 
-  const color=
+  const color =
     levels[currentLevel][1];
 
-  const gradient=
+  const gradient =
     ctx.createLinearGradient(
       0,0,0,H
     );
@@ -1407,7 +1484,7 @@ function drawBackground(){
     "#020207"
   );
 
-  ctx.fillStyle=gradient;
+  ctx.fillStyle = gradient;
 
   ctx.fillRect(
     0,0,W,H
@@ -1416,37 +1493,48 @@ function drawBackground(){
 
   if(effects){
 
-    for(const s of stars){
+    for(const star of stars){
 
-      let x=
-        (s.x-progress*s.speed*.08)%
-        (W+30);
+      let x =
+        (star.x -
+        progress*star.speed*.08)
+        %(W+30);
 
-      if(x<0)x+=W+30;
+      if(x<0){
+        x += W+30;
+      }
+
+      ctx.globalAlpha =
+        .2 + star.speed*.4;
 
       ctx.fillStyle="#fff";
-      ctx.globalAlpha=.2+s.speed*.4;
 
       ctx.beginPath();
 
       ctx.arc(
-        x,s.y,s.r,
-        0,Math.PI*2
+        x,
+        star.y,
+        star.r,
+        0,
+        Math.PI*2
       );
 
       ctx.fill();
+
     }
 
     ctx.globalAlpha=1;
+
   }
 
 
-  ctx.strokeStyle=
+  ctx.strokeStyle =
     color+"25";
 
   ctx.lineWidth=1;
 
   const g=ground();
+
 
   for(
     let x=-((progress*.25)%50);
@@ -1456,7 +1544,10 @@ function drawBackground(){
 
     ctx.beginPath();
 
-    ctx.moveTo(x,g);
+    ctx.moveTo(
+      x,
+      g
+    );
 
     ctx.lineTo(
       W/2+(x-W/2)*.2,
@@ -1464,10 +1555,11 @@ function drawBackground(){
     );
 
     ctx.stroke();
+
   }
 
 
-  if(effects&&flash>0){
+  if(effects && flash>0){
 
     ctx.fillStyle=color;
 
@@ -1479,17 +1571,19 @@ function drawBackground(){
     );
 
     ctx.globalAlpha=1;
+
   }
+
 }
 
 
-/* =========================
-   ZIEMIA
-========================= */
+/* =========================================================
+   PODŁOŻE
+========================================================= */
 
 function drawGround(){
 
-  const color=
+  const color =
     levels[currentLevel][1];
 
   const g=ground();
@@ -1497,41 +1591,51 @@ function drawGround(){
   ctx.fillStyle="#080812";
 
   ctx.fillRect(
-    0,g,W,H-g
+    0,
+    g,
+    W,
+    H-g
   );
 
   ctx.fillStyle=color;
 
-  ctx.shadowBlur=
-    effects?15:0;
+  ctx.shadowBlur =
+    effects ? 15 : 0;
 
   ctx.shadowColor=color;
 
   ctx.fillRect(
-    0,g,W,3
+    0,
+    g,
+    W,
+    3
   );
 
   if(gravityDir<0){
 
     ctx.fillRect(
-      0,ceiling(),W,3
+      0,
+      ceiling(),
+      W,
+      3
     );
+
   }
 
   ctx.shadowBlur=0;
+
 }
 
 
-/* =========================
+/* =========================================================
    TRAIL
-========================= */
+========================================================= */
 
 function drawTrail(){
 
-  if(!effects)
-    return;
+  if(!effects)return;
 
-  const color=
+  const color =
     levels[currentLevel][1];
 
   for(
@@ -1542,29 +1646,32 @@ function drawTrail(){
 
     const t=trail[i];
 
-    ctx.globalAlpha=
+    ctx.globalAlpha =
       (i/trail.length)*.3;
 
     ctx.fillStyle=color;
 
     ctx.fillRect(
-      t.x,t.y,
+      t.x,
+      t.y,
       player.size,
       player.size
     );
+
   }
 
   ctx.globalAlpha=1;
+
 }
 
 
-/* =========================
+/* =========================================================
    GRACZ
-========================= */
+========================================================= */
 
 function drawPlayer(){
 
-  const color=
+  const color =
     levels[currentLevel][1];
 
   ctx.save();
@@ -1578,8 +1685,8 @@ function drawPlayer(){
     player.rotation
   );
 
-  ctx.shadowBlur=
-    effects?18:0;
+  ctx.shadowBlur =
+    effects ? 18 : 0;
 
   ctx.shadowColor=color;
 
@@ -1593,6 +1700,7 @@ function drawPlayer(){
   );
 
   ctx.strokeStyle=color;
+
   ctx.lineWidth=3;
 
   ctx.strokeRect(
@@ -1603,40 +1711,51 @@ function drawPlayer(){
   );
 
   ctx.restore();
+
 }
 
 
-/* =========================
+/* =========================================================
    PRZESZKODY
-========================= */
+========================================================= */
 
 function drawObstacle(o){
 
-  const color=
+  const color =
     levels[currentLevel][1];
 
-  const x=
+  const x =
     o.x-progress;
 
-  if(x<-100||x>W+100)
+  if(
+    x < -100 ||
+    x > W+100
+  ){
     return;
+  }
+
 
   ctx.save();
+
 
   if(o.type==="spike"){
 
     ctx.fillStyle=color;
 
-    ctx.shadowBlur=
-      effects?14:0;
+    ctx.shadowBlur =
+      effects ? 14 : 0;
 
     ctx.shadowColor=color;
+
 
     if(gravityDir>0){
 
       ctx.beginPath();
 
-      ctx.moveTo(x,ground());
+      ctx.moveTo(
+        x,
+        ground()
+      );
 
       ctx.lineTo(
         x+o.w/2,
@@ -1649,13 +1768,19 @@ function drawObstacle(o){
       );
 
       ctx.closePath();
+
       ctx.fill();
 
-    }else{
+    }
+
+    else{
 
       ctx.beginPath();
 
-      ctx.moveTo(x,ceiling());
+      ctx.moveTo(
+        x,
+        ceiling()
+      );
 
       ctx.lineTo(
         x+o.w/2,
@@ -1668,26 +1793,37 @@ function drawObstacle(o){
       );
 
       ctx.closePath();
+
       ctx.fill();
+
     }
 
-  }else if(o.type==="saw"){
+  }
 
-    const cx=x+o.w/2;
 
-    const cy=
+  else if(o.type==="saw"){
+
+    const cx =
+      x+o.w/2;
+
+    const cy =
       gravityDir>0
-      ?ground()-o.h/2
-      :ceiling()+o.h/2;
+      ? ground()-o.h/2
+      : ceiling()+o.h/2;
 
-    ctx.translate(cx,cy);
+    ctx.translate(
+      cx,
+      cy
+    );
 
-    ctx.rotate(progress*.012);
+    ctx.rotate(
+      progress*.012
+    );
 
     ctx.fillStyle=color;
 
-    ctx.shadowBlur=
-      effects?15:0;
+    ctx.shadowBlur =
+      effects ? 15 : 0;
 
     ctx.shadowColor=color;
 
@@ -1701,23 +1837,30 @@ function drawObstacle(o){
       i++
     ){
 
-      const a=i*Math.PI/teeth;
+      const a =
+        i*Math.PI/teeth;
 
-      const r=
+      const r =
         i%2===0
-        ?o.w/2
-        :o.w*.34;
+        ? o.w/2
+        : o.w*.34;
 
-      const px=Math.cos(a)*r;
-      const py=Math.sin(a)*r;
+      const px =
+        Math.cos(a)*r;
 
-      if(i===0)
+      const py =
+        Math.sin(a)*r;
+
+      if(i===0){
         ctx.moveTo(px,py);
-      else
+      }else{
         ctx.lineTo(px,py);
+      }
+
     }
 
     ctx.closePath();
+
     ctx.fill();
 
     ctx.fillStyle="#05050b";
@@ -1725,55 +1868,75 @@ function drawObstacle(o){
     ctx.beginPath();
 
     ctx.arc(
-      0,0,7,0,Math.PI*2
+      0,
+      0,
+      7,
+      0,
+      Math.PI*2
     );
 
     ctx.fill();
 
-  }else{
+  }
+
+
+  else{
 
     ctx.fillStyle="#000";
 
     if(gravityDir>0){
 
       ctx.fillRect(
-        x,ground(),
-        o.w,H-ground()
+        x,
+        ground(),
+        o.w,
+        H-ground()
       );
 
     }else{
 
       ctx.fillRect(
-        x,0,
-        o.w,ceiling()
+        x,
+        0,
+        o.w,
+        ceiling()
       );
+
     }
+
   }
 
+
   ctx.restore();
+
 }
 
 
-/* =========================
+/* =========================================================
    MONETY
-========================= */
+========================================================= */
 
 function drawCoins(){
 
   for(const c of coins){
 
-    if(c.collected)
-      continue;
+    if(c.collected)continue;
 
-    const x=c.x-progress;
+    const x =
+      c.x-progress;
 
-    if(x<-30||x>W+30)
+    if(
+      x<-30 ||
+      x>W+30
+    ){
       continue;
+    }
 
     ctx.save();
 
     ctx.translate(
-      x,c.y
+      x,
+      c.y
     );
 
     ctx.rotate(
@@ -1782,16 +1945,19 @@ function drawCoins(){
 
     ctx.fillStyle="#ffd900";
 
-    ctx.shadowBlur=
-      effects?18:0;
+    ctx.shadowBlur =
+      effects ? 18 : 0;
 
     ctx.shadowColor="#ffd900";
 
     ctx.beginPath();
 
     ctx.arc(
-      0,0,c.r,
-      0,Math.PI*2
+      0,
+      0,
+      c.r,
+      0,
+      Math.PI*2
     );
 
     ctx.fill();
@@ -1801,40 +1967,52 @@ function drawCoins(){
     ctx.beginPath();
 
     ctx.arc(
-      -3,-3,3,
-      0,Math.PI*2
+      -3,
+      -3,
+      3,
+      0,
+      Math.PI*2
     );
 
     ctx.fill();
 
     ctx.restore();
+
   }
+
 }
 
 
-/* =========================
+/* =========================================================
    PADY
-========================= */
+========================================================= */
 
 function drawPads(){
 
   for(const pad of pads){
 
-    const x=
+    if(pad.used)continue;
+
+    const x =
       pad.x-progress;
 
-    if(x<-60||x>W+60)
+    if(
+      x<-60 ||
+      x>W+60
+    ){
       continue;
+    }
 
-    const y=
+    const y =
       gravityDir>0
-      ?ground()-8
-      :ceiling()+8;
+      ? ground()-8
+      : ceiling()+8;
+
 
     ctx.save();
 
-    ctx.shadowBlur=
-      effects?20:0;
+    ctx.shadowBlur =
+      effects ? 20 : 0;
 
     ctx.shadowColor="#00ff66";
 
@@ -1843,9 +2021,11 @@ function drawPads(){
     ctx.beginPath();
 
     ctx.arc(
-      x+16,y,
+      x+16,
+      y,
       14,
-      0,Math.PI*2
+      0,
+      Math.PI*2
     );
 
     ctx.fill();
@@ -1857,57 +2037,66 @@ function drawPads(){
     ctx.textAlign="center";
 
     ctx.fillText(
-      gravityDir>0?"↑":"↓",
+      gravityDir>0 ? "↑" : "↓",
       x+16,
       y+6
     );
 
     ctx.restore();
+
   }
+
 }
 
 
-/* =========================
+/* =========================================================
    PORTALE
-========================= */
+========================================================= */
 
 function drawPortals(){
 
   for(const portal of portals){
 
-    const x=
+    const x =
       portal.x-progress;
 
-    if(x<-80||x>W+80)
+    if(
+      x<-80 ||
+      x>W+80
+    ){
       continue;
+    }
 
     const y=H*.43;
 
     ctx.save();
 
-    ctx.shadowBlur=
-      effects?25:0;
+    ctx.shadowBlur =
+      effects ? 25 : 0;
+
 
     if(portal.type==="speed"){
 
-      ctx.strokeStyle=
+      ctx.strokeStyle =
         portal.mult>1
-        ?" #00ff88"
-        :"#ff5577";
+        ? "#00ff88"
+        : "#ff5577";
 
-      ctx.strokeStyle=
-        portal.mult>1
-        ?"#00ff88"
-        :"#ff5577";
+      ctx.shadowColor =
+        ctx.strokeStyle;
 
       ctx.lineWidth=6;
 
       ctx.beginPath();
 
       ctx.ellipse(
-        x,y,
-        27,55,
-        0,0,Math.PI*2
+        x,
+        y,
+        27,
+        55,
+        0,
+        0,
+        Math.PI*2
       );
 
       ctx.stroke();
@@ -1920,12 +2109,16 @@ function drawPortals(){
 
       ctx.fillText(
         portal.mult>1
-        ?"SPEED +"
-        :"SPEED -",
-        x,y+5
+        ? "SPEED +"
+        : "SPEED -",
+        x,
+        y+5
       );
 
-    }else{
+    }
+
+
+    else{
 
       ctx.strokeStyle="#b85cff";
 
@@ -1936,8 +2129,11 @@ function drawPortals(){
       ctx.beginPath();
 
       ctx.arc(
-        x,y,35,
-        0,Math.PI*2
+        x,
+        y,
+        35,
+        0,
+        Math.PI*2
       );
 
       ctx.stroke();
@@ -1950,25 +2146,31 @@ function drawPortals(){
 
       ctx.fillText(
         "GRAVITY",
-        x,y+4
+        x,
+        y+4
       );
+
     }
 
     ctx.restore();
+
   }
+
 }
 
 
-/* =========================
+/* =========================================================
    CZĄSTECZKI
-========================= */
+========================================================= */
 
 function spawnParticles(
-  x,y,color,count
+  x,
+  y,
+  color,
+  count
 ){
 
-  if(!effects)
-    return;
+  if(!effects)return;
 
   for(let i=0;i<count;i++){
 
@@ -1978,6 +2180,7 @@ function spawnParticles(
       y:y,
 
       vx:(Math.random()-.5)*8,
+
       vy:(Math.random()-.5)*8,
 
       life:25+Math.random()*35,
@@ -1985,16 +2188,22 @@ function spawnParticles(
       size:2+Math.random()*4,
 
       color:color
+
     });
+
   }
+
 }
 
 
 function updateParticles(dt){
 
   if(!effects){
+
     particles=[];
+
     return;
+
   }
 
   for(
@@ -2005,25 +2214,30 @@ function updateParticles(dt){
 
     const p=particles[i];
 
-    p.x+=p.vx*dt;
-    p.y+=p.vy*dt;
+    p.x += p.vx*dt;
 
-    p.life-=dt;
+    p.y += p.vy*dt;
 
-    if(p.life<=0)
+    p.life -= dt;
+
+    if(p.life<=0){
+
       particles.splice(i,1);
+
+    }
+
   }
+
 }
 
 
 function drawParticles(){
 
-  if(!effects)
-    return;
+  if(!effects)return;
 
   for(const p of particles){
 
-    ctx.globalAlpha=
+    ctx.globalAlpha =
       Math.max(
         0,
         p.life/60
@@ -2032,61 +2246,92 @@ function drawParticles(){
     ctx.fillStyle=p.color;
 
     ctx.fillRect(
-      p.x,p.y,
-      p.size,p.size
+      p.x,
+      p.y,
+      p.size,
+      p.size
     );
+
   }
 
   ctx.globalAlpha=1;
+
 }
 
 
-/* =========================
+/* =========================================================
    AUDIO
-========================= */
+========================================================= */
 
-let audio=null;
+let audio = null;
+
 
 function initAudio(){
 
-  if(audio)
-    return;
+  if(audio)return;
 
   try{
 
-    audio=
-      new(
-        window.AudioContext||
-        window.webkitAudioContext
-      )();
+    const AudioContext =
+      window.AudioContext ||
+      window.webkitAudioContext;
 
-  }catch(e){}
+    if(!AudioContext)return;
+
+    audio = new AudioContext();
+
+  }catch{
+
+    audio=null;
+
+  }
+
 }
 
 
-function beep(freq,duration){
-
-  if(!sound)
-    return;
+function resumeAudio(){
 
   initAudio();
 
-  if(!audio)
-    return;
+  if(
+    audio &&
+    audio.state==="suspended"
+  ){
+
+    audio.resume().catch(()=>{});
+
+  }
+
+}
+
+
+function beep(
+  frequency,
+  duration,
+  volume=.035
+){
+
+  if(!sound)return;
+
+  resumeAudio();
+
+  if(!audio)return;
 
   try{
 
-    const osc=
+    const osc =
       audio.createOscillator();
 
-    const gain=
+    const gain =
       audio.createGain();
 
     osc.type="square";
 
-    osc.frequency.value=freq;
+    osc.frequency.value=
+      frequency;
 
-    gain.gain.value=.035;
+    gain.gain.value=
+      volume;
 
     osc.connect(gain);
 
@@ -2094,18 +2339,22 @@ function beep(freq,duration){
       audio.destination
     );
 
-    osc.start();
+    const now=
+      audio.currentTime;
+
+    osc.start(now);
 
     gain.gain.exponentialRampToValueAtTime(
       .001,
-      audio.currentTime+duration
+      now+duration
     );
 
     osc.stop(
-      audio.currentTime+duration
+      now+duration
     );
 
-  }catch(e){}
+  }catch{}
+
 }
 
 
@@ -2113,87 +2362,112 @@ function soundJump(){
   beep(650,.06);
 }
 
+
 function soundCoin(){
   beep(900,.08);
 }
 
+
 function soundDeath(){
-  beep(120,.18);
+  beep(120,.18,.05);
 }
+
 
 function soundWin(){
 
   beep(600,.08);
 
-  setTimeout(()=>{
-    beep(800,.08);
-  },90);
+  setTimeout(
+    ()=>beep(800,.08),
+    90
+  );
 
-  setTimeout(()=>{
-    beep(1000,.13);
-  },180);
+  setTimeout(
+    ()=>beep(1000,.13),
+    180
+  );
+
 }
 
 
 function vibrate(pattern){
 
   if(
-    vibration&&
-    navigator.vibrate
+    vibration &&
+    "vibrate" in navigator
   ){
 
-    navigator.vibrate(pattern);
+    try{
+      navigator.vibrate(pattern);
+    }catch{}
+
   }
+
 }
 
 
-/* =========================
+/* =========================================================
    SKOK
-========================= */
+========================================================= */
 
 function jump(){
 
-  if(!playing||
-     paused||
-     dead||
-     won)
+  if(
+    !playing ||
+    paused ||
+    dead ||
+    won
+  ){
     return;
-
-  if(player.grounded){
-
-    player.vy=
-      -12*gravityDir;
-
-    player.grounded=false;
-
-    spawnParticles(
-      player.x+player.size/2,
-      player.y+player.size/2,
-      levels[currentLevel][1],
-      10
-    );
-
-    soundJump();
-
-    vibrate(12);
   }
+
+
+  if(!player.grounded){
+    return;
+  }
+
+
+  player.vy =
+    -12*gravityDir;
+
+  player.grounded=false;
+
+
+  spawnParticles(
+    player.x+player.size/2,
+    player.y+player.size/2,
+    levels[currentLevel][1],
+    10
+  );
+
+
+  soundJump();
+
+  vibrate(12);
+
 }
 
 
-/* =========================
+/* =========================================================
    FIZYKA
-========================= */
+========================================================= */
 
 function updatePhysics(dt){
 
-  player.vy+=
-    .72*
-    gravityDir*
-    dt;
+  /*
+    Zabezpieczenie przed ogromnym
+    skokiem po utracie klatki.
+  */
 
-  player.y+=
-    player.vy*
-    dt;
+  dt=Math.min(dt,2);
+
+
+  player.vy +=
+    .72*gravityDir*dt;
+
+  player.y +=
+    player.vy*dt;
+
 
   if(gravityDir>0){
 
@@ -2201,131 +2475,216 @@ function updatePhysics(dt){
       player.y+player.size>=ground()
     ){
 
-      player.y=
+      player.y =
         ground()-player.size;
 
       player.vy=0;
+
       player.grounded=true;
 
-    }else{
-
-      player.grounded=false;
     }
 
-  }else{
+    else{
 
-    if(player.y<=ceiling()){
+      player.grounded=false;
+
+    }
+
+  }
+
+  else{
+
+    if(
+      player.y<=ceiling()
+    ){
 
       player.y=ceiling();
 
       player.vy=0;
+
       player.grounded=true;
 
-    }else{
+    }
+
+    else{
 
       player.grounded=false;
+
     }
+
   }
 
 
   if(!player.grounded){
 
-    player.rotation+=
+    player.rotation +=
       .08*dt;
 
-  }else{
-
-    player.rotation=
-      Math.round(
-        player.rotation/
-        (Math.PI/2)
-      )*
-      (Math.PI/2);
   }
+
+  else{
+
+    player.rotation =
+      Math.round(
+        player.rotation/(Math.PI/2)
+      )*(Math.PI/2);
+
+  }
+
 }
 
 
-/* =========================
+/* =========================================================
    KOLIZJE
-========================= */
+========================================================= */
 
 function updateCollisions(){
 
   const p={
+
     x:player.x+5,
+
     y:player.y+5,
+
     w:player.size-10,
+
     h:player.size-10
+
   };
 
 
+  /* PRZESZKODY */
+
   for(const o of obstacles){
 
-    const x=o.x-progress;
+    const x =
+      o.x-progress;
+
+
+    if(
+      x > player.x+100 ||
+      x+o.w < player.x-100
+    ){
+      continue;
+    }
+
 
     if(o.type==="spike"){
 
-      const hitX=
-        p.x<x+o.w&&
-        p.x+p.w>x;
+      const hitX =
+        p.x < x+o.w &&
+        p.x+p.w > x;
 
-      const hitY=
-        gravityDir>0
-        ?p.y+p.h>ground()-o.h+8
-        :p.y<ceiling()+o.h-8;
 
-      if(hitX&&hitY){
+      let hitY=false;
 
-        die();
-        return;
+
+      if(gravityDir>0){
+
+        hitY =
+          p.y+p.h >
+          ground()-o.h+8;
+
       }
 
-    }else if(o.type==="saw"){
+      else{
 
-      const cx=x+o.w/2;
+        hitY =
+          p.y <
+          ceiling()+o.h-8;
 
-      const cy=
+      }
+
+
+      if(hitX && hitY){
+
+        die();
+
+        return;
+
+      }
+
+    }
+
+
+    else if(o.type==="saw"){
+
+      const cx =
+        x+o.w/2;
+
+      const cy =
         gravityDir>0
-        ?ground()-o.h/2
-        :ceiling()+o.h/2;
+        ? ground()-o.h/2
+        : ceiling()+o.h/2;
 
-      const closestX=
+
+      const closestX =
         Math.max(
           p.x,
-          Math.min(cx,p.x+p.w)
+          Math.min(
+            cx,
+            p.x+p.w
+          )
         );
 
-      const closestY=
+
+      const closestY =
         Math.max(
           p.y,
-          Math.min(cy,p.y+p.h)
+          Math.min(
+            cy,
+            p.y+p.h
+          )
         );
 
-      const dx=cx-closestX;
-      const dy=cy-closestY;
+
+      const dx =
+        cx-closestX;
+
+      const dy =
+        cy-closestY;
+
 
       if(
-        dx*dx+dy*dy<
-        (o.w*.43)*
-        (o.w*.43)
+        dx*dx+dy*dy <
+        (o.w*.43)*(o.w*.43)
       ){
 
         die();
+
         return;
+
       }
 
-    }else{
-
-      if(
-        player.grounded&&
-        p.x<x+o.w&&
-        p.x+p.w>x
-      ){
-
-        die();
-        return;
-      }
     }
+
+
+    else if(o.type==="gap"){
+
+      /*
+        Przepaść zabija tylko,
+        kiedy gracz jest przy ziemi
+        i faktycznie znajduje się
+        nad dziurą.
+      */
+
+      const overGap =
+        p.x < x+o.w &&
+        p.x+p.w > x;
+
+      if(
+        overGap &&
+        player.grounded
+      ){
+
+        die();
+
+        return;
+
+      }
+
+    }
+
   }
 
 
@@ -2333,40 +2692,51 @@ function updateCollisions(){
 
   for(const c of coins){
 
-    if(c.collected)
-      continue;
+    if(c.collected)continue;
 
-    const x=c.x-progress;
+    const x =
+      c.x-progress;
 
-    const dx=
-      player.x+player.size/2-x;
 
-    const dy=
-      player.y+player.size/2-c.y;
+    const dx =
+      player.x+
+      player.size/2-x;
 
-    const radius=
+    const dy =
+      player.y+
+      player.size/2-c.y;
+
+
+    const radius =
       c.r+player.size*.45;
 
+
     if(
-      dx*dx+dy*dy<
+      dx*dx+dy*dy <
       radius*radius
     ){
 
       c.collected=true;
+
       collected++;
 
+
       spawnParticles(
-        x,c.y,
+        x,
+        c.y,
         "#ffd900",
         18
       );
+
 
       soundCoin();
 
       vibrate(20);
 
       flash=.15;
+
     }
+
   }
 
 
@@ -2374,40 +2744,56 @@ function updateCollisions(){
 
   for(const pad of pads){
 
-    const x=
+    if(pad.used)continue;
+
+
+    const x =
       pad.x-progress;
 
-    const center=
-      player.x+player.size/2;
 
-    if(
+    const center =
+      player.x+
+      player.size/2;
+
+
+    const touching =
       Math.abs(
         center-(x+16)
-      )<25&&
+      ) < 23;
+
+
+    if(
+      touching &&
       player.grounded
     ){
 
-      player.vy=
-        -pad.power*
-        gravityDir;
+      pad.used=true;
+
+
+      player.vy =
+        -pad.power*gravityDir;
 
       player.grounded=false;
+
 
       spawnParticles(
         x+16,
         gravityDir>0
-        ?ground()
-        :ceiling(),
+        ? ground()
+        : ceiling(),
         "#00ff66",
         15
       );
+
 
       beep(850,.07);
 
       vibrate(25);
 
       shake=4;
+
     }
+
   }
 
 
@@ -2415,86 +2801,169 @@ function updateCollisions(){
 
   for(const portal of portals){
 
-    if(portal.used)
-      continue;
+    if(portal.used)continue;
 
-    const x=
+
+    const x =
       portal.x-progress;
 
+
+    const center =
+      player.x+
+      player.size/2;
+
+
+    /*
+      Portal działa tylko,
+      kiedy gracz jest naprawdę
+      w pobliżu jego osi X.
+    */
+
     if(
-      Math.abs(
-        player.x+player.size/2-x
-      )<24
+      Math.abs(center-x)<22
     ){
 
       portal.used=true;
 
+
       if(portal.type==="speed"){
 
-        currentSpeed=
+        currentSpeed =
           Math.max(
             .55,
             Math.min(
               1.45,
-              currentSpeed*
-              portal.mult
+              currentSpeed*portal.mult
             )
           );
 
+
         toast(
           portal.mult>1
-          ?"⚡ SPEED +"
-          :"🐢 SPEED -"
+          ? "⚡ SPEED +"
+          : "🐢 SPEED -"
         );
 
-      }else{
+      }
 
-        gravityDir*=-1;
+
+      else{
+
+        gravityDir *= -1;
 
         player.vy=0;
+
         player.grounded=false;
 
+
+        /*
+          Po zmianie grawitacji
+          przenosimy gracza w bezpieczne
+          miejsce, żeby nie znalazł się
+          wewnątrz podłoża.
+        */
+
+        if(gravityDir<0){
+
+          player.y =
+            Math.min(
+              player.y,
+              ground()-player.size-10
+            );
+
+        }
+
+        else{
+
+          player.y =
+            Math.max(
+              player.y,
+              ceiling()+10
+            );
+
+        }
+
+
+        /*
+          Aktualizujemy wysokości monet,
+          które jeszcze nie zostały zebrane.
+        */
+
+        for(const c of coins){
+
+          if(c.collected)continue;
+
+          if(
+            Math.abs(
+              c.x-portal.x
+            )<500
+          ){
+
+            c.y =
+              gravityDir>0
+              ? ground()-105
+              : ceiling()+105;
+
+          }
+
+        }
+
+
         toast("🌀 GRAWITACJA!");
+
       }
+
 
       spawnParticles(
         player.x+player.size/2,
         player.y+player.size/2,
         portal.type==="gravity"
-        ?"#b85cff"
-        :"#00ffff",
+        ? "#b85cff"
+        : "#00ffff",
         25
       );
 
+
       beep(
         portal.type==="gravity"
-        ?500
-        :800,
+        ? 500
+        : 800,
         .1
       );
 
-      vibrate([20,30,20]);
+
+      vibrate(
+        [20,30,20]
+      );
+
 
       flash=.25;
+
       shake=6;
+
     }
+
   }
+
 }
 
 
-/* =========================
+/* =========================================================
    ŚMIERĆ
-========================= */
+========================================================= */
 
 function die(){
 
-  if(dead)
-    return;
+  if(dead)return;
+
 
   dead=true;
+
   playing=false;
 
+
   levelDeaths++;
+
 
   spawnParticles(
     player.x+player.size/2,
@@ -2503,184 +2972,303 @@ function die(){
     45
   );
 
+
   soundDeath();
 
-  vibrate([30,50,30]);
+  vibrate(
+    [30,50,30]
+  );
+
 
   shake=12;
+
   flash=.5;
 
-  deadInfo.textContent=
-    "Postęp: "+
+
+  const percent =
     Math.floor(
       progress/
       levels[currentLevel][3]*
       100
-    )+
+    );
+
+
+  deadInfo.textContent =
+    "Postęp: "+
+    percent+
     "% • Monety: "+
     collected+
     "/3";
 
-  deadPanel.style.display=
-    "flex";
+
+  deadPanel.style.display="flex";
+
 }
 
 
-/* =========================
-   CONFETTI
-========================= */
+/* =========================================================
+   ODBLOKOWANIE OSIĄGNIĘĆ
+========================================================= */
 
-function createConfetti(){
+function checkAchievements(){
 
-  if(!effects)
-    return;
+  function unlock(id){
 
-  winPanel
-    .querySelector(".winBox")
-    .querySelectorAll(".confetti")
-    .forEach(x=>x.remove());
+    if(achievements[id]){
+      return;
+    }
 
-  const box=
-    winPanel.querySelector(
-      ".winBox"
-    );
 
-  for(let i=0;i<65;i++){
+    achievements[id]=true;
 
-    const c=
-      document.createElement(
-        "div"
+
+    const item =
+      achievementData.find(
+        x=>x[0]===id
       );
 
-    c.className="confetti";
 
-    const colors=[
-      "#00ffff",
-      "#ff35bb",
-      "#ffd900",
-      "#75ff70",
-      "#ffffff",
-      "#8a2cff"
-    ];
+    if(item){
 
-    c.style.background=
-      colors[
-        Math.floor(
-          Math.random()*
-          colors.length
-        )
-      ];
+      toast(
+        "🏆 "+
+        item[1]
+      );
 
-    c.style.left=
-      Math.random()*100+"%";
+      beep(1100,.1);
 
-    c.style.animationDuration=
-      1.5+
-      Math.random()*2+
-      "s";
+    }
 
-    c.style.animationDelay=
-      Math.random()*.4+
-      "s";
-
-    box.appendChild(c);
   }
+
+
+  if(completedTotal()>=1){
+    unlock("first");
+  }
+
+  if(completedTotal()>=3){
+    unlock("three");
+  }
+
+  if(completedTotal()>=6){
+    unlock("six");
+  }
+
+  if(completedTotal()>=12){
+    unlock("all");
+  }
+
+  if(coinsTotal()>=10){
+    unlock("coins10");
+  }
+
+  if(coinsTotal()>=25){
+    unlock("coins25");
+  }
+
+  if(collected===3){
+    unlock("perfect");
+  }
+
+  if(levelDeaths===0){
+    unlock("survivor");
+  }
+
+
+  save();
+
 }
 
 
-/* =========================
-   WYGRANA
-========================= */
+/* =========================================================
+   KONIEC POZIOMU
+========================================================= */
 
 function win(){
 
-  if(won)
-    return;
+  if(won)return;
+
 
   won=true;
+
   playing=false;
+
 
   completed[currentLevel]=true;
 
-  const old=
-    Number(
-      levelCoins[currentLevel]||0
-    );
 
-  levelCoins[currentLevel]=
+  const old =
+    Number(levelCoins[currentLevel]) || 0;
+
+
+  levelCoins[currentLevel] =
     Math.max(
       old,
-      collected
+      Math.min(3,collected)
     );
+
 
   save();
 
   checkAchievements();
 
+
   soundWin();
 
-  vibrate([40,60,40]);
+  vibrate(
+    [40,60,40]
+  );
+
 
   shake=8;
+
   flash=.8;
 
-  winInfo.textContent=
+
+  winInfo.textContent =
     levels[currentLevel][0];
 
-  winCoins.textContent=
-    Number(
-      levelCoins[currentLevel]||0
-    )+
+
+  winCoins.textContent =
+    Number(levelCoins[currentLevel]||0)+
     "/3";
 
-  winPercent.textContent=
+
+  winPercent.textContent =
     "100%";
 
+
   if(
-    currentLevel===
-    levels.length-1
+    currentLevel>=levels.length-1
   ){
 
-    nextLevelButton.style.display=
-      "none";
+    nextLevelButton.style.display="none";
 
-  }else{
-
-    nextLevelButton.style.display=
-      "block";
   }
+
+  else{
+
+    nextLevelButton.style.display="block";
+
+  }
+
 
   createConfetti();
 
-  winPanel.style.display=
-    "flex";
+
+  winPanel.style.display="flex";
+
 
   updateHome();
+
 }
 
 
-/* =========================
+/* =========================================================
+   CONFETTI
+========================================================= */
+
+function createConfetti(){
+
+  const box =
+    winPanel.querySelector(".winBox");
+
+
+  box.querySelectorAll(
+    ".confetti"
+  ).forEach(
+    x=>x.remove()
+  );
+
+
+  if(!effects)return;
+
+
+  const colors=[
+
+    "#00ffff",
+    "#ff35bb",
+    "#ffd900",
+    "#75ff70",
+    "#ffffff",
+    "#8a2cff"
+
+  ];
+
+
+  for(let i=0;i<65;i++){
+
+    const element =
+      document.createElement("div");
+
+
+    element.className="confetti";
+
+
+    element.style.background =
+      colors[
+        Math.floor(
+          Math.random()*colors.length
+        )
+      ];
+
+
+    element.style.left =
+      Math.random()*100+"%";
+
+
+    element.style.animationDuration =
+      1.5+
+      Math.random()*2+
+      "s";
+
+
+    element.style.animationDelay =
+      Math.random()*.4+
+      "s";
+
+
+    box.appendChild(element);
+
+  }
+
+}
+
+
+/* =========================================================
    UPDATE
-========================= */
+========================================================= */
 
 function update(dt){
 
-  if(!playing||
-     paused||
-     dead||
-     won)
+  if(
+    !playing ||
+    paused ||
+    dead ||
+    won
+  ){
     return;
+  }
 
-  const speed=
+
+  dt=Math.min(dt,2);
+
+
+  const speed =
     levels[currentLevel][2];
 
-  const length=
+  const length =
     levels[currentLevel][3];
 
-  progress+=
+
+  previousProgress=progress;
+
+
+  progress +=
     speed*
     currentSpeed*
     dt;
+
 
   if(progress>=length){
 
@@ -2689,7 +3277,9 @@ function update(dt){
     win();
 
     return;
+
   }
+
 
   updatePhysics(dt);
 
@@ -2701,127 +3291,201 @@ function update(dt){
   if(effects){
 
     trail.push({
+
       x:player.x,
+
       y:player.y
+
     });
 
-    if(trail.length>14)
+
+    if(trail.length>14){
+
       trail.shift();
 
-  }else{
+    }
+
+  }
+
+  else{
 
     trail=[];
+
   }
 
 
-  shake*=.88;
-  flash*=.88;
+  shake *= .88;
 
-  if(shake<.1)
+  flash *= .88;
+
+
+  if(shake<.1){
     shake=0;
+  }
 
-  barFill.style.width=
-    progress/length*100+
-    "%";
+
+  const percent =
+    Math.min(
+      100,
+      progress/length*100
+    );
+
+
+  barFill.style.width =
+    percent+"%";
+
 }
 
 
-/* =========================
+/* =========================================================
    RYSOWANIE
-========================= */
+========================================================= */
 
 function draw(){
 
   ctx.clearRect(
-    0,0,W,H
+    0,
+    0,
+    W,
+    H
   );
+
 
   ctx.save();
 
-  if(effects&&shake>0){
+
+  if(
+    effects &&
+    shake>0
+  ){
 
     ctx.translate(
       (Math.random()-.5)*shake,
       (Math.random()-.5)*shake
     );
+
   }
 
+
   drawBackground();
+
   drawGround();
 
   drawPads();
+
   drawPortals();
 
-  for(const o of obstacles)
+
+  for(const o of obstacles){
+
     drawObstacle(o);
 
+  }
+
+
   drawCoins();
+
   drawTrail();
+
   drawParticles();
 
-  if(!dead)
+
+  if(!dead){
+
     drawPlayer();
 
+  }
+
+
   ctx.restore();
+
 }
 
 
-/* =========================
-   LOOP
-========================= */
+/* =========================================================
+   PĘTLA
+========================================================= */
 
 function loop(time){
 
-  if(!lastTime)
+  if(!lastTime){
+
     lastTime=time;
 
-  let dt=
+  }
+
+
+  let dt =
     (time-lastTime)/
     16.6667;
 
+
   lastTime=time;
 
-  dt=Math.min(dt,2);
+
+  dt=Math.min(
+    Math.max(dt,0),
+    2
+  );
+
 
   update(dt);
+
   draw();
 
+
   requestAnimationFrame(loop);
+
 }
+
 
 requestAnimationFrame(loop);
 
 
-/* =========================
-   START
-========================= */
+/* =========================================================
+   START GRY
+========================================================= */
 
 function startGame(){
 
   home.style.display="none";
+
   game.style.display="block";
 
-  let level=
+
+  let level =
     completedTotal();
 
-  if(level>=levels.length)
+
+  if(level>=levels.length){
+
     level=levels.length-1;
 
+  }
+
+
   startLevel(level);
+
 }
 
+
+/* =========================================================
+   START POZIOMU
+========================================================= */
 
 function startLevel(index){
 
   if(
-    index<0||
+    index<0 ||
     index>=levels.length
-  )
+  ){
     return;
+  }
+
 
   if(
-    index>0&&
-    !completed[index-1]
+    index>0 &&
+    completed[index-1]!==true
   ){
 
     toast(
@@ -2829,116 +3493,154 @@ function startLevel(index){
     );
 
     return;
+
   }
+
 
   currentLevel=index;
 
+
   closeAllPanels();
 
+
   paused=false;
+
   dead=false;
+
   won=false;
+
   playing=true;
 
-  levelTitle.textContent=
+
+  levelTitle.textContent =
     "LEVEL "+
     (index+1)+
     " • "+
     levels[index][0];
 
-  levelTitle.style.color=
+
+  levelTitle.style.color =
     levels[index][1];
+
 
   createLevel();
 
+
   barFill.style.width="0%";
+
 
   lastTime=
     performance.now();
 
-  initAudio();
 
-  if(
-    audio&&
-    audio.state==="suspended"
-  ){
+  resumeAudio();
 
-    audio.resume().catch(()=>{});
-  }
 }
 
 
-/* =========================
+/* =========================================================
    RESTART
-========================= */
+========================================================= */
 
 function restartLevel(){
 
   closeAllPanels();
 
+
   paused=false;
+
   dead=false;
+
   won=false;
+
   playing=true;
+
 
   createLevel();
 
+
   barFill.style.width="0%";
+
 
   lastTime=
     performance.now();
+
+
+  resumeAudio();
+
 }
 
 
-/* =========================
+/* =========================================================
    PAUZA
-========================= */
+========================================================= */
 
 function pauseGame(){
 
-  if(!playing)
+  if(
+    !playing ||
+    dead ||
+    won
+  ){
     return;
+  }
+
 
   playing=false;
+
   paused=true;
 
-  pausePanel.style.display=
-    "flex";
+
+  pausePanel.style.display="flex";
+
 }
 
 
 function resumeGame(){
 
-  pausePanel.style.display=
-    "none";
+  pausePanel.style.display="none";
 
-  if(!dead&&!won){
+
+  if(
+    !dead &&
+    !won
+  ){
 
     paused=false;
+
     playing=true;
 
     lastTime=
       performance.now();
+
+    resumeAudio();
+
   }
+
 }
 
 
-/* =========================
-   POZIOMY
-========================= */
+/* =========================================================
+   MENU POZIOMÓW
+========================================================= */
 
 function openLevelsMenu(){
 
   home.style.display="none";
+
   game.style.display="block";
 
+
   playing=false;
+
   paused=true;
+
 
   buildMenuLevels();
 
-  levelsPanel.style.display=
-    "flex";
+
+  levelsPanel.style.display="flex";
+
 }
 
 
@@ -2946,32 +3648,40 @@ function showLevels(){
 
   closeAllPanels();
 
+
   playing=false;
+
   paused=true;
+
 
   buildMenuLevels();
 
-  levelsPanel.style.display=
-    "flex";
+
+  levelsPanel.style.display="flex";
+
 }
 
 
 function closeLevels(){
 
-  levelsPanel.style.display=
-    "none";
+  levelsPanel.style.display="none";
+
 
   if(
-    game.style.display==="block"&&
-    !dead&&!won
+    game.style.display==="block" &&
+    !dead &&
+    !won
   ){
 
     paused=false;
+
     playing=true;
 
     lastTime=
       performance.now();
+
   }
+
 }
 
 
@@ -2979,143 +3689,181 @@ function buildMenuLevels(){
 
   menuLevels.innerHTML="";
 
+
   for(
     let i=0;
     i<levels.length;
     i++
   ){
 
-    const unlocked=
-      i===0||
-      completed[i-1];
+    const unlocked =
+      i===0 ||
+      completed[i-1]===true;
 
-    const button=
-      document.createElement(
-        "button"
+
+    const button =
+      document.createElement("button");
+
+
+    button.className =
+      "levelButton "+
+      (
+        unlocked
+        ? "unlocked"
+        : "locked"
       );
 
-    button.className=
-      "levelButton "+
-      (unlocked
-       ?"unlocked"
-       :"locked");
 
-    button.innerHTML=
+    const savedCoins =
+      Math.min(
+        3,
+        Number(levelCoins[i])||0
+      );
+
+
+    button.innerHTML =
       (i+1)+
       ". "+
       levels[i][0]+
       "<br><small>"+
       (
         unlocked
-        ?"🪙 "+
-          Number(
-            levelCoins[i]||0
-          )+
-          "/3"
-        :"🔒 ZABLOKOWANY"
+        ? "🪙 "+savedCoins+"/3"
+        : "🔒 ZABLOKOWANY"
       )+
       "</small>";
 
+
     if(unlocked){
 
-      button.onclick=()=>{
-        startLevel(i);
-      };
+      button.addEventListener(
+        "click",
+        ()=>startLevel(i)
+      );
 
-    }else{
-
-      button.onclick=()=>{
-        toast(
-          "🔒 Ukończ poprzedni poziom!"
-        );
-      };
     }
+
+    else{
+
+      button.addEventListener(
+        "click",
+        ()=>{
+          toast(
+            "🔒 Ukończ poprzedni poziom!"
+          );
+        }
+      );
+
+    }
+
 
     menuLevels.appendChild(
       button
     );
+
   }
+
 }
 
 
-/* =========================
+/* =========================================================
    OSIĄGNIĘCIA
-========================= */
+========================================================= */
 
 function openAchievements(){
 
   home.style.display="none";
+
   game.style.display="block";
 
+
   playing=false;
+
   paused=true;
+
 
   achievementList.innerHTML="";
 
-  for(
-    const a of achievementData
-  ){
 
-    const done=
-      !!achievements[a[0]];
+  for(const item of achievementData){
 
-    const div=
-      document.createElement(
-        "div"
+    const done =
+      !!achievements[item[0]];
+
+
+    const div =
+      document.createElement("div");
+
+
+    div.className =
+      "achievement "+
+      (
+        done
+        ? "done"
+        : ""
       );
 
-    div.className=
-      "achievement "+
-      (done?"done":"");
 
-    div.innerHTML=
+    div.innerHTML =
       "<b>"+
-      (done?"✅ ":"🔒 ")+
-      a[1]+
-      "</b><br>"+
-      "<small>"+
-      a[2]+
+      (
+        done
+        ? "✅ "
+        : "🔒 "
+      )+
+      item[1]+
+      "</b><br><small>"+
+      item[2]+
       "</small>";
+
 
     achievementList.appendChild(
       div
     );
+
   }
 
-  achievementsPanel.style.display=
-    "flex";
+
+  achievementsPanel.style.display="flex";
+
 }
 
 
-/* =========================
+/* =========================================================
    USTAWIENIA
-========================= */
+========================================================= */
 
 function openSettings(){
 
   home.style.display="none";
+
   game.style.display="block";
 
+
   playing=false;
+
   paused=true;
+
 
   updateSettings();
 
-  settingsPanel.style.display=
-    "flex";
+
+  settingsPanel.style.display="flex";
+
 }
 
 
 function updateSettings(){
 
-  soundToggle.textContent=
-    sound?"ON":"OFF";
+  soundToggle.textContent =
+    sound ? "ON" : "OFF";
 
-  effectsToggle.textContent=
-    effects?"ON":"OFF";
+  effectsToggle.textContent =
+    effects ? "ON" : "OFF";
 
-  vibrationToggle.textContent=
-    vibration?"ON":"OFF";
+  vibrationToggle.textContent =
+    vibration ? "ON" : "OFF";
+
 
   soundToggle.classList.toggle(
     "on",
@@ -3132,20 +3880,32 @@ function updateSettings(){
     vibration
   );
 
-  soundButton.textContent=
-    sound?"🔊":"🔇";
+
+  soundButton.textContent =
+    sound ? "🔊" : "🔇";
+
 }
 
+
+/* =========================================================
+   USTAWIENIA — PRZEŁĄCZNIKI
+========================================================= */
 
 function toggleSound(){
 
   sound=!sound;
 
   save();
+
   updateSettings();
 
-  if(sound)
+
+  if(sound){
+
     beep(700,.06);
+
+  }
+
 }
 
 
@@ -3154,13 +3914,16 @@ function toggleEffects(){
   effects=!effects;
 
   save();
+
   updateSettings();
+
 
   toast(
     effects
-    ?"✨ Efekty włączone"
-    :"✨ Efekty wyłączone"
+    ? "✨ Efekty włączone"
+    : "✨ Efekty wyłączone"
   );
+
 }
 
 
@@ -3169,73 +3932,107 @@ function toggleVibration(){
   vibration=!vibration;
 
   save();
+
   updateSettings();
 
-  if(vibration)
+
+  if(vibration){
+
     vibrate(30);
+
+  }
+
 }
 
 
-/* =========================
+/* =========================================================
    RESET
-========================= */
+========================================================= */
 
 function resetProgress(){
 
-  if(
-    !confirm(
+  const answer =
+    window.confirm(
       "Na pewno chcesz usunąć cały postęp?"
-    )
-  )
+    );
+
+
+  if(!answer){
     return;
+  }
+
 
   completed=[];
+
   levelCoins=[];
+
   achievements={};
 
+
   save();
+
   updateHome();
+
 
   toast(
     "🗑️ Postęp usunięty."
   );
+
 }
 
 
-/* =========================
-   MENU GŁÓWNE
-========================= */
+/* =========================================================
+   POWRÓT DO MENU
+========================================================= */
 
 function backHome(){
 
   playing=false;
+
   paused=false;
+
   dead=false;
+
   won=false;
+
 
   closeAllPanels();
 
+
   game.style.display="none";
+
   home.style.display="block";
 
+
   updateHome();
+
 }
 
+
+/* =========================================================
+   ZAMYKANIE PANELI
+========================================================= */
 
 function closeAllPanels(){
 
   pausePanel.style.display="none";
+
   levelsPanel.style.display="none";
+
   achievementsPanel.style.display="none";
+
   settingsPanel.style.display="none";
+
   deadPanel.style.display="none";
+
   winPanel.style.display="none";
+
 }
 
 
-/* =========================
+/* =========================================================
    NASTĘPNY POZIOM
-========================= */
+========================================================= */
 
 function nextLevel(){
 
@@ -3248,29 +4045,40 @@ function nextLevel(){
       currentLevel+1
     );
 
-  }else{
+  }
+
+  else{
 
     backHome();
+
   }
+
 }
 
 
-/* =========================
-   HOME
-========================= */
+/* =========================================================
+   MENU GŁÓWNE
+========================================================= */
 
 function updateHome(){
 
-  completedCount.textContent=
-    completedTotal()+"/12";
+  completedCount.textContent =
+    completedTotal()+
+    "/12";
 
-  coinCount.textContent=
-    coinsTotal()+"/36";
 
-  achievementCount.textContent=
-    achievementTotal()+"/8";
+  coinCount.textContent =
+    coinsTotal()+
+    "/36";
+
+
+  achievementCount.textContent =
+    achievementTotal()+
+    "/8";
+
 
   levelList.innerHTML="";
+
 
   for(
     let i=0;
@@ -3278,25 +4086,40 @@ function updateHome(){
     i++
   ){
 
-    const unlocked=
-      i===0||
-      completed[i-1];
+    const unlocked =
+      i===0 ||
+      completed[i-1]===true;
 
-    const card=
-      document.createElement(
-        "div"
+
+    const card =
+      document.createElement("div");
+
+
+    card.className =
+      "levelCard "+
+      (
+        unlocked
+        ? ""
+        : "locked"
       );
 
-    card.className=
-      "levelCard "+
-      (unlocked?"":"locked");
 
-    card.style.borderColor=
-      unlocked
-      ?levels[i][1]+"77"
-      :"";
+    if(unlocked){
 
-    card.innerHTML=
+      card.style.borderColor =
+        levels[i][1]+"77";
+
+    }
+
+
+    const savedCoins =
+      Math.min(
+        3,
+        Number(levelCoins[i])||0
+      );
+
+
+    card.innerHTML =
       "<div style='color:"+
       levels[i][1]+
       "'>LEVEL "+
@@ -3308,110 +4131,148 @@ function updateHome(){
       "<div class='levelInfo'>"+
       (
         unlocked
-        ?"🪙 "+
-          Number(
-            levelCoins[i]||0
-          )+
-          "/3"
-        :"🔒 ZABLOKOWANY"
+        ? "🪙 "+savedCoins+"/3"
+        : "🔒 ZABLOKOWANY"
       )+
       "</div>";
 
-    levelList.appendChild(card);
+
+    levelList.appendChild(
+      card
+    );
+
   }
+
 }
 
 
-/* =========================
+/* =========================================================
    TOAST
-========================= */
+========================================================= */
 
-let toastTimer;
+let toastTimer=null;
+
 
 function toast(text){
 
-  toastElement.textContent=
-    text;
+  toastElement.textContent=text;
 
   toastElement.classList.add(
     "show"
   );
 
+
   clearTimeout(
     toastTimer
   );
 
-  toastTimer=
-    setTimeout(()=>{
-      toastElement.classList.remove(
-        "show"
-      );
-    },1800);
+
+  toastTimer =
+    setTimeout(
+      ()=>{
+        toastElement.classList.remove(
+          "show"
+        );
+      },
+      1800
+    );
+
 }
 
 
-/* =========================
+/* =========================================================
    KLAWIATURA
-========================= */
+========================================================= */
 
 window.addEventListener(
   "keydown",
   function(e){
 
     if(
-      e.code==="Space"||
-      e.code==="ArrowUp"||
+      e.code==="Space" ||
+      e.code==="ArrowUp" ||
       e.code==="KeyW"
     ){
 
       e.preventDefault();
 
-      if(!e.repeat)
+
+      if(!e.repeat){
+
         jump();
+
+      }
+
     }
+
 
     if(
       e.code==="Escape"
     ){
 
       if(
-        game.style.display==="block"&&
-        playing
-      )
+        playing &&
+        !dead &&
+        !won
+      ){
+
         pauseGame();
+
+      }
+
     }
 
+
     if(
-      e.code==="KeyR"&&
+      e.code==="KeyR" &&
       game.style.display==="block"
     ){
 
-      restartLevel();
+      if(
+        !pausePanel.style.display ||
+        pausePanel.style.display==="none"
+      ){
+
+        restartLevel();
+
+      }
+
     }
+
   }
 );
 
 
-/* =========================
-   MYSZ
-========================= */
+/* =========================================================
+   KLIK / DOTYK
+========================================================= */
+
+/*
+  Używamy pointerdown dla myszy.
+  Dzięki temu kliknięcie przyciskiem JUMP
+  nie powoduje podwójnego skoku.
+*/
 
 canvas.addEventListener(
   "pointerdown",
   function(e){
 
     if(
-      e.pointerType==="mouse"||
+      e.pointerType==="mouse" ||
       e.pointerType==="pen"
-    )
+    ){
+
       jump();
+
+    }
+
   }
 );
 
 
-/* =========================
-   TELEFON
-========================= */
+/*
+  Telefon.
+*/
 
 mobileJump.addEventListener(
   "pointerdown",
@@ -3419,10 +4280,18 @@ mobileJump.addEventListener(
 
     e.preventDefault();
 
+    e.stopPropagation();
+
     jump();
+
   }
 );
 
+
+/*
+  Dotyk całego ekranu gry,
+  ale tylko poza UI.
+*/
 
 canvas.addEventListener(
   "touchstart",
@@ -3433,45 +4302,244 @@ canvas.addEventListener(
     jump();
 
   },
-  {passive:false}
+  {
+    passive:false
+  }
 );
 
 
-/* =========================
-   AUTO PAUZA
-========================= */
+/* =========================================================
+   AUTOMATYCZNA PAUZA
+========================================================= */
 
 document.addEventListener(
   "visibilitychange",
   function(){
 
     if(
-      document.hidden&&
-      playing&&
-      !dead&&
+      document.hidden &&
+      playing &&
+      !dead &&
       !won
-    )
+    ){
+
       pauseGame();
+
+    }
+
   }
 );
+
 
 window.addEventListener(
   "blur",
   function(){
 
     if(
-      playing&&
-      !dead&&
+      playing &&
+      !dead &&
       !won
-    )
+    ){
+
       pauseGame();
+
+    }
+
   }
 );
 
 
-/* =========================
+/* =========================================================
+   PRZYCISKI
+========================================================= */
+
+document
+  .getElementById("playButton")
+  .addEventListener(
+    "click",
+    startGame
+  );
+
+
+document
+  .getElementById("levelsHomeButton")
+  .addEventListener(
+    "click",
+    openLevelsMenu
+  );
+
+
+document
+  .getElementById("achievementsHomeButton")
+  .addEventListener(
+    "click",
+    openAchievements
+  );
+
+
+document
+  .getElementById("settingsHomeButton")
+  .addEventListener(
+    "click",
+    openSettings
+  );
+
+
+document
+  .getElementById("pauseButton")
+  .addEventListener(
+    "click",
+    pauseGame
+  );
+
+
+document
+  .getElementById("soundButton")
+  .addEventListener(
+    "click",
+    toggleSound
+  );
+
+
+document
+  .getElementById("levelsButton")
+  .addEventListener(
+    "click",
+    showLevels
+  );
+
+
+document
+  .getElementById("resumeButton")
+  .addEventListener(
+    "click",
+    resumeGame
+  );
+
+
+document
+  .getElementById("restartPauseButton")
+  .addEventListener(
+    "click",
+    restartLevel
+  );
+
+
+document
+  .getElementById("levelsPauseButton")
+  .addEventListener(
+    "click",
+    showLevels
+  );
+
+
+document
+  .getElementById("homePauseButton")
+  .addEventListener(
+    "click",
+    backHome
+  );
+
+
+document
+  .getElementById("closeLevelsButton")
+  .addEventListener(
+    "click",
+    closeLevels
+  );
+
+
+document
+  .getElementById("closeAchievementsButton")
+  .addEventListener(
+    "click",
+    backHome
+  );
+
+
+document
+  .getElementById("closeSettingsButton")
+  .addEventListener(
+    "click",
+    backHome
+  );
+
+
+soundToggle.addEventListener(
+  "click",
+  toggleSound
+);
+
+
+effectsToggle.addEventListener(
+  "click",
+  toggleEffects
+);
+
+
+vibrationToggle.addEventListener(
+  "click",
+  toggleVibration
+);
+
+
+document
+  .getElementById("resetButton")
+  .addEventListener(
+    "click",
+    resetProgress
+  );
+
+
+document
+  .getElementById("restartDeadButton")
+  .addEventListener(
+    "click",
+    restartLevel
+  );
+
+
+document
+  .getElementById("levelsDeadButton")
+  .addEventListener(
+    "click",
+    showLevels
+  );
+
+
+document
+  .getElementById("homeDeadButton")
+  .addEventListener(
+    "click",
+    backHome
+  );
+
+
+nextLevelButton.addEventListener(
+  "click",
+  nextLevel
+);
+
+
+document
+  .getElementById("restartWinButton")
+  .addEventListener(
+    "click",
+    restartLevel
+  );
+
+
+document
+  .getElementById("homeWinButton")
+  .addEventListener(
+    "click",
+    backHome
+  );
+
+
+/* =========================================================
    START
-========================= */
+========================================================= */
 
 resize();
 
@@ -3485,3 +4553,4 @@ save();
 
 </body>
 </html>
+```
