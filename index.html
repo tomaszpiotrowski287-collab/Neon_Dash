@@ -116,7 +116,7 @@ button{
     position:absolute;
     top:10px;
     left:12px;
-    right:12px;
+    right:70px;
     z-index:10;
     pointer-events:none;
     text-shadow:0 2px 5px #000;
@@ -162,7 +162,9 @@ button{
     font-size:20px;
 }
 
-/* MOBILE */
+/* =========================
+   MOBILE CONTROLS
+========================= */
 
 .mobileControl{
     position:absolute;
@@ -340,10 +342,6 @@ button{
 
 <body>
 
-<!-- =========================
-     MENU
-========================= -->
-
 <div id="menu">
     <div class="menuBox">
 
@@ -376,39 +374,54 @@ button{
     </div>
 </div>
 
-<!-- =========================
-     GAME
-========================= -->
-
 <div id="game" class="hidden">
 
     <canvas id="gameCanvas"></canvas>
 
     <div id="hud">
-        <div id="levelName">Poziom 1</div>
-        <div id="progressText">0%</div>
+
+        <div id="levelName">
+            Poziom 1
+        </div>
+
+        <div id="progressText">
+            0%
+        </div>
 
         <div id="progressOuter">
             <div id="levelProgressBar"></div>
         </div>
+
     </div>
 
-    <button id="pauseButton">Ⅱ</button>
+    <button id="pauseButton">
+        Ⅱ
+    </button>
 
-    <button id="mobileLeft" class="mobileControl">◀</button>
-    <button id="mobileRight" class="mobileControl">▶</button>
-    <button id="mobileJump" class="mobileControl">▲</button>
+    <button id="mobileLeft" class="mobileControl">
+        ◀
+    </button>
+
+    <button id="mobileRight" class="mobileControl">
+        ▶
+    </button>
+
+    <button id="mobileJump" class="mobileControl">
+        ▲
+    </button>
 
 </div>
 
-<!-- =========================
-     PAUSE
-========================= -->
+
+<!-- PAUZA -->
 
 <div id="pausePanel" class="panel hidden">
+
     <div class="panelBox">
 
-        <div class="pauseTitle">PAUZA</div>
+        <div class="pauseTitle">
+            PAUZA
+        </div>
 
         <button class="menuButton" onclick="resumeGame()">
             WRÓĆ DO GRY
@@ -423,16 +436,19 @@ button{
         </button>
 
     </div>
+
 </div>
 
-<!-- =========================
-     LEVELS
-========================= -->
+
+<!-- POZIOMY -->
 
 <div id="levelsPanel" class="panel hidden">
+
     <div class="panelBox">
 
-        <h2>POZIOMY</h2>
+        <h2>
+            POZIOMY
+        </h2>
 
         <div id="levelGrid" class="levelGrid"></div>
 
@@ -441,19 +457,23 @@ button{
         </button>
 
     </div>
+
 </div>
 
-<!-- =========================
-     SHOP
-========================= -->
+
+<!-- SKLEP -->
 
 <div id="shopPanel" class="panel hidden">
+
     <div class="panelBox">
 
-        <h2>SKLEP</h2>
+        <h2>
+            SKLEP
+        </h2>
 
         <p style="text-align:center">
-            Monety: <b id="coinAmount">0</b>
+            Monety:
+            <b id="coinAmount">0</b>
         </p>
 
         <div id="skinGrid" class="skinGrid"></div>
@@ -463,16 +483,19 @@ button{
         </button>
 
     </div>
+
 </div>
 
-<!-- =========================
-     ACHIEVEMENTS
-========================= -->
+
+<!-- OSIĄGNIĘCIA -->
 
 <div id="achievementsPanel" class="panel hidden">
+
     <div class="panelBox">
 
-        <h2>OSIĄGNIĘCIA</h2>
+        <h2>
+            OSIĄGNIĘCIA
+        </h2>
 
         <div id="achievementList"></div>
 
@@ -481,30 +504,39 @@ button{
         </button>
 
     </div>
+
 </div>
 
-<!-- =========================
-     SETTINGS
-========================= -->
+
+<!-- USTAWIENIA -->
 
 <div id="settingsPanel" class="panel hidden">
+
     <div class="panelBox">
 
-        <h2>USTAWIENIA</h2>
+        <h2>
+            USTAWIENIA
+        </h2>
 
         <div class="settingRow">
             <span>Muzyka</span>
-            <button id="musicButton" onclick="toggleMusic()">ON</button>
+            <button id="musicButton" onclick="toggleMusic()">
+                ON
+            </button>
         </div>
 
         <div class="settingRow">
             <span>Dźwięki</span>
-            <button id="soundButton" onclick="toggleSound()">ON</button>
+            <button id="soundButton" onclick="toggleSound()">
+                ON
+            </button>
         </div>
 
         <div class="settingRow">
             <span>Pełny ekran</span>
-            <button onclick="toggleFullscreen()">⛶</button>
+            <button onclick="toggleFullscreen()">
+                ⛶
+            </button>
         </div>
 
         <button class="backButton" onclick="backHome()">
@@ -512,13 +544,14 @@ button{
         </button>
 
     </div>
+
 </div>
 
-<!-- =========================
-     WIN
-========================= -->
+
+<!-- WYGRANA -->
 
 <div id="winPanel" class="panel hidden">
+
     <div class="panelBox">
 
         <div class="winTitle">
@@ -529,26 +562,32 @@ button{
             +5 monet
         </p>
 
-        <button id="nextButton"
-                class="menuButton"
-                onclick="nextLevel()">
+        <button
+            id="nextButton"
+            class="menuButton"
+            onclick="nextLevel()">
             NASTĘPNY POZIOM
         </button>
 
-        <button class="menuButton darkButton"
-                onclick="restartLevel()">
+        <button
+            class="menuButton darkButton"
+            onclick="restartLevel()">
             JESZCZE RAZ
         </button>
 
-        <button class="menuButton darkButton"
-                onclick="backHome()">
+        <button
+            class="menuButton darkButton"
+            onclick="backHome()">
             MENU
         </button>
 
     </div>
+
 </div>
 
+
 <div id="errorBox"></div>
+
 
 <script>
 "use strict";
@@ -557,61 +596,86 @@ button{
    CANVAS
 ========================================================= */
 
-const canvas=document.getElementById("gameCanvas");
-const ctx=canvas.getContext("2d");
+const canvas =
+    document.getElementById("gameCanvas");
 
-let W=window.innerWidth;
-let H=window.innerHeight;
+const ctx =
+    canvas.getContext("2d");
+
+let W = window.innerWidth;
+let H = window.innerHeight;
 
 function resizeCanvas(){
 
-    W=Math.max(320,window.innerWidth);
-    H=Math.max(240,window.innerHeight);
+    W = Math.max(320,window.innerWidth);
+    H = Math.max(240,window.innerHeight);
 
-    canvas.width=W;
-    canvas.height=H;
+    canvas.width = W;
+    canvas.height = H;
 
     if(running){
         draw();
     }
 }
 
-window.addEventListener("resize",resizeCanvas);
+window.addEventListener(
+    "resize",
+    resizeCanvas
+);
+
 resizeCanvas();
+
 
 /* =========================================================
    SAVE
 ========================================================= */
 
-const SAVE_KEY="neon_dash_save_final";
+const SAVE_KEY =
+    "neon_dash_save_final_v2";
 
-const defaultSave={
+const defaultSave = {
+
     unlocked:1,
+
     completed:[],
+
     coins:0,
+
     selectedSkin:0,
+
     ownedSkins:[0],
+
     achievements:[],
+
     music:true,
+
     sound:true
 };
 
 let save;
 
+
 function loadSave(){
 
     try{
 
-        const raw=localStorage.getItem(SAVE_KEY);
+        const raw =
+            localStorage.getItem(SAVE_KEY);
 
         if(!raw){
-            save=JSON.parse(JSON.stringify(defaultSave));
+
+            save =
+                JSON.parse(
+                    JSON.stringify(defaultSave)
+                );
+
             return;
         }
 
-        const data=JSON.parse(raw);
+        const data =
+            JSON.parse(raw);
 
-        save={
+        save = {
             ...defaultSave,
             ...data
         };
@@ -628,35 +692,47 @@ function loadSave(){
         if(!save.ownedSkins.includes(0))
             save.ownedSkins.unshift(0);
 
-        if(save.unlocked<1)
-            save.unlocked=1;
-
-        if(save.unlocked>18)
-            save.unlocked=18;
+        save.unlocked =
+            Math.max(
+                1,
+                Math.min(
+                    18,
+                    Number(save.unlocked)||1
+                )
+            );
 
     }catch(e){
 
-        save=JSON.parse(JSON.stringify(defaultSave));
+        save =
+            JSON.parse(
+                JSON.stringify(defaultSave)
+            );
     }
 }
+
 
 function saveGame(){
 
     try{
+
         localStorage.setItem(
             SAVE_KEY,
             JSON.stringify(save)
         );
+
     }catch(e){}
 }
 
+
 loadSave();
 
+
 /* =========================================================
-   LEVEL DATA
+   LEVEL THEMES
 ========================================================= */
 
-const levelThemes=[
+const levelThemes = [
+
     ["Stereo Start","#00eaff"],
     ["Blue Rush","#168cff"],
     ["Neon City","#b400ff"],
@@ -675,17 +751,20 @@ const levelThemes=[
     ["Final Rush","#00eaff"],
     ["Neon Storm","#ff4cff"],
     ["Ultimate Run","#00ffd5"]
+
 ];
+
 
 const levels=[];
 
+
 for(let i=0;i<18;i++){
 
-    const length=3900+i*280;
+    const length =
+        3900 + i*280;
 
-    const speed=
-        5+
-        i*.22;
+    const speed =
+        5 + i*.22;
 
     const obstacles=[];
     const coins=[];
@@ -694,19 +773,26 @@ for(let i=0;i<18;i++){
 
     let pattern=i%4;
 
+
     while(x<length-250){
 
         let width;
 
-        if(pattern===0){
+        if(pattern===0)
             width=55;
-        }else if(pattern===1){
+
+        else if(pattern===1)
             width=75;
-        }else if(pattern===2){
+
+        else if(pattern===2)
             width=100;
-        }else{
-            width=(Math.floor(x/250)%3===0)?100:55;
-        }
+
+        else
+            width =
+                (Math.floor(x/250)%3===0)
+                ?100
+                :55;
+
 
         obstacles.push([
             Math.round(x),
@@ -715,104 +801,134 @@ for(let i=0;i<18;i++){
             50
         ]);
 
+
         coins.push(
             Math.round(x-110)
         );
 
-        x+=
-            250+
+
+        x +=
+            250 +
             ((Math.floor(x/100)%3)*45);
 
-        pattern=(pattern+1)%4;
+
+        pattern =
+            (pattern+1)%4;
     }
 
+
     levels.push({
+
         name:levelThemes[i][0],
+
         color:levelThemes[i][1],
+
         speed:speed,
+
         length:length,
+
         obstacles:obstacles,
+
         coins:coins
+
     });
 }
+
 
 /* =========================================================
    SKINS
 ========================================================= */
 
 const skins=[
+
     {
         name:"Neon",
         color:"#00eaff",
         price:0
     },
+
     {
         name:"Czerwony",
         color:"#ff3355",
         price:25
     },
+
     {
         name:"Zielony",
         color:"#55ff88",
         price:50
     },
+
     {
         name:"Fioletowy",
         color:"#b45cff",
         price:75
     },
+
     {
         name:"Złoty",
         color:"#ffe600",
         price:100
     },
+
     {
         name:"Pomarańczowy",
         color:"#ff7b00",
         price:150
     }
+
 ];
+
 
 /* =========================================================
    ACHIEVEMENTS
 ========================================================= */
 
 const achievements=[
+
     {
         id:"first",
         name:"Pierwszy krok",
         desc:"Ukończ pierwszy poziom."
     },
+
     {
         id:"five",
         name:"Rozgrzewka",
         desc:"Ukończ 5 poziomów."
     },
+
     {
         id:"ten",
         name:"Nie do zatrzymania",
         desc:"Ukończ 10 poziomów."
     },
+
     {
         id:"all",
         name:"Neon Master",
         desc:"Ukończ wszystkie poziomy."
     },
+
     {
         id:"coins",
         name:"Kolekcjoner",
         desc:"Zbierz 50 monet."
     }
+
 ];
 
+
 /* =========================================================
-   GAME STATE
+   GAME VARIABLES
 ========================================================= */
 
 let levelIndex=0;
+
 let level=null;
 
 let running=false;
+
 let paused=false;
 
 let player=null;
@@ -822,60 +938,78 @@ let cameraX=0;
 let collectedCoins=new Set();
 
 let particles=[];
+
 let confetti=[];
 
 let leftPressed=false;
+
 let rightPressed=false;
 
 let lastTime=0;
+
 let loopToken=0;
 
 let deathTimer=null;
 
+
 /* =========================================================
-   UI
+   PANELS
 ========================================================= */
 
 function hidePanels(){
 
-    document.getElementById("levelsPanel")
+    document
+        .getElementById("levelsPanel")
         .classList.add("hidden");
 
-    document.getElementById("shopPanel")
+    document
+        .getElementById("shopPanel")
         .classList.add("hidden");
 
-    document.getElementById("achievementsPanel")
+    document
+        .getElementById("achievementsPanel")
         .classList.add("hidden");
 
-    document.getElementById("settingsPanel")
+    document
+        .getElementById("settingsPanel")
         .classList.add("hidden");
 
-    document.getElementById("pausePanel")
+    document
+        .getElementById("pausePanel")
         .classList.add("hidden");
 
-    document.getElementById("winPanel")
+    document
+        .getElementById("winPanel")
         .classList.add("hidden");
 }
+
 
 function backHome(){
 
     loopToken++;
 
     running=false;
+
     paused=false;
 
     clearTimeout(deathTimer);
 
     stopMusic();
 
+    leftPressed=false;
+    rightPressed=false;
+
     hidePanels();
 
-    document.getElementById("game")
+    document
+        .getElementById("game")
         .classList.add("hidden");
 
-    document.getElementById("menu")
+    document
+        .getElementById("menu")
         .classList.remove("hidden");
 }
+
 
 /* =========================================================
    LEVEL MENU
@@ -883,38 +1017,48 @@ function backHome(){
 
 function openLevels(){
 
+    loopToken++;
+
     running=false;
 
-    document.getElementById("menu")
+    document
+        .getElementById("menu")
         .classList.add("hidden");
 
     hidePanels();
 
-    document.getElementById("levelsPanel")
+    document
+        .getElementById("levelsPanel")
         .classList.remove("hidden");
 
-    const grid=document.getElementById("levelGrid");
+
+    const grid =
+        document.getElementById("levelGrid");
 
     grid.innerHTML="";
 
+
     levels.forEach((l,i)=>{
 
-        const button=document.createElement("button");
+        const button =
+            document.createElement("button");
 
-        const unlocked=
-            i<save.unlocked;
+        const unlocked =
+            i < save.unlocked;
 
-        const completed=
+        const completed =
             save.completed.includes(i);
 
-        button.className=
+
+        button.className =
             "levelButton "+
             (unlocked?"unlocked ":"locked ")+
             (completed?"completed":"");
 
+
         if(unlocked){
 
-            button.textContent=
+            button.textContent =
                 `${i+1}\n${l.name}`;
 
             button.onclick=()=>{
@@ -926,9 +1070,12 @@ function openLevels(){
             button.textContent="🔒";
         }
 
+
         grid.appendChild(button);
+
     });
 }
+
 
 /* =========================================================
    SHOP
@@ -936,76 +1083,92 @@ function openLevels(){
 
 function openShop(){
 
+    loopToken++;
+
     running=false;
 
-    document.getElementById("menu")
+    document
+        .getElementById("menu")
         .classList.add("hidden");
 
     hidePanels();
 
-    document.getElementById("shopPanel")
+    document
+        .getElementById("shopPanel")
         .classList.remove("hidden");
 
     renderShop();
 }
 
+
 function renderShop(){
 
-    document.getElementById("coinAmount")
+    document
+        .getElementById("coinAmount")
         .textContent=save.coins;
 
-    const grid=document.getElementById("skinGrid");
+
+    const grid =
+        document.getElementById("skinGrid");
 
     grid.innerHTML="";
 
+
     skins.forEach((skin,i)=>{
 
-        const div=document.createElement("div");
+        const div =
+            document.createElement("div");
 
-        const owned=
+        const owned =
             save.ownedSkins.includes(i);
 
-        const selected=
+        const selected =
             save.selectedSkin===i;
 
-        div.className=
+
+        div.className =
             "skin"+
             (selected?" selected":"");
 
+
         div.innerHTML=`
-            <div class="skinPreview"
-                 style="
-                 background:${skin.color};
-                 box-shadow:0 0 15px ${skin.color};
-                 ">
+
+            <div
+                class="skinPreview"
+                style="
+                    background:${skin.color};
+                    box-shadow:0 0 15px ${skin.color};
+                ">
             </div>
 
             <div style="margin-top:10px">
                 ${skin.name}
             </div>
 
-            <div style="
-                margin-top:6px;
-                color:#aaa;
-            ">
-                ${
-                    owned
-                    ?"POSIADANY"
-                    :skin.price+" monet"
-                }
+            <div
+                style="
+                    margin-top:6px;
+                    color:#aaa;
+                ">
+                ${owned?"POSIADANY":skin.price+" monet"}
             </div>
+
         `;
+
 
         div.onclick=()=>{
 
             if(owned){
 
                 save.selectedSkin=i;
+
                 saveGame();
+
                 renderShop();
 
                 return;
             }
+
 
             if(save.coins>=skin.price){
 
@@ -1026,11 +1189,15 @@ function renderShop(){
                     .04
                 );
             }
+
         };
 
+
         grid.appendChild(div);
+
     });
 }
+
 
 /* =========================================================
    ACHIEVEMENTS MENU
@@ -1038,58 +1205,77 @@ function renderShop(){
 
 function openAchievements(){
 
+    loopToken++;
+
     running=false;
 
-    document.getElementById("menu")
+    document
+        .getElementById("menu")
         .classList.add("hidden");
 
     hidePanels();
 
-    document.getElementById("achievementsPanel")
+    document
+        .getElementById("achievementsPanel")
         .classList.remove("hidden");
 
-    const list=
+
+    const list =
         document.getElementById("achievementList");
 
     list.innerHTML="";
 
+
     achievements.forEach(a=>{
 
-        const unlocked=
+        const unlocked =
             save.achievements.includes(a.id);
 
-        const div=document.createElement("div");
+        const div =
+            document.createElement("div");
+
 
         div.style.padding="15px";
+
         div.style.marginBottom="8px";
+
         div.style.borderRadius="10px";
 
-        div.style.background=
+        div.style.background =
             unlocked
             ?"#123b29"
             :"#202039";
 
-        div.style.border=
+        div.style.border =
             "1px solid "+
-            (unlocked?"#55ff88":"#38385c");
+            (unlocked
+                ?"#55ff88"
+                :"#38385c");
+
 
         div.innerHTML=`
+
             <b>
                 ${unlocked?"✓":"🔒"}
                 ${a.name}
             </b>
 
-            <div style="
-                color:#aaa;
-                margin-top:5px;
-            ">
+            <div
+                style="
+                    color:#aaa;
+                    margin-top:5px;
+                ">
                 ${a.desc}
             </div>
+
         `;
 
+
         list.appendChild(div);
+
     });
 }
+
 
 /* =========================================================
    SETTINGS
@@ -1097,54 +1283,72 @@ function openAchievements(){
 
 function openSettings(){
 
+    loopToken++;
+
     running=false;
 
-    document.getElementById("menu")
+    document
+        .getElementById("menu")
         .classList.add("hidden");
 
     hidePanels();
 
-    document.getElementById("settingsPanel")
+    document
+        .getElementById("settingsPanel")
         .classList.remove("hidden");
 
     updateSettingsUI();
 }
 
+
 function updateSettingsUI(){
 
-    document.getElementById("musicButton")
-        .textContent=
-        save.music?"ON":"OFF";
+    document
+        .getElementById("musicButton")
+        .textContent =
+            save.music
+            ?"ON"
+            :"OFF";
 
-    document.getElementById("soundButton")
-        .textContent=
-        save.sound?"ON":"OFF";
+
+    document
+        .getElementById("soundButton")
+        .textContent =
+            save.sound
+            ?"ON"
+            :"OFF";
 }
+
 
 /* =========================================================
    AUDIO
 ========================================================= */
 
 let audioCtx=null;
+
 let musicTimer=null;
+
 let musicStep=0;
+
 
 function getAudio(){
 
     try{
 
-        const AC=
-            window.AudioContext||
+        const AC =
+            window.AudioContext ||
             window.webkitAudioContext;
 
         if(!AC)return null;
 
-        if(!audioCtx){
+        if(!audioCtx)
             audioCtx=new AC();
-        }
 
         if(audioCtx.state==="suspended"){
-            audioCtx.resume().catch(()=>{});
+
+            audioCtx
+                .resume()
+                .catch(()=>{});
         }
 
         return audioCtx;
@@ -1154,6 +1358,7 @@ function getAudio(){
         return null;
     }
 }
+
 
 function beep(
     frequency=440,
@@ -1168,28 +1373,36 @@ function beep(
 
     if(!audio)return;
 
+
     try{
 
-        const oscillator=
+        const oscillator =
             audio.createOscillator();
 
-        const gain=
+        const gain =
             audio.createGain();
 
+
         oscillator.type=type;
-        oscillator.frequency.value=frequency;
+
+        oscillator.frequency.value=
+            frequency;
+
 
         gain.gain.setValueAtTime(
             volume,
             audio.currentTime
         );
 
+
         gain.gain.exponentialRampToValueAtTime(
             .001,
             audio.currentTime+duration
         );
 
+
         oscillator.connect(gain);
+
         gain.connect(audio.destination);
 
         oscillator.start();
@@ -1201,11 +1414,13 @@ function beep(
     }catch(e){}
 }
 
+
 function startMusic(){
 
     if(!save.music)return;
 
     if(musicTimer)return;
+
 
     const notes=[
         220,
@@ -1217,6 +1432,7 @@ function startMusic(){
         370,
         330
     ];
+
 
     musicTimer=setInterval(()=>{
 
@@ -1234,6 +1450,7 @@ function startMusic(){
     },180);
 }
 
+
 function stopMusic(){
 
     if(musicTimer){
@@ -1244,19 +1461,24 @@ function stopMusic(){
     }
 }
 
+
 function toggleMusic(){
 
     save.music=!save.music;
 
     saveGame();
 
+
     if(save.music)
         startMusic();
+
     else
         stopMusic();
 
+
     updateSettingsUI();
 }
+
 
 function toggleSound(){
 
@@ -1267,9 +1489,6 @@ function toggleSound(){
     updateSettingsUI();
 }
 
-/* =========================================================
-   FULLSCREEN
-========================================================= */
 
 function toggleFullscreen(){
 
@@ -1277,51 +1496,69 @@ function toggleFullscreen(){
 
         if(!document.fullscreenElement){
 
-            document.documentElement
+            document
+                .documentElement
                 .requestFullscreen?.();
 
         }else{
 
-            document.exitFullscreen?.();
+            document
+                .exitFullscreen?.();
         }
 
     }catch(e){}
 }
 
+
 /* =========================================================
    PLAYER
 ========================================================= */
+
+/*
+   WAŻNE:
+
+   POSTAĆ NIE MA RĄK.
+   POSTAĆ NIE MA NÓG.
+   POSTAĆ NIE MA LUDZKIEGO CIAŁA.
+
+   To jest jedna figura w stylu Geometry Dash.
+*/
+
 
 function groundY(){
 
     return H-95;
 }
 
+
 function createPlayer(){
 
     return {
 
-        /* pozycja */
         x:110,
-        y:groundY()-65,
 
-        /* rozmiar hitboxa */
-        w:32,
-        h:65,
+        y:groundY()-42,
 
-        /* fizyka */
+        w:42,
+
+        h:42,
+
         vy:0,
+
         grounded:true,
 
-        /* animacja */
-        walkTime:0,
+        rotation:0,
+
+        jumpSquash:1,
+
         blinkTime:0,
+
         blink:false,
 
-        /* obrót tylko lekki podczas skoku */
-        rotation:0
+        animationTime:0
     };
 }
+
 
 /* =========================================================
    CREATE LEVEL
@@ -1329,23 +1566,33 @@ function createPlayer(){
 
 function createLevel(){
 
-    level=levels[levelIndex];
+    level =
+        levels[levelIndex];
 
-    player=createPlayer();
+
+    player =
+        createPlayer();
+
 
     cameraX=0;
 
-    collectedCoins=new Set();
+    collectedCoins=
+        new Set();
 
     particles=[];
+
     confetti=[];
 
-    document.getElementById("levelName")
-        .textContent=
-        `Poziom ${levelIndex+1} — ${level.name}`;
+
+    document
+        .getElementById("levelName")
+        .textContent =
+            `Poziom ${levelIndex+1} — ${level.name}`;
+
 
     updateProgress();
 }
+
 
 /* =========================================================
    START GAME
@@ -1357,43 +1604,67 @@ function startGame(index=null){
 
     loopToken++;
 
+
     if(index!==null){
 
-        if(index<0 || index>=levels.length)
+        if(
+            index<0 ||
+            index>=levels.length
+        ){
             return;
+        }
+
 
         if(index>=save.unlocked)
             return;
 
+
         levelIndex=index;
     }
 
+
     hidePanels();
 
-    document.getElementById("menu")
+
+    document
+        .getElementById("menu")
         .classList.add("hidden");
 
-    document.getElementById("game")
+
+    document
+        .getElementById("game")
         .classList.remove("hidden");
+
 
     createLevel();
 
+
     running=true;
+
     paused=false;
 
-    lastTime=performance.now();
+    lastTime=
+        performance.now();
 
-    /* pierwsza klatka od razu */
+
+    leftPressed=false;
+
+    rightPressed=false;
+
+
     draw();
 
     startMusic();
 
+
     const token=loopToken;
+
 
     requestAnimationFrame(
         t=>gameLoop(t,token)
     );
 }
+
 
 /* =========================================================
    GAME LOOP
@@ -1407,6 +1678,7 @@ function gameLoop(time,token){
     if(!running)
         return;
 
+
     if(paused){
 
         lastTime=time;
@@ -1418,23 +1690,29 @@ function gameLoop(time,token){
         return;
     }
 
-    let dt=
+
+    let dt =
         (time-lastTime)/16.6667;
+
 
     if(!Number.isFinite(dt))
         dt=1;
 
-    dt=
+
+    dt =
         Math.max(
             .25,
             Math.min(2,dt)
         );
 
+
     lastTime=time;
+
 
     update(dt);
 
     draw();
+
 
     if(
         running &&
@@ -1447,8 +1725,9 @@ function gameLoop(time,token){
     }
 }
 
+
 /* =========================================================
-   PHYSICS
+   UPDATE
 ========================================================= */
 
 function update(dt){
@@ -1456,11 +1735,13 @@ function update(dt){
     if(!player || !level)
         return;
 
-    /* animacja */
 
-    player.walkTime+=dt;
+    player.animationTime+=dt;
 
     player.blinkTime+=dt;
+
+
+    /* MRUGANIE */
 
     if(player.blinkTime>180){
 
@@ -1468,34 +1749,54 @@ function update(dt){
 
         player.blink=true;
 
+
         setTimeout(()=>{
+
             if(player)
                 player.blink=false;
-        },120);
+
+        },110);
     }
 
-    /* ruch */
 
-    let movement=level.speed;
+    /* RUCH */
+
+    let movement =
+        level.speed;
+
 
     if(leftPressed)
         movement-=2;
 
+
     if(rightPressed)
         movement+=2;
 
-    movement=Math.max(2,movement);
 
-    player.x+=movement*dt;
+    movement =
+        Math.max(
+            2,
+            movement
+        );
 
-    /* grawitacja */
 
-    player.vy+=.72*dt;
+    player.x +=
+        movement*dt;
 
-    player.y+=player.vy*dt;
 
-    const floorY=
+    /* GRAWITACJA */
+
+    player.vy +=
+        .72*dt;
+
+
+    player.y +=
+        player.vy*dt;
+
+
+    const floorY =
         groundY()-player.h;
+
 
     if(player.y>=floorY){
 
@@ -1505,31 +1806,47 @@ function update(dt){
 
         player.grounded=true;
 
-        player.rotation*=.7;
+        player.rotation*=.78;
+
+        player.jumpSquash +=
+            (1-player.jumpSquash)*.25;
 
     }else{
 
         player.grounded=false;
 
-        player.rotation+=.06*dt;
+        player.rotation +=
+            .055*dt;
+
+        player.jumpSquash +=
+            (1-player.jumpSquash)*.12;
     }
 
-    /* przeszkody */
+
+    /* KOLIZJE Z PRZESZKODAMI */
 
     for(const obstacle of level.obstacles){
 
         const ox=obstacle[0];
+
         const ow=obstacle[2];
+
         const oh=obstacle[3];
 
         const oy=
             groundY()-oh;
 
-        const hit=
-            player.x+player.w-5>ox &&
-            player.x+5<ox+ow &&
-            player.y+player.h-4>oy &&
-            player.y+5<groundY();
+
+        const hit =
+
+            player.x+player.w-6 > ox &&
+
+            player.x+6 < ox+ow &&
+
+            player.y+player.h-5 > oy &&
+
+            player.y+5 < groundY();
+
 
         if(hit){
 
@@ -1539,82 +1856,107 @@ function update(dt){
         }
     }
 
-    /* monety */
 
-    level.coins.forEach((cx,index)=>{
+    /* MONETY */
 
-        if(collectedCoins.has(index))
-            return;
+    level.coins.forEach(
+        (cx,index)=>{
 
-        const cy=
-            groundY()-95;
+            if(
+                collectedCoins.has(index)
+            ){
+                return;
+            }
 
-        const dx=
-            player.x+
-            player.w/2-
-            cx;
 
-        const dy=
-            player.y+
-            player.h/2-
-            cy;
+            const cy=
+                groundY()-95;
 
-        if(Math.hypot(dx,dy)<32){
 
-            collectedCoins.add(index);
+            const dx=
+                player.x+
+                player.w/2-
+                cx;
 
-            save.coins++;
 
-            saveGame();
+            const dy=
+                player.y+
+                player.h/2-
+                cy;
 
-            beep(
-                880,
-                .1,
-                "sine",
-                .05
-            );
 
-            createCoinParticles(
-                cx,
-                cy
-            );
+            if(
+                Math.hypot(dx,dy)<35
+            ){
 
-            checkAchievements();
+                collectedCoins.add(index);
+
+                save.coins++;
+
+                saveGame();
+
+
+                beep(
+                    880,
+                    .1,
+                    "sine",
+                    .05
+                );
+
+
+                createCoinParticles(
+                    cx,
+                    cy
+                );
+
+
+                checkAchievements();
+            }
+
         }
-    });
+    );
 
-    /* kamera */
 
-    const target=
+    /* KAMERA */
+
+    const target =
         player.x-135;
+
 
     if(target>cameraX){
 
-        cameraX+=
+        cameraX +=
             (target-cameraX)*
             .12*
             dt;
     }
 
-    cameraX=Math.max(
-        0,
-        cameraX
-    );
 
-    /* koniec */
+    cameraX=
+        Math.max(
+            0,
+            cameraX
+        );
 
-    if(player.x>=level.length){
+
+    /* META */
+
+    if(
+        player.x>=level.length
+    ){
 
         winLevel();
 
         return;
     }
 
-    /* cząsteczki */
+
+    /* PARTICLES */
 
     for(const p of particles){
 
         p.x+=p.vx*dt;
+
         p.y+=p.vy*dt;
 
         p.vy+=.12*dt;
@@ -1622,13 +1964,16 @@ function update(dt){
         p.life-=dt;
     }
 
-    particles=
+
+    particles =
         particles.filter(
             p=>p.life>0
         );
 
+
     updateProgress();
 }
+
 
 /* =========================================================
    JUMP
@@ -1636,14 +1981,23 @@ function update(dt){
 
 function jump(){
 
-    if(!running || paused || !player)
+    if(
+        !running ||
+        paused ||
+        !player
+    ){
         return;
+    }
+
 
     if(player.grounded){
 
         player.vy=-13;
 
         player.grounded=false;
+
+        player.jumpSquash=.82;
+
 
         beep(
             520,
@@ -1652,9 +2006,11 @@ function jump(){
             .035
         );
 
+
         createJumpParticles();
     }
 }
+
 
 /* =========================================================
    DEATH
@@ -1665,11 +2021,13 @@ function die(){
     if(!running)
         return;
 
+
     running=false;
 
     loopToken++;
 
     stopMusic();
+
 
     beep(
         110,
@@ -1678,6 +2036,7 @@ function die(){
         .045
     );
 
+
     if(navigator.vibrate){
 
         try{
@@ -1685,24 +2044,24 @@ function die(){
         }catch(e){}
     }
 
+
     deathTimer=setTimeout(()=>{
 
-        const again=
+        const again =
             confirm(
                 "Ups! Rozbiłeś się.\n\nZagrać jeszcze raz?"
             );
 
-        if(again){
 
+        if(again)
             startGame(levelIndex);
 
-        }else{
-
+        else
             backHome();
-        }
 
     },250);
 }
+
 
 /* =========================================================
    WIN
@@ -1713,11 +2072,13 @@ function winLevel(){
     if(!running)
         return;
 
+
     running=false;
 
     loopToken++;
 
     stopMusic();
+
 
     beep(
         660,
@@ -1725,6 +2086,7 @@ function winLevel(){
         "triangle",
         .05
     );
+
 
     setTimeout(()=>{
         beep(
@@ -1735,6 +2097,7 @@ function winLevel(){
         );
     },120);
 
+
     setTimeout(()=>{
         beep(
             1100,
@@ -1744,7 +2107,12 @@ function winLevel(){
         );
     },240);
 
-    if(!save.completed.includes(levelIndex)){
+
+    if(
+        !save.completed.includes(
+            levelIndex
+        )
+    ){
 
         save.completed.push(
             levelIndex
@@ -1752,48 +2120,68 @@ function winLevel(){
 
         save.coins+=5;
 
-        if(levelIndex<levels.length-1){
 
-            save.unlocked=
+        if(
+            levelIndex<
+            levels.length-1
+        ){
+
+            save.unlocked =
                 Math.max(
                     save.unlocked,
                     levelIndex+2
                 );
         }
 
+
         saveGame();
     }
+
 
     checkAchievements();
 
     createConfetti();
 
-    document.getElementById("winPanel")
-        .classList.remove("hidden");
 
-    const next=
-        document.getElementById("nextButton");
+    document
+        .getElementById("winPanel")
+        .classList
+        .remove("hidden");
 
-    next.style.display=
-        levelIndex<levels.length-1
+
+    const next =
+        document.getElementById(
+            "nextButton"
+        );
+
+
+    next.style.display =
+        levelIndex<
+        levels.length-1
         ?"block"
         :"none";
+
 
     const token=loopToken;
 
     const startTime=
         performance.now();
 
+
     function celebration(time){
 
         if(token!==loopToken)
             return;
 
+
         updateConfetti();
 
         draw();
 
-        if(time-startTime<1600){
+
+        if(
+            time-startTime<1600
+        ){
 
             requestAnimationFrame(
                 celebration
@@ -1801,29 +2189,37 @@ function winLevel(){
         }
     }
 
+
     requestAnimationFrame(
         celebration
     );
 }
 
+
 function nextLevel(){
 
-    if(levelIndex>=levels.length-1){
+    if(
+        levelIndex>=
+        levels.length-1
+    ){
 
         backHome();
 
         return;
     }
 
+
     startGame(
         levelIndex+1
     );
 }
 
+
 function restartLevel(){
 
     startGame(levelIndex);
 }
+
 
 /* =========================================================
    PROGRESS
@@ -1834,7 +2230,8 @@ function updateProgress(){
     if(!level || !player)
         return;
 
-    const percent=
+
+    const percent =
         Math.max(
             0,
             Math.min(
@@ -1845,14 +2242,21 @@ function updateProgress(){
             )
         );
 
-    document.getElementById("progressText")
-        .textContent=
-        Math.floor(percent)+"%";
 
-    document.getElementById("levelProgressBar")
-        .style.width=
-        percent+"%";
+    document
+        .getElementById("progressText")
+        .textContent =
+            Math.floor(percent)+"%";
+
+
+    document
+        .getElementById(
+            "levelProgressBar"
+        )
+        .style.width =
+            percent+"%";
 }
+
 
 /* =========================================================
    PARTICLES
@@ -1864,19 +2268,24 @@ function createJumpParticles(){
 
         particles.push({
 
-            x:player.x+
-               player.w/2,
+            x:
+                player.x+
+                player.w/2,
 
-            y:groundY(),
+            y:
+                groundY(),
 
-            vx:(Math.random()-.5)*3,
+            vx:
+                (Math.random()-.5)*3,
 
-            vy:-Math.random()*2,
+            vy:
+                -Math.random()*2,
 
             life:25
         });
     }
 }
+
 
 function createCoinParticles(x,y){
 
@@ -1888,23 +2297,27 @@ function createCoinParticles(x,y){
 
             y:y,
 
-            vx:(Math.random()-.5)*5,
+            vx:
+                (Math.random()-.5)*5,
 
-            vy:(Math.random()-.5)*5,
+            vy:
+                (Math.random()-.5)*5,
 
             life:30
         });
     }
 }
 
+
 /* =========================================================
-   DRAW BACKGROUND
+   DRAW
 ========================================================= */
 
 function draw(){
 
     if(!ctx)
         return;
+
 
     ctx.clearRect(
         0,
@@ -1913,12 +2326,14 @@ function draw(){
         H
     );
 
+
     if(!level || !player){
 
         drawMenuBackground();
 
         return;
     }
+
 
     drawBackground();
 
@@ -1934,26 +2349,38 @@ function draw(){
 
     drawPlayer();
 
+
     if(confetti.length)
         drawConfetti();
 }
 
+
+/* =========================================================
+   MENU BACKGROUND
+========================================================= */
+
 function drawMenuBackground(){
 
-    const gradient=
+    const gradient =
         ctx.createLinearGradient(
-            0,0,0,H
+            0,
+            0,
+            0,
+            H
         );
+
 
     gradient.addColorStop(
         0,
         "#111342"
     );
 
+
     gradient.addColorStop(
         1,
         "#030306"
     );
+
 
     ctx.fillStyle=gradient;
 
@@ -1965,29 +2392,43 @@ function drawMenuBackground(){
     );
 }
 
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
 function drawBackground(){
 
-    const color=level.color;
+    const color =
+        level.color;
 
-    const gradient=
+
+    const gradient =
         ctx.createLinearGradient(
-            0,0,0,H
+            0,
+            0,
+            0,
+            H
         );
+
 
     gradient.addColorStop(
         0,
         "#09092a"
     );
 
+
     gradient.addColorStop(
         .55,
         "#050511"
     );
 
+
     gradient.addColorStop(
         1,
         "#020204"
     );
+
 
     ctx.fillStyle=gradient;
 
@@ -1998,9 +2439,8 @@ function drawBackground(){
         H
     );
 
-    /* glow */
 
-    const glow=
+    const glow =
         ctx.createRadialGradient(
             W*.5,
             H*.3,
@@ -2010,15 +2450,18 @@ function drawBackground(){
             Math.max(W,H)*.75
         );
 
+
     glow.addColorStop(
         0,
         color+"20"
     );
 
+
     glow.addColorStop(
         1,
         "transparent"
     );
+
 
     ctx.fillStyle=glow;
 
@@ -2029,17 +2472,18 @@ function drawBackground(){
         H
     );
 
-    /* grid */
 
     ctx.strokeStyle=
         color+"15";
 
     ctx.lineWidth=1;
 
+
     const grid=60;
 
     const offset=
         -(cameraX*.25)%grid;
+
 
     for(
         let x=offset;
@@ -2049,12 +2493,19 @@ function drawBackground(){
 
         ctx.beginPath();
 
-        ctx.moveTo(x,0);
+        ctx.moveTo(
+            x,
+            0
+        );
 
-        ctx.lineTo(x,H);
+        ctx.lineTo(
+            x,
+            H
+        );
 
         ctx.stroke();
     }
+
 
     for(
         let y=0;
@@ -2064,13 +2515,20 @@ function drawBackground(){
 
         ctx.beginPath();
 
-        ctx.moveTo(0,y);
+        ctx.moveTo(
+            0,
+            y
+        );
 
-        ctx.lineTo(W,y);
+        ctx.lineTo(
+            W,
+            y
+        );
 
         ctx.stroke();
     }
 }
+
 
 /* =========================================================
    GROUND
@@ -2078,9 +2536,13 @@ function drawBackground(){
 
 function drawGround(){
 
-    const gy=groundY();
+    const gy =
+        groundY();
 
-    ctx.fillStyle="#10101b";
+
+    ctx.fillStyle=
+        "#10101b";
+
 
     ctx.fillRect(
         0,
@@ -2089,11 +2551,17 @@ function drawGround(){
         H-gy
     );
 
-    ctx.fillStyle=level.color;
 
-    ctx.shadowColor=level.color;
+    ctx.fillStyle=
+        level.color;
+
+
+    ctx.shadowColor=
+        level.color;
+
 
     ctx.shadowBlur=12;
+
 
     ctx.fillRect(
         0,
@@ -2102,14 +2570,19 @@ function drawGround(){
         4
     );
 
+
     ctx.shadowBlur=0;
 
-    ctx.strokeStyle="#ffffff10";
+
+    ctx.strokeStyle=
+        "#ffffff10";
+
 
     const size=45;
 
     const offset=
         -(cameraX*.6)%size;
+
 
     for(
         let x=offset;
@@ -2119,13 +2592,20 @@ function drawGround(){
 
         ctx.beginPath();
 
-        ctx.moveTo(x,gy);
+        ctx.moveTo(
+            x,
+            gy
+        );
 
-        ctx.lineTo(x,H);
+        ctx.lineTo(
+            x,
+            H
+        );
 
         ctx.stroke();
     }
 }
+
 
 /* =========================================================
    OBSTACLES
@@ -2133,18 +2613,26 @@ function drawGround(){
 
 function drawObstacles(){
 
-    const gy=groundY();
+    const gy =
+        groundY();
 
-    for(const o of level.obstacles){
 
-        const x=
+    for(
+        const o of level.obstacles
+    ){
+
+        const x =
             o[0]-cameraX;
 
-        const y=
+        const y =
             gy-o[3];
 
-        const width=o[2];
-        const height=o[3];
+        const width =
+            o[2];
+
+        const height =
+            o[3];
+
 
         if(
             x+width<0 ||
@@ -2153,13 +2641,20 @@ function drawObstacles(){
             continue;
         }
 
+
         ctx.save();
 
-        ctx.fillStyle="#ff3d68";
 
-        ctx.shadowColor="#ff174f";
+        ctx.fillStyle=
+            "#ff3d68";
+
+
+        ctx.shadowColor=
+            "#ff174f";
+
 
         ctx.shadowBlur=15;
+
 
         ctx.fillRect(
             x,
@@ -2168,9 +2663,13 @@ function drawObstacles(){
             height
         );
 
+
         ctx.shadowBlur=0;
 
-        ctx.fillStyle="#ff9bb2";
+
+        ctx.fillStyle=
+            "#ff9bb2";
+
 
         ctx.fillRect(
             x+5,
@@ -2179,9 +2678,11 @@ function drawObstacles(){
             5
         );
 
+
         ctx.restore();
     }
 }
+
 
 /* =========================================================
    COINS
@@ -2189,7 +2690,9 @@ function drawObstacles(){
 
 function drawCoins(){
 
-    const gy=groundY();
+    const gy =
+        groundY();
+
 
     for(
         let i=0;
@@ -2197,44 +2700,56 @@ function drawCoins(){
         i++
     ){
 
-        if(collectedCoins.has(i))
+        if(
+            collectedCoins.has(i)
+        ){
             continue;
+        }
 
-        const cx=
+
+        const cx =
             level.coins[i];
 
-        const x=
+        const x =
             cx-cameraX;
 
-        const y=
+        const y =
             gy-95;
+
 
         if(
             x<-30 ||
             x>W+30
-        )
+        ){
             continue;
+        }
 
-        const pulse=
+
+        const pulse =
             1+
             Math.sin(
                 performance.now()/180+
                 cx
             )*.08;
 
+
         ctx.save();
+
 
         ctx.translate(
             x,
             y
         );
 
+
         ctx.scale(
             pulse,
             pulse
         );
 
+
         ctx.beginPath();
+
 
         ctx.arc(
             0,
@@ -2244,25 +2759,37 @@ function drawCoins(){
             Math.PI*2
         );
 
-        ctx.fillStyle="#ffe600";
 
-        ctx.shadowColor="#ffe600";
+        ctx.fillStyle=
+            "#ffe600";
+
+
+        ctx.shadowColor=
+            "#ffe600";
+
 
         ctx.shadowBlur=15;
 
+
         ctx.fill();
+
 
         ctx.shadowBlur=0;
 
-        ctx.strokeStyle="#fff5a0";
+
+        ctx.strokeStyle=
+            "#fff5a0";
+
 
         ctx.lineWidth=2;
 
         ctx.stroke();
 
+
         ctx.restore();
     }
 }
+
 
 /* =========================================================
    FINISH
@@ -2270,24 +2797,35 @@ function drawCoins(){
 
 function drawFinish(){
 
-    const x=
+    const x =
         level.length-cameraX;
+
 
     if(
         x<-100 ||
         x>W+100
-    )
+    ){
         return;
+    }
 
-    const gy=groundY();
+
+    const gy =
+        groundY();
+
 
     ctx.save();
 
-    ctx.fillStyle=level.color;
 
-    ctx.shadowColor=level.color;
+    ctx.fillStyle=
+        level.color;
+
+
+    ctx.shadowColor=
+        level.color;
+
 
     ctx.shadowBlur=25;
+
 
     ctx.fillRect(
         x,
@@ -2296,11 +2834,16 @@ function drawFinish(){
         150
     );
 
+
     ctx.shadowBlur=0;
 
-    ctx.font="bold 16px Arial";
+
+    ctx.font=
+        "bold 16px Arial";
+
 
     ctx.fillStyle="#fff";
+
 
     ctx.fillText(
         "META",
@@ -2308,12 +2851,13 @@ function drawFinish(){
         gy-160
     );
 
+
     ctx.restore();
 }
 
+
 /* =========================================================
-   NOWA POSTAĆ
-   GŁOWA + TWARZ + TUŁÓW + RĘCE + NOGI
+   POSTAĆ — TYLKO JEDNA FIGURA
 ========================================================= */
 
 function drawPlayer(){
@@ -2321,387 +2865,283 @@ function drawPlayer(){
     if(!player)
         return;
 
-    const skin=
-        skins[save.selectedSkin]||
+
+    const skin =
+        skins[save.selectedSkin] ||
         skins[0];
 
-    const x=
+
+    const x =
         player.x-cameraX;
 
-    const baseY=
-        player.y+
-        player.h;
+
+    const y =
+        player.y;
+
+
+    const size =
+        player.w;
+
+
+    const centerX =
+        x+size/2;
+
+
+    const centerY =
+        y+size/2;
+
 
     /*
-       Postać jest rysowana jako człowiek,
-       a hitbox pozostaje prostokątny.
+       ANIMACJA:
+
+       Figura delikatnie zmienia skalę
+       podczas skoku i ruchu.
+
+       NIE MA:
+       - rąk
+       - nóg
+       - głowy
+       - tułowia
+       - dłoni
     */
 
-    const bodyW=26;
-    const bodyH=29;
 
-    const headR=15;
-
-    const centerX=
-        x+player.w/2;
-
-    const bodyTop=
-        baseY-50;
-
-    const headY=
-        bodyTop-18;
-
-    const walk=
+    const movingPulse =
         player.grounded
-        ?Math.sin(
-            player.walkTime*.55
-        )
-        :0;
+        ?1+
+            Math.sin(
+                player.animationTime*.35
+            )*.015
+        :1;
 
-    const legMove=
-        walk*8;
 
-    const armMove=
-        walk*6;
+    let scaleX =
+        movingPulse;
 
-    ctx.save();
 
-    /*
-       Delikatny obrót całej postaci
-       tylko w powietrzu.
-    */
+    let scaleY =
+        movingPulse;
 
-    ctx.translate(
-        centerX,
-        bodyTop+20
-    );
 
     if(!player.grounded){
 
-        ctx.rotate(
-            player.rotation*.12
-        );
+        scaleX =
+            player.jumpSquash;
+
+        scaleY =
+            2-player.jumpSquash;
     }
+
+
+    ctx.save();
+
 
     ctx.translate(
-        -centerX,
-        -(bodyTop+20)
+        centerX,
+        centerY
     );
 
-    /* cień */
 
-    if(player.grounded){
+    ctx.rotate(
+        player.rotation
+    );
 
-        ctx.save();
 
-        ctx.globalAlpha=.25;
+    ctx.scale(
+        scaleX,
+        scaleY
+    );
 
-        ctx.fillStyle="#000";
 
-        ctx.beginPath();
+    ctx.translate(
+        -size/2,
+        -size/2
+    );
 
-        ctx.ellipse(
-            centerX,
-            baseY+4,
-            23,
-            6,
-            0,
-            0,
-            Math.PI*2
-        );
 
-        ctx.fill();
+    /* GŁÓWNA FIGURA */
 
-        ctx.restore();
-    }
+    ctx.fillStyle =
+        skin.color;
 
-    /* nogi */
 
-    ctx.strokeStyle="#20202b";
+    ctx.shadowColor =
+        skin.color;
 
-    ctx.lineWidth=8;
 
-    ctx.lineCap="round";
+    ctx.shadowBlur=18;
 
-    /* lewa noga */
 
     ctx.beginPath();
 
     ctx.moveTo(
-        centerX-7,
-        bodyTop+bodyH-1
+        7,
+        0
     );
 
     ctx.lineTo(
-        centerX-9-legMove,
-        baseY-2
+        size-7,
+        0
     );
 
-    ctx.stroke();
-
-    /* prawa noga */
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-        centerX+7,
-        bodyTop+bodyH-1
-    );
-
-    ctx.lineTo(
-        centerX+9+legMove,
-        baseY-2
-    );
-
-    ctx.stroke();
-
-    /* buty */
-
-    ctx.strokeStyle="#111118";
-
-    ctx.lineWidth=7;
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-        centerX-12-legMove,
-        baseY-1
-    );
-
-    ctx.lineTo(
-        centerX-3-legMove,
-        baseY-1
-    );
-
-    ctx.stroke();
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-        centerX+3+legMove,
-        baseY-1
-    );
-
-    ctx.lineTo(
-        centerX+12+legMove,
-        baseY-1
-    );
-
-    ctx.stroke();
-
-    /* ręce */
-
-    ctx.strokeStyle=skin.color;
-
-    ctx.lineWidth=7;
-
-    /* lewa */
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-        centerX-bodyW/2+2,
-        bodyTop+7
-    );
-
-    ctx.lineTo(
-        centerX-19,
-        bodyTop+17+armMove
-    );
-
-    ctx.stroke();
-
-    /* prawa */
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-        centerX+bodyW/2-2,
-        bodyTop+7
-    );
-
-    ctx.lineTo(
-        centerX+19,
-        bodyTop+17-armMove
-    );
-
-    ctx.stroke();
-
-    /* dłonie */
-
-    ctx.fillStyle="#ffd0ad";
-
-    ctx.beginPath();
-
-    ctx.arc(
-        centerX-19,
-        bodyTop+17+armMove,
-        4,
+    ctx.quadraticCurveTo(
+        size,
         0,
-        Math.PI*2
-    );
-
-    ctx.fill();
-
-    ctx.beginPath();
-
-    ctx.arc(
-        centerX+19,
-        bodyTop+17-armMove,
-        4,
-        0,
-        Math.PI*2
-    );
-
-    ctx.fill();
-
-    /* tułów */
-
-    ctx.save();
-
-    ctx.fillStyle=skin.color;
-
-    ctx.shadowColor=skin.color;
-
-    ctx.shadowBlur=12;
-
-    ctx.beginPath();
-
-    ctx.roundRect(
-        centerX-bodyW/2,
-        bodyTop,
-        bodyW,
-        bodyH,
+        size,
         7
     );
 
-    ctx.fill();
-
-    ctx.restore();
-
-    /* mały neonowy pasek na ubraniu */
-
-    ctx.fillStyle="#ffffffaa";
-
-    ctx.fillRect(
-        centerX-7,
-        bodyTop+9,
-        14,
-        3
+    ctx.lineTo(
+        size,
+        size-7
     );
 
-    /* szyja */
+    ctx.quadraticCurveTo(
+        size,
+        size,
+        size-7,
+        size
+    );
 
-    ctx.fillStyle="#f2b58f";
+    ctx.lineTo(
+        7,
+        size
+    );
 
-    ctx.fillRect(
-        centerX-5,
-        bodyTop-5,
-        10,
+    ctx.quadraticCurveTo(
+        0,
+        size,
+        0,
+        size-7
+    );
+
+    ctx.lineTo(
+        0,
         7
     );
 
-    /* głowa */
-
-    ctx.save();
-
-    ctx.fillStyle="#ffd0ad";
-
-    ctx.shadowColor="#000";
-
-    ctx.shadowBlur=4;
-
-    ctx.beginPath();
-
-    ctx.arc(
-        centerX,
-        headY,
-        headR,
+    ctx.quadraticCurveTo(
         0,
-        Math.PI*2
+        0,
+        7,
+        0
     );
+
+    ctx.closePath();
 
     ctx.fill();
 
-    ctx.restore();
 
-    /* włosy */
+    ctx.shadowBlur=0;
 
-    ctx.fillStyle="#20202a";
+
+    /* WEWNĘTRZNY BŁYSK */
+
+    ctx.fillStyle =
+        "#ffffff22";
+
 
     ctx.beginPath();
 
-    ctx.arc(
-        centerX,
-        headY-3,
-        headR+1,
-        Math.PI,
-        Math.PI*2
+    ctx.moveTo(
+        7,
+        5
     );
+
+    ctx.lineTo(
+        size-7,
+        5
+    );
+
+    ctx.lineTo(
+        size-7,
+        10
+    );
+
+    ctx.lineTo(
+        7,
+        10
+    );
+
+    ctx.closePath();
 
     ctx.fill();
 
-    /*
-       oczy
-       podczas mrugania są krótkimi liniami
-    */
 
-    ctx.strokeStyle="#15151c";
+    /* OCZY */
 
-    ctx.lineWidth=2;
+    ctx.fillStyle =
+        "#101018";
+
 
     if(player.blink){
 
-        ctx.beginPath();
-
-        ctx.moveTo(
-            centerX-9,
-            headY
+        ctx.fillRect(
+            9,
+            18,
+            7,
+            2
         );
 
-        ctx.lineTo(
-            centerX-4,
-            headY
+        ctx.fillRect(
+            size-16,
+            18,
+            7,
+            2
         );
-
-        ctx.stroke();
-
-        ctx.beginPath();
-
-        ctx.moveTo(
-            centerX+4,
-            headY
-        );
-
-        ctx.lineTo(
-            centerX+9,
-            headY
-        );
-
-        ctx.stroke();
 
     }else{
-
-        ctx.fillStyle="#15151c";
 
         ctx.beginPath();
 
         ctx.arc(
-            centerX-6,
-            headY,
-            2.3,
+            13,
+            19,
+            4,
             0,
             Math.PI*2
         );
 
         ctx.fill();
 
+
         ctx.beginPath();
 
         ctx.arc(
-            centerX+6,
-            headY,
-            2.3,
+            size-13,
+            19,
+            4,
+            0,
+            Math.PI*2
+        );
+
+        ctx.fill();
+
+
+        /* BŁYSKI W OCZACH */
+
+        ctx.fillStyle="#fff";
+
+
+        ctx.beginPath();
+
+        ctx.arc(
+            12,
+            18,
+            1.2,
+            0,
+            Math.PI*2
+        );
+
+        ctx.fill();
+
+
+        ctx.beginPath();
+
+        ctx.arc(
+            size-14,
+            18,
+            1.2,
             0,
             Math.PI*2
         );
@@ -2709,63 +3149,55 @@ function drawPlayer(){
         ctx.fill();
     }
 
-    /* nos */
 
-    ctx.strokeStyle="#c98e70";
+    /* MAŁE USTA */
 
-    ctx.lineWidth=1.5;
+    ctx.strokeStyle =
+        "#101018";
+
+
+    ctx.lineWidth=2;
+
 
     ctx.beginPath();
 
     ctx.moveTo(
-        centerX,
-        headY+2
+        centerX-size/2+14,
+        29
     );
 
     ctx.lineTo(
-        centerX+2,
-        headY+4
+        centerX-size/2+28,
+        29
     );
 
     ctx.stroke();
 
-    /* uśmiech */
-
-    ctx.strokeStyle="#8d4e4e";
-
-    ctx.lineWidth=1.5;
-
-    ctx.beginPath();
-
-    ctx.arc(
-        centerX,
-        headY+5,
-        5,
-        0.15,
-        Math.PI-.15
-    );
-
-    ctx.stroke();
 
     ctx.restore();
 }
 
+
 /* =========================================================
-   PARTICLES DRAW
+   PARTICLES
 ========================================================= */
 
 function drawParticles(){
 
-    for(const p of particles){
+    for(
+        const p of particles
+    ){
 
-        ctx.globalAlpha=
+        ctx.globalAlpha =
             Math.max(
                 0,
                 p.life/30
             );
 
-        ctx.fillStyle=
+
+        ctx.fillStyle =
             level.color;
+
 
         ctx.fillRect(
             p.x-cameraX,
@@ -2775,8 +3207,10 @@ function drawParticles(){
         );
     }
 
+
     ctx.globalAlpha=1;
 }
+
 
 /* =========================================================
    CONFETTI
@@ -2786,23 +3220,31 @@ function createConfetti(){
 
     confetti=[];
 
+
     for(let i=0;i<80;i++){
 
         confetti.push({
 
-            x:Math.random()*W,
+            x:
+                Math.random()*W,
 
-            y:-Math.random()*H,
+            y:
+                -Math.random()*H,
 
-            vx:(Math.random()-.5)*4,
+            vx:
+                (Math.random()-.5)*4,
 
-            vy:Math.random()*4+2,
+            vy:
+                Math.random()*4+2,
 
-            size:Math.random()*7+3,
+            size:
+                Math.random()*7+3,
 
-            rot:Math.random()*6,
+            rot:
+                Math.random()*6,
 
-            vr:(Math.random()-.5)*.2,
+            vr:
+                (Math.random()-.5)*.2,
 
             color:[
                 "#00eaff",
@@ -2816,44 +3258,61 @@ function createConfetti(){
                     Math.random()*6
                 )
             ]
+
         });
     }
 }
 
+
 function updateConfetti(){
 
-    for(const c of confetti){
+    for(
+        const c of confetti
+    ){
 
         c.x+=c.vx;
+
         c.y+=c.vy;
 
         c.vy+=.04;
 
         c.rot+=c.vr;
 
+
         if(c.y>H+20){
 
             c.y=-20;
 
-            c.x=Math.random()*W;
+            c.x=
+                Math.random()*W;
         }
     }
 }
 
+
 function drawConfetti(){
 
-    for(const c of confetti){
+    for(
+        const c of confetti
+    ){
 
         ctx.save();
+
 
         ctx.translate(
             c.x,
             c.y
         );
 
-        ctx.rotate(c.rot);
 
-        ctx.fillStyle=c.color;
+        ctx.rotate(
+            c.rot
+        );
+
+
+        ctx.fillStyle=
+            c.color;
+
 
         ctx.fillRect(
             -c.size/2,
@@ -2862,9 +3321,11 @@ function drawConfetti(){
             c.size
         );
 
+
         ctx.restore();
     }
 }
+
 
 /* =========================================================
    ACHIEVEMENTS
@@ -2872,12 +3333,17 @@ function drawConfetti(){
 
 function unlockAchievement(id){
 
-    if(save.achievements.includes(id))
+    if(
+        save.achievements.includes(id)
+    ){
         return;
+    }
+
 
     save.achievements.push(id);
 
     saveGame();
+
 
     beep(
         1000,
@@ -2887,55 +3353,84 @@ function unlockAchievement(id){
     );
 }
 
+
 function checkAchievements(){
 
-    if(save.completed.length>=1)
+    if(
+        save.completed.length>=1
+    ){
         unlockAchievement("first");
+    }
 
-    if(save.completed.length>=5)
+
+    if(
+        save.completed.length>=5
+    ){
         unlockAchievement("five");
+    }
 
-    if(save.completed.length>=10)
+
+    if(
+        save.completed.length>=10
+    ){
         unlockAchievement("ten");
+    }
 
-    if(save.completed.length>=levels.length)
+
+    if(
+        save.completed.length>=levels.length
+    ){
         unlockAchievement("all");
+    }
 
-    if(save.coins>=50)
+
+    if(
+        save.coins>=50
+    ){
         unlockAchievement("coins");
+    }
 }
+
 
 /* =========================================================
    PAUSE
 ========================================================= */
 
 document
-.getElementById("pauseButton")
-.addEventListener(
-    "click",
-    ()=>{
-        if(!running)
-            return;
+    .getElementById("pauseButton")
+    .addEventListener(
+        "click",
+        ()=>{
 
-        paused=true;
+            if(!running)
+                return;
 
-        document
-        .getElementById("pausePanel")
-        .classList.remove("hidden");
-    }
-);
+
+            paused=true;
+
+
+            document
+                .getElementById("pausePanel")
+                .classList
+                .remove("hidden");
+        }
+    );
+
 
 function resumeGame(){
 
     document
-    .getElementById("pausePanel")
-    .classList.add("hidden");
+        .getElementById("pausePanel")
+        .classList
+        .add("hidden");
+
 
     paused=false;
 
     lastTime=
         performance.now();
 }
+
 
 /* =========================================================
    KEYBOARD
@@ -2953,14 +3448,18 @@ window.addEventListener(
 
             e.preventDefault();
 
-            if(!document
-                .getElementById("game")
-                .classList.contains("hidden")
+
+            if(
+                !document
+                    .getElementById("game")
+                    .classList
+                    .contains("hidden")
             ){
 
                 jump();
             }
         }
+
 
         if(
             e.code==="ArrowLeft" ||
@@ -2970,6 +3469,7 @@ window.addEventListener(
             leftPressed=true;
         }
 
+
         if(
             e.code==="ArrowRight" ||
             e.code==="KeyD"
@@ -2977,6 +3477,7 @@ window.addEventListener(
 
             rightPressed=true;
         }
+
 
         if(e.code==="Escape"){
 
@@ -2987,14 +3488,19 @@ window.addEventListener(
 
                 paused=true;
 
+
                 document
-                .getElementById("pausePanel")
-                .classList
-                .remove("hidden");
+                    .getElementById(
+                        "pausePanel"
+                    )
+                    .classList
+                    .remove("hidden");
             }
         }
+
     }
 );
+
 
 window.addEventListener(
     "keyup",
@@ -3008,6 +3514,7 @@ window.addEventListener(
             leftPressed=false;
         }
 
+
         if(
             e.code==="ArrowRight" ||
             e.code==="KeyD"
@@ -3015,8 +3522,10 @@ window.addEventListener(
 
             rightPressed=false;
         }
+
     }
 );
+
 
 /* =========================================================
    MOBILE BUTTONS
@@ -3031,23 +3540,30 @@ function holdButton(
     element.addEventListener(
         "pointerdown",
         e=>{
+
             e.preventDefault();
+
             down();
         }
     );
 
+
     element.addEventListener(
         "pointerup",
         e=>{
+
             e.preventDefault();
+
             up();
         }
     );
+
 
     element.addEventListener(
         "pointercancel",
         up
     );
+
 
     element.addEventListener(
         "pointerleave",
@@ -3055,8 +3571,12 @@ function holdButton(
     );
 }
 
+
 holdButton(
-    document.getElementById("mobileLeft"),
+
+    document.getElementById(
+        "mobileLeft"
+    ),
 
     ()=>{
         leftPressed=true;
@@ -3067,8 +3587,12 @@ holdButton(
     }
 );
 
+
 holdButton(
-    document.getElementById("mobileRight"),
+
+    document.getElementById(
+        "mobileRight"
+    ),
 
     ()=>{
         rightPressed=true;
@@ -3079,40 +3603,49 @@ holdButton(
     }
 );
 
+
 document
-.getElementById("mobileJump")
-.addEventListener(
-    "pointerdown",
-    e=>{
+    .getElementById("mobileJump")
+    .addEventListener(
+        "pointerdown",
+        e=>{
 
-        e.preventDefault();
+            e.preventDefault();
 
-        e.stopPropagation();
+            e.stopPropagation();
 
-        jump();
+            jump();
 
-        getAudio();
-    }
-);
+            getAudio();
+        }
+    );
+
 
 /* =========================================================
-   CANVAS TAP
+   KLIKNIĘCIE NA EKRAN = SKOK
 ========================================================= */
 
 canvas.addEventListener(
     "pointerdown",
     e=>{
 
-        if(!running || paused)
+        if(
+            !running ||
+            paused
+        ){
             return;
+        }
+
 
         e.preventDefault();
+
 
         jump();
 
         getAudio();
     }
 );
+
 
 /* =========================================================
    AUDIO UNLOCK
@@ -3124,6 +3657,7 @@ document.addEventListener(
         getAudio();
     }
 );
+
 
 /* =========================================================
    VISIBILITY
@@ -3144,8 +3678,9 @@ document.addEventListener(
     }
 );
 
+
 /* =========================================================
-   ERROR PROTECTION
+   ERROR HANDLING
 ========================================================= */
 
 window.addEventListener(
@@ -3157,30 +3692,34 @@ window.addEventListener(
             e.message
         );
 
-        const box=
+
+        const box =
             document.getElementById(
                 "errorBox"
             );
+
 
         if(box){
 
             box.style.display="block";
 
-            box.textContent=
-                "Gra napotkała błąd. " +
+            box.textContent =
+                "Gra napotkała błąd. "+
                 "Odśwież stronę, jeśli gra się zatrzyma.";
         }
     }
 );
+
 
 /* =========================================================
    START
 ========================================================= */
 
 document
-.getElementById("game")
-.classList
-.add("hidden");
+    .getElementById("game")
+    .classList
+    .add("hidden");
+
 
 hidePanels();
 
