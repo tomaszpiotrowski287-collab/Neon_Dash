@@ -7,207 +7,384 @@
 <title>Neon Dash</title>
 
 <style>
-*{box-sizing:border-box}
-html,body{
-    margin:0;
-    width:100%;
-    height:100%;
-    overflow:hidden;
-    font-family:Arial,sans-serif;
-    background:#050511;
-    color:white;
+*{
+ box-sizing:border-box;
 }
-body.light{
-    background:#e9eef5;
-    color:#111;
-}
-button{
-    border:0;
-    cursor:pointer;
-    font-weight:bold;
-    font-size:16px;
-}
-#home{
-    position:absolute;
-    inset:0;
-    overflow:auto;
-    padding:25px;
-    text-align:center;
-    background:
-      radial-gradient(circle at 50% 20%,#17215c 0%,#080817 45%,#020207 100%);
-}
-body.light #home{
-    background:linear-gradient(#eef3ff,#dfe6f2);
-}
-.logo{
-    margin-top:25px;
-    font-size:54px;
-    font-weight:900;
-    color:#00ffff;
-    text-shadow:0 0 10px #00ffff,0 0 35px #0088ff;
-}
-.subtitle{
-    color:#aaa;
-    margin-bottom:20px;
-}
-.menuBtn{
-    display:block;
-    width:min(420px,90%);
-    margin:12px auto;
-    padding:16px;
-    border-radius:14px;
-    color:white;
-    background:linear-gradient(90deg,#075eff,#00c8ff);
-    box-shadow:0 0 18px #0077ff66;
-    transition:.15s;
-}
-.menuBtn:hover{transform:scale(1.03)}
-.stats{
-    display:flex;
-    justify-content:center;
-    gap:12px;
-    flex-wrap:wrap;
-    margin:18px auto;
-}
-.stat{
-    background:#ffffff12;
-    border:1px solid #ffffff20;
-    padding:10px 16px;
-    border-radius:12px;
-}
-#game{
-    position:absolute;
-    inset:0;
-    display:none;
-}
-canvas{
-    width:100%;
-    height:100%;
-    display:block;
-}
-#hud{
-    position:absolute;
-    top:12px;
-    left:12px;
-    right:12px;
-    display:flex;
-    justify-content:space-between;
-    pointer-events:none;
-    font-weight:bold;
-    text-shadow:0 2px 5px black;
-}
-.hudBox{
-    padding:9px 12px;
-    border-radius:10px;
-    background:#0008;
-}
-#mobileJump{
-    display:none;
-    position:absolute;
-    right:20px;
-    bottom:25px;
-    width:100px;
-    height:100px;
-    border-radius:50%;
-    background:#00ffffaa;
-    box-shadow:0 0 25px #00ffff;
-    color:#001;
-}
-.panel{
-    position:absolute;
-    inset:0;
-    background:#03030bee;
-    overflow:auto;
-    padding:25px;
-    text-align:center;
-}
-.panel h2{
-    color:#00ffff;
-    font-size:32px;
-}
-.cardGrid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-    gap:14px;
-    max-width:900px;
-    margin:20px auto;
-}
-.card{
-    padding:15px;
-    border-radius:15px;
-    background:#ffffff0c;
-    border:1px solid #ffffff20;
-}
-.skinPreview{
-    width:65px;
-    height:65px;
-    margin:8px auto 12px;
-    border-radius:12px;
-    box-shadow:0 0 18px currentColor;
-}
-.buy{
-    width:100%;
-    padding:9px;
-    border-radius:9px;
-    color:white;
-    background:#1769ff;
-}
-.buy:disabled{
-    opacity:.5;
-    cursor:not-allowed;
-}
-.closeBtn{
-    padding:12px 25px;
-    border-radius:10px;
-    background:#333;
-    color:white;
-}
-.levelLocked{
-    opacity:.35;
-}
-.levelCard{
-    cursor:pointer;
-    padding:18px;
-    border-radius:15px;
-    background:#ffffff10;
-    border:1px solid #ffffff20;
-}
-.levelCard:hover{
-    background:#ffffff20;
-}
-.toggle{
-    max-width:400px;
-    margin:10px auto;
-    padding:15px;
-    border-radius:12px;
-    background:#ffffff10;
-    display:flex;
-    justify-content:space-between;
-}
-#toast{
-    position:fixed;
-    left:50%;
-    bottom:30px;
-    transform:translateX(-50%);
-    background:#111;
-    color:white;
-    padding:12px 18px;
-    border-radius:10px;
-    opacity:0;
-    pointer-events:none;
-    transition:.25s;
-    z-index:50;
-}
-#toast.show{opacity:1}
 
-@keyframes confettiFall{
-    from{transform:translateY(-100vh) rotate(0deg)}
-    to{transform:translateY(110vh) rotate(720deg)}
+html,body{
+ margin:0;
+ width:100%;
+ height:100%;
+ overflow:hidden;
+ font-family:Arial,sans-serif;
+ background:#050511;
+ color:white;
+}
+
+body.light{
+ background:#e9eef5;
+ color:#111;
+}
+
+button{
+ border:0;
+ cursor:pointer;
+ font-weight:bold;
+ font-size:16px;
+}
+
+button:active{
+ transform:scale(.96);
+}
+
+#home{
+ position:absolute;
+ inset:0;
+ overflow:auto;
+ padding:25px;
+ text-align:center;
+ background:
+ radial-gradient(circle at 50% 20%,#17215c 0%,#080817 45%,#020207 100%);
+}
+
+body.light #home{
+ background:linear-gradient(#eef3ff,#dfe6f2);
+}
+
+.logo{
+ margin-top:25px;
+ font-size:54px;
+ font-weight:900;
+ color:#00ffff;
+ text-shadow:
+ 0 0 10px #00ffff,
+ 0 0 35px #0088ff;
+}
+
+.subtitle{
+ color:#aaa;
+ margin-bottom:20px;
+}
+
+.menuBtn{
+ display:block;
+ width:min(420px,90%);
+ margin:12px auto;
+ padding:16px;
+ border-radius:14px;
+ color:white;
+ background:linear-gradient(90deg,#075eff,#00c8ff);
+ box-shadow:0 0 18px #0077ff66;
+ transition:.15s;
+}
+
+.menuBtn:hover{
+ transform:scale(1.03);
+}
+
+.stats{
+ display:flex;
+ justify-content:center;
+ gap:12px;
+ flex-wrap:wrap;
+ margin:18px auto;
+}
+
+.stat{
+ background:#ffffff12;
+ border:1px solid #ffffff20;
+ padding:10px 16px;
+ border-radius:12px;
+}
+
+#game{
+ position:absolute;
+ inset:0;
+ display:none;
+}
+
+canvas{
+ width:100%;
+ height:100%;
+ display:block;
+}
+
+#hud{
+ position:absolute;
+ top:12px;
+ left:12px;
+ right:12px;
+ display:flex;
+ justify-content:space-between;
+ pointer-events:none;
+ font-weight:bold;
+ text-shadow:0 2px 5px black;
+ gap:8px;
+}
+
+.hudBox{
+ padding:9px 12px;
+ border-radius:10px;
+ background:#0008;
+}
+
+#mobileJump{
+ display:none;
+ position:absolute;
+ right:20px;
+ bottom:25px;
+ width:100px;
+ height:100px;
+ border-radius:50%;
+ background:#00ffffaa;
+ box-shadow:0 0 25px #00ffff;
+ color:#001;
+}
+
+#pauseButton{
+ position:absolute;
+ top:65px;
+ right:15px;
+ width:48px;
+ height:48px;
+ border-radius:12px;
+ background:#0009;
+ color:white;
+ display:none;
+}
+
+#pausePanel{
+ position:absolute;
+ inset:0;
+ background:#03030bee;
+ display:none;
+ align-items:center;
+ justify-content:center;
+ text-align:center;
+ z-index:20;
+}
+
+.pauseBox{
+ width:min(420px,90%);
+ padding:30px;
+ border-radius:20px;
+ background:#111126;
+ border:1px solid #00ffff55;
+ box-shadow:0 0 30px #00ffff22;
+}
+
+.panel{
+ position:absolute;
+ inset:0;
+ background:#03030bee;
+ overflow:auto;
+ padding:25px;
+ text-align:center;
+ z-index:30;
+}
+
+.panel h2{
+ color:#00ffff;
+ font-size:32px;
+}
+
+.cardGrid{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+ gap:14px;
+ max-width:900px;
+ margin:20px auto;
+}
+
+.card{
+ padding:15px;
+ border-radius:15px;
+ background:#ffffff0c;
+ border:1px solid #ffffff20;
+}
+
+.skinPreview{
+ width:65px;
+ height:65px;
+ margin:8px auto 12px;
+ border-radius:12px;
+ box-shadow:0 0 18px currentColor;
+ position:relative;
+}
+
+.skinPreview::after{
+ content:"";
+ position:absolute;
+ width:12px;
+ height:12px;
+ background:#111;
+ border-radius:50%;
+ left:13px;
+ top:16px;
+ box-shadow:25px 0 0 #111;
+}
+
+.buy{
+ width:100%;
+ padding:9px;
+ border-radius:9px;
+ color:white;
+ background:#1769ff;
+}
+
+.buy:disabled{
+ opacity:.5;
+ cursor:not-allowed;
+}
+
+.closeBtn{
+ padding:12px 25px;
+ border-radius:10px;
+ background:#333;
+ color:white;
+ margin:8px;
+}
+
+.levelLocked{
+ opacity:.35;
+ cursor:not-allowed!important;
+}
+
+.levelCard{
+ cursor:pointer;
+ padding:18px;
+ border-radius:15px;
+ background:#ffffff10;
+ border:1px solid #ffffff20;
+ transition:.15s;
+}
+
+.levelCard:hover{
+ background:#ffffff20;
+ transform:translateY(-2px);
+}
+
+.levelDone{
+ border-color:#55ff77;
+ box-shadow:0 0 15px #55ff7733;
+}
+
+.toggle{
+ max-width:400px;
+ margin:10px auto;
+ padding:15px;
+ border-radius:12px;
+ background:#ffffff10;
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+}
+
+.toggle button{
+ padding:8px 15px;
+ border-radius:8px;
+ background:#1769ff;
+ color:white;
+}
+
+#toast{
+ position:fixed;
+ left:50%;
+ bottom:30px;
+ transform:translateX(-50%);
+ background:#111;
+ color:white;
+ padding:12px 18px;
+ border-radius:10px;
+ opacity:0;
+ pointer-events:none;
+ transition:.25s;
+ z-index:50;
+}
+
+#toast.show{
+ opacity:1;
+}
+
+.progressBar{
+ width:min(600px,90%);
+ height:12px;
+ background:#ffffff15;
+ border-radius:20px;
+ margin:10px auto 20px;
+ overflow:hidden;
+}
+
+#levelProgressBar{
+ width:0%;
+ height:100%;
+ background:linear-gradient(90deg,#00ffff,#0088ff);
+ box-shadow:0 0 12px #00ffff;
+}
+
+.shopCoinBox{
+ display:inline-block;
+ padding:10px 18px;
+ border-radius:12px;
+ background:#ffd70018;
+ border:1px solid #ffd70044;
+ color:#ffd700;
+ margin-bottom:10px;
+}
+
+.infoText{
+ max-width:700px;
+ margin:10px auto;
+ color:#aaa;
+ line-height:1.5;
+}
+
+#winOverlay{
+ position:absolute;
+ inset:0;
+ display:none;
+ align-items:center;
+ justify-content:center;
+ pointer-events:none;
+ z-index:15;
+}
+
+.winText{
+ font-size:48px;
+ font-weight:900;
+ color:#fff;
+ text-shadow:
+ 0 0 10px #00ffff,
+ 0 0 30px #00ffff,
+ 0 0 60px #0088ff;
+ animation:winPulse .6s infinite alternate;
+}
+
+@keyframes winPulse{
+ from{transform:scale(1)}
+ to{transform:scale(1.08)}
 }
 
 @media(max-width:700px){
-    #mobileJump{display:block}
-    .logo{font-size:40px}
+ #mobileJump{
+  display:block;
+ }
+
+ #pauseButton{
+  display:block;
+ }
+
+ .logo{
+  font-size:40px;
+ }
+
+ #hud{
+  font-size:13px;
+ }
+
+ .winText{
+  font-size:35px;
+ }
 }
 </style>
 </head>
@@ -216,101 +393,248 @@ canvas{
 
 <div id="toast"></div>
 
+<!-- ================= HOME ================= -->
+
 <div id="home">
-    <div class="logo">NEON DASH</div>
-    <div class="subtitle">Jump • Dodge • Collect • Survive</div>
 
-    <div class="stats">
-        <div class="stat">🪙 <span id="coinCount">0</span></div>
-        <div class="stat">🏆 <span id="completedCount">0</span>/18</div>
-        <div class="stat">🎨 <span id="skinName">Classic</span></div>
-    </div>
+ <div class="logo">NEON DASH</div>
 
-    <button class="menuBtn" onclick="startGame()">▶ GRAJ</button>
-    <button class="menuBtn" onclick="openLevels()">📋 POZIOMY</button>
-    <button class="menuBtn" onclick="openShop()">🎨 SKLEP</button>
-    <button class="menuBtn" onclick="openAchievements()">🏆 OSIĄGNIĘCIA</button>
-    <button class="menuBtn" onclick="openSettings()">⚙ USTAWIENIA</button>
+ <div class="subtitle">
+  Jump • Dodge • Collect • Survive
+ </div>
+
+ <div class="stats">
+
+  <div class="stat">
+   🪙 <span id="coinCount">0</span>
+  </div>
+
+  <div class="stat">
+   🏆 <span id="completedCount">0</span>/18
+  </div>
+
+  <div class="stat">
+   🎨 <span id="skinName">Classic</span>
+  </div>
+
+ </div>
+
+ <button class="menuBtn" onclick="startGame()">
+  ▶ GRAJ
+ </button>
+
+ <button class="menuBtn" onclick="openLevels()">
+  📋 POZIOMY
+ </button>
+
+ <button class="menuBtn" onclick="openShop()">
+  🎨 SKLEP
+ </button>
+
+ <button class="menuBtn" onclick="openAchievements()">
+  🏆 OSIĄGNIĘCIA
+ </button>
+
+ <button class="menuBtn" onclick="openSettings()">
+  ⚙ USTAWIENIA
+ </button>
+
 </div>
+
+
+<!-- ================= GAME ================= -->
 
 <div id="game">
-    <canvas id="canvas"></canvas>
 
-    <div id="hud">
-        <div class="hudBox">
-            Poziom: <span id="levelText">1</span>
-        </div>
-        <div class="hudBox">
-            🪙 <span id="runCoins">0</span>
-        </div>
-        <div class="hudBox">
-            <span id="progressText">0%</span>
-        </div>
-    </div>
+ <canvas id="canvas"></canvas>
 
-    <button id="mobileJump">JUMP</button>
+ <div id="hud">
+
+  <div class="hudBox">
+   Poziom:
+   <span id="levelText">1</span>
+  </div>
+
+  <div class="hudBox">
+   🪙
+   <span id="runCoins">0</span>
+  </div>
+
+  <div class="hudBox">
+   <span id="progressText">0%</span>
+  </div>
+
+ </div>
+
+ <button id="pauseButton" onclick="togglePause()">
+  II
+ </button>
+
+ <div id="winOverlay">
+  <div class="winText">
+   LEVEL COMPLETE!
+  </div>
+ </div>
+
+ <button id="mobileJump">
+  JUMP
+ </button>
+
 </div>
+
+
+<!-- ================= PAUSE ================= -->
+
+<div id="pausePanel">
+
+ <div class="pauseBox">
+
+  <h2>⏸ PAUZA</h2>
+
+  <button class="menuBtn" onclick="togglePause()">
+   ▶ WZNÓW
+  </button>
+
+  <button class="menuBtn" onclick="restartLevel()">
+   🔄 RESTART
+  </button>
+
+  <button class="menuBtn" onclick="backHome()">
+   🏠 MENU
+  </button>
+
+ </div>
+
+</div>
+
+
+<!-- ================= LEVELS ================= -->
 
 <div id="levelsPanel" class="panel" style="display:none">
-    <h2>📋 POZIOMY</h2>
-    <div id="levelsGrid" class="cardGrid"></div>
-    <button class="closeBtn" onclick="backHome()">← Wróć</button>
+
+ <h2>📋 POZIOMY</h2>
+
+ <p class="infoText">
+  Ukończ poprzedni poziom, aby odblokować następny.
+ </p>
+
+ <div id="levelsGrid" class="cardGrid"></div>
+
+ <button class="closeBtn" onclick="backHome()">
+  ← Wróć
+ </button>
+
 </div>
+
+
+<!-- ================= SHOP ================= -->
 
 <div id="shopPanel" class="panel" style="display:none">
-    <h2>🎨 SKLEP</h2>
-    <p>Twoje monety: 🪙 <span id="shopCoins">0</span></p>
-    <div id="shopGrid" class="cardGrid"></div>
-    <button class="closeBtn" onclick="backHome()">← Wróć</button>
+
+ <h2>🎨 SKLEP</h2>
+
+ <div class="shopCoinBox">
+  🪙 <span id="shopCoins">0</span>
+ </div>
+
+ <p class="infoText">
+  Zbieraj monety podczas gry i kupuj nowe skiny.
+ </p>
+
+ <div id="shopGrid" class="cardGrid"></div>
+
+ <button class="closeBtn" onclick="backHome()">
+  ← Wróć
+ </button>
+
 </div>
+
+
+<!-- ================= ACHIEVEMENTS ================= -->
 
 <div id="achievementsPanel" class="panel" style="display:none">
-    <h2>🏆 OSIĄGNIĘCIA</h2>
-    <div id="achievementList"></div>
-    <button class="closeBtn" onclick="backHome()">← Wróć</button>
+
+ <h2>🏆 OSIĄGNIĘCIA</h2>
+
+ <div id="achievementList"></div>
+
+ <button class="closeBtn" onclick="backHome()">
+  ← Wróć
+ </button>
+
 </div>
+
+
+<!-- ================= SETTINGS ================= -->
 
 <div id="settingsPanel" class="panel" style="display:none">
-    <h2>⚙ USTAWIENIA</h2>
 
-    <div class="toggle">
-        <span>🔊 Dźwięki</span>
-        <button id="soundBtn" onclick="toggleSetting('sound')"></button>
-    </div>
+ <h2>⚙ USTAWIENIA</h2>
 
-    <div class="toggle">
-        <span>🎵 Muzyka</span>
-        <button id="musicBtn" onclick="toggleSetting('music')"></button>
-    </div>
+ <div class="toggle">
+  <span>🔊 Dźwięki</span>
+  <button id="soundBtn" onclick="toggleSetting('sound')">
+   ON
+  </button>
+ </div>
 
-    <div class="toggle">
-        <span>✨ Efekty</span>
-        <button id="effectsBtn" onclick="toggleSetting('effects')"></button>
-    </div>
+ <div class="toggle">
+  <span>🎵 Muzyka</span>
+  <button id="musicBtn" onclick="toggleSetting('music')">
+   ON
+  </button>
+ </div>
 
-    <div class="toggle">
-        <span>📳 Wibracje</span>
-        <button id="vibrationBtn" onclick="toggleSetting('vibration')"></button>
-    </div>
+ <div class="toggle">
+  <span>✨ Efekty</span>
+  <button id="effectsBtn" onclick="toggleSetting('effects')">
+   ON
+  </button>
+ </div>
 
-    <div class="toggle">
-        <span>🌙 Motyw</span>
-        <button onclick="toggleTheme()">Zmień</button>
-    </div>
+ <div class="toggle">
+  <span>📳 Wibracje</span>
+  <button id="vibrationBtn" onclick="toggleSetting('vibration')">
+   ON
+  </button>
+ </div>
 
-    <div class="toggle">
-        <span>⛶ Pełny ekran</span>
-        <button onclick="toggleFullscreen()">Włącz</button>
-    </div>
+ <div class="toggle">
+  <span>🌙 Motyw</span>
+  <button onclick="toggleTheme()">
+   Zmień
+  </button>
+ </div>
 
-    <button class="menuBtn" onclick="resetProgress()">♻ Resetuj postęp</button>
-    <button class="closeBtn" onclick="backHome()">← Wróć</button>
+ <div class="toggle">
+  <span>⛶ Pełny ekran</span>
+  <button onclick="toggleFullscreen()">
+   Włącz
+  </button>
+ </div>
+
+ <button class="menuBtn" onclick="resetProgress()">
+  ♻ Resetuj postęp
+ </button>
+
+ <button class="closeBtn" onclick="backHome()">
+  ← Wróć
+ </button>
+
 </div>
 
+
 <script>
+
 "use strict";
 
+
+/* =========================================================
+   POZIOMY
+========================================================= */
+
 const levels = [
+
  ["NEON RUSH","#00ffff",5.8,7000],
  ["CRYSTAL DRIVE","#6fa8ff",6.0,7300],
  ["LAVA PULSE","#ff482e",6.2,7600],
@@ -330,36 +654,125 @@ const levels = [
  ["NIGHT RUNNER","#8855ff",8.8,11200],
  ["INFINITE PULSE","#ff4466",9.0,11500],
  ["ULTIMATE DASH","#ffffff",9.2,12000]
+
 ];
+
+
+/* =========================================================
+   SKINY
+========================================================= */
 
 const skins = [
- {name:"Classic",color:"#00ffff",price:0},
- {name:"Fire",color:"#ff4422",price:20},
- {name:"Lime",color:"#66ff44",price:30},
- {name:"Purple",color:"#bb55ff",price:40},
- {name:"Gold",color:"#ffd42a",price:60},
- {name:"Pink",color:"#ff55bb",price:80},
- {name:"Ice",color:"#aaffff",price:100},
- {name:"Void",color:"#ffffff",price:150}
+
+ {
+  name:"Classic",
+  color:"#00ffff",
+  secondary:"#0088ff",
+  price:0
+ },
+
+ {
+  name:"Fire",
+  color:"#ff4422",
+  secondary:"#ff9900",
+  price:20
+ },
+
+ {
+  name:"Lime",
+  color:"#66ff44",
+  secondary:"#00aa44",
+  price:30
+ },
+
+ {
+  name:"Purple",
+  color:"#bb55ff",
+  secondary:"#6611aa",
+  price:40
+ },
+
+ {
+  name:"Gold",
+  color:"#ffd42a",
+  secondary:"#ff8800",
+  price:60
+ },
+
+ {
+  name:"Pink",
+  color:"#ff55bb",
+  secondary:"#ff0088",
+  price:80
+ },
+
+ {
+  name:"Ice",
+  color:"#aaffff",
+  secondary:"#55aaff",
+  price:100
+ },
+
+ {
+  name:"Void",
+  color:"#ffffff",
+  secondary:"#6633ff",
+  price:150
+ }
+
 ];
+
+
+/* =========================================================
+   OSIĄGNIĘCIA
+========================================================= */
 
 const achievements = [
+
  ["first","Pierwszy krok","Ukończ pierwszy poziom"],
+
  ["five","Szybki gracz","Ukończ 5 poziomów"],
+
  ["ten","Dash Master","Ukończ 10 poziomów"],
- ["all","Neon Legend","Ukończ wszystkie poziomy"],
+
+ ["all","Neon Legend","Ukończ wszystkie 18 poziomów"],
+
  ["collector","Kolekcjoner","Zbierz 50 monet"],
- ["shopper","Stylista","Odblokuj 3 skiny"]
+
+ ["shopper","Stylista","Odblokuj 3 dodatkowe skiny"],
+
+ ["rich","Bogacz","Zdobądź 150 monet"],
+
+ ["perfect","Perfekcyjny Dash","Zdobądź wszystkie monety w poziomie"]
+
 ];
 
-let saveData = JSON.parse(localStorage.getItem("neonDashSave") || "{}");
 
-saveData.coins ??= 0;
-saveData.completed ??= [];
-saveData.ownedSkins ??= [0];
-saveData.selectedSkin ??= 0;
-saveData.achievements ??= [];
-saveData.settings ??= {
+/* =========================================================
+   ZAPIS
+========================================================= */
+
+let saveData;
+
+try{
+
+ saveData=JSON.parse(
+  localStorage.getItem("neonDashSave") || "{}"
+ );
+
+}catch(e){
+
+ saveData={};
+
+}
+
+
+saveData.coins ??=0;
+saveData.completed ??=[];
+saveData.ownedSkins ??=[0];
+saveData.selectedSkin ??=0;
+saveData.achievements ??=[];
+saveData.settings ??={
  sound:true,
  music:true,
  effects:true,
@@ -367,911 +780,3082 @@ saveData.settings ??= {
  theme:"dark"
 };
 
+
+/* zabezpieczenie starego zapisu */
+
+if(!Array.isArray(saveData.completed))
+ saveData.completed=[];
+
+if(!Array.isArray(saveData.ownedSkins))
+ saveData.ownedSkins=[0];
+
+if(!Array.isArray(saveData.achievements))
+ saveData.achievements=[];
+
+if(!saveData.ownedSkins.includes(0))
+ saveData.ownedSkins.unshift(0);
+
+if(!skins[saveData.selectedSkin])
+ saveData.selectedSkin=0;
+
+
 function save(){
- localStorage.setItem("neonDashSave",JSON.stringify(saveData));
+
+ localStorage.setItem(
+  "neonDashSave",
+  JSON.stringify(saveData)
+ );
+
  updateHome();
+
 }
 
+
+/* =========================================================
+   UI
+========================================================= */
+
 function updateHome(){
- document.getElementById("coinCount").textContent=saveData.coins;
- document.getElementById("completedCount").textContent=saveData.completed.length;
- document.getElementById("skinName").textContent=skins[saveData.selectedSkin].name;
+
+ document.getElementById("coinCount").textContent=
+  saveData.coins;
+
+ document.getElementById("completedCount").textContent=
+  saveData.completed.length;
+
+ document.getElementById("skinName").textContent=
+  skins[saveData.selectedSkin].name;
+
 }
+
 
 updateHome();
 
-let canvas=document.getElementById("canvas");
-let ctx=canvas.getContext("2d");
 
-let W=0,H=0;
-let running=false;
-let paused=false;
-let levelIndex=0;
-let levelTime=0;
-let levelCoins=0;
-let currentSpeed=1;
-let cameraX=0;
-let lastTime=0;
-let obstacles=[];
-let coins=[];
-let pads=[];
-let portals=[];
-let particles=[];
-let confetti=[];
-let shake=0;
+/* =========================================================
+   CANVAS
+========================================================= */
 
-let player={
- x:130,
- y:0,
- w:38,
- h:38,
- vy:0,
- grounded:false,
- blink:0
-};
+const canvas=
+ document.getElementById("canvas");
+
+const ctx=
+ canvas.getContext("2d");
+
+
+let W=0;
+let H=0;
 
 function resize(){
+
  W=Math.max(320,innerWidth);
  H=Math.max(320,innerHeight);
+
  canvas.width=W;
  canvas.height=H;
+
 }
+
+
 addEventListener("resize",resize);
+
 resize();
 
+
 function groundY(){
+
  return H-100;
+
 }
+
+
+/* =========================================================
+   GAME VARIABLES
+========================================================= */
+
+let running=false;
+
+let paused=false;
+
+let levelIndex=0;
+
+let levelTime=0;
+
+let levelCoins=0;
+
+let currentSpeed=1;
+
+let cameraX=0;
+
+let lastTime=0;
+
+let obstacles=[];
+
+let coins=[];
+
+let pads=[];
+
+let portals=[];
+
+let particles=[];
+
+let confetti=[];
+
+let shake=0;
+
+let musicTimer=null;
+
+let musicStep=0;
+
+let audioCtx=null;
+
+let levelStartCoins=0;
+
+
+/* =========================================================
+   PLAYER
+========================================================= */
+
+let player={
+
+ x:130,
+
+ y:0,
+
+ w:38,
+
+ h:38,
+
+ vy:0,
+
+ grounded:false,
+
+ blink:0,
+
+ walkTime:0
+
+};
+
+
+/* =========================================================
+   CREATE LEVEL
+========================================================= */
 
 function createLevel(){
+
  obstacles=[];
+
  coins=[];
+
  pads=[];
+
  portals=[];
+
  particles=[];
+
+ confetti=[];
+
  levelTime=0;
+
  levelCoins=0;
+
  currentSpeed=1;
+
  cameraX=0;
 
+ levelStartCoins=saveData.coins;
+
  player.x=130;
+
  player.y=groundY()-player.h;
+
  player.vy=0;
+
  player.grounded=true;
 
- let spacing=390;
+ player.blink=0;
+
+ player.walkTime=0;
+
+
+ let spacing=360;
+
  let total=levels[levelIndex][3];
 
- for(let x=600,i=0;x<total;x+=spacing,i++){
-    let type=i%7;
 
-    if(type===0){
-        obstacles.push({x,y:groundY()-55,w:55,h:55});
-    }
-    if(type===1){
-        obstacles.push({x,y:groundY()-75,w:75,h:75});
-    }
-    if(type===2){
-        obstacles.push({x,y:groundY()-45,w:120,h:45});
-    }
-    if(type===3){
-        pads.push({x,y:groundY()-18,w:55,h:18,used:false});
-    }
-    if(type===4){
-        portals.push({x,y:groundY()-100,w:30,h:100,mult:1.2});
-    }
-    if(type===5){
-        obstacles.push({x,y:groundY()-45,w:45,h:45});
-        obstacles.push({x:x+75,y:groundY()-70,w:45,h:70});
-    }
-    if(type===6){
-        obstacles.push({x,y:groundY()-90,w:45,h:90});
-    }
+ for(
+  let x=600,i=0;
+  x<total;
+  x+=spacing,i++
+ ){
 
-    if(i%2===0){
-        coins.push({
-            x:x+120,
-            y:groundY()-130,
-            r:10,
-            collected:false
-        });
-    }
+  let type=(i+levelIndex)%8;
+
+
+  /* zwykły blok */
+
+  if(type===0){
+
+   obstacles.push({
+    x:x,
+    y:groundY()-55,
+    w:55,
+    h:55
+   });
+
+  }
+
+
+  /* duży blok */
+
+  if(type===1){
+
+   obstacles.push({
+    x:x,
+    y:groundY()-75,
+    w:75,
+    h:75
+   });
+
+  }
+
+
+  /* długi blok */
+
+  if(type===2){
+
+   obstacles.push({
+    x:x,
+    y:groundY()-45,
+    w:120,
+    h:45
+   });
+
+  }
+
+
+  /* pad */
+
+  if(type===3){
+
+   pads.push({
+    x:x,
+    y:groundY()-18,
+    w:55,
+    h:18,
+    used:false
+   });
+
+  }
+
+
+  /* speed portal */
+
+  if(type===4){
+
+   portals.push({
+    x:x,
+    y:groundY()-100,
+    w:30,
+    h:100,
+    mult:1.18,
+    used:false
+   });
+
+  }
+
+
+  /* dwa bloki */
+
+  if(type===5){
+
+   obstacles.push({
+    x:x,
+    y:groundY()-45,
+    w:45,
+    h:45
+   });
+
+   obstacles.push({
+    x:x+75,
+    y:groundY()-70,
+    w:45,
+    h:70
+   });
+
+  }
+
+
+  /* wysoki blok */
+
+  if(type===6){
+
+   obstacles.push({
+    x:x,
+    y:groundY()-90,
+    w:45,
+    h:90
+   });
+
+  }
+
+
+  /* potrójna przeszkoda */
+
+  if(type===7){
+
+   obstacles.push({
+    x:x,
+    y:groundY()-40,
+    w:40,
+    h:40
+   });
+
+   obstacles.push({
+    x:x+60,
+    y:groundY()-65,
+    w:40,
+    h:65
+   });
+
+   obstacles.push({
+    x:x+120,
+    y:groundY()-40,
+    w:40,
+    h:40
+   });
+
+  }
+
+
+  /* monety */
+
+  if(i%2===0){
+
+   coins.push({
+
+    x:x+150,
+
+    y:groundY()-125,
+
+    r:10,
+
+    collected:false
+
+   });
+
+  }
+
+
+  if(i%5===0){
+
+   coins.push({
+
+    x:x+220,
+
+    y:groundY()-190,
+
+    r:10,
+
+    collected:false
+
+   });
+
+  }
+
  }
+
+
+ /* końcowa moneta */
 
  coins.push({
-   x:total-180,
-   y:groundY()-150,
-   r:10,
-   collected:false
+
+  x:total-180,
+
+  y:groundY()-150,
+
+  r:10,
+
+  collected:false
+
  });
+
+
+ updateLevelUI();
+
 }
+
+
+/* =========================================================
+   LEVEL UI
+========================================================= */
+
+function updateLevelUI(){
+
+ document.getElementById("levelText").textContent=
+  levelIndex+1;
+
+ document.getElementById("runCoins").textContent=
+  levelCoins;
+
+ document.getElementById("progressText").textContent=
+  "0%";
+
+ document.getElementById("levelProgressBar").style.width=
+  "0%";
+
+}
+
+
+/* =========================================================
+   START GAME
+========================================================= */
 
 function startGame(index=null){
- if(index!==null) levelIndex=index;
- else{
-    levelIndex=saveData.completed.length;
-    if(levelIndex>=levels.length) levelIndex=levels.length-1;
- }
- if(levelIndex>0){
-    for(let i=0;i<levelIndex;i++){
-      if(!saveData.completed.includes(i)){
-        levelIndex=i;
-        break;
-      }
-    }
- }
+
+ /* zamknij wszystkie panele */
+
  document.getElementById("home").style.display="none";
+
+ document.getElementById("levelsPanel").style.display="none";
+
+ document.getElementById("shopPanel").style.display="none";
+
+ document.getElementById("achievementsPanel").style.display="none";
+
+ document.getElementById("settingsPanel").style.display="none";
+
+ document.getElementById("pausePanel").style.display="none";
+
  document.getElementById("game").style.display="block";
+
+
+ if(index!==null){
+
+  levelIndex=index;
+
+ }else{
+
+  levelIndex=saveData.completed.length;
+
+  if(levelIndex>=levels.length)
+   levelIndex=levels.length-1;
+
+ }
+
+
+ /* nie pozwól ominąć poziomu */
+
+ if(levelIndex>0){
+
+  for(
+   let i=0;
+   i<levelIndex;
+   i++
+  ){
+
+   if(!saveData.completed.includes(i)){
+
+    levelIndex=i;
+    break;
+
+   }
+
+  }
+
+ }
+
+
  createLevel();
+
  running=true;
+
  paused=false;
+
  lastTime=performance.now();
+
+ document.getElementById("winOverlay").style.display="none";
+
  startMusic();
+
  requestAnimationFrame(loop);
+
 }
+
+
+/* =========================================================
+   RESTART
+========================================================= */
+
+function restartLevel(){
+
+ if(!running && !paused){
+
+  startGame(levelIndex);
+  return;
+
+ }
+
+ document.getElementById("pausePanel").style.display="none";
+
+ paused=false;
+
+ createLevel();
+
+ running=true;
+
+ lastTime=performance.now();
+
+ startMusic();
+
+ requestAnimationFrame(loop);
+
+}
+
+
+/* =========================================================
+   PAUSE
+========================================================= */
+
+function togglePause(){
+
+ if(!running && !paused)
+  return;
+
+ paused=!paused;
+
+ document.getElementById("pausePanel").style.display=
+  paused?"flex":"none";
+
+ if(paused){
+
+  stopMusic();
+
+ }else{
+
+  lastTime=performance.now();
+
+  startMusic();
+
+  requestAnimationFrame(loop);
+
+ }
+
+}
+
+
+/* =========================================================
+   JUMP
+========================================================= */
 
 function jump(){
- if(!running || paused)return;
+
+ if(!running || paused)
+  return;
 
  if(player.grounded){
-    player.vy=-12;
-    player.grounded=false;
-    soundJump();
+
+  player.vy=-12;
+
+  player.grounded=false;
+
+  soundJump();
+
+  vibrate(20);
+
  }
+
 }
+
+
+/* =========================================================
+   CONTROLS
+========================================================= */
 
 document.addEventListener("keydown",e=>{
- if(e.code==="Space" || e.code==="ArrowUp" || e.code==="KeyW"){
-    e.preventDefault();
-    jump();
+
+ if(
+  e.code==="Space" ||
+  e.code==="ArrowUp" ||
+  e.code==="KeyW"
+ ){
+
+  e.preventDefault();
+
+  jump();
+
  }
+
  if(e.code==="Escape"){
-    if(running) backHome();
+
+  if(running)
+   togglePause();
+
  }
+
 });
 
-canvas.addEventListener("touchstart",e=>{
- e.preventDefault();
- jump();
-},{passive:false});
 
-canvas.addEventListener("pointerdown",e=>{
- if(e.pointerType==="mouse")jump();
-});
+canvas.addEventListener(
+ "touchstart",
+ e=>{
 
-document.getElementById("mobileJump").addEventListener("pointerdown",e=>{
- e.preventDefault();
- e.stopPropagation();
- jump();
-});
+  e.preventDefault();
+
+  jump();
+
+ },
+ {passive:false}
+);
+
+
+canvas.addEventListener(
+ "pointerdown",
+ e=>{
+
+  if(e.pointerType==="mouse")
+   jump();
+
+ }
+);
+
+
+document
+ .getElementById("mobileJump")
+ .addEventListener(
+  "pointerdown",
+  e=>{
+
+   e.preventDefault();
+
+   e.stopPropagation();
+
+   jump();
+
+  }
+ );
+
+
+/* =========================================================
+   PHYSICS
+========================================================= */
 
 function updatePhysics(dt){
- if(!running || paused)return;
+
+ if(!running || paused)
+  return;
+
 
  let level=levels[levelIndex];
- currentSpeed=Math.min(1.8,currentSpeed);
 
- let move=level[2]*currentSpeed*dt;
+
+ currentSpeed=
+  Math.min(1.8,currentSpeed);
+
+
+ let move=
+  level[2]*currentSpeed*dt;
+
+
  cameraX+=move;
+
  player.x+=move;
 
- player.vy+=0.72*dt;
+ player.walkTime+=move*.08;
+
+
+ /* grawitacja zawsze w dół */
+
+ player.vy+=.72*dt;
+
  player.y+=player.vy*dt;
+
  player.grounded=false;
 
- let gy=groundY()-player.h;
+
+ let gy=
+  groundY()-player.h;
+
 
  if(player.y>=gy){
-    player.y=gy;
-    player.vy=0;
-    player.grounded=true;
+
+  player.y=gy;
+
+  player.vy=0;
+
+  player.grounded=true;
+
  }
+
+
+ /* pady */
 
  for(const pad of pads){
-    if(pad.used)continue;
 
-    if(
-      player.x+player.w>pad.x &&
-      player.x<pad.x+pad.w &&
-      player.y+player.h>=pad.y &&
-      player.y+player.h<=pad.y+25 &&
-      player.vy>=0
-    ){
-      player.vy=-15;
-      pad.used=true;
-      soundPad();
-    }
+  if(pad.used)
+   continue;
+
+
+  if(
+
+   player.x+player.w>pad.x &&
+
+   player.x<pad.x+pad.w &&
+
+   player.y+player.h>=pad.y &&
+
+   player.y+player.h<=pad.y+25 &&
+
+   player.vy>=0
+
+  ){
+
+   player.vy=-15;
+
+   pad.used=true;
+
+   soundPad();
+
+   vibrate(35);
+
+  }
+
  }
+
+
+ /* speed portale */
 
  for(const portal of portals){
-    if(
-      player.x+player.w>portal.x &&
-      player.x<portal.x+portal.w &&
-      player.y+player.h>portal.y
-    ){
-      portal.x=-9999;
-      currentSpeed=Math.min(1.8,currentSpeed*portal.mult);
-      soundPortal();
-    }
+
+  if(portal.used)
+   continue;
+
+
+  if(
+
+   player.x+player.w>portal.x &&
+
+   player.x<portal.x+portal.w &&
+
+   player.y+player.h>portal.y
+
+  ){
+
+   portal.used=true;
+
+   currentSpeed=
+    Math.min(
+     1.8,
+     currentSpeed*portal.mult
+    );
+
+   soundPortal();
+
+  }
+
  }
+
+
+ /* przeszkody */
 
  for(const ob of obstacles){
-    if(rectHit(player,ob)){
-      die();
-      return;
-    }
+
+  if(rectHit(player,ob)){
+
+   die();
+
+   return;
+
+  }
+
  }
+
+
+ /* monety */
 
  for(const c of coins){
-    if(c.collected)continue;
 
-    let dx=(player.x+player.w/2)-c.x;
-    let dy=(player.y+player.h/2)-c.y;
+  if(c.collected)
+   continue;
 
-    if(Math.sqrt(dx*dx+dy*dy)<30){
-      c.collected=true;
-      levelCoins++;
-      saveData.coins++;
-      save();
-      soundCoin();
-      burst(c.x-cameraX,c.y);
-    }
+
+  let dx=
+   (player.x+player.w/2)-c.x;
+
+  let dy=
+   (player.y+player.h/2)-c.y;
+
+
+  if(
+   Math.sqrt(dx*dx+dy*dy)<32
+  ){
+
+   c.collected=true;
+
+   levelCoins++;
+
+   saveData.coins++;
+
+   save();
+
+   soundCoin();
+
+   vibrate(20);
+
+   burst(
+    c.x-cameraX,
+    c.y
+   );
+
+  }
+
  }
+
+
+ /* poza ekranem */
 
  if(player.y>H+100){
-    die();
-    return;
+
+  die();
+
+  return;
+
  }
+
 
  levelTime+=dt;
- let percent=Math.min(100,Math.floor((cameraX/(level[3]))*100));
- document.getElementById("progressText").textContent=percent+"%";
- document.getElementById("runCoins").textContent=levelCoins;
+
+
+ let percent=
+  Math.min(
+   100,
+   Math.floor(
+    (cameraX/level[3])*100
+   )
+  );
+
+
+ document.getElementById(
+  "progressText"
+ ).textContent=
+  percent+"%";
+
+
+ document.getElementById(
+  "runCoins"
+ ).textContent=
+  levelCoins;
+
+
+ document.getElementById(
+  "levelProgressBar"
+ ).style.width=
+  percent+"%";
+
 
  if(cameraX>=level[3]){
-    winLevel();
+
+  winLevel();
+
+  return;
+
  }
+
+
+ /* mruganie */
 
  player.blink+=dt;
- if(player.blink>170){
-    player.blink=0;
+
+ if(player.blink>190){
+
+  player.blink=0;
+
  }
+
 }
+
+
+/* =========================================================
+   COLLISION
+========================================================= */
 
 function rectHit(a,b){
- return a.x<a.x+a.w &&
-        a.x+a.w>b.x &&
-        a.y<b.y+b.h &&
-        a.y+a.h>b.y;
+
+ return (
+
+  a.x < b.x+b.w &&
+
+  a.x+a.w > b.x &&
+
+  a.y < b.y+b.h &&
+
+  a.y+a.h > b.y
+
+ );
+
 }
+
+
+/* =========================================================
+   DEATH
+========================================================= */
 
 function die(){
- if(!running)return;
+
+ if(!running)
+  return;
+
 
  running=false;
+
+ stopMusic();
+
  soundDie();
 
- if(saveData.settings.vibration && navigator.vibrate)
-    navigator.vibrate([80,50,120]);
+ vibrate([80,50,120]);
 
- showToast("💥 Próba nieudana!");
+ showToast(
+  "💥 Próba nieudana!"
+ );
+
 
  setTimeout(()=>{
-   if(confirm("Poziom nieukończony. Spróbować ponownie?")){
-      startGame(levelIndex);
-   }else{
-      backHome();
-   }
+
+  if(confirm(
+   "Poziom nieukończony.\n\nSpróbować ponownie?"
+  )){
+
+   startGame(levelIndex);
+
+  }else{
+
+   backHome();
+
+  }
+
  },300);
+
 }
 
+
+/* =========================================================
+   WIN
+========================================================= */
+
 function winLevel(){
- if(!running)return;
+
+ if(!running)
+  return;
+
 
  running=false;
 
- if(!saveData.completed.includes(levelIndex))
-    saveData.completed.push(levelIndex);
+ stopMusic();
+
+
+ if(!saveData.completed.includes(levelIndex)){
+
+  saveData.completed.push(levelIndex);
+
+ }
+
+
+ /* idealny poziom */
+
+ let allCollected=
+  coins.length>0 &&
+  coins.every(c=>c.collected);
+
+
+ if(allCollected)
+  unlockAchievement("perfect");
+
 
  checkAchievements();
+
  save();
 
  soundWin();
+
+ vibrate([50,70,50,70,120]);
+
+
+ document.getElementById(
+  "winOverlay"
+ ).style.display="flex";
+
+
  makeConfetti();
 
- setTimeout(()=>{
-   let next=levelIndex+1;
-
-   if(next<levels.length){
-      if(confirm(
-        "🎉 Poziom ukończony!\n\nPrzejść do następnego poziomu?"
-      )){
-        startGame(next);
-      }else{
-        backHome();
-      }
-   }else{
-      alert("🏆 Ukończyłeś wszystkie 18 poziomów!");
-      backHome();
-   }
- },700);
-}
-
-function loop(t){
- if(!running)return;
-
- let dt=Math.min(2,(t-lastTime)/16.67);
- lastTime=t;
-
- updatePhysics(dt);
  draw();
 
- if(running)
-   requestAnimationFrame(loop);
+
+ setTimeout(()=>{
+
+  document.getElementById(
+   "winOverlay"
+  ).style.display="none";
+
+
+  let next=
+   levelIndex+1;
+
+
+  if(next<levels.length){
+
+   if(confirm(
+    "🎉 Poziom ukończony!\n\n" +
+    "🪙 Monety z poziomu: "+
+    levelCoins+
+    "\n\nPrzejść do następnego poziomu?"
+   )){
+
+    startGame(next);
+
+   }else{
+
+    backHome();
+
+   }
+
+  }else{
+
+   alert(
+    "🏆 GRATULACJE!\n\n" +
+    "Ukończyłeś wszystkie 18 poziomów!"
+   );
+
+   backHome();
+
+  }
+
+ },1000);
+
 }
 
+
+/* =========================================================
+   GAME LOOP
+========================================================= */
+
+function loop(t){
+
+ if(!running || paused)
+  return;
+
+
+ let dt=
+  Math.min(
+   2,
+   (t-lastTime)/16.67
+  );
+
+
+ lastTime=t;
+
+
+ updatePhysics(dt);
+
+ draw();
+
+
+ if(running && !paused)
+  requestAnimationFrame(loop);
+
+}
+
+
+/* =========================================================
+   DRAW
+========================================================= */
+
 function draw(){
- ctx.clearRect(0,0,W,H);
+
+ ctx.clearRect(
+  0,
+  0,
+  W,
+  H
+ );
+
 
  drawBackground();
 
+
  ctx.save();
 
+
  if(shake>0){
-   ctx.translate(
-     (Math.random()-.5)*shake,
-     (Math.random()-.5)*shake
-   );
-   shake*=.88;
+
+  ctx.translate(
+   (Math.random()-.5)*shake,
+   (Math.random()-.5)*shake
+  );
+
+  shake*=.88;
+
  }
+
 
  let offset=cameraX;
 
+
  drawGround(offset);
 
+
  for(const c of coins){
-   if(!c.collected) drawCoin(c.x-offset,c.y);
+
+  if(!c.collected){
+
+   drawCoin(
+    c.x-offset,
+    c.y
+   );
+
+  }
+
  }
+
 
  for(const ob of obstacles){
-   drawObstacle(ob.x-offset,ob.y,ob.w,ob.h);
+
+  drawObstacle(
+   ob.x-offset,
+   ob.y,
+   ob.w,
+   ob.h
+  );
+
  }
+
 
  for(const pad of pads){
-   drawPad(pad.x-offset,pad.y,pad.w,pad.h);
+
+  drawPad(
+   pad.x-offset,
+   pad.y,
+   pad.w,
+   pad.h
+  );
+
  }
 
+
  for(const portal of portals){
-   if(portal.x>-100)
-      drawPortal(portal.x-offset,portal.y,portal.w,portal.h);
+
+  if(!portal.used){
+
+   drawPortal(
+    portal.x-offset,
+    portal.y,
+    portal.w,
+    portal.h
+   );
+
+  }
+
  }
+
 
  drawPlayer();
 
  drawParticles();
 
+
  ctx.restore();
+
 
  drawConfetti();
+
 }
+
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
 
 function drawBackground(){
- let g=ctx.createLinearGradient(0,0,0,H);
- g.addColorStop(0,"#050522");
- g.addColorStop(1,"#10051a");
+
+ let levelColor=
+  levels[levelIndex][1];
+
+
+ let g=
+  ctx.createLinearGradient(
+   0,
+   0,
+   0,
+   H
+  );
+
+
+ g.addColorStop(
+  0,
+  "#050522"
+ );
+
+ g.addColorStop(
+  1,
+  "#10051a"
+ );
+
+
  ctx.fillStyle=g;
- ctx.fillRect(0,0,W,H);
+
+ ctx.fillRect(
+  0,
+  0,
+  W,
+  H
+ );
+
+
+ /* gwiazdy */
 
  ctx.globalAlpha=.2;
- for(let x=0;x<W;x+=70){
-   ctx.fillStyle="#00ffff";
-   ctx.fillRect(x,(x*3)%H,2,2);
+
+
+ for(
+  let x=0;
+  x<W;
+  x+=70
+ ){
+
+  ctx.fillStyle=levelColor;
+
+  let y=
+   ((x*3-cameraX*.08)%H+H)%H;
+
+  ctx.fillRect(
+   x,
+   y,
+   2,
+   2
+  );
+
  }
+
+
  ctx.globalAlpha=1;
+
+
+ /* neonowe linie */
+
+ ctx.globalAlpha=.08;
+
+ ctx.strokeStyle=levelColor;
+
+ for(
+  let y=50;
+  y<H;
+  y+=60
+ ){
+
+  ctx.beginPath();
+
+  ctx.moveTo(0,y);
+
+  ctx.lineTo(W,y);
+
+  ctx.stroke();
+
+ }
+
+
+ ctx.globalAlpha=1;
+
 }
+
+
+/* =========================================================
+   GROUND
+========================================================= */
 
 function drawGround(offset){
+
  let gy=groundY();
 
- ctx.fillStyle="#101020";
- ctx.fillRect(0,gy,W,H-gy);
+ let levelColor=
+  levels[levelIndex][1];
 
- ctx.strokeStyle=levels[levelIndex][1];
+
+ ctx.fillStyle="#101020";
+
+ ctx.fillRect(
+  0,
+  gy,
+  W,
+  H-gy
+ );
+
+
+ ctx.strokeStyle=
+  levelColor;
+
  ctx.shadowBlur=12;
- ctx.shadowColor=levels[levelIndex][1];
+
+ ctx.shadowColor=
+  levelColor;
+
  ctx.lineWidth=3;
+
+
  ctx.beginPath();
- ctx.moveTo(0,gy);
- ctx.lineTo(W,gy);
+
+ ctx.moveTo(
+  0,
+  gy
+ );
+
+ ctx.lineTo(
+  W,
+  gy
+ );
+
  ctx.stroke();
+
+
  ctx.shadowBlur=0;
 
- let start=-(offset%50);
- for(let x=start;x<W;x+=50){
-   ctx.fillStyle="#222244";
-   ctx.fillRect(x,gy+20,25,3);
+
+ let start=
+  -(offset%50);
+
+
+ for(
+  let x=start;
+  x<W;
+  x+=50
+ ){
+
+  ctx.fillStyle="#222244";
+
+  ctx.fillRect(
+   x,
+   gy+20,
+   25,
+   3
+  );
+
  }
+
 }
+
+
+/* =========================================================
+   PLAYER
+========================================================= */
 
 function drawPlayer(){
- let s=skins[saveData.selectedSkin];
- let x=player.x-cameraX;
- let y=player.y;
+
+ let s=
+  skins[saveData.selectedSkin];
+
+
+ let x=
+  player.x-cameraX;
+
+ let y=
+  player.y;
+
+
+ let walking=
+  player.grounded &&
+  Math.abs(player.vy)<.1;
+
+
+ let legSwing=
+  walking?
+   Math.sin(player.walkTime)*5:
+   0;
+
 
  ctx.save();
 
+
+ /* cień */
+
+ ctx.globalAlpha=.25;
+
+ ctx.fillStyle="#000";
+
+ ctx.beginPath();
+
+ ctx.ellipse(
+  x+19,
+  groundY()+7,
+  25,
+  6,
+  0,
+  0,
+  Math.PI*2
+ );
+
+ ctx.fill();
+
+
+ ctx.globalAlpha=1;
+
+
+ /* glow */
+
  ctx.shadowBlur=20;
- ctx.shadowColor=s.color;
- ctx.fillStyle=s.color;
- ctx.fillRect(x,y,player.w,player.h);
+
+ ctx.shadowColor=
+  s.color;
+
+ ctx.fillStyle=
+  s.color;
+
+
+ ctx.fillRect(
+  x,
+  y,
+  player.w,
+  player.h
+ );
+
 
  ctx.shadowBlur=0;
 
+
+ /* oczy */
+
  ctx.fillStyle="#111";
- ctx.fillRect(x+8,y+9,7,7);
- ctx.fillRect(x+24,y+9,7,7);
 
  if(player.blink>150){
-   ctx.fillStyle=s.color;
-   ctx.fillRect(x+7,y+8,9,8);
-   ctx.fillRect(x+23,y+8,9,8);
+
+  ctx.fillRect(
+   x+7,
+   y+11,
+   10,
+   3
+  );
+
+  ctx.fillRect(
+   x+23,
+   y+11,
+   10,
+   3
+  );
+
+ }else{
+
+  ctx.fillRect(
+   x+8,
+   y+9,
+   7,
+   7
+  );
+
+  ctx.fillRect(
+   x+24,
+   y+9,
+   7,
+   7
+  );
+
  }
 
+
+ /* usta */
+
  ctx.fillStyle="#111";
- ctx.fillRect(x+11,y+27,17,4);
+
+ ctx.fillRect(
+  x+11,
+  y+27,
+  17,
+  4
+ );
+
+
+ /* ręce */
+
+ ctx.strokeStyle=
+  s.secondary;
+
+ ctx.lineWidth=4;
+
+ ctx.beginPath();
+
+ ctx.moveTo(
+  x+2,
+  y+18
+ );
+
+ ctx.lineTo(
+  x-6,
+  y+22+legSwing*.4
+ );
+
+ ctx.moveTo(
+  x+36,
+  y+18
+ );
+
+ ctx.lineTo(
+  x+44,
+  y+22-legSwing*.4
+ );
+
+ ctx.stroke();
+
+
+ /* nogi */
 
  ctx.strokeStyle="#fff";
+
  ctx.lineWidth=3;
+
  ctx.beginPath();
- ctx.moveTo(x+5,y+player.h);
- ctx.lineTo(x+1,y+player.h+8);
- ctx.moveTo(x+33,y+player.h);
- ctx.lineTo(x+37,y+player.h+8);
+
+ ctx.moveTo(
+  x+8,
+  y+38
+ );
+
+ ctx.lineTo(
+  x+4+legSwing,
+  y+46
+ );
+
+ ctx.moveTo(
+  x+30,
+  y+38
+ );
+
+ ctx.lineTo(
+  x+34-legSwing,
+  y+46
+ );
+
  ctx.stroke();
 
+
  ctx.restore();
+
 }
 
-function drawObstacle(x,y,w,h){
+
+/* =========================================================
+   OBSTACLE
+========================================================= */
+
+function drawObstacle(
+ x,
+ y,
+ w,
+ h
+){
+
+ let levelColor=
+  levels[levelIndex][1];
+
+
  ctx.save();
+
  ctx.fillStyle="#ff1744";
+
  ctx.shadowBlur=15;
+
  ctx.shadowColor="#ff1744";
- ctx.fillRect(x,y,w,h);
+
+ ctx.fillRect(
+  x,
+  y,
+  w,
+  h
+ );
+
 
  ctx.fillStyle="#111";
- ctx.fillRect(x+6,y+6,w-12,5);
+
+ ctx.fillRect(
+  x+6,
+  y+6,
+  Math.max(2,w-12),
+  5
+ );
+
+
+ ctx.strokeStyle=
+  levelColor;
+
+ ctx.lineWidth=2;
+
+ ctx.strokeRect(
+  x+2,
+  y+2,
+  Math.max(0,w-4),
+  Math.max(0,h-4)
+ );
+
 
  ctx.restore();
+
 }
 
-function drawPad(x,y,w,h){
+
+/* =========================================================
+   PAD
+========================================================= */
+
+function drawPad(
+ x,
+ y,
+ w,
+ h
+){
+
  ctx.save();
+
  ctx.fillStyle="#ffe600";
+
  ctx.shadowBlur=20;
+
  ctx.shadowColor="#ffe600";
- ctx.fillRect(x,y,w,h);
+
+ ctx.fillRect(
+  x,
+  y,
+  w,
+  h
+ );
+
+
+ ctx.fillStyle="#fff";
+
+ ctx.beginPath();
+
+ ctx.moveTo(
+  x+w/2,
+  y+2
+ );
+
+ ctx.lineTo(
+  x+w-8,
+  y+h-2
+ );
+
+ ctx.lineTo(
+  x+8,
+  y+h-2
+ );
+
+ ctx.closePath();
+
+ ctx.fill();
+
+
  ctx.restore();
+
 }
 
-function drawPortal(x,y,w,h){
+
+/* =========================================================
+   PORTAL
+========================================================= */
+
+function drawPortal(
+ x,
+ y,
+ w,
+ h
+){
+
  ctx.save();
+
  ctx.strokeStyle="#00ff88";
+
  ctx.lineWidth=4;
+
  ctx.shadowBlur=20;
+
  ctx.shadowColor="#00ff88";
 
- ctx.beginPath();
- ctx.arc(x+w/2,y+h/2,25,0,Math.PI*2);
- ctx.stroke();
 
  ctx.beginPath();
- ctx.moveTo(x+8,y+h/2);
- ctx.lineTo(x+w-8,y+h/2);
+
+ ctx.arc(
+  x+w/2,
+  y+h/2,
+  25,
+  0,
+  Math.PI*2
+ );
+
  ctx.stroke();
+
+
+ ctx.beginPath();
+
+ ctx.moveTo(
+  x+8,
+  y+h/2
+ );
+
+ ctx.lineTo(
+  x+w-8,
+  y+h/2
+ );
+
+ ctx.stroke();
+
+
+ ctx.fillStyle="#00ff88";
+
+ ctx.globalAlpha=.25;
+
+ ctx.fillRect(
+  x,
+  y,
+  w,
+  h
+ );
+
 
  ctx.restore();
+
 }
 
-function drawCoin(x,y){
+
+/* =========================================================
+   COIN
+========================================================= */
+
+function drawCoin(
+ x,
+ y
+){
+
+ let pulse=
+  Math.sin(
+   performance.now()*.008
+  )*2;
+
+
  ctx.save();
+
  ctx.fillStyle="#ffd700";
+
  ctx.shadowBlur=18;
+
  ctx.shadowColor="#ffd700";
+
+
  ctx.beginPath();
- ctx.arc(x,y,10,0,Math.PI*2);
+
+ ctx.arc(
+  x,
+  y,
+  10+pulse,
+  0,
+  Math.PI*2
+ );
+
  ctx.fill();
+
 
  ctx.fillStyle="#fff4a0";
+
  ctx.beginPath();
- ctx.arc(x-3,y-3,3,0,Math.PI*2);
+
+ ctx.arc(
+  x-3,
+  y-3,
+  3,
+  0,
+  Math.PI*2
+ );
+
  ctx.fill();
 
+
  ctx.restore();
+
 }
+
+
+/* =========================================================
+   PARTICLES
+========================================================= */
 
 function burst(x,y){
- if(!saveData.settings.effects)return;
 
- for(let i=0;i<12;i++){
-   particles.push({
-     x,y,
-     vx:(Math.random()-.5)*6,
-     vy:(Math.random()-.5)*6,
-     life:30
-   });
+ if(!saveData.settings.effects)
+  return;
+
+
+ for(
+  let i=0;
+  i<14;
+  i++
+ ){
+
+  particles.push({
+
+   x:x,
+
+   y:y,
+
+   vx:(Math.random()-.5)*6,
+
+   vy:(Math.random()-.5)*6,
+
+   life:30
+
+  });
+
  }
+
 }
+
 
 function drawParticles(){
- for(let i=particles.length-1;i>=0;i--){
-   let p=particles[i];
 
-   p.x+=p.vx;
-   p.y+=p.vy;
-   p.life--;
+ for(
+  let i=particles.length-1;
+  i>=0;
+  i--
+ ){
 
-   ctx.globalAlpha=Math.max(0,p.life/30);
-   ctx.fillStyle="#00ffff";
-   ctx.fillRect(p.x,p.y,4,4);
+  let p=
+   particles[i];
 
-   if(p.life<=0)particles.splice(i,1);
+
+  p.x+=p.vx;
+
+  p.y+=p.vy;
+
+  p.vy+=.15;
+
+  p.life--;
+
+
+  ctx.globalAlpha=
+   Math.max(
+    0,
+    p.life/30
+   );
+
+
+  ctx.fillStyle="#00ffff";
+
+  ctx.fillRect(
+   p.x,
+   p.y,
+   4,
+   4
+  );
+
+
+  if(p.life<=0){
+
+   particles.splice(
+    i,
+    1
+   );
+
+  }
+
  }
 
+
  ctx.globalAlpha=1;
+
 }
 
+
+/* =========================================================
+   CONFETTI
+========================================================= */
+
 function makeConfetti(){
- if(!saveData.settings.effects)return;
+
+ if(!saveData.settings.effects)
+  return;
+
 
  confetti=[];
 
- for(let i=0;i<80;i++){
-   confetti.push({
-     x:Math.random()*W,
-     y:-Math.random()*H,
-     s:4+Math.random()*8,
-     v:2+Math.random()*4,
-     r:Math.random()*Math.PI
-   });
+
+ for(
+  let i=0;
+  i<80;
+  i++
+ ){
+
+  confetti.push({
+
+   x:Math.random()*W,
+
+   y:-Math.random()*H,
+
+   s:4+Math.random()*8,
+
+   v:2+Math.random()*4,
+
+   r:Math.random()*Math.PI,
+
+   color:[
+    "#00ffff",
+    "#ff00ff",
+    "#ffff00",
+    "#55ff55",
+    "#ff5555"
+   ][
+    Math.floor(Math.random()*5)
+   ]
+
+  });
+
  }
+
 }
+
 
 function drawConfetti(){
- for(const c of confetti){
-   c.y+=c.v;
-   c.r+=.08;
 
-   ctx.save();
-   ctx.translate(c.x,c.y);
-   ctx.rotate(c.r);
-   ctx.fillStyle=["#00ffff","#ff00ff","#ffff00","#55ff55","#ff5555"][
-      Math.floor(Math.random()*5)
-   ];
-   ctx.fillRect(0,0,c.s,c.s);
-   ctx.restore();
+ for(const c of confetti){
+
+  c.y+=c.v;
+
+  c.r+=.08;
+
+
+  ctx.save();
+
+  ctx.translate(
+   c.x,
+   c.y
+  );
+
+  ctx.rotate(c.r);
+
+  ctx.fillStyle=
+   c.color;
+
+  ctx.fillRect(
+   0,
+   0,
+   c.s,
+   c.s
+  );
+
+  ctx.restore();
+
  }
+
 }
+
+
+/* =========================================================
+   LEVEL MENU
+========================================================= */
 
 function openLevels(){
- document.getElementById("home").style.display="none";
- document.getElementById("levelsPanel").style.display="block";
+
+ document.getElementById("home")
+  .style.display="none";
+
+ document.getElementById("levelsPanel")
+  .style.display="block";
+
 
  let html="";
 
- levels.forEach((l,i)=>{
-   let unlocked=i===0 || saveData.completed.includes(i-1);
-   let done=saveData.completed.includes(i);
+
+ levels.forEach(
+  (l,i)=>{
+
+   let unlocked=
+    i===0 ||
+    saveData.completed.includes(i-1);
+
+
+   let done=
+    saveData.completed.includes(i);
+
 
    html+=`
-   <div class="levelCard ${unlocked?"":"levelLocked"}"
-        onclick="${unlocked?`startGame(${i})`:''}">
-      <h3>${i+1}. ${l[0]}</h3>
-      <p>${done?"✅ Ukończony":unlocked?"▶ Dostępny":"🔒 Zablokowany"}</p>
-      <small>Prędkość ${l[2]}</small>
-   </div>`;
- });
 
- document.getElementById("levelsGrid").innerHTML=html;
+   <div
+    class="levelCard
+    ${unlocked?"":"levelLocked"}
+    ${done?"levelDone":""}"
+
+    ${unlocked?
+     `onclick="startGame(${i})"`:
+     ""
+    }
+   >
+
+    <h3>
+     ${i+1}. ${l[0]}
+    </h3>
+
+    <p>
+     ${
+      done
+      ?"✅ Ukończony"
+      :unlocked
+      ?"▶ Dostępny"
+      :"🔒 Zablokowany"
+     }
+    </p>
+
+    <small>
+     Prędkość ${l[2]}
+    </small>
+
+   </div>
+
+   `;
+
+  }
+ );
+
+
+ document.getElementById(
+  "levelsGrid"
+ ).innerHTML=html;
+
 }
+
+
+/* =========================================================
+   SHOP
+========================================================= */
 
 function openShop(){
- document.getElementById("home").style.display="none";
- document.getElementById("shopPanel").style.display="block";
+
+ document.getElementById("home")
+  .style.display="none";
+
+ document.getElementById("shopPanel")
+  .style.display="block";
+
  renderShop();
+
 }
+
 
 function renderShop(){
- document.getElementById("shopCoins").textContent=saveData.coins;
+
+ document.getElementById(
+  "shopCoins"
+ ).textContent=
+  saveData.coins;
+
 
  let html="";
 
- skins.forEach((s,i)=>{
-   let owned=saveData.ownedSkins.includes(i);
-   let selected=saveData.selectedSkin===i;
+
+ skins.forEach(
+  (s,i)=>{
+
+   let owned=
+    saveData.ownedSkins.includes(i);
+
+
+   let selected=
+    saveData.selectedSkin===i;
+
 
    html+=`
+
    <div class="card">
-      <h3>${s.name}</h3>
-      <div class="skinPreview"
-           style="background:${s.color};color:${s.color}"></div>
-      <p>${s.price===0?"Darmowy":"🪙 "+s.price}</p>
 
-      <button class="buy"
-        ${selected?"disabled":""}
-        onclick="buySkin(${i})">
-        ${selected?"Wybrany":owned?"Wybierz":`Kup`}
-      </button>
-   </div>`;
- });
+    <h3>
+     ${s.name}
+    </h3>
 
- document.getElementById("shopGrid").innerHTML=html;
+    <div
+     class="skinPreview"
+     style="
+      background:${s.color};
+      color:${s.color};
+      box-shadow:
+      0 0 20px ${s.color};
+     "
+    ></div>
+
+    <p>
+     ${
+      s.price===0
+      ?"Darmowy"
+      :"🪙 "+s.price
+     }
+    </p>
+
+    <button
+     class="buy"
+     ${selected?"disabled":""}
+     onclick="buySkin(${i})"
+    >
+     ${
+      selected
+      ?"✓ Wybrany"
+      :owned
+      ?"Wybierz"
+      :"Kup"
+     }
+    </button>
+
+   </div>
+
+   `;
+
+  }
+ );
+
+
+ document.getElementById(
+  "shopGrid"
+ ).innerHTML=html;
+
 }
+
 
 function buySkin(i){
+
  let s=skins[i];
 
- if(saveData.ownedSkins.includes(i)){
-   saveData.selectedSkin=i;
-   save();
-   renderShop();
-   showToast("🎨 Wybrano skin: "+s.name);
-   return;
+
+ if(
+  saveData.ownedSkins.includes(i)
+ ){
+
+  saveData.selectedSkin=i;
+
+  save();
+
+  renderShop();
+
+  showToast(
+   "🎨 Wybrano skin: "+
+   s.name
+  );
+
+  return;
+
  }
 
- if(saveData.coins<s.price){
-   showToast("❌ Za mało monet!");
-   return;
+
+ if(
+  saveData.coins<s.price
+ ){
+
+  showToast(
+   "❌ Za mało monet!"
+  );
+
+  return;
+
  }
+
 
  saveData.coins-=s.price;
+
  saveData.ownedSkins.push(i);
+
  saveData.selectedSkin=i;
 
+
  checkAchievements();
+
  save();
+
  renderShop();
 
- showToast("🎉 Odblokowano skin!");
+
+ showToast(
+  "🎉 Odblokowano skin!"
+ );
+
 }
 
+
+/* =========================================================
+   ACHIEVEMENTS
+========================================================= */
+
+function unlockAchievement(id){
+
+ if(
+  !saveData.achievements.includes(id)
+ ){
+
+  saveData.achievements.push(id);
+
+  showToast(
+   "🏆 Nowe osiągnięcie!"
+  );
+
+ }
+
+}
+
+
+function checkAchievements(){
+
+ let completed=
+  saveData.completed.length;
+
+
+ if(completed>=1)
+  unlockAchievement("first");
+
+
+ if(completed>=5)
+  unlockAchievement("five");
+
+
+ if(completed>=10)
+  unlockAchievement("ten");
+
+
+ if(completed>=18)
+  unlockAchievement("all");
+
+
+ if(saveData.coins>=50)
+  unlockAchievement("collector");
+
+
+ if(
+  saveData.ownedSkins.length>=4
+ )
+  unlockAchievement("shopper");
+
+
+ if(saveData.coins>=150)
+  unlockAchievement("rich");
+
+}
+
+
 function openAchievements(){
- document.getElementById("home").style.display="none";
- document.getElementById("achievementsPanel").style.display="block";
+
+ document.getElementById("home")
+  .style.display="none";
+
+ document.getElementById("achievementsPanel")
+  .style.display="block";
+
 
  let html="";
 
- achievements.forEach(a=>{
-   let unlocked=saveData.achievements.includes(a[0]);
+
+ achievements.forEach(
+  a=>{
+
+   let unlocked=
+    saveData.achievements.includes(
+     a[0]
+    );
+
 
    html+=`
-   <div class="card" style="max-width:600px;margin:12px auto;text-align:left">
-      <h3>${unlocked?"🏆":"🔒"} ${a[1]}</h3>
-      <p>${a[2]}</p>
-   </div>`;
- });
 
- document.getElementById("achievementList").innerHTML=html;
+   <div
+    class="card"
+    style="
+     max-width:600px;
+     margin:12px auto;
+     text-align:left;
+    "
+   >
+
+    <h3>
+     ${unlocked?"🏆":"🔒"}
+     ${a[1]}
+    </h3>
+
+    <p>
+     ${a[2]}
+    </p>
+
+   </div>
+
+   `;
+
+  }
+ );
+
+
+ document.getElementById(
+  "achievementList"
+ ).innerHTML=html;
+
 }
 
-function checkAchievements(){
- let completed=saveData.completed.length;
 
- const unlock=(id)=>{
-   if(!saveData.achievements.includes(id)){
-      saveData.achievements.push(id);
-      showToast("🏆 Nowe osiągnięcie!");
-   }
- };
-
- if(completed>=1)unlock("first");
- if(completed>=5)unlock("five");
- if(completed>=10)unlock("ten");
- if(completed>=18)unlock("all");
- if(saveData.coins>=50)unlock("collector");
- if(saveData.ownedSkins.length>=4)unlock("shopper");
-}
+/* =========================================================
+   SETTINGS
+========================================================= */
 
 function openSettings(){
- document.getElementById("home").style.display="none";
- document.getElementById("settingsPanel").style.display="block";
+
+ document.getElementById("home")
+  .style.display="none";
+
+ document.getElementById("settingsPanel")
+  .style.display="block";
+
  updateSettingsUI();
+
 }
+
 
 function updateSettingsUI(){
- document.getElementById("soundBtn").textContent=
-   saveData.settings.sound?"ON":"OFF";
 
- document.getElementById("musicBtn").textContent=
-   saveData.settings.music?"ON":"OFF";
+ document.getElementById(
+  "soundBtn"
+ ).textContent=
+  saveData.settings.sound
+  ?"ON"
+  :"OFF";
 
- document.getElementById("effectsBtn").textContent=
-   saveData.settings.effects?"ON":"OFF";
 
- document.getElementById("vibrationBtn").textContent=
-   saveData.settings.vibration?"ON":"OFF";
+ document.getElementById(
+  "musicBtn"
+ ).textContent=
+  saveData.settings.music
+  ?"ON"
+  :"OFF";
+
+
+ document.getElementById(
+  "effectsBtn"
+ ).textContent=
+  saveData.settings.effects
+  ?"ON"
+  :"OFF";
+
+
+ document.getElementById(
+  "vibrationBtn"
+ ).textContent=
+  saveData.settings.vibration
+  ?"ON"
+  :"OFF";
+
 }
+
 
 function toggleSetting(name){
- saveData.settings[name]=!saveData.settings[name];
+
+ saveData.settings[name]=
+  !saveData.settings[name];
+
+
  save();
+
 
  if(name==="music"){
-   if(saveData.settings.music)startMusic();
-   else stopMusic();
+
+  if(saveData.settings.music)
+   startMusic();
+  else
+   stopMusic();
+
  }
+
 
  updateSettingsUI();
+
 }
+
 
 function toggleTheme(){
+
  saveData.settings.theme=
-   saveData.settings.theme==="dark"?"light":"dark";
+  saveData.settings.theme==="dark"
+  ?"light"
+  :"dark";
+
 
  document.body.classList.toggle(
-   "light",
-   saveData.settings.theme==="light"
+  "light",
+  saveData.settings.theme==="light"
  );
+
 
  save();
+
 }
 
-if(saveData.settings.theme==="light")
+
+if(
+ saveData.settings.theme==="light"
+){
+
  document.body.classList.add("light");
 
-function toggleFullscreen(){
- if(!document.fullscreenElement){
-   document.documentElement.requestFullscreen?.()
-     .catch(()=>showToast("Pełny ekran niedostępny"));
- }else{
-   document.exitFullscreen?.();
- }
 }
+
+
+/* =========================================================
+   FULLSCREEN
+========================================================= */
+
+function toggleFullscreen(){
+
+ if(!document.fullscreenElement){
+
+  if(document.documentElement.requestFullscreen){
+
+   document.documentElement
+    .requestFullscreen()
+    .catch(
+     ()=>showToast(
+      "Pełny ekran niedostępny"
+     )
+    );
+
+  }else{
+
+   showToast(
+    "Przeglądarka nie obsługuje fullscreen"
+   );
+
+  }
+
+ }else{
+
+  if(document.exitFullscreen)
+   document.exitFullscreen();
+
+ }
+
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
 
 function resetProgress(){
- if(confirm("Na pewno usunąć cały postęp?")){
-   localStorage.removeItem("neonDashSave");
-   location.reload();
+
+ if(
+  confirm(
+   "Na pewno usunąć cały postęp?"
+  )
+ ){
+
+  localStorage.removeItem(
+   "neonDashSave"
+  );
+
+  location.reload();
+
  }
+
 }
+
+
+/* =========================================================
+   HOME
+========================================================= */
 
 function backHome(){
+
  running=false;
+
  paused=false;
+
  stopMusic();
 
- document.getElementById("game").style.display="none";
- document.getElementById("levelsPanel").style.display="none";
- document.getElementById("shopPanel").style.display="none";
- document.getElementById("achievementsPanel").style.display="none";
- document.getElementById("settingsPanel").style.display="none";
- document.getElementById("home").style.display="block";
+
+ document.getElementById(
+  "pausePanel"
+ ).style.display="none";
+
+
+ document.getElementById(
+  "winOverlay"
+ ).style.display="none";
+
+
+ document.getElementById(
+  "game"
+ ).style.display="none";
+
+
+ document.getElementById(
+  "levelsPanel"
+ ).style.display="none";
+
+
+ document.getElementById(
+  "shopPanel"
+ ).style.display="none";
+
+
+ document.getElementById(
+  "achievementsPanel"
+ ).style.display="none";
+
+
+ document.getElementById(
+  "settingsPanel"
+ ).style.display="none";
+
+
+ document.getElementById(
+  "home"
+ ).style.display="block";
+
 
  updateHome();
+
 }
+
+
+/* =========================================================
+   TOAST
+========================================================= */
 
 function showToast(text){
- let t=document.getElementById("toast");
+
+ let t=
+  document.getElementById(
+   "toast"
+  );
+
+
  t.textContent=text;
+
  t.classList.add("show");
 
+
  clearTimeout(t.timer);
- t.timer=setTimeout(()=>t.classList.remove("show"),1800);
-}
 
-/* =========================
-   AUDIO / MUZYKA
-========================= */
 
-let audioCtx=null;
-let musicTimer=null;
-let musicStep=0;
-
-function getAudio(){
- if(!audioCtx){
-   audioCtx=new (window.AudioContext||window.webkitAudioContext)();
- }
- if(audioCtx.state==="suspended")audioCtx.resume();
- return audioCtx;
-}
-
-function tone(freq,duration,type="square",volume=.04){
- if(!saveData.settings.sound)return;
-
- let a=getAudio();
- let o=a.createOscillator();
- let g=a.createGain();
-
- o.type=type;
- o.frequency.value=freq;
- g.gain.value=volume;
-
- o.connect(g);
- g.connect(a.destination);
-
- let now=a.currentTime;
- g.gain.setValueAtTime(volume,now);
- g.gain.exponentialRampToValueAtTime(.001,now+duration);
-
- o.start(now);
- o.stop(now+duration);
-}
-
-function soundJump(){tone(520,.08,"square",.05)}
-function soundCoin(){tone(880,.08,"triangle",.06)}
-function soundPad(){tone(330,.15,"sawtooth",.04)}
-function soundPortal(){
- tone(700,.08,"sine",.04);
- setTimeout(()=>tone(1000,.08,"sine",.03),60);
-}
-function soundDie(){tone(120,.35,"sawtooth",.05)}
-function soundWin(){
- tone(523,.12,"square",.05);
- setTimeout(()=>tone(659,.12,"square",.05),120);
- setTimeout(()=>tone(784,.25,"square",.05),240);
-}
-
-const melody=[
-  261.63,329.63,392.00,329.63,
-  293.66,349.23,440.00,349.23,
-  261.63,329.63,392.00,523.25
-];
-
-function playMusicNote(){
- if(!saveData.settings.music || !running)return;
-
- let freq=melody[musicStep%melody.length];
- musicStep++;
-
- let a=getAudio();
- let o=a.createOscillator();
- let g=a.createGain();
-
- o.type="triangle";
- o.frequency.value=freq;
-
- g.gain.setValueAtTime(.018,a.currentTime);
- g.gain.exponentialRampToValueAtTime(
-   .001,
-   a.currentTime+.18
+ t.timer=setTimeout(
+  ()=>{
+   t.classList.remove("show");
+  },
+  1800
  );
 
- o.connect(g);
- g.connect(a.destination);
-
- o.start();
- o.stop(a.currentTime+.19);
 }
 
+
+/* =========================================================
+   VIBRATION
+========================================================= */
+
+function vibrate(pattern){
+
+ if(
+  saveData.settings.vibration &&
+  navigator.vibrate
+ ){
+
+  try{
+
+   navigator.vibrate(pattern);
+
+  }catch(e){}
+
+ }
+
+}
+
+
+/* =========================================================
+   AUDIO
+========================================================= */
+
+function getAudio(){
+
+ if(!audioCtx){
+
+  const AudioContext=
+   window.AudioContext ||
+   window.webkitAudioContext;
+
+
+  if(!AudioContext)
+   return null;
+
+
+  audioCtx=
+   new AudioContext();
+
+ }
+
+
+ if(
+  audioCtx.state==="suspended"
+ ){
+
+  audioCtx.resume();
+
+ }
+
+
+ return audioCtx;
+
+}
+
+
+/* =========================================================
+   SOUND
+========================================================= */
+
+function tone(
+ freq,
+ duration,
+ type="square",
+ volume=.04
+){
+
+ if(!saveData.settings.sound)
+  return;
+
+
+ let a=getAudio();
+
+ if(!a)
+  return;
+
+
+ let o=
+  a.createOscillator();
+
+ let g=
+  a.createGain();
+
+
+ o.type=type;
+
+ o.frequency.value=freq;
+
+
+ g.gain.value=volume;
+
+
+ o.connect(g);
+
+ g.connect(a.destination);
+
+
+ let now=
+  a.currentTime;
+
+
+ g.gain.setValueAtTime(
+  volume,
+  now
+ );
+
+
+ g.gain.exponentialRampToValueAtTime(
+  .001,
+  now+duration
+ );
+
+
+ o.start(now);
+
+ o.stop(
+  now+duration
+ );
+
+}
+
+
+function soundJump(){
+
+ tone(
+  520,
+  .08,
+  "square",
+  .05
+ );
+
+}
+
+
+function soundCoin(){
+
+ tone(
+  880,
+  .08,
+  "triangle",
+  .06
+ );
+
+}
+
+
+function soundPad(){
+
+ tone(
+  330,
+  .15,
+  "sawtooth",
+  .04
+ );
+
+}
+
+
+function soundPortal(){
+
+ tone(
+  700,
+  .08,
+  "sine",
+  .04
+ );
+
+
+ setTimeout(
+  ()=>{
+   tone(
+    1000,
+    .08,
+    "sine",
+    .03
+   );
+  },
+  60
+ );
+
+}
+
+
+function soundDie(){
+
+ tone(
+  120,
+  .35,
+  "sawtooth",
+  .05
+ );
+
+}
+
+
+function soundWin(){
+
+ tone(
+  523,
+  .12,
+  "square",
+  .05
+ );
+
+
+ setTimeout(
+  ()=>{
+   tone(
+    659,
+    .12,
+    "square",
+    .05
+   );
+  },
+  120
+ );
+
+
+ setTimeout(
+  ()=>{
+   tone(
+    784,
+    .25,
+    "square",
+    .05
+   );
+  },
+  240
+ );
+
+}
+
+
+/* =========================================================
+   MUZYKA
+========================================================= */
+
+/*
+ Każdy poziom ma własny motyw.
+*/
+
+const melodies=[
+
+ [
+  261.63,329.63,392,329.63,
+  261.63,392,440,392
+ ],
+
+ [
+  293.66,349.23,440,349.23,
+  293.66,440,493.88,440
+ ],
+
+ [
+  220,277.18,329.63,277.18,
+  220,329.63,369.99,329.63
+ ],
+
+ [
+  261.63,329.63,523.25,392,
+  329.63,261.63,392,523.25
+ ],
+
+ [
+  329.63,392,493.88,392,
+  329.63,493.88,587.33,493.88
+ ],
+
+ [
+  196,246.94,293.66,246.94,
+  196,293.66,329.63,293.66
+ ],
+
+ [
+  246.94,329.63,369.99,493.88,
+  369.99,329.63,246.94,220
+ ],
+
+ [
+  220,277.18,329.63,415.30,
+  329.63,277.18,220,196
+ ],
+
+ [
+  329.63,415.30,493.88,659.25,
+  493.88,415.30,329.63,293.66
+ ],
+
+ [
+  261.63,311.13,392,466.16,
+  392,311.13,261.63,233.08
+ ],
+
+ [
+  293.66,369.99,440,554.37,
+  440,369.99,293.66,246.94
+ ],
+
+ [
+  220,329.63,440,659.25,
+  440,329.63,220,164.81
+ ],
+
+ [
+  329.63,440,554.37,659.25,
+  554.37,440,329.63,293.66
+ ],
+
+ [
+  246.94,329.63,493.88,659.25,
+  493.88,329.63,246.94,196
+ ],
+
+ [
+  261.63,392,523.25,783.99,
+  523.25,392,261.63,329.63
+ ],
+
+ [
+  196,293.66,392,493.88,
+  392,293.66,196,146.83
+ ],
+
+ [
+  329.63,493.88,659.25,783.99,
+  659.25,493.88,329.63,261.63
+ ],
+
+ [
+  261.63,329.63,392,523.25,
+  659.25,523.25,392,261.63
+ ]
+
+];
+
+
+function playMusicNote(){
+
+ if(
+  !saveData.settings.music ||
+  !running ||
+  paused
+ )
+  return;
+
+
+ let a=getAudio();
+
+ if(!a)
+  return;
+
+
+ let melody=
+  melodies[
+   levelIndex%melodies.length
+  ];
+
+
+ let freq=
+  melody[
+   musicStep%melody.length
+  ];
+
+
+ musicStep++;
+
+
+ let o=
+  a.createOscillator();
+
+
+ let g=
+  a.createGain();
+
+
+ o.type="triangle";
+
+ o.frequency.value=freq;
+
+
+ g.gain.setValueAtTime(
+  .018,
+  a.currentTime
+ );
+
+
+ g.gain.exponentialRampToValueAtTime(
+  .001,
+  a.currentTime+.19
+ );
+
+
+ o.connect(g);
+
+ g.connect(a.destination);
+
+
+ o.start();
+
+ o.stop(
+  a.currentTime+.20
+ );
+
+}
+
+
 function startMusic(){
- if(!saveData.settings.music)return;
+
+ if(
+  !saveData.settings.music ||
+  !running ||
+  paused
+ )
+  return;
+
 
  getAudio();
 
- if(musicTimer)return;
+
+ if(musicTimer)
+  return;
+
 
  musicStep=0;
+
+
  playMusicNote();
 
- musicTimer=setInterval(()=>{
-   playMusicNote();
- },220);
+
+ musicTimer=
+  setInterval(
+   ()=>{
+    playMusicNote();
+   },
+   220
+  );
+
 }
+
 
 function stopMusic(){
+
  if(musicTimer){
-   clearInterval(musicTimer);
-   musicTimer=null;
+
+  clearInterval(
+   musicTimer
+  );
+
+  musicTimer=null;
+
  }
+
 }
 
-/* Start music after first user interaction */
-document.addEventListener("pointerdown",()=>{
- if(running && saveData.settings.music)
+
+/* =========================================================
+   AUDIO START PO INTERAKCJI
+========================================================= */
+
+document.addEventListener(
+ "pointerdown",
+ ()=>{
+
+  if(
+   running &&
+   !paused &&
+   saveData.settings.music
+  ){
+
    startMusic();
-},{once:false});
+
+  }
+
+ }
+);
+
+
+/* =========================================================
+   AUTO PAUSE
+========================================================= */
+
+document.addEventListener(
+ "visibilitychange",
+ ()=>{
+
+  if(
+   document.hidden &&
+   running &&
+   !paused
+  ){
+
+   togglePause();
+
+  }
+
+ }
+);
+
+
+/* =========================================================
+   STARTOWE UI
+========================================================= */
+
+updateHome();
+
+updateSettingsUI();
 
 </script>
+
 </body>
 </html>
 ```
