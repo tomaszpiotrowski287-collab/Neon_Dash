@@ -416,6 +416,7 @@ canvas{
  <canvas id="canvas"></canvas>
 
  <div id="hud">
+
   <div class="hudBox">
    Poziom: <span id="levelText">1</span>
   </div>
@@ -427,6 +428,7 @@ canvas{
   <div class="hudBox">
    <span id="progressText">0%</span>
   </div>
+
  </div>
 
  <div id="levelProgress">
@@ -668,12 +670,14 @@ saveData.settings={
 };
 
 function save(){
+
  try{
   localStorage.setItem(
    "neonDashSave",
    JSON.stringify(saveData)
   );
  }catch(e){}
+
  updateHome();
 }
 
@@ -727,9 +731,12 @@ function groundY(){
 
 let running=false;
 let paused=false;
+
 let levelIndex=0;
+
 let levelTime=0;
 let levelCoins=0;
+
 let currentSpeed=1;
 let cameraX=0;
 let lastTime=0;
@@ -745,6 +752,7 @@ let musicTimer=null;
 let musicStep=0;
 let audioCtx=null;
 let winTimer=null;
+let deathTimer=null;
 
 /* =========================================================
    PLAYER
@@ -780,6 +788,14 @@ function createLevel(){
  currentSpeed=1;
  cameraX=0;
 
+ /* zabezpieczenie poziomu */
+
+ if(!levels[levelIndex]){
+  levelIndex=0;
+ }
+
+ const total=levels[levelIndex][3];
+
  player.x=130;
  player.y=groundY()-player.h;
  player.vy=0;
@@ -787,14 +803,6 @@ function createLevel(){
  player.blink=0;
  player.walkTime=0;
  player.rotation=0;
-
- const total=levels[levelIndex][3];
-
- /*
-  Każdy poziom ma własny układ.
-  Przeszkody są zawsze ustawione z bezpiecznym
-  odstępem, żeby nie pojawiały się na sobie.
- */
 
  const spacing=390;
 
@@ -911,10 +919,9 @@ function createLevel(){
     w:38,
     h:40
    });
-
   }
 
-  /* bezpieczne monety */
+  /* monety */
 
   if(i%2===0){
 
@@ -924,18 +931,16 @@ function createLevel(){
     r:10,
     collected:false
    });
-
   }
 
   if(i%5===0){
 
    coins.push({
     x:x+230,
-    y:groundY()-170,
+    y:groundY()-145,
     r:10,
     collected:false
    });
-
   }
  }
 
@@ -964,23 +969,33 @@ function updateLevelUI(){
  document.getElementById("progressText").textContent=
   "0%";
 
- document.getElementById("levelProgressBar").style.width=
-  "0%";
+ const bar=
+  document.getElementById("levelProgressBar");
+
+ if(bar){
+  bar.style.width="0%";
+ }
 }
 
 /* =========================================================
-   START
+   START GAME
 ========================================================= */
 
 function startGame(index=null){
 
  clearTimeout(winTimer);
+ clearTimeout(deathTimer);
+
+ stopMusic();
 
  hideAllPanels();
 
  document.getElementById("home").style.display="none";
  document.getElementById("game").style.display="block";
 
+ /*
+    Jeżeli wybrano konkretny poziom
+ */
  if(index!==null){
 
   index=Number(index);
@@ -997,13 +1012,28 @@ function startGame(index=null){
 
  }else{
 
-  levelIndex=saveData.completed.length;
+  /*
+     GRAJ zaczyna od pierwszego
+     nieukończonego poziomu.
+  */
 
-  if(levelIndex>=levels.length)
+  levelIndex=0;
+
+  while(
+   levelIndex<levels.length &&
+   saveData.completed.includes(levelIndex)
+  ){
+   levelIndex++;
+  }
+
+  if(levelIndex>=levels.length){
    levelIndex=levels.length-1;
+  }
  }
 
- /* nie można przeskoczyć blokady */
+ /*
+    Nie pozwalamy przeskakiwać blokady.
+ */
 
  for(let i=0;i<levelIndex;i++){
 
@@ -1014,12 +1044,21 @@ function startGame(index=null){
   }
  }
 
+ /*
+    NAJWAŻNIEJSZE:
+    najpierw tworzymy poziom,
+    potem natychmiast go rysujemy.
+ */
+
  createLevel();
+
+ draw();
 
  running=true;
  paused=false;
 
  document.getElementById("winOverlay").style.display="none";
+ document.getElementById("pausePanel").style.display="none";
 
  lastTime=performance.now();
 
@@ -1035,14 +1074,19 @@ function startGame(index=null){
 function restartLevel(){
 
  clearTimeout(winTimer);
+ clearTimeout(deathTimer);
 
- document.getElementById("pausePanel").style.display="none";
+ stopMusic();
 
  paused=false;
+
+ document.getElementById("pausePanel").style.display="none";
 
  createLevel();
 
  running=true;
+
+ draw();
 
  lastTime=performance.now();
 
@@ -1057,7 +1101,7 @@ function restartLevel(){
 
 function togglePause(){
 
- if(!running && !paused)
+ if(!running&&!paused)
   return;
 
  paused=!paused;
@@ -1162,6 +1206,11 @@ function updatePhysics(dt){
 
  const level=levels[levelIndex];
 
+ if(!level){
+  running=false;
+  return;
+ }
+
  const move=
   level[2]*
   currentSpeed*
@@ -1188,11 +1237,12 @@ function updatePhysics(dt){
   player.grounded=true;
  }
 
- /* obrót postaci */
+ /* obrót */
 
  if(!player.grounded){
 
   player.rotation+=.12*dt;
+
  }else{
 
   player.rotation*=.75;
@@ -1296,11 +1346,9 @@ function updatePhysics(dt){
  if(player.blink>210)
   player.blink=0;
 
- /* animacja cząsteczek */
-
  updateParticles();
 
- /* koniec mapy */
+ /* koniec poziomu */
 
  if(cameraX>=level[3]){
 
@@ -1308,7 +1356,7 @@ function updatePhysics(dt){
   return;
  }
 
- /* aktualizacja UI */
+ /* procent */
 
  const percent=Math.min(
   100,
@@ -1323,8 +1371,12 @@ function updatePhysics(dt){
  document.getElementById("runCoins")
  .textContent=levelCoins;
 
- document.getElementById("levelProgressBar")
- .style.width=percent+"%";
+ const bar=
+  document.getElementById("levelProgressBar");
+
+ if(bar){
+  bar.style.width=percent+"%";
+ }
 
  /* zabezpieczenie */
 
@@ -1368,7 +1420,9 @@ function die(){
 
  showToast("💥 Próba nieudana!");
 
- setTimeout(()=>{
+ clearTimeout(deathTimer);
+
+ deathTimer=setTimeout(()=>{
 
   if(confirm(
    "Poziom nieukończony.\n\nSpróbować ponownie?"
@@ -1404,6 +1458,10 @@ function winLevel(){
  if(!saveData.completed.includes(levelIndex)){
 
   saveData.completed.push(levelIndex);
+
+  saveData.completed.sort(
+   (a,b)=>a-b
+  );
  }
 
  if(allCollected)
@@ -1422,24 +1480,23 @@ function winLevel(){
 
  makeConfetti();
 
- /* krótka animacja zwycięstwa */
-
- let start=performance.now();
+ const start=performance.now();
 
  function celebration(now){
 
   draw();
 
+  updateConfetti();
+
   if(now-start<1200){
 
-   updateConfetti();
-
    requestAnimationFrame(celebration);
-
   }
  }
 
  requestAnimationFrame(celebration);
+
+ clearTimeout(winTimer);
 
  winTimer=setTimeout(()=>{
 
@@ -1497,8 +1554,10 @@ function loop(t){
 
  draw();
 
- if(running&&!paused)
+ if(running&&!paused){
+
   requestAnimationFrame(loop);
+ }
 }
 
 /* =========================================================
@@ -1999,6 +2058,7 @@ function drawParticles(){
 function makeConfetti(){
 
  if(!saveData.settings.effects){
+
   confetti=[];
   return;
  }
@@ -2032,6 +2092,7 @@ function updateConfetti(){
   c.r+=.08;
 
   if(c.y>H+20){
+
    c.y=-20;
    c.x=Math.random()*W;
   }
@@ -2432,6 +2493,7 @@ function hideAllPanels(){
 function backHome(){
 
  clearTimeout(winTimer);
+ clearTimeout(deathTimer);
 
  running=false;
  paused=false;
@@ -2502,6 +2564,7 @@ function getAudio(){
  }
 
  if(audioCtx.state==="suspended"){
+
   audioCtx.resume().catch(()=>{});
  }
 
