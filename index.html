@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -175,25 +176,9 @@ button{
     box-shadow .12s ease;
 }
 
-.level::after{
-  content:"";
-  position:absolute;
-  left:-100%;
-  top:0;
-  width:60%;
-  height:100%;
-  background:linear-gradient(90deg,transparent,#ffffff18,transparent);
-  transform:skewX(-20deg);
-  transition:left .45s ease;
-}
-
 .level:hover{
   border-color:#00eaff;
   box-shadow:0 0 20px #00eaff18;
-}
-
-.level:hover::after{
-  left:150%;
 }
 
 .level:active{
@@ -227,12 +212,10 @@ button{
   background:linear-gradient(135deg,#29325e,#171c3c);
   border:2px solid #414d7c;
   font-weight:bold;
-  transition:.15s;
 }
 
 #achBtn:hover{
   border-color:#00eaff;
-  box-shadow:0 0 20px #00eaff20;
 }
 
 /* =========================
@@ -280,12 +263,6 @@ button{
   border-radius:12px;
   background:#29335e;
   font-weight:bold;
-  transition:.12s;
-}
-
-.panel button:hover{
-  background:#344174;
-  box-shadow:0 0 18px #00eaff20;
 }
 
 .ach{
@@ -294,13 +271,11 @@ button{
   border-radius:12px;
   background:#191e3b;
   opacity:.38;
-  transition:.2s;
 }
 
 .ach.on{
   opacity:1;
   border:1px solid #00eaff;
-  box-shadow:0 0 15px #00eaff18;
 }
 
 /* =========================
@@ -374,10 +349,8 @@ canvas{
   background:#10162ddd;
   border:1px solid #53618e;
   border-radius:10px;
-  box-shadow:0 5px 15px #0005;
 }
 
-/* mobile */
 @media(max-width:650px){
   #levels{
     grid-template-columns:1fr;
@@ -503,126 +476,18 @@ canvas{
 ========================================================= */
 
 const LEVELS=[
-  {
-    name:"NEON RUSH",
-    diff:"⭐⭐",
-    speed:280,
-    color:"#00eaff",
-    bpm:124,
-    wave:"square",
-    notes:[262,330,392,523,392,330,294,330],
-    gravity:1
-  },
-  {
-    name:"CRYSTAL DRIVE",
-    diff:"⭐⭐⭐",
-    speed:295,
-    color:"#72a7ff",
-    bpm:112,
-    wave:"triangle",
-    notes:[196,247,294,370,494,370,294,247],
-    gravity:1
-  },
-  {
-    name:"LAVA PULSE",
-    diff:"⭐⭐⭐⭐",
-    speed:310,
-    color:"#ff4d42",
-    bpm:140,
-    wave:"sawtooth",
-    notes:[110,110,165,147,110,131,98,110],
-    gravity:1
-  },
-  {
-    name:"SKY CIRCUIT",
-    diff:"⭐⭐⭐⭐",
-    speed:305,
-    color:"#9c7bff",
-    bpm:132,
-    wave:"sine",
-    notes:[330,392,494,659,587,494,392,330],
-    gravity:1
-  },
-  {
-    name:"VIOLET RUN",
-    diff:"⭐⭐⭐⭐",
-    speed:320,
-    color:"#d35cff",
-    bpm:128,
-    wave:"triangle",
-    notes:[220,277,330,440,523,440,330,277],
-    gravity:1
-  },
-  {
-    name:"SHADOW FACTORY",
-    diff:"⭐⭐⭐⭐⭐",
-    speed:325,
-    color:"#b44cff",
-    bpm:118,
-    wave:"square",
-    notes:[147,174,220,207,147,174,233,220],
-    gravity:1
-  },
-  {
-    name:"CYBER STORM",
-    diff:"⭐⭐⭐⭐⭐",
-    speed:335,
-    color:"#27f0c5",
-    bpm:136,
-    wave:"triangle",
-    notes:[165,220,277,330,440,330,277,220],
-    gravity:1
-  },
-  {
-    name:"INFERNO CORE",
-    diff:"⭐⭐⭐⭐⭐",
-    speed:345,
-    color:"#ff7338",
-    bpm:145,
-    wave:"sawtooth",
-    notes:[98,123,147,196,147,123,110,98],
-    gravity:1
-  },
-  {
-    name:"ELECTRIC VOID",
-    diff:"⭐⭐⭐⭐⭐⭐",
-    speed:355,
-    color:"#35b7ff",
-    bpm:150,
-    wave:"square",
-    notes:[220,330,440,659,523,440,330,247],
-    gravity:1
-  },
-  {
-    name:"GRAVITY BREAK",
-    diff:"⭐⭐⭐⭐⭐⭐",
-    speed:340,
-    color:"#45ff9a",
-    bpm:142,
-    wave:"triangle",
-    notes:[196,247,330,392,494,392,330,247],
-    gravity:-1
-  },
-  {
-    name:"OVERDRIVE",
-    diff:"⭐⭐⭐⭐⭐⭐",
-    speed:365,
-    color:"#ff3bea",
-    bpm:154,
-    wave:"square",
-    notes:[247,330,440,523,659,523,440,330],
-    gravity:1
-  },
-  {
-    name:"FINAL CHAOS",
-    diff:"⭐⭐⭐⭐⭐⭐",
-    speed:375,
-    color:"#ff247f",
-    bpm:158,
-    wave:"sawtooth",
-    notes:[220,330,440,659,523,784,659,440],
-    gravity:1
-  }
+  {name:"NEON RUSH",diff:"⭐⭐",speed:280,color:"#00eaff",bpm:124,wave:"square",notes:[262,330,392,523,392,330,294,330],gravity:1},
+  {name:"CRYSTAL DRIVE",diff:"⭐⭐⭐",speed:295,color:"#72a7ff",bpm:112,wave:"triangle",notes:[196,247,294,370,494,370,294,247],gravity:1},
+  {name:"LAVA PULSE",diff:"⭐⭐⭐⭐",speed:310,color:"#ff4d42",bpm:140,wave:"sawtooth",notes:[110,110,165,147,110,131,98,110],gravity:1},
+  {name:"SKY CIRCUIT",diff:"⭐⭐⭐⭐",speed:305,color:"#9c7bff",bpm:132,wave:"sine",notes:[330,392,494,659,587,494,392,330],gravity:1},
+  {name:"VIOLET RUN",diff:"⭐⭐⭐⭐",speed:320,color:"#d35cff",bpm:128,wave:"triangle",notes:[220,277,330,440,523,440,330,277],gravity:1},
+  {name:"SHADOW FACTORY",diff:"⭐⭐⭐⭐⭐",speed:325,color:"#b44cff",bpm:118,wave:"square",notes:[147,174,220,207,147,174,233,220],gravity:1},
+  {name:"CYBER STORM",diff:"⭐⭐⭐⭐⭐",speed:335,color:"#27f0c5",bpm:136,wave:"triangle",notes:[165,220,277,330,440,330,277,220],gravity:1},
+  {name:"INFERNO CORE",diff:"⭐⭐⭐⭐⭐",speed:345,color:"#ff7338",bpm:145,wave:"sawtooth",notes:[98,123,147,196,147,123,110,98],gravity:1},
+  {name:"ELECTRIC VOID",diff:"⭐⭐⭐⭐⭐⭐",speed:355,color:"#35b7ff",bpm:150,wave:"square",notes:[220,330,440,659,523,440,330,247],gravity:1},
+  {name:"GRAVITY BREAK",diff:"⭐⭐⭐⭐⭐⭐",speed:340,color:"#45ff9a",bpm:142,wave:"triangle",notes:[196,247,330,392,494,392,330,247],gravity:-1},
+  {name:"OVERDRIVE",diff:"⭐⭐⭐⭐⭐⭐",speed:365,color:"#ff3bea",bpm:154,wave:"square",notes:[247,330,440,523,659,523,440,330],gravity:1},
+  {name:"FINAL CHAOS",diff:"⭐⭐⭐⭐⭐⭐",speed:375,color:"#ff247f",bpm:158,wave:"sawtooth",notes:[220,330,440,659,523,784,659,440],gravity:1}
 ];
 
 /* =========================================================
@@ -705,7 +570,6 @@ function achUnlocked(id){
 
 function unlock(id){
   if(achUnlocked(id)) return;
-
   set("nd_ach_"+id,"1");
   renderAchievements();
 }
@@ -718,9 +582,7 @@ function checkAchievements(){
   if(count>=6) unlock("six");
   if(count>=LEVELS.length) unlock("all");
 
-  if(completed(LEVELS.length-1)){
-    unlock("final");
-  }
+  if(completed(LEVELS.length-1)) unlock("final");
 
   const total=Number(get("nd_totalCoins","0"));
 
@@ -729,7 +591,6 @@ function checkAchievements(){
 
   if(deaths===0) unlock("perfect");
   if(deaths>=3) unlock("survivor");
-
   if(runCoins===3) unlock("allcoins");
 }
 
@@ -775,22 +636,23 @@ function renderMenu(){
       level.diff+
       " • "+
       level.speed+
-      " px/s"+
-      " • "+
+      " px/s • "+
       level.bpm+
       " BPM"+
       '</div>';
 
-    button.addEventListener("click",async e=>{
+    button.addEventListener("click",e=>{
       e.preventDefault();
       e.stopPropagation();
 
-      await unlockAudio();
-      startLevel(index,true);
+      /*
+        Najważniejsze:
+        audio jest uruchamiane bezpośrednio
+        z kliknięcia przycisku.
+      */
+      prepareAudioFromUserGesture();
 
-      if(sound){
-        startMusic();
-      }
+      startLevel(index,true);
     });
 
     levelsBox.appendChild(button);
@@ -799,18 +661,13 @@ function renderMenu(){
   const done=completedCount();
 
   const progress=
-    Math.round(
-      done/LEVELS.length*100
-    );
+    Math.round(done/LEVELS.length*100);
 
   progressText.textContent=progress+"%";
   menuBar.style.width=progress+"%";
 
   doneText.textContent=
-    done+
-    " / "+
-    LEVELS.length+
-    " poziomów";
+    done+" / "+LEVELS.length+" poziomów";
 }
 
 document.getElementById("achBtn").addEventListener("click",()=>{
@@ -823,53 +680,13 @@ document.getElementById("closeAch").addEventListener("click",()=>{
 });
 
 /* =========================================================
-   CANVAS / RESIZE
+   CANVAS
 ========================================================= */
 
 let W=window.innerWidth;
 let H=window.innerHeight;
 let ground=H*.78;
 let dpr=1;
-
-function resize(){
-  W=Math.max(240,window.innerWidth);
-  H=Math.max(240,window.innerHeight);
-
-  dpr=Math.min(
-    Math.max(window.devicePixelRatio||1,1),
-    2
-  );
-
-  canvas.width=Math.round(W*dpr);
-  canvas.height=Math.round(H*dpr);
-
-  canvas.style.width=W+"px";
-  canvas.style.height=H+"px";
-
-  ctx.setTransform(
-    dpr,0,0,dpr,0,0
-  );
-
-  ground=Math.max(
-    150,
-    Math.min(H-45,H*.78)
-  );
-
-  if(!running){
-    player.y=
-      gravityDirection===1
-      ?ground-player.size
-      :0;
-  }
-
-  createStars();
-}
-
-window.addEventListener("resize",resize,{passive:true});
-
-window.addEventListener("orientationchange",()=>{
-  setTimeout(resize,150);
-},{passive:true});
 
 /* =========================================================
    PLAYER
@@ -914,12 +731,52 @@ let shake=0;
 let flash=0;
 let gravityDirection=1;
 let speedBoost=1;
-let checkpointX=0;
-
 let levelLength=0;
 
 /* =========================================================
-   AUDIO ENGINE
+   RESIZE
+========================================================= */
+
+function resize(){
+  W=Math.max(240,window.innerWidth);
+  H=Math.max(240,window.innerHeight);
+
+  dpr=Math.min(
+    Math.max(window.devicePixelRatio||1,1),
+    2
+  );
+
+  canvas.width=Math.round(W*dpr);
+  canvas.height=Math.round(H*dpr);
+
+  canvas.style.width=W+"px";
+  canvas.style.height=H+"px";
+
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+
+  ground=Math.max(
+    150,
+    Math.min(H-45,H*.78)
+  );
+
+  if(!running){
+    player.y=
+      gravityDirection===1
+      ?ground-player.size
+      :0;
+  }
+
+  createStars();
+}
+
+window.addEventListener("resize",resize,{passive:true});
+
+window.addEventListener("orientationchange",()=>{
+  setTimeout(resize,150);
+},{passive:true});
+
+/* =========================================================
+   AUDIO
 ========================================================= */
 
 let audio=null;
@@ -931,9 +788,9 @@ let sound=
   get("nd_sound","1")==="1";
 
 function initAudio(){
-  try{
-    if(audio) return true;
+  if(audio) return true;
 
+  try{
     const AudioContext=
       window.AudioContext||
       window.webkitAudioContext;
@@ -948,6 +805,35 @@ function initAudio(){
   }catch{
     return false;
   }
+}
+
+/*
+  Ta funkcja jest wywoływana BEZPOŚREDNIO
+  podczas kliknięcia/tapnięcia użytkownika.
+*/
+function prepareAudioFromUserGesture(){
+
+  if(!sound){
+    return;
+  }
+
+  if(!initAudio()){
+    return;
+  }
+
+  try{
+    if(audio.state==="suspended"){
+      audio.resume().then(()=>{
+        if(running&&!paused&&sound){
+          startMusic();
+        }
+      }).catch(()=>{});
+    }else if(audio.state==="running"){
+      if(running&&!paused){
+        startMusic();
+      }
+    }
+  }catch{}
 }
 
 async function unlockAudio(){
@@ -982,26 +868,34 @@ function playTone(
   }
 
   try{
-    const now=audio.currentTime+when;
+    const now=
+      audio.currentTime+when;
 
-    const osc=audio.createOscillator();
-    const gain=audio.createGain();
-    const filter=audio.createBiquadFilter();
+    const osc=
+      audio.createOscillator();
+
+    const gain=
+      audio.createGain();
+
+    const filter=
+      audio.createBiquadFilter();
 
     osc.type=type;
+
     osc.frequency.setValueAtTime(
       frequency,
       now
     );
 
     filter.type="lowpass";
+
     filter.frequency.setValueAtTime(
       5000,
       now
     );
 
     gain.gain.setValueAtTime(
-      0.0001,
+      .0001,
       now
     );
 
@@ -1025,7 +919,13 @@ function playTone(
 }
 
 function playKick(){
-  if(!audio||!sound||audio.state!=="running") return;
+  if(
+    !audio||
+    !sound||
+    audio.state!=="running"
+  ){
+    return;
+  }
 
   try{
     const now=audio.currentTime;
@@ -1035,15 +935,30 @@ function playKick(){
 
     osc.type="sine";
 
-    osc.frequency.setValueAtTime(120,now);
+    osc.frequency.setValueAtTime(
+      120,
+      now
+    );
+
     osc.frequency.exponentialRampToValueAtTime(
       45,
       now+.12
     );
 
-    gain.gain.setValueAtTime(.0001,now);
-    gain.gain.exponentialRampToValueAtTime(.08,now+.005);
-    gain.gain.exponentialRampToValueAtTime(.0001,now+.14);
+    gain.gain.setValueAtTime(
+      .0001,
+      now
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+      .08,
+      now+.005
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+      .0001,
+      now+.14
+    );
 
     osc.connect(gain);
     gain.connect(audio.destination);
@@ -1054,24 +969,38 @@ function playKick(){
 }
 
 function playHat(){
-  if(!audio||!sound||audio.state!=="running") return;
+  if(
+    !audio||
+    !sound||
+    audio.state!=="running"
+  ){
+    return;
+  }
 
   try{
-    const buffer=audio.createBuffer(
-      1,
-      audio.sampleRate*.035,
-      audio.sampleRate
-    );
+    const buffer=
+      audio.createBuffer(
+        1,
+        Math.floor(audio.sampleRate*.035),
+        audio.sampleRate
+      );
 
-    const data=buffer.getChannelData(0);
+    const data=
+      buffer.getChannelData(0);
 
     for(let i=0;i<data.length;i++){
-      data[i]=(Math.random()*2-1)*.2;
+      data[i]=
+        (Math.random()*2-1)*.2;
     }
 
-    const source=audio.createBufferSource();
-    const gain=audio.createGain();
-    const filter=audio.createBiquadFilter();
+    const source=
+      audio.createBufferSource();
+
+    const gain=
+      audio.createGain();
+
+    const filter=
+      audio.createBiquadFilter();
 
     filter.type="highpass";
     filter.frequency.value=4500;
@@ -1079,6 +1008,7 @@ function playHat(){
     gain.gain.value=.035;
 
     source.buffer=buffer;
+
     source.connect(filter);
     filter.connect(gain);
     gain.connect(audio.destination);
@@ -1087,13 +1017,8 @@ function playHat(){
   }catch{}
 }
 
-/*
-  Muzyka proceduralna:
-  każdy poziom ma własne tempo,
-  skalę, instrument i melodię.
-*/
-
 function startMusic(){
+
   stopMusic();
 
   if(
@@ -1118,6 +1043,7 @@ function startMusic(){
     );
 
   function musicTick(){
+
     if(
       !running||
       paused||
@@ -1125,6 +1051,7 @@ function startMusic(){
       !audio||
       audio.state!=="running"
     ){
+      stopMusic();
       return;
     }
 
@@ -1133,42 +1060,39 @@ function startMusic(){
         musicIndex%level.notes.length
       ];
 
-    const step=musicStep%8;
+    const step=
+      musicStep%8;
 
-    /*
-      Melodia
-    */
     playTone(
       note,
-      .12,
+      .13,
       level.wave,
-      .025
+      .035
     );
 
-    /*
-      Bass co drugie uderzenie
-    */
     if(step%2===0){
+
       playTone(
         note/2,
-        .16,
+        .18,
         "sine",
-        .025
+        .028
       );
+
       playKick();
+
     }else{
+
       playHat();
     }
 
-    /*
-      dodatkowa nuta harmoniczna
-    */
     if(step===3||step===7){
+
       playTone(
         note*1.5,
-        .08,
+        .09,
         "triangle",
-        .018
+        .02
       );
     }
 
@@ -1178,15 +1102,21 @@ function startMusic(){
 
   musicTick();
 
-  musicTimer=setInterval(
-    musicTick,
-    interval
-  );
+  musicTimer=
+    setInterval(
+      musicTick,
+      interval
+    );
 }
 
 function stopMusic(){
+
   if(musicTimer!==null){
-    clearInterval(musicTimer);
+
+    clearInterval(
+      musicTimer
+    );
+
     musicTimer=null;
   }
 }
@@ -1228,15 +1158,21 @@ function playWinSound(){
 ========================================================= */
 
 function startLevel(index,newRun=true){
-  if(index<0||index>=LEVELS.length) return;
+
+  if(
+    index<0||
+    index>=LEVELS.length
+  ){
+    return;
+  }
 
   current=index;
 
   if(newRun){
+
     deaths=0;
     runCoins=0;
     collected=new Set();
-    checkpointX=0;
   }
 
   running=false;
@@ -1253,6 +1189,7 @@ function startLevel(index,newRun=true){
 
   game.style.display="block";
   menu.style.display="none";
+
   pause.style.display="none";
   finish.style.display="none";
 
@@ -1287,7 +1224,9 @@ function startLevel(index,newRun=true){
     LEVELS[current].name;
 
   coinsText.textContent=
-    "🪙 0/3";
+    "🪙 "+
+    runCoins+
+    "/3";
 
   percent.textContent="0%";
   gameBar.style.width="0%";
@@ -1296,18 +1235,33 @@ function startLevel(index,newRun=true){
 
   draw();
 
-  raf=requestAnimationFrame(loop);
+  raf=
+    requestAnimationFrame(loop);
+
+  /*
+    Jeżeli AudioContext jest już odblokowany,
+    muzyka startuje od razu.
+  */
+  if(
+    sound&&
+    audio&&
+    audio.state==="running"
+  ){
+    startMusic();
+  }
 }
 
 /* =========================================================
-   RESET
+   RESET PLAYER
 ========================================================= */
 
 function resetPlayer(){
-  player.x=Math.max(
-    75,
-    Math.min(180,W*.22)
-  );
+
+  player.x=
+    Math.max(
+      75,
+      Math.min(180,W*.22)
+    );
 
   player.y=
     gravityDirection===1
@@ -1324,6 +1278,7 @@ function resetPlayer(){
 ========================================================= */
 
 function generateLevel(){
+
   let x=620;
   let patternIndex=0;
 
@@ -1411,9 +1366,6 @@ function generateLevel(){
     patternIndex++;
   }
 
-  /*
-    Bezpieczne rozmieszczenie monet.
-  */
   const positions=[
     levelLength*.24,
     levelLength*.51,
@@ -1421,14 +1373,17 @@ function generateLevel(){
   ];
 
   positions.forEach((originalX,index)=>{
+
     let finalX=originalX;
 
     for(let tries=0;tries<50;tries++){
+
       let bad=false;
 
       for(const obstacle of obstacles){
 
         if(obstacle.type==="gap"){
+
           if(
             finalX>obstacle.x-110&&
             finalX<
@@ -1439,9 +1394,13 @@ function generateLevel(){
             bad=true;
             break;
           }
+
         }else{
+
           if(
-            Math.abs(finalX-obstacle.x)<125
+            Math.abs(
+              finalX-obstacle.x
+            )<125
           ){
             bad=true;
             break;
@@ -1521,6 +1480,7 @@ function gravityPortal(x){
 ========================================================= */
 
 function jump(){
+
   if(
     !running||
     paused||
@@ -1531,6 +1491,7 @@ function jump(){
   }
 
   if(player.grounded){
+
     player.vy=
       -730*
       gravityDirection;
@@ -1544,45 +1505,55 @@ function jump(){
   }
 }
 
-game.addEventListener("pointerdown",e=>{
-  if(
-    e.target.closest(".gameButtons")||
-    e.target.closest("#pause")||
-    e.target.closest("#finish")
-  ){
-    return;
-  }
+game.addEventListener(
+  "pointerdown",
+  e=>{
 
-  jump();
-},{passive:true});
+    if(
+      e.target.closest(".gameButtons")||
+      e.target.closest("#pause")||
+      e.target.closest("#finish")
+    ){
+      return;
+    }
 
-window.addEventListener("keydown",e=>{
-  if(
-    e.code==="Space"||
-    e.code==="ArrowUp"||
-    e.code==="KeyW"
-  ){
-    e.preventDefault();
     jump();
-  }
+  },
+  {passive:true}
+);
 
-  if(
-    e.code==="Escape"||
-    e.code==="KeyP"
-  ){
-    if(running){
-      togglePause();
+window.addEventListener(
+  "keydown",
+  e=>{
+
+    if(
+      e.code==="Space"||
+      e.code==="ArrowUp"||
+      e.code==="KeyW"
+    ){
+
+      e.preventDefault();
+      jump();
+    }
+
+    if(
+      e.code==="Escape"||
+      e.code==="KeyP"
+    ){
+
+      if(running){
+        togglePause();
+      }
+    }
+
+    if(e.code==="KeyR"){
+
+      if(running&&!paused){
+        restartCurrent();
+      }
     }
   }
-
-  if(
-    e.code==="KeyR"
-  ){
-    if(running&&!paused){
-      restartCurrent();
-    }
-  }
-});
+);
 
 /* =========================================================
    UPDATE
@@ -1596,10 +1567,8 @@ function update(dt){
     level.speed*
     speedBoost;
 
-  /*
-    Portal prędkości.
-  */
   for(const portal of portals){
+
     if(
       portal.type==="speed"&&
       world+player.x>
@@ -1607,13 +1576,11 @@ function update(dt){
       world+player.x<
         portal.x+170
     ){
+
       speed*=portal.mult;
     }
   }
 
-  /*
-    Płynne wygaszanie boosta.
-  */
   speedBoost+=
     (1-speedBoost)*
     Math.min(1,dt*4);
@@ -1627,7 +1594,8 @@ function update(dt){
   player.vy+=gravity*dt;
   player.y+=player.vy*dt;
 
-  const onGap=gapUnder();
+  const onGap=
+    gapUnder();
 
   if(gravityDirection===1){
 
@@ -1638,6 +1606,7 @@ function update(dt){
       player.y>=floor&&
       !onGap
     ){
+
       player.y=floor;
       player.vy=0;
       player.grounded=true;
@@ -1645,8 +1614,11 @@ function update(dt){
       player.rot=
         Math.round(
           player.rot/(Math.PI/2)
-        )*(Math.PI/2);
+        )*
+        (Math.PI/2);
+
     }else{
+
       player.grounded=false;
       player.rot+=dt*8.5;
     }
@@ -1659,6 +1631,7 @@ function update(dt){
       player.y<=ceiling&&
       !onGap
     ){
+
       player.y=ceiling;
       player.vy=0;
       player.grounded=true;
@@ -1666,8 +1639,11 @@ function update(dt){
       player.rot=
         Math.round(
           player.rot/(Math.PI/2)
-        )*(Math.PI/2);
+        )*
+        (Math.PI/2);
+
     }else{
+
       player.grounded=false;
       player.rot-=dt*8.5;
     }
@@ -1678,21 +1654,17 @@ function update(dt){
   checkCoins();
   collisions();
 
-  /*
-    Śmierć przez wypadnięcie poza ekran.
-  */
   if(
     player.y>H+120||
     player.y<-120
   ){
+
     die();
     return;
   }
 
-  /*
-    Trail.
-  */
   if(Math.random()<.9){
+
     trail.push({
       x:player.x+17,
       y:player.y+17,
@@ -1706,6 +1678,7 @@ function update(dt){
   updateParticles(dt);
 
   if(shake>0){
+
     shake=Math.max(
       0,
       shake-dt*16
@@ -1713,6 +1686,7 @@ function update(dt){
   }
 
   if(flash>0){
+
     flash=Math.max(
       0,
       flash-dt*3.5
@@ -1721,6 +1695,7 @@ function update(dt){
 }
 
 function gapUnder(){
+
   const center=
     world+
     player.x+
@@ -1732,8 +1707,10 @@ function gapUnder(){
       obstacle.type==="gap"&&
       center>obstacle.x&&
       center<
-        obstacle.x+obstacle.w
+        obstacle.x+
+        obstacle.w
     ){
+
       return true;
     }
   }
@@ -1746,6 +1723,7 @@ function gapUnder(){
 ========================================================= */
 
 function checkPads(){
+
   for(const padObject of pads){
 
     if(padObject.used) continue;
@@ -1760,6 +1738,7 @@ function checkPads(){
       px<padObject.x+55&&
       player.grounded
     ){
+
       padObject.used=true;
 
       player.vy=
@@ -1785,6 +1764,7 @@ function checkPads(){
 }
 
 function checkPortals(){
+
   for(const portal of portals){
 
     if(portal.used) continue;
@@ -1802,6 +1782,7 @@ function checkPortals(){
       portal.used=true;
 
       if(portal.type==="speed"){
+
         speedBoost=portal.mult;
 
         particlesPortal(
@@ -1810,10 +1791,12 @@ function checkPortals(){
         );
 
         playPortalSound();
+
         shake=4;
       }
 
       if(portal.type==="gravity"){
+
         gravityDirection*=-1;
 
         player.vy=0;
@@ -1833,6 +1816,7 @@ function checkPortals(){
 }
 
 function checkCoins(){
+
   for(const coin of coinObjects){
 
     if(coin.collected) continue;
@@ -1845,8 +1829,11 @@ function checkCoins(){
       ?ground-125
       :125;
 
-    const px=player.x+17;
-    const py=player.y+17;
+    const px=
+      player.x+17;
+
+    const py=
+      player.y+17;
 
     if(
       Math.hypot(
@@ -1856,9 +1843,11 @@ function checkCoins(){
     ){
 
       coin.collected=true;
+
       collected.add(coin.id);
 
-      runCoins=collected.size;
+      runCoins=
+        collected.size;
 
       coinsText.textContent=
         "🪙 "+
@@ -1879,19 +1868,32 @@ function checkCoins(){
 
 function collisions(){
 
-  const px=world+player.x;
-  const size=player.size;
+  const px=
+    world+
+    player.x;
 
-  const left=px+5;
-  const right=px+size-5;
-  const top=player.y+5;
-  const bottom=player.y+size-5;
+  const size=
+    player.size;
+
+  const left=
+    px+5;
+
+  const right=
+    px+size-5;
+
+  const top=
+    player.y+5;
+
+  const bottom=
+    player.y+size-5;
 
   for(const obstacle of obstacles){
 
     if(obstacle.type==="spike"){
 
-      const sx=obstacle.x;
+      const sx=
+        obstacle.x;
+
       const sw=46;
 
       if(
@@ -1900,16 +1902,17 @@ function collisions(){
       ){
 
         if(gravityDirection===1){
-          /*
-            Kolizja tylko gdy gracz jest
-            rzeczywiście przy podłodze.
-          */
+
           if(bottom>ground-43){
+
             die();
             return;
           }
+
         }else{
+
           if(top<43){
+
             die();
             return;
           }
@@ -1919,7 +1922,9 @@ function collisions(){
 
     if(obstacle.type==="saw"){
 
-      const cx=obstacle.x;
+      const cx=
+        obstacle.x;
+
       const cy=
         gravityDirection===1
         ?ground-obstacle.r
@@ -1937,8 +1942,11 @@ function collisions(){
           Math.min(cy,bottom)
         );
 
-      const dx=cx-closestX;
-      const dy=cy-closestY;
+      const dx=
+        cx-closestX;
+
+      const dy=
+        cy-closestY;
 
       const hitRadius=
         obstacle.r-5;
@@ -1948,6 +1956,7 @@ function collisions(){
         dy*dy<
         hitRadius*hitRadius
       ){
+
         die();
         return;
       }
@@ -1964,9 +1973,11 @@ function collisions(){
         gravityDirection===1&&
         center>obstacle.x&&
         center<
-          obstacle.x+obstacle.w&&
+          obstacle.x+
+          obstacle.w&&
         bottom>=ground-5
       ){
+
         die();
         return;
       }
@@ -1975,9 +1986,11 @@ function collisions(){
         gravityDirection===-1&&
         center>obstacle.x&&
         center<
-          obstacle.x+obstacle.w&&
+          obstacle.x+
+          obstacle.w&&
         top<=5
       ){
+
         die();
         return;
       }
@@ -1996,6 +2009,7 @@ function die(){
     finished||
     !running
   ){
+
     return;
   }
 
@@ -2008,38 +2022,31 @@ function die(){
   flash=1;
 
   stopMusic();
+
   playDeathSound();
   particlesDeath();
 
-  /*
-    Krótka animacja eksplozji,
-    potem bezpieczny restart.
-  */
   setTimeout(()=>{
-    if(!dying) return;
+
+    if(!dying){
+      return;
+    }
 
     dying=false;
 
-    /*
-      Po śmierci restartujemy poziom,
-      ale zachowujemy licznik śmierci
-      i zdobyte monety.
-    */
     startLevel(
       current,
       false
     );
 
-    /*
-      Zebrane monety pozostają zebrane
-      w tym przejściu.
-    */
     for(const coin of coinObjects){
+
       coin.collected=
         collected.has(coin.id);
     }
 
-    runCoins=collected.size;
+    runCoins=
+      collected.size;
 
     coinsText.textContent=
       "🪙 "+
@@ -2047,8 +2054,18 @@ function die(){
       "/3";
 
     if(sound){
-      startMusic();
+
+      prepareAudioFromUserGesture();
+
+      if(
+        audio&&
+        audio.state==="running"
+      ){
+
+        startMusic();
+      }
     }
+
   },650);
 }
 
@@ -2057,6 +2074,7 @@ function die(){
 ========================================================= */
 
 function checkWin(){
+
   if(world>=levelLength){
     finishLevel();
   }
@@ -2064,12 +2082,15 @@ function checkWin(){
 
 function finishLevel(){
 
-  if(finished) return;
+  if(finished){
+    return;
+  }
 
   finished=true;
   running=false;
 
   stopMusic();
+
   playWinSound();
 
   set(
@@ -2079,19 +2100,22 @@ function finishLevel(){
 
   const oldTotal=
     Number(
-      get("nd_totalCoins","0")
+      get(
+        "nd_totalCoins",
+        "0"
+      )
     );
 
-  /*
-    Nie dodajemy ponownie monet przy
-    każdym restarcie poziomu.
-  */
-  const previousRunCoins=
+  const previous=
     Number(
-      get("nd_lastCoins_"+current,"0")
+      get(
+        "nd_lastCoins_"+current,
+        "-1"
+      )
     );
 
-  if(previousRunCoins!==runCoins){
+  if(previous!==runCoins){
+
     set(
       "nd_lastCoins_"+current,
       runCoins
@@ -2107,12 +2131,14 @@ function finishLevel(){
 
   particlesWin();
 
-  document.getElementById("finishTitle")
-    .textContent=
+  document.getElementById(
+    "finishTitle"
+  ).textContent=
     "🎉 POZIOM UKOŃCZONY!";
 
-  document.getElementById("finishInfo")
-    .textContent=
+  document.getElementById(
+    "finishInfo"
+  ).textContent=
     LEVELS[current].name+
     " • 🪙 "+
     runCoins+
@@ -2121,8 +2147,9 @@ function finishLevel(){
     deaths+
     " śmierci";
 
-  document.getElementById("nextLevel")
-    .style.display=
+  document.getElementById(
+    "nextLevel"
+  ).style.display=
     current<LEVELS.length-1
     ?"block"
     :"none";
@@ -2147,14 +2174,20 @@ function loop(time){
   if(paused){
 
     last=time;
-    raf=requestAnimationFrame(loop);
+
+    raf=
+      requestAnimationFrame(loop);
 
     return;
   }
 
   if(dying){
+
     draw();
-    raf=requestAnimationFrame(loop);
+
+    raf=
+      requestAnimationFrame(loop);
+
     return;
   }
 
@@ -2165,10 +2198,12 @@ function loop(time){
     !Number.isFinite(dt)||
     dt<0
   ){
+
     dt=0;
   }
 
-  dt=Math.min(dt,.05);
+  dt=
+    Math.min(dt,.05);
 
   last=time;
 
@@ -2177,7 +2212,9 @@ function loop(time){
   checkWin();
 
   if(running||dying){
-    raf=requestAnimationFrame(loop);
+
+    raf=
+      requestAnimationFrame(loop);
   }
 }
 
@@ -2187,15 +2224,20 @@ function loop(time){
 
 function draw(){
 
-  const level=LEVELS[current];
+  const level=
+    LEVELS[current];
 
   ctx.clearRect(
-    0,0,W,H
+    0,
+    0,
+    W,
+    H
   );
 
   ctx.save();
 
   if(shake>0){
+
     ctx.translate(
       (Math.random()-.5)*shake,
       (Math.random()-.5)*shake
@@ -2207,23 +2249,34 @@ function draw(){
       0,0,0,H
     );
 
-  gradient.addColorStop(0,"#080b20");
-  gradient.addColorStop(.55,"#040614");
-  gradient.addColorStop(1,"#020207");
+  gradient.addColorStop(
+    0,
+    "#080b20"
+  );
+
+  gradient.addColorStop(
+    .55,
+    "#040614"
+  );
+
+  gradient.addColorStop(
+    1,
+    "#020207"
+  );
 
   ctx.fillStyle=gradient;
 
   ctx.fillRect(
-    0,0,W,H
+    0,
+    0,
+    W,
+    H
   );
 
   drawStars();
   drawGrid();
   drawSpeedLines();
 
-  /*
-    Podłoże.
-  */
   ctx.fillStyle="#090b17";
 
   ctx.fillRect(
@@ -2233,48 +2286,63 @@ function draw(){
     H-ground
   );
 
-  /*
-    Neonowa linia.
-  */
-  ctx.strokeStyle=level.color;
+  ctx.strokeStyle=
+    level.color;
+
   ctx.lineWidth=3;
 
-  ctx.shadowColor=level.color;
+  ctx.shadowColor=
+    level.color;
+
   ctx.shadowBlur=14;
 
   ctx.beginPath();
 
-  ctx.moveTo(0,ground);
-  ctx.lineTo(W,ground);
+  ctx.moveTo(
+    0,
+    ground
+  );
+
+  ctx.lineTo(
+    W,
+    ground
+  );
 
   ctx.stroke();
 
   ctx.shadowBlur=0;
 
-  /*
-    Obiekty.
-  */
   for(const obstacle of obstacles){
 
     const x=
       obstacle.x-world;
 
-    if(x<-150||x>W+150){
+    if(
+      x<-150||
+      x>W+150
+    ){
       continue;
     }
 
-    if(obstacle.type==="spike"){
+    if(
+      obstacle.type==="spike"
+    ){
       drawSpike(x);
     }
 
-    if(obstacle.type==="saw"){
+    if(
+      obstacle.type==="saw"
+    ){
       drawSaw(
         x,
         obstacle.r
       );
     }
 
-    if(obstacle.type==="gap"){
+    if(
+      obstacle.type==="gap"
+    ){
+
       ctx.fillStyle="#010106";
 
       ctx.fillRect(
@@ -2291,7 +2359,11 @@ function draw(){
     const x=
       padObject.x-world;
 
-    if(x>-80&&x<W+80){
+    if(
+      x>-80&&
+      x<W+80
+    ){
+
       drawPad(x);
     }
   }
@@ -2301,11 +2373,19 @@ function draw(){
     const x=
       portal.x-world;
 
-    if(x>-100&&x<W+100){
+    if(
+      x>-100&&
+      x<W+100
+    ){
 
-      if(portal.type==="speed"){
+      if(
+        portal.type==="speed"
+      ){
+
         drawSpeedPortal(x);
+
       }else{
+
         drawGravityPortal(x);
       }
     }
@@ -2313,12 +2393,17 @@ function draw(){
 
   for(const coin of coinObjects){
 
-    if(coin.collected) continue;
+    if(coin.collected){
+      continue;
+    }
 
     const x=
       coin.x-world;
 
-    if(x>-50&&x<W+50){
+    if(
+      x>-50&&
+      x<W+50
+    ){
 
       drawCoin(
         x,
@@ -2335,6 +2420,7 @@ function draw(){
     !dying&&
     !finished
   ){
+
     drawPlayer();
   }
 
@@ -2344,11 +2430,17 @@ function draw(){
 
     ctx.fillStyle=
       "rgba(255,255,255,"+
-      Math.min(.5,flash*.5)+
+      Math.min(
+        .5,
+        flash*.5
+      )+
       ")";
 
     ctx.fillRect(
-      0,0,W,H
+      0,
+      0,
+      W,
+      H
     );
   }
 
@@ -2375,6 +2467,17 @@ function draw(){
    PLAYER
 ========================================================= */
 
+/*
+  WAŻNE:
+  POSTAĆ MA TYLKO KWADRAT + OCZY.
+  NIE MA:
+  - rąk
+  - nóg
+  - butów
+  - ciała dodatkowego
+  - żadnych kończyn
+*/
+
 let nextBlink=
   performance.now()+3000;
 
@@ -2382,7 +2485,8 @@ let blinkUntil=0;
 
 function updateBlink(){
 
-  const now=performance.now();
+  const now=
+    performance.now();
 
   if(now>=nextBlink){
 
@@ -2403,12 +2507,12 @@ function drawPlayer(){
   const color=
     LEVELS[current].color;
 
-  const now=performance.now();
-  const blinking=now<blinkUntil;
+  const now=
+    performance.now();
 
-  /*
-    Mały puls podczas lotu.
-  */
+  const blinking=
+    now<blinkUntil;
+
   const pulse=
     1+
     Math.sin(now/80)*.025;
@@ -2420,17 +2524,28 @@ function drawPlayer(){
     player.y+17
   );
 
-  ctx.rotate(player.rot);
-  ctx.scale(pulse,pulse);
+  ctx.rotate(
+    player.rot
+  );
 
-  ctx.shadowColor=color;
-  ctx.shadowBlur=22;
-
-  ctx.fillStyle=color;
+  ctx.scale(
+    pulse,
+    pulse
+  );
 
   /*
-    TYLKO KWADRAT.
+    JEDYNY KSZTAŁT POSTACI:
+    neonowy kwadrat.
   */
+
+  ctx.shadowColor=
+    color;
+
+  ctx.shadowBlur=22;
+
+  ctx.fillStyle=
+    color;
+
   ctx.fillRect(
     -17,
     -17,
@@ -2443,6 +2558,7 @@ function drawPlayer(){
   /*
     OCZY.
   */
+
   ctx.fillStyle="#050510";
 
   if(blinking){
@@ -2492,23 +2608,49 @@ function drawSpike(x){
 
   ctx.save();
 
-  ctx.fillStyle=color;
-  ctx.shadowColor=color;
+  ctx.fillStyle=
+    color;
+
+  ctx.shadowColor=
+    color;
+
   ctx.shadowBlur=17;
 
   ctx.beginPath();
 
   if(gravityDirection===1){
 
-    ctx.moveTo(x,ground);
-    ctx.lineTo(x+23,ground-47);
-    ctx.lineTo(x+46,ground);
+    ctx.moveTo(
+      x,
+      ground
+    );
+
+    ctx.lineTo(
+      x+23,
+      ground-47
+    );
+
+    ctx.lineTo(
+      x+46,
+      ground
+    );
 
   }else{
 
-    ctx.moveTo(x,0);
-    ctx.lineTo(x+23,47);
-    ctx.lineTo(x+46,0);
+    ctx.moveTo(
+      x,
+      0
+    );
+
+    ctx.lineTo(
+      x+23,
+      47
+    );
+
+    ctx.lineTo(
+      x+46,
+      0
+    );
   }
 
   ctx.closePath();
@@ -2518,6 +2660,7 @@ function drawSpike(x){
 
   ctx.strokeStyle="#fff";
   ctx.lineWidth=1;
+
   ctx.stroke();
 
   ctx.restore();
@@ -2539,21 +2682,32 @@ function drawSaw(x,r){
 
   ctx.save();
 
-  ctx.translate(x,cy);
+  ctx.translate(
+    x,
+    cy
+  );
 
   ctx.rotate(
     performance.now()/280
   );
 
-  ctx.fillStyle=color;
-  ctx.shadowColor=color;
+  ctx.fillStyle=
+    color;
+
+  ctx.shadowColor=
+    color;
+
   ctx.shadowBlur=18;
 
   const teeth=14;
 
   ctx.beginPath();
 
-  for(let i=0;i<teeth*2;i++){
+  for(
+    let i=0;
+    i<teeth*2;
+    i++
+  ){
 
     const angle=
       i*Math.PI/teeth;
@@ -2563,13 +2717,25 @@ function drawSaw(x,r){
       ?r
       :r*.7;
 
-    const xx=Math.cos(angle)*radius;
-    const yy=Math.sin(angle)*radius;
+    const xx=
+      Math.cos(angle)*radius;
+
+    const yy=
+      Math.sin(angle)*radius;
 
     if(i===0){
-      ctx.moveTo(xx,yy);
+
+      ctx.moveTo(
+        xx,
+        yy
+      );
+
     }else{
-      ctx.lineTo(xx,yy);
+
+      ctx.lineTo(
+        xx,
+        yy
+      );
     }
   }
 
@@ -2613,14 +2779,21 @@ function drawCoin(x,y){
 
   ctx.save();
 
-  ctx.translate(x,y);
+  ctx.translate(
+    x,
+    y
+  );
+
   ctx.rotate(rotation);
   ctx.scale(scale,scale);
 
-  ctx.shadowColor="#ffd43b";
+  ctx.shadowColor=
+    "#ffd43b";
+
   ctx.shadowBlur=24;
 
-  ctx.fillStyle="#ffd43b";
+  ctx.fillStyle=
+    "#ffd43b";
 
   ctx.beginPath();
 
@@ -2643,17 +2816,23 @@ function drawCoin(x,y){
 
   ctx.fillStyle="#fff7a3";
 
-  ctx.font="bold 12px Arial";
+  ctx.font=
+    "bold 12px Arial";
+
   ctx.textAlign="center";
   ctx.textBaseline="middle";
 
-  ctx.fillText("★",0,1);
+  ctx.fillText(
+    "★",
+    0,
+    1
+  );
 
   ctx.restore();
 }
 
 /* =========================================================
-   PADS
+   PAD
 ========================================================= */
 
 function drawPad(x){
@@ -2699,7 +2878,6 @@ function drawPad(x){
 ========================================================= */
 
 function drawSpeedPortal(x){
-
   drawPortalBase(
     x,
     "#ffe14a",
@@ -2708,7 +2886,6 @@ function drawSpeedPortal(x){
 }
 
 function drawGravityPortal(x){
-
   drawPortalBase(
     x,
     "#ff4be8",
@@ -2753,7 +2930,9 @@ function drawPortalBase(x,color,text){
 
   ctx.fillStyle="#fff";
 
-  ctx.font="bold 20px Arial";
+  ctx.font=
+    "bold 20px Arial";
+
   ctx.textAlign="center";
 
   ctx.fillText(
@@ -2778,7 +2957,10 @@ function createStars(){
     stars.push({
       x:Math.random()*W,
       y:Math.random()*
-        Math.max(100,ground*.9),
+        Math.max(
+          100,
+          ground*.9
+        ),
       r:Math.random()*2+.4,
       v:Math.random()*.9+.15,
       a:Math.random()*.5+.2
@@ -2795,11 +2977,14 @@ function drawStars(){
     star.x-=star.v;
 
     if(star.x<0){
-      star.x=W+
+
+      star.x=
+        W+
         Math.random()*40;
     }
 
-    ctx.globalAlpha=star.a;
+    ctx.globalAlpha=
+      star.a;
 
     ctx.beginPath();
 
@@ -2838,8 +3023,15 @@ function drawGrid(){
 
     ctx.beginPath();
 
-    ctx.moveTo(x,0);
-    ctx.lineTo(x,ground);
+    ctx.moveTo(
+      x,
+      0
+    );
+
+    ctx.lineTo(
+      x,
+      ground
+    );
 
     ctx.stroke();
   }
@@ -2852,8 +3044,15 @@ function drawGrid(){
 
     ctx.beginPath();
 
-    ctx.moveTo(0,y);
-    ctx.lineTo(W,y);
+    ctx.moveTo(
+      0,
+      y
+    );
+
+    ctx.lineTo(
+      W,
+      y
+    );
 
     ctx.stroke();
   }
@@ -2887,14 +3086,19 @@ function drawSpeedLines(){
 
     const y=
       100+
-      Math.abs(
-        x*7
-      )%range;
+      Math.abs(x*7)%range;
 
     ctx.beginPath();
 
-    ctx.moveTo(x,y);
-    ctx.lineTo(x+80,y);
+    ctx.moveTo(
+      x,
+      y
+    );
+
+    ctx.lineTo(
+      x+80,
+      y
+    );
 
     ctx.stroke();
   }
@@ -2916,12 +3120,19 @@ function updateTrail(dt){
 
     trail[i].life-=dt;
 
-    if(trail[i].life<=0){
-      trail.splice(i,1);
+    if(
+      trail[i].life<=0
+    ){
+
+      trail.splice(
+        i,
+        1
+      );
     }
   }
 
   if(trail.length>38){
+
     trail.splice(
       0,
       trail.length-38
@@ -2973,7 +3184,9 @@ function particle(
   type
 ){
 
-  if(particles.length>=300){
+  if(
+    particles.length>=300
+  ){
     return;
   }
 
@@ -3041,7 +3254,7 @@ function particlesCoin(x,y){
 
 function particlesPad(x){
 
-  for(let i=18;i--;){
+  for(let i=0;i<18;i++){
 
     particle(
       x,
@@ -3080,8 +3293,7 @@ function particlesWin(){
       H*.35,
       (Math.random()-.5)*750,
       (Math.random()-.8)*750,
-      1.5+
-        Math.random(),
+      1.5+Math.random(),
       Math.random()*8+3,
       "win"
     );
@@ -3096,23 +3308,30 @@ function updateParticles(dt){
     i--
   ){
 
-    const p=particles[i];
+    const p=
+      particles[i];
 
     p.life-=dt;
 
     p.x+=p.vx*dt;
     p.y+=p.vy*dt;
 
-    /*
-      Lekkie tarcie.
-    */
-    p.vx*=Math.pow(.985,dt*60);
+    p.vx*=
+      Math.pow(
+        .985,
+        dt*60
+      );
+
     p.vy+=500*dt;
 
     p.rot+=p.spin*dt;
 
     if(p.life<=0){
-      particles.splice(i,1);
+
+      particles.splice(
+        i,
+        1
+      );
     }
   }
 }
@@ -3151,12 +3370,13 @@ function drawParticles(){
     }
 
     if(p.type==="win"){
+
       color=
         winColors[
           Math.floor(
-            p.x+
-            p.y+
-            p.life*10
+            Math.abs(
+              p.x+p.y+p.life*10
+            )
           )%winColors.length
         ];
     }
@@ -3170,7 +3390,9 @@ function drawParticles(){
       p.y
     );
 
-    ctx.rotate(p.rot);
+    ctx.rotate(
+      p.rot
+    );
 
     ctx.shadowColor=color;
     ctx.shadowBlur=10;
@@ -3195,7 +3417,10 @@ function drawParticles(){
 
 function togglePause(){
 
-  if(!running&&!paused){
+  if(
+    !running&&
+    !paused
+  ){
     return;
   }
 
@@ -3207,14 +3432,22 @@ function togglePause(){
     :"none";
 
   if(paused){
+
     stopMusic();
+
   }else{
 
-    last=performance.now();
+    last=
+      performance.now();
 
     if(sound){
+
       unlockAudio().then(()=>{
-        if(running&&!paused){
+        if(
+          running&&
+          !paused
+        ){
+
           startMusic();
         }
       });
@@ -3223,33 +3456,49 @@ function togglePause(){
 }
 
 document.getElementById("pauseBtn")
-  .addEventListener("click",e=>{
-    e.stopPropagation();
-    togglePause();
-  });
+  .addEventListener(
+    "click",
+    e=>{
+      e.stopPropagation();
+      togglePause();
+    }
+  );
 
 document.getElementById("resume")
-  .addEventListener("click",async()=>{
-    paused=false;
+  .addEventListener(
+    "click",
+    async()=>{
+      paused=false;
 
-    pause.style.display="none";
+      pause.style.display=
+        "none";
 
-    last=performance.now();
+      last=
+        performance.now();
 
-    if(sound){
-      await unlockAudio();
+      if(sound){
 
-      if(running&&!paused){
-        startMusic();
+        await unlockAudio();
+
+        if(
+          running&&
+          !paused
+        ){
+
+          startMusic();
+        }
       }
     }
-  });
+  );
 
 document.getElementById("restartPause")
-  .addEventListener("click",()=>{
-    pause.style.display="none";
-    restartCurrent();
-  });
+  .addEventListener(
+    "click",
+    ()=>{
+      pause.style.display="none";
+      restartCurrent();
+    }
+  );
 
 /* =========================================================
    RESTART
@@ -3257,7 +3506,9 @@ document.getElementById("restartPause")
 
 function restartCurrent(){
 
-  if(!game||game.style.display==="none"){
+  if(
+    game.style.display==="none"
+  ){
     return;
   }
 
@@ -3269,8 +3520,13 @@ function restartCurrent(){
   );
 
   if(sound){
+
     unlockAudio().then(()=>{
-      if(running&&!paused){
+      if(
+        running&&
+        !paused
+      ){
+
         startMusic();
       }
     });
@@ -3289,7 +3545,11 @@ function goMenu(){
   dying=false;
 
   if(raf){
-    cancelAnimationFrame(raf);
+
+    cancelAnimationFrame(
+      raf
+    );
+
     raf=0;
   }
 
@@ -3306,95 +3566,125 @@ function goMenu(){
 }
 
 document.getElementById("menuBtn")
-  .addEventListener("click",e=>{
-    e.stopPropagation();
-    goMenu();
-  });
+  .addEventListener(
+    "click",
+    e=>{
+      e.stopPropagation();
+      goMenu();
+    }
+  );
 
 document.getElementById("pauseMenu")
-  .addEventListener("click",goMenu);
+  .addEventListener(
+    "click",
+    goMenu
+  );
 
 document.getElementById("finishMenu")
-  .addEventListener("click",goMenu);
+  .addEventListener(
+    "click",
+    goMenu
+  );
 
 document.getElementById("again")
-  .addEventListener("click",async()=>{
-    await unlockAudio();
+  .addEventListener(
+    "click",
+    async()=>{
+      await unlockAudio();
 
-    finish.style.display="none";
+      finish.style.display=
+        "none";
 
-    startLevel(
-      current,
-      true
-    );
+      startLevel(
+        current,
+        true
+      );
 
-    if(sound){
-      startMusic();
+      if(sound){
+        startMusic();
+      }
     }
-  });
+  );
 
 document.getElementById("nextLevel")
-  .addEventListener("click",async()=>{
+  .addEventListener(
+    "click",
+    async()=>{
 
-    if(current>=LEVELS.length-1){
-      return;
+      if(
+        current>=
+        LEVELS.length-1
+      ){
+        return;
+      }
+
+      await unlockAudio();
+
+      finish.style.display=
+        "none";
+
+      startLevel(
+        current+1,
+        true
+      );
+
+      if(sound){
+        startMusic();
+      }
     }
-
-    await unlockAudio();
-
-    finish.style.display="none";
-
-    startLevel(
-      current+1,
-      true
-    );
-
-    if(sound){
-      startMusic();
-    }
-  });
+  );
 
 /* =========================================================
    SOUND BUTTON
 ========================================================= */
 
 function updateSound(){
-  document.getElementById("soundBtn")
-    .textContent=
+
+  document.getElementById(
+    "soundBtn"
+  ).textContent=
     sound
     ?"🔊"
     :"🔇";
 }
 
 document.getElementById("soundBtn")
-  .addEventListener("click",async e=>{
+  .addEventListener(
+    "click",
+    async e=>{
 
-    e.stopPropagation();
+      e.stopPropagation();
 
-    sound=!sound;
+      sound=!sound;
 
-    set(
-      "nd_sound",
-      sound?"1":"0"
-    );
+      set(
+        "nd_sound",
+        sound
+        ?"1"
+        :"0"
+      );
 
-    updateSound();
+      updateSound();
 
-    if(
-      sound&&
-      running&&
-      !paused
-    ){
-      const ok=
-        await unlockAudio();
+      if(
+        sound&&
+        running&&
+        !paused
+      ){
 
-      if(ok){
-        startMusic();
+        const ok=
+          await unlockAudio();
+
+        if(ok){
+          startMusic();
+        }
+
+      }else{
+
+        stopMusic();
       }
-    }else{
-      stopMusic();
     }
-  });
+  );
 
 /* =========================================================
    AUTO PAUSE
@@ -3410,7 +3700,8 @@ function autoPause(){
 
     paused=true;
 
-    pause.style.display="flex";
+    pause.style.display=
+      "flex";
 
     stopMusic();
   }
@@ -3433,7 +3724,7 @@ window.addEventListener(
 );
 
 /* =========================================================
-   VICTORY ANIMATION
+   VICTORY
 ========================================================= */
 
 function victoryAnimation(){
@@ -3452,15 +3743,20 @@ function victoryAnimation(){
     frames++;
 
     if(frames<150){
-      requestAnimationFrame(animate);
+
+      requestAnimationFrame(
+        animate
+      );
     }
   }
 
-  requestAnimationFrame(animate);
+  requestAnimationFrame(
+    animate
+  );
 }
 
 /* =========================================================
-   INITIALIZATION
+   START
 ========================================================= */
 
 resize();
@@ -3472,3 +3768,4 @@ updateSound();
 
 </body>
 </html>
+```
