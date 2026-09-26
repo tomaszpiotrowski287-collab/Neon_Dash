@@ -5,95 +5,692 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <title>Neon Dash</title>
+
 <style>
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#03030a;color:#fff;font-family:Arial,sans-serif}
-button{font:inherit;color:#fff;border:0;cursor:pointer;user-select:none;touch-action:manipulation}
-#menu{position:fixed;inset:0;overflow:auto;display:flex;flex-direction:column;align-items:center;padding:25px 14px 35px;background:radial-gradient(circle at 50% 5%,#252b78,#090a20 45%,#020207)}
-.logo{margin:12px 0 4px;font-size:clamp(30px,7vw,54px);font-weight:900;letter-spacing:5px;text-align:center;text-shadow:0 0 10px #00eaff,0 0 25px #00eaff,0 0 45px #a855ff}
-.subtitle{text-align:center;opacity:.7;margin-bottom:18px}
-.progress{width:min(680px,100%);background:#11152d;border:2px solid #303963;border-radius:17px;padding:15px;margin-bottom:15px}
-.progressTop{display:flex;justify-content:space-between;font-weight:bold}
-.bar{height:13px;background:#050712;border-radius:20px;overflow:hidden;margin-top:8px}
-#menuBar{height:100%;width:0;background:linear-gradient(90deg,#00eaff,#7b5cff,#ff27d7)}
-#doneText{text-align:center;opacity:.65;margin-top:7px}
-#levels{width:min(680px,100%);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.level{min-height:82px;text-align:left;padding:12px;border-radius:15px;border:2px solid #303861;background:linear-gradient(135deg,#171c3b,#0d1024)}
-.level:active{transform:scale(.96)}
-.levelStatus{float:right;font-size:20px}.levelName{font-weight:900;font-size:17px;padding-right:25px}.levelInfo{font-size:12px;opacity:.7;margin-top:5px}
-#achBtn{width:min(680px,100%);min-height:48px;margin-top:14px;padding:12px;border-radius:14px;background:#242a50;border:2px solid #414d7c;font-weight:bold}
-#achievements,#pause,#finish{position:fixed;inset:0;z-index:20;display:none;align-items:center;justify-content:center;background:#000b;padding:15px}
-.panel{width:min(570px,100%);max-height:90vh;overflow:auto;background:#10142c;border:2px solid #3d4a7d;border-radius:20px;padding:20px}
-.panel h2{text-align:center;margin-top:0}.panel button{width:100%;min-height:46px;margin-top:9px;padding:12px;border-radius:12px;background:#29335e;font-weight:bold}
-.ach{padding:12px;margin:8px 0;border-radius:12px;background:#191e3b;opacity:.4}.ach.on{opacity:1;border:1px solid #00eaff}
-#game{position:fixed;inset:0;display:none;touch-action:none}
-canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none}
-#hud{position:absolute;z-index:4;left:10px;right:10px;top:10px;pointer-events:none;text-shadow:0 2px 5px #000}
-.hudLine{display:flex;justify-content:space-between;gap:6px;font-size:clamp(11px,2.6vw,16px);font-weight:bold}
-.hudBar{margin-top:7px;height:9px;background:#0008;border-radius:20px;overflow:hidden}
-#gameBar{height:100%;width:0;background:#00eaff;box-shadow:0 0 12px #00eaff}
-.gameButtons{position:absolute;right:10px;top:10px;z-index:10;display:flex;gap:7px}
-.gameButtons button{min-width:44px;min-height:44px;padding:8px 11px;background:#10162ddd;border:1px solid #53618e;border-radius:10px}
-@media(max-width:650px){#levels{grid-template-columns:1fr}}
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+html,body{
+  margin:0;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  background:#03030a;
+  color:white;
+  font-family:Arial,sans-serif;
+}
+
+button{
+  font:inherit;
+  color:white;
+  border:0;
+  cursor:pointer;
+  user-select:none;
+  -webkit-user-select:none;
+  touch-action:manipulation;
+}
+
+#menu{
+  position:fixed;
+  inset:0;
+  overflow:auto;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:22px 14px 35px;
+  background:
+    radial-gradient(circle at 50% 5%,#252b78,#090a20 45%,#020207);
+}
+
+.logo{
+  margin:12px 0 4px;
+  font-size:clamp(30px,7vw,54px);
+  font-weight:900;
+  letter-spacing:5px;
+  text-align:center;
+  text-shadow:
+    0 0 10px #00eaff,
+    0 0 25px #00eaff,
+    0 0 45px #a855ff;
+}
+
+.subtitle{
+  text-align:center;
+  opacity:.7;
+  margin-bottom:18px;
+}
+
+.progress{
+  width:min(700px,100%);
+  background:#11152d;
+  border:2px solid #303963;
+  border-radius:17px;
+  padding:15px;
+  margin-bottom:12px;
+}
+
+.progressTop{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  font-weight:bold;
+}
+
+.bar{
+  height:13px;
+  background:#050712;
+  border-radius:20px;
+  overflow:hidden;
+  margin-top:8px;
+}
+
+#menuBar{
+  height:100%;
+  width:0%;
+  background:linear-gradient(
+    90deg,
+    #00eaff,
+    #7b5cff,
+    #ff27d7
+  );
+  box-shadow:0 0 14px #00eaff;
+  transition:.35s;
+}
+
+#doneText{
+  text-align:center;
+  opacity:.65;
+  margin-top:7px;
+}
+
+.menuButtons{
+  width:min(700px,100%);
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:8px;
+  margin-bottom:12px;
+}
+
+.menuButtons button,
+#achBtn{
+  min-height:48px;
+  padding:11px;
+  border-radius:13px;
+  background:#202747;
+  border:2px solid #39466f;
+  font-weight:bold;
+}
+
+#levels{
+  width:min(700px,100%);
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+}
+
+.level{
+  min-width:0;
+  min-height:82px;
+  text-align:left;
+  padding:12px;
+  border-radius:15px;
+  border:2px solid #303861;
+  background:linear-gradient(
+    135deg,
+    #171c3b,
+    #0d1024
+  );
+  position:relative;
+  overflow:hidden;
+}
+
+.level:active{
+  transform:scale(.96);
+}
+
+.levelStatus{
+  float:right;
+  font-size:20px;
+}
+
+.levelName{
+  font-weight:900;
+  font-size:17px;
+  padding-right:25px;
+}
+
+.levelInfo{
+  font-size:12px;
+  opacity:.7;
+  margin-top:5px;
+}
+
+#achBtn{
+  width:min(700px,100%);
+  margin-top:10px;
+}
+
+.overlay{
+  position:fixed;
+  inset:0;
+  z-index:30;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  background:#000c;
+  padding:15px;
+}
+
+.panel{
+  width:min(600px,100%);
+  max-height:90vh;
+  overflow:auto;
+  background:#10142c;
+  border:2px solid #3d4a7d;
+  border-radius:20px;
+  padding:20px;
+  box-shadow:0 0 40px #00eaff22;
+}
+
+.panel h2{
+  text-align:center;
+  margin-top:0;
+}
+
+.panel button{
+  width:100%;
+  min-height:46px;
+  margin-top:9px;
+  padding:12px;
+  border-radius:12px;
+  background:#29335e;
+  font-weight:bold;
+}
+
+.ach{
+  padding:12px;
+  margin:8px 0;
+  border-radius:12px;
+  background:#191e3b;
+  opacity:.4;
+}
+
+.ach.on{
+  opacity:1;
+  border:1px solid #00eaff;
+}
+
+.skinGrid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+}
+
+.skin{
+  min-height:70px;
+  border:2px solid #38436b;
+  border-radius:12px;
+  background:#171c3b;
+  font-weight:bold;
+}
+
+.skin.selected{
+  border-color:#00eaff;
+  box-shadow:0 0 15px #00eaff55;
+}
+
+.settingRow{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:12px;
+  margin:8px 0;
+  border-radius:12px;
+  background:#191e3b;
+}
+
+.settingRow button{
+  width:auto;
+  min-width:120px;
+  margin:0;
+}
+
+#game{
+  position:fixed;
+  inset:0;
+  display:none;
+  touch-action:none;
+  overscroll-behavior:none;
+}
+
+canvas{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  display:block;
+  touch-action:none;
+}
+
+#hud{
+  position:absolute;
+  z-index:4;
+  left:10px;
+  right:10px;
+  top:10px;
+  pointer-events:none;
+  text-shadow:0 2px 5px #000;
+}
+
+.hudLine{
+  display:flex;
+  justify-content:space-between;
+  gap:7px;
+  font-size:clamp(11px,2.6vw,17px);
+  font-weight:bold;
+}
+
+.hudBar{
+  margin-top:7px;
+  height:9px;
+  background:#0008;
+  border-radius:20px;
+  overflow:hidden;
+}
+
+#gameBar{
+  height:100%;
+  width:0;
+  background:#00eaff;
+  box-shadow:0 0 12px #00eaff;
+}
+
+.gameButtons{
+  position:absolute;
+  right:10px;
+  top:10px;
+  z-index:10;
+  display:flex;
+  gap:7px;
+}
+
+.gameButtons button{
+  min-width:44px;
+  min-height:44px;
+  padding:8px 11px;
+  background:#10162ddd;
+  border:1px solid #53618e;
+  border-radius:10px;
+}
+
+.practiceBtn{
+  background:#5d3d8f!important;
+}
+
+#practiceInfo{
+  display:none;
+  text-align:center;
+  margin-top:8px;
+  padding:8px;
+  border-radius:10px;
+  background:#472e70;
+  font-size:13px;
+}
+
+@media(max-width:650px){
+  #levels{
+    grid-template-columns:1fr;
+  }
+
+  .skinGrid{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
 </style>
+
 </head>
+
 <body>
 
+<!-- =====================================================
+     MENU
+===================================================== -->
+
 <div id="menu">
-<div class="logo">NEON DASH</div>
-<div class="subtitle">Ultimate Edition • Dotknij / kliknij / SPACJA</div>
-<div class="progress">
-<div class="progressTop"><span>📊 PROGRES GRY</span><span id="progressText">0%</span></div>
-<div class="bar"><div id="menuBar"></div></div>
-<div id="doneText">0 / 20 poziomów</div>
-</div>
-<div id="levels"></div>
-<button id="achBtn">🏆 ACHIEVEMENTY</button>
+
+  <div class="logo">NEON DASH</div>
+
+  <div class="subtitle">
+    Ultimate Edition • Dotknij / kliknij / SPACJA
+  </div>
+
+  <div class="progress">
+
+```
+<div class="progressTop">
+  <span>📊 PROGRES GRY</span>
+  <span id="progressText">0%</span>
 </div>
 
-<div id="achievements">
-<div class="panel">
+<div class="bar">
+  <div id="menuBar"></div>
+</div>
+
+<div id="doneText">
+  0 / 20 poziomów
+</div>
+```
+
+  </div>
+
+  <div class="menuButtons">
+
+```
+<button id="randomBtn">
+  🎲 LOSOWY POZIOM
+</button>
+
+<button id="practiceMenuBtn">
+  🧪 PRACTICE
+</button>
+
+<button id="skinsBtn">
+  🎨 SKÓRKI
+</button>
+
+<button id="missionsBtn">
+  🎯 MISJE
+</button>
+
+<button id="settingsBtn">
+  ⚙️ USTAWIENIA
+</button>
+
+<button id="infoBtn">
+  ℹ️ INFO
+</button>
+```
+
+  </div>
+
+  <div id="levels"></div>
+
+  <button id="achBtn">
+    🏆 ACHIEVEMENTY
+  </button>
+
+</div>
+
+<!-- =====================================================
+     ACHIEVEMENTY
+===================================================== -->
+
+<div id="achievements" class="overlay">
+
+  <div class="panel">
+
+```
 <h2>🏆 ACHIEVEMENTY</h2>
+
 <div id="achList"></div>
-<button id="closeAch">ZAMKNIJ</button>
+
+<button id="closeAch">
+  ZAMKNIJ
+</button>
+```
+
+  </div>
+
 </div>
+
+<!-- =====================================================
+     SKÓRKI
+===================================================== -->
+
+<div id="skins" class="overlay">
+
+  <div class="panel">
+
+```
+<h2>🎨 SKÓRKI</h2>
+
+<div class="skinGrid" id="skinGrid"></div>
+
+<button id="closeSkins">
+  ZAMKNIJ
+</button>
+```
+
+  </div>
+
 </div>
+
+<!-- =====================================================
+     MISJE
+===================================================== -->
+
+<div id="missions" class="overlay">
+
+  <div class="panel">
+
+```
+<h2>🎯 MISJE</h2>
+
+<div id="missionList"></div>
+
+<button id="closeMissions">
+  ZAMKNIJ
+</button>
+```
+
+  </div>
+
+</div>
+
+<!-- =====================================================
+     USTAWIENIA
+===================================================== -->
+
+<div id="settings" class="overlay">
+
+  <div class="panel">
+
+```
+<h2>⚙️ USTAWIENIA</h2>
+
+<div class="settingRow">
+
+  <span>🔊 Dźwięk</span>
+
+  <button id="settingsSound">
+    WŁĄCZONY
+  </button>
+
+</div>
+
+<div class="settingRow">
+
+  <span>✨ Efekty</span>
+
+  <button id="effectsBtn">
+    WŁĄCZONE
+  </button>
+
+</div>
+
+<div class="settingRow">
+
+  <span>🧹 Reset postępu</span>
+
+  <button id="resetBtn">
+    RESET
+  </button>
+
+</div>
+
+<button id="closeSettings">
+  ZAMKNIJ
+</button>
+```
+
+  </div>
+
+</div>
+
+<!-- =====================================================
+     INFO
+===================================================== -->
+
+<div id="info" class="overlay">
+
+  <div class="panel">
+
+```
+<h2>ℹ️ NEON DASH</h2>
+
+<p>
+  Neon Dash to neonowa gra zręcznościowa
+  inspirowana klasycznymi grami typu rhythm runner.
+</p>
+
+<p>
+  🟦 Sterowanie: dotknięcie ekranu,
+  kliknięcie albo SPACJA.
+</p>
+
+<p>
+  🪙 Na każdym poziomie znajdują się 3 monety.
+</p>
+
+<p>
+  🧪 Practice Mode pozwala trenować poziomy
+  z checkpointami.
+</p>
+
+<button id="closeInfo">
+  ZAMKNIJ
+</button>
+```
+
+  </div>
+
+</div>
+
+<!-- =====================================================
+     GAME
+===================================================== -->
 
 <div id="game">
+
 <canvas id="canvas"></canvas>
 
-<div id="hud">
+  <div id="hud">
+
+```
 <div class="hudLine">
-<span id="levelName">LEVEL</span>
-<span id="modeText">⬛ CUBE</span>
-<span id="coins">🪙 0/3</span>
-<span id="percent">0%</span>
-</div>
-<div class="hudBar"><div id="gameBar"></div></div>
+
+  <span id="levelName">
+    LEVEL
+  </span>
+
+  <span id="practiceHud">
+    ⬛ CUBE
+  </span>
+
+  <span id="coins">
+    🪙 0/3
+  </span>
+
+  <span id="percent">
+    0%
+  </span>
+
 </div>
 
-<div class="gameButtons">
-<button id="pauseBtn">⏸</button>
-<button id="soundBtn">🔊</button>
-<button id="menuBtn">☰</button>
+<div class="hudBar">
+  <div id="gameBar"></div>
 </div>
 
-<div id="pause">
+<div id="practiceInfo">
+  🧪 PRACTICE MODE
+</div>
+```
+
+  </div>
+
+  <div class="gameButtons">
+
+```
+<button id="pauseBtn">
+  ⏸
+</button>
+
+<button id="soundBtn">
+  🔊
+</button>
+
+<button id="menuBtn">
+  ☰
+</button>
+```
+
+  </div>
+
+  <div id="pause" class="overlay">
+
+```
 <div class="panel">
-<h2>⏸ PAUZA</h2>
-<button id="resume">▶ WRÓĆ DO GRY</button>
-<button id="pauseMenu">☰ MENU</button>
-</div>
-</div>
 
-<div id="finish">
+  <h2>⏸ PAUZA</h2>
+
+  <button id="resume">
+    ▶ WRÓĆ DO GRY
+  </button>
+
+  <button id="restart">
+    🔄 RESTART
+  </button>
+
+  <button id="pauseMenu">
+    ☰ MENU
+  </button>
+
+</div>
+```
+
+  </div>
+
+  <div id="finish" class="overlay">
+
+```
 <div class="panel">
-<h2 id="finishTitle">🎉 UKOŃCZONO!</h2>
-<p id="finishInfo"></p>
-<button id="again">🔄 ZAGRAJ PONOWNIE</button>
-<button id="finishMenu">☰ MENU</button>
+
+  <h2 id="finishTitle">
+    🎉 UKOŃCZONO!
+  </h2>
+
+  <p id="finishInfo"></p>
+
+  <button id="again">
+    🔄 ZAGRAJ PONOWNIE
+  </button>
+
+  <button id="nextLevel">
+    ▶ NASTĘPNY POZIOM
+  </button>
+
+  <button id="finishMenu">
+    ☰ MENU
+  </button>
+
 </div>
-</div>
+```
+
+  </div>
+
 </div>
 
 <script>
@@ -104,35 +701,282 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-acti
 ===================================================== */
 
 const LEVELS=[
-["NEON RUSH","⭐⭐",280,"#00eaff",124],
-["CRYSTAL DRIVE","⭐⭐⭐",295,"#72a7ff",112],
-["LAVA PULSE","⭐⭐⭐⭐",310,"#ff4d42",140],
-["SKY CIRCUIT","⭐⭐⭐⭐",305,"#9c7bff",132],
-["VIOLET RUN","⭐⭐⭐⭐",320,"#d35cff",128],
-["SHADOW FACTORY","⭐⭐⭐⭐⭐",325,"#b44cff",118],
-["CYBER STORM","⭐⭐⭐⭐⭐",335,"#27f0c5",136],
-["INFERNO CORE","⭐⭐⭐⭐⭐",345,"#ff7338",145],
-["ELECTRIC VOID","⭐⭐⭐⭐⭐⭐",355,"#35b7ff",150],
-["GRAVITY BREAK","⭐⭐⭐⭐⭐⭐",340,"#45ff9a",142],
-["OVERDRIVE","⭐⭐⭐⭐⭐⭐",365,"#ff3bea",154],
-["FINAL CHAOS","⭐⭐⭐⭐⭐⭐",375,"#ff247f",158],
-["NEON HYPER","⭐⭐⭐⭐⭐⭐",380,"#00ffc8",160],
-["DARK MATTER","⭐⭐⭐⭐⭐⭐⭐",390,"#925cff",162],
-["PHANTOM RUSH","⭐⭐⭐⭐⭐⭐⭐",400,"#ff55b8",165],
-["VOID STORM","⭐⭐⭐⭐⭐⭐⭐",410,"#42b9ff",168],
-["INFINITE CORE","⭐⭐⭐⭐⭐⭐⭐",420,"#ff9238",170],
-["CYBERFALL","⭐⭐⭐⭐⭐⭐⭐",430,"#35ffd0",172],
-["ULTRA NOVA","⭐⭐⭐⭐⭐⭐⭐⭐",440,"#ff3bda",176],
-["FINAL OVERDRIVE","⭐⭐⭐⭐⭐⭐⭐⭐",450,"#ff247f",180]
+
+ {
+  name:"NEON RUSH",
+  diff:"⭐⭐",
+  speed:280,
+  color:"#00eaff",
+  bpm:124,
+  notes:[262,330,392,523,392,330,294,330]
+ },
+
+ {
+  name:"CRYSTAL DRIVE",
+  diff:"⭐⭐⭐",
+  speed:295,
+  color:"#72a7ff",
+  bpm:112,
+  notes:[196,247,294,370,494,370,294,247]
+ },
+
+ {
+  name:"LAVA PULSE",
+  diff:"⭐⭐⭐⭐",
+  speed:310,
+  color:"#ff4d42",
+  bpm:140,
+  notes:[110,110,165,147,110,131,98,110]
+ },
+
+ {
+  name:"SKY CIRCUIT",
+  diff:"⭐⭐⭐⭐",
+  speed:305,
+  color:"#9c7bff",
+  bpm:132,
+  notes:[330,392,494,659,587,494,392,330]
+ },
+
+ {
+  name:"VIOLET RUN",
+  diff:"⭐⭐⭐⭐",
+  speed:320,
+  color:"#d35cff",
+  bpm:128,
+  notes:[220,277,330,440,523,440,330,277]
+ },
+
+ {
+  name:"SHADOW FACTORY",
+  diff:"⭐⭐⭐⭐⭐",
+  speed:325,
+  color:"#b44cff",
+  bpm:118,
+  notes:[147,174,220,207,147,174,233,220]
+ },
+
+ {
+  name:"CYBER STORM",
+  diff:"⭐⭐⭐⭐⭐",
+  speed:335,
+  color:"#27f0c5",
+  bpm:136,
+  notes:[165,220,277,330,440,330,277,220]
+ },
+
+ {
+  name:"INFERNO CORE",
+  diff:"⭐⭐⭐⭐⭐",
+  speed:345,
+  color:"#ff7338",
+  bpm:145,
+  notes:[98,123,147,196,147,123,110,98]
+ },
+
+ {
+  name:"ELECTRIC VOID",
+  diff:"⭐⭐⭐⭐⭐⭐",
+  speed:355,
+  color:"#35b7ff",
+  bpm:150,
+  notes:[220,330,440,659,523,440,330,247]
+ },
+
+ {
+  name:"GRAVITY BREAK",
+  diff:"⭐⭐⭐⭐⭐⭐",
+  speed:340,
+  color:"#45ff9a",
+  bpm:142,
+  notes:[196,247,330,392,494,392,330,247]
+ },
+
+ {
+  name:"OVERDRIVE",
+  diff:"⭐⭐⭐⭐⭐⭐",
+  speed:365,
+  color:"#ff3bea",
+  bpm:154,
+  notes:[247,330,440,523,659,523,440,330]
+ },
+
+ {
+  name:"FINAL CHAOS",
+  diff:"⭐⭐⭐⭐⭐⭐",
+  speed:375,
+  color:"#ff247f",
+  bpm:158,
+  notes:[220,330,440,659,523,784,659,440]
+ },
+
+ {
+  name:"NEON HYPER",
+  diff:"⭐⭐⭐⭐⭐⭐",
+  speed:380,
+  color:"#00ffc8",
+  bpm:160,
+  notes:[220,277,330,440,554,440,330,277]
+ },
+
+ {
+  name:"DARK MATTER",
+  diff:"⭐⭐⭐⭐⭐⭐⭐",
+  speed:390,
+  color:"#925cff",
+  bpm:162,
+  notes:[147,196,247,294,370,294,247,196]
+ },
+
+ {
+  name:"PHANTOM RUSH",
+  diff:"⭐⭐⭐⭐⭐⭐⭐",
+  speed:400,
+  color:"#ff55b8",
+  bpm:165,
+  notes:[196,247,330,392,494,392,330,247]
+ },
+
+ {
+  name:"VOID STORM",
+  diff:"⭐⭐⭐⭐⭐⭐⭐",
+  speed:410,
+  color:"#42b9ff",
+  bpm:168,
+  notes:[165,220,277,330,440,554,440,330]
+ },
+
+ {
+  name:"INFINITE CORE",
+  diff:"⭐⭐⭐⭐⭐⭐⭐",
+  speed:420,
+  color:"#ff9238",
+  bpm:170,
+  notes:[110,147,196,220,294,220,196,147]
+ },
+
+ {
+  name:"CYBERFALL",
+  diff:"⭐⭐⭐⭐⭐⭐⭐",
+  speed:430,
+  color:"#35ffd0",
+  bpm:172,
+  notes:[247,330,392,523,659,523,392,330]
+ },
+
+ {
+  name:"ULTRA NOVA",
+  diff:"⭐⭐⭐⭐⭐⭐⭐⭐",
+  speed:440,
+  color:"#ff3bda",
+  bpm:176,
+  notes:[220,330,440,523,659,784,659,523]
+ },
+
+ {
+  name:"FINAL OVERDRIVE",
+  diff:"⭐⭐⭐⭐⭐⭐⭐⭐",
+  speed:450,
+  color:"#ff247f",
+  bpm:180,
+  notes:[247,330,440,659,784,659,523,440]
+ }
+
 ];
 
-const modes={
-cube:{name:"⬛ CUBE"},
-ship:{name:"🚀 SHIP"},
-ufo:{name:"🛸 UFO"},
-wave:{name:"〰️ WAVE"},
-ball:{name:"⚫ BALL"}
-};
+/* =====================================================
+   SKÓRKI
+===================================================== */
+
+const SKINS=[
+
+ {
+  id:"cyan",
+  name:"CYAN",
+  color:"#00eaff"
+ },
+
+ {
+  id:"purple",
+  name:"PURPLE",
+  color:"#a855ff"
+ },
+
+ {
+  id:"pink",
+  name:"PINK",
+  color:"#ff27d7"
+ },
+
+ {
+  id:"green",
+  name:"GREEN",
+  color:"#45ff9a"
+ },
+
+ {
+  id:"orange",
+  name:"ORANGE",
+  color:"#ff9238"
+ },
+
+ {
+  id:"white",
+  name:"WHITE",
+  color:"#ffffff"
+ }
+
+];
+
+/* =====================================================
+   MISJE
+===================================================== */
+
+const MISSIONS=[
+
+ {
+  id:"m1",
+  name:"Pierwszy poziom",
+  text:"Ukończ 1 poziom.",
+  check:()=>completedCount()>=1
+ },
+
+ {
+  id:"m2",
+  name:"Mały maraton",
+  text:"Ukończ 5 poziomów.",
+  check:()=>completedCount()>=5
+ },
+
+ {
+  id:"m3",
+  name:"Weteran",
+  text:"Ukończ 10 poziomów.",
+  check:()=>completedCount()>=10
+ },
+
+ {
+  id:"m4",
+  name:"Mistrz",
+  text:"Ukończ wszystkie poziomy.",
+  check:()=>completedCount()===LEVELS.length
+ },
+
+ {
+  id:"m5",
+  name:"Łowca monet",
+  text:"Zbierz 10 monet.",
+  check:()=>Number(get("nd_totalCoins","0"))>=10
+ },
+
+ {
+  id:"m6",
+  name:"Kolekcjoner",
+  text:"Zbierz 25 monet.",
+  check:()=>Number(get("nd_totalCoins","0"))>=25
+ }
+
+];
 
 /* =====================================================
    DOM
@@ -142,46 +986,90 @@ const menu=document.getElementById("menu");
 const game=document.getElementById("game");
 const canvas=document.getElementById("canvas");
 const ctx=canvas.getContext("2d");
+
 const levelsBox=document.getElementById("levels");
 const achievements=document.getElementById("achievements");
 const achList=document.getElementById("achList");
+const skins=document.getElementById("skins");
+const missions=document.getElementById("missions");
+const settings=document.getElementById("settings");
+const info=document.getElementById("info");
+
 const pause=document.getElementById("pause");
 const finish=document.getElementById("finish");
 
 const levelName=document.getElementById("levelName");
-const modeText=document.getElementById("modeText");
 const coinsText=document.getElementById("coins");
 const percent=document.getElementById("percent");
 const gameBar=document.getElementById("gameBar");
 const menuBar=document.getElementById("menuBar");
 const progressText=document.getElementById("progressText");
 const doneText=document.getElementById("doneText");
+const practiceInfo=document.getElementById("practiceInfo");
 
 /* =====================================================
    SAVE
 ===================================================== */
 
-function get(k,d){
-try{
-const v=localStorage.getItem(k);
-return v===null?d:v;
-}catch(e){return d}
+function get(key,def){
+
+  try{
+
+    const value=
+      localStorage.getItem(key);
+
+    return value===null?
+      def:
+      value;
+
+  }catch(e){
+
+    return def;
+
+  }
+
 }
 
-function set(k,v){
-try{localStorage.setItem(k,String(v))}catch(e){}
+function set(key,value){
+
+  try{
+
+    localStorage.setItem(
+      key,
+      String(value)
+    );
+
+  }catch(e){}
+
 }
 
-function completed(i){
-return get("nd_level_"+i,"0")==="1";
+function completed(index){
+
+  return get(
+    "nd_level_"+index,
+    "0"
+  )==="1";
+
 }
 
 function completedCount(){
-let n=0;
-for(let i=0;i<LEVELS.length;i++){
-if(completed(i))n++;
-}
-return n;
+
+  let count=0;
+
+  for(
+    let i=0;
+    i<LEVELS.length;
+    i++
+  ){
+
+    if(completed(i)){
+      count++;
+    }
+
+  }
+
+  return count;
+
 }
 
 /* =====================================================
@@ -189,50 +1077,243 @@ return n;
 ===================================================== */
 
 const ACH=[
-["first","🎮 Pierwszy krok","Ukończ pierwszy poziom."],
-["three","⚡ Rozgrzewka","Ukończ 3 poziomy."],
-["six","🔥 Weteran","Ukończ 6 poziomów."],
-["all","👑 Mistrz Neon Dash","Ukończ wszystkie poziomy."],
-["final","💀 Finalista","Ukończ FINAL OVERDRIVE."],
-["coins10","🪙 Łowca monet","Zbierz 10 monet."],
-["coins25","💰 Kolekcjoner","Zbierz 25 monet."],
-["perfect","💎 Perfekcja","Ukończ poziom bez śmierci."],
-["survivor","🛡️ Twardziel","Ukończ poziom po 3+ śmierciach."],
-["allcoins","🌟 Pełna kolekcja","Zbierz 3 monety w jednym przejściu."]
+
+ ["first","🎮 Pierwszy krok","Ukończ pierwszy poziom."],
+
+ ["three","⚡ Rozgrzewka","Ukończ 3 poziomy."],
+
+ ["six","🔥 Weteran","Ukończ 6 poziomów."],
+
+ ["all","👑 Mistrz Neon Dash","Ukończ wszystkie poziomy."],
+
+ ["final","💀 Chaos pokonany","Ukończ FINAL OVERDRIVE."],
+
+ ["coins10","🪙 Łowca monet","Zbierz 10 monet."],
+
+ ["coins25","💰 Kolekcjoner","Zbierz 25 monet."],
+
+ ["perfect","💎 Perfekcja","Ukończ poziom bez śmierci."],
+
+ ["survivor","🛡️ Twardziel","Ukończ poziom po 3+ śmierciach."],
+
+ ["allcoins","🌟 Pełna kolekcja","Zbierz 3 monety w jednym przejściu."]
+
 ];
 
-function unlock(id){
-if(get("nd_ach_"+id,"0")==="1")return;
-set("nd_ach_"+id,"1");
-renderAchievements();
+function achUnlocked(id){
+
+  return get(
+    "nd_ach_"+id,
+    "0"
+  )==="1";
+
 }
 
-function renderAchievements(){
-achList.innerHTML="";
-ACH.forEach(a=>{
-const d=document.createElement("div");
-d.className="ach"+(get("nd_ach_"+a[0],"0")==="1"?" on":"");
-d.innerHTML="<b>"+a[1]+"</b><br><small>"+a[2]+"</small>";
-achList.appendChild(d);
-});
+function unlock(id){
+
+  if(achUnlocked(id)){
+    return;
+  }
+
+  set(
+    "nd_ach_"+id,
+    "1"
+  );
+
+  renderAchievements();
+
 }
 
 function checkAchievements(){
-const n=completedCount();
 
-if(n>=1)unlock("first");
-if(n>=3)unlock("three");
-if(n>=6)unlock("six");
-if(n>=LEVELS.length)unlock("all");
-if(completed(LEVELS.length-1))unlock("final");
+  const n=
+    completedCount();
 
-const total=Number(get("nd_totalCoins","0"));
+  if(n>=1)unlock("first");
+  if(n>=3)unlock("three");
+  if(n>=6)unlock("six");
+  if(n>=LEVELS.length)unlock("all");
 
-if(total>=10)unlock("coins10");
-if(total>=25)unlock("coins25");
-if(deaths===0)unlock("perfect");
-if(deaths>=3)unlock("survivor");
-if(runCoins===3)unlock("allcoins");
+  if(
+    completed(
+      LEVELS.length-1
+    )
+  ){
+    unlock("final");
+  }
+
+  const total=
+    Number(
+      get(
+        "nd_totalCoins",
+        "0"
+      )
+    );
+
+  if(total>=10)unlock("coins10");
+  if(total>=25)unlock("coins25");
+
+  if(deaths===0){
+    unlock("perfect");
+  }
+
+  if(deaths>=3){
+    unlock("survivor");
+  }
+
+  if(runCoins===3){
+    unlock("allcoins");
+  }
+
+}
+
+function renderAchievements(){
+
+  achList.innerHTML="";
+
+  ACH.forEach(a=>{
+
+    const d=
+      document.createElement(
+        "div"
+      );
+
+    d.className=
+      "ach"+
+      (
+        achUnlocked(a[0])?
+        " on":
+        ""
+      );
+
+    d.innerHTML=
+      "<b>"+a[1]+"</b><br>"+
+      "<small>"+a[2]+"</small>";
+
+    achList.appendChild(d);
+
+  });
+
+}
+
+/* =====================================================
+   SKÓRKI
+===================================================== */
+
+function currentSkin(){
+
+  return get(
+    "nd_skin",
+    "cyan"
+  );
+
+}
+
+function renderSkins(){
+
+  const grid=
+    document.getElementById(
+      "skinGrid"
+    );
+
+  grid.innerHTML="";
+
+  const selected=
+    currentSkin();
+
+  SKINS.forEach(s=>{
+
+    const b=
+      document.createElement(
+        "button"
+      );
+
+    b.className=
+      "skin"+
+      (
+        selected===s.id?
+        " selected":
+        ""
+      );
+
+    b.innerHTML=
+      "■ "+s.name;
+
+    b.style.color=s.color;
+
+    b.onclick=()=>{
+
+      set(
+        "nd_skin",
+        s.id
+      );
+
+      renderSkins();
+
+    };
+
+    grid.appendChild(b);
+
+  });
+
+}
+
+function skinColor(){
+
+  const id=
+    currentSkin();
+
+  const skin=
+    SKINS.find(
+      s=>s.id===id
+    );
+
+  return skin?
+    skin.color:
+    "#00eaff";
+
+}
+
+/* =====================================================
+   MISJE
+===================================================== */
+
+function renderMissions(){
+
+  const list=
+    document.getElementById(
+      "missionList"
+    );
+
+  list.innerHTML="";
+
+  MISSIONS.forEach(m=>{
+
+    const d=
+      document.createElement(
+        "div"
+      );
+
+    const done=
+      m.check();
+
+    d.className=
+      "ach"+
+      (done?" on":"");
+
+    d.innerHTML=
+      "<b>"+
+      (done?"✅ ":"🔒 ")+
+      m.name+
+      "</b><br>"+
+      "<small>"+
+      m.text+
+      "</small>";
+
+    list.appendChild(d);
+
+  });
+
 }
 
 /* =====================================================
@@ -241,51 +1322,82 @@ if(runCoins===3)unlock("allcoins");
 
 function renderMenu(){
 
-levelsBox.innerHTML="";
+  levelsBox.innerHTML="";
 
-LEVELS.forEach((l,i)=>{
+  LEVELS.forEach(
+    (level,index)=>{
 
-const b=document.createElement("button");
-b.className="level";
-b.type="button";
+      const b=
+        document.createElement(
+          "button"
+        );
 
-b.innerHTML=
-'<span class="levelStatus">'+
-(completed(i)?"✅":"▶️")+
-'</span>'+
-'<div class="levelName">'+
-(i+1)+". "+l[0]+
-'</div>'+
-'<div class="levelInfo">'+
-l[1]+" • "+l[2]+" px/s"+
-'</div>';
+      b.type="button";
+      b.className="level";
 
-b.addEventListener("click",()=>{
-startLevel(i,true);
-});
+      b.innerHTML=
+        '<span class="levelStatus">'+
+        (
+          completed(index)?
+          "✅":
+          "▶️"
+        )+
+        '</span>'+
+        '<div class="levelName">'+
+        (index+1)+
+        ". "+
+        level.name+
+        '</div>'+
+        '<div class="levelInfo">'+
+        level.diff+
+        " • "+
+        level.speed+
+        " px/s"+
+        '</div>';
 
-levelsBox.appendChild(b);
-});
+      b.onclick=()=>{
 
-const done=completedCount();
-const p=Math.round(done/LEVELS.length*100);
+        startLevel(
+          index,
+          true,
+          false
+        );
 
-progressText.textContent=p+"%";
-menuBar.style.width=p+"%";
-doneText.textContent=done+" / "+LEVELS.length+" poziomów";
+      };
+
+      levelsBox.appendChild(b);
+
+    }
+  );
+
+  const done=
+    completedCount();
+
+  const p=
+    Math.round(
+      done/
+      LEVELS.length*
+      100
+    );
+
+  progressText.textContent=
+    p+"%";
+
+  menuBar.style.width=
+    p+"%";
+
+  doneText.textContent=
+    done+
+    " / "+
+    LEVELS.length+
+    " poziomów";
+
+  renderMissions();
+
 }
 
-document.getElementById("achBtn").onclick=()=>{
-achievements.style.display="flex";
-renderAchievements();
-};
-
-document.getElementById("closeAch").onclick=()=>{
-achievements.style.display="none";
-};
-
 /* =====================================================
-   CANVAS
+   RESPONSIVE
 ===================================================== */
 
 let W=innerWidth;
@@ -293,51 +1405,110 @@ let H=innerHeight;
 let ground=H*.78;
 
 const player={
-x:150,
-y:0,
-size:34,
-vy:0,
-rot:0,
-grounded:false,
-waveDir:1
+  x:150,
+  y:0,
+  size:34,
+  vy:0,
+  rot:0,
+  grounded:false
 };
 
 function resize(){
 
-W=Math.max(240,innerWidth);
-H=Math.max(240,innerHeight);
+  W=
+    Math.max(
+      240,
+      innerWidth
+    );
 
-const d=Math.min(Math.max(devicePixelRatio||1,1),2);
+  H=
+    Math.max(
+      240,
+      innerHeight
+    );
 
-canvas.width=W*d;
-canvas.height=H*d;
-canvas.style.width=W+"px";
-canvas.style.height=H+"px";
+  const d=
+    Math.min(
+      Math.max(
+        devicePixelRatio||1,
+        1
+      ),
+      2
+    );
 
-ctx.setTransform(d,0,0,d,0,0);
+  canvas.width=
+    Math.round(
+      W*d
+    );
 
-ground=Math.max(160,Math.min(H-55,H*.78));
+  canvas.height=
+    Math.round(
+      H*d
+    );
 
-if(!running){
-player.y=ground-player.size;
+  canvas.style.width=
+    W+"px";
+
+  canvas.style.height=
+    H+"px";
+
+  ctx.setTransform(
+    d,
+    0,
+    0,
+    d,
+    0,
+    0
+  );
+
+  ground=
+    Math.max(
+      160,
+      Math.min(
+        H-55,
+        H*.78
+      )
+    );
+
+  if(!running){
+
+    player.y=
+      ground-
+      player.size;
+
+  }
+
+  createStars();
+
 }
 
-createStars();
-}
+addEventListener(
+  "resize",
+  resize
+);
 
-addEventListener("resize",resize);
-addEventListener("orientationchange",()=>setTimeout(resize,100));
+addEventListener(
+  "orientationchange",
+  ()=>{
+    setTimeout(
+      resize,
+      100
+    );
+  }
+);
 
 /* =====================================================
-   STATE
+   GAME STATE
 ===================================================== */
 
 let current=0;
-let currentMode="cube";
+
 let running=false;
 let paused=false;
 let finished=false;
 let dying=false;
+
+let practiceMode=false;
 
 let world=0;
 let last=0;
@@ -346,147 +1517,147 @@ let raf=0;
 let deaths=0;
 let runCoins=0;
 
-let collected=new Set();
+let collected=
+  new Set();
 
 let obstacles=[];
-let portals=[];
 let pads=[];
+let portals=[];
 let coins=[];
 
 let particles=[];
 let stars=[];
 let trail=[];
 
-let gravityDirection=1;
-
 let shake=0;
 let flash=0;
 
-let audio=null;
-let musicTimer=null;
-let musicIndex=0;
+let gravityDirection=1;
 
-let sound=get("nd_sound","1")==="1";
+let checkpoints=[];
 
 /* =====================================================
-   START
+   START LEVEL
 ===================================================== */
 
 function resetPlayer(){
 
-player.x=Math.max(90,Math.min(180,W*.22));
+  player.x=
+    Math.max(
+      90,
+      Math.min(
+        180,
+        W*.22
+      )
+    );
 
-player.y=
-gravityDirection===1?
-ground-player.size:
-0;
+  player.y=
+    ground-
+    player.size;
 
-player.vy=0;
-player.rot=0;
-player.waveDir=1;
-player.grounded=true;
-}
-
-function changeMode(mode){
-
-if(!modes[mode])return;
-
-currentMode=mode;
-
-modeText.textContent=modes[mode].name;
-
-/*
-  Najważniejsza część:
-  po zmianie trybu zerujemy starą fizykę.
-*/
-
-player.vy=0;
-player.rot=0;
-player.grounded=false;
-
-if(mode==="cube"||mode==="ball"){
-
-player.y=
-gravityDirection===1?
-ground-player.size:
-0;
-
-player.grounded=true;
-
-}else{
-
-player.y=Math.max(
-40,
-Math.min(
-ground-player.size-40,
-player.y
-)
-);
+  player.vy=0;
+  player.rot=0;
+  player.grounded=true;
 
 }
 
-if(mode==="wave"){
-player.waveDir=1;
-}
-}
+function startLevel(
+  index,
+  newRun=true,
+  practice=false
+){
 
-function startLevel(index,newRun=true){
+  if(
+    index<0||
+    index>=LEVELS.length
+  ){
+    return;
+  }
 
-if(index<0||index>=LEVELS.length)return;
+  current=index;
 
-current=index;
+  practiceMode=
+    practice;
 
-if(newRun){
-deaths=0;
-runCoins=0;
-collected=new Set();
-}
+  if(newRun){
 
-running=false;
-paused=false;
-finished=false;
-dying=false;
+    deaths=0;
+    runCoins=0;
+    collected=
+      new Set();
 
-if(raf){
-cancelAnimationFrame(raf);
-raf=0;
-}
+  }
 
-stopMusic();
+  running=false;
+  paused=false;
+  finished=false;
+  dying=false;
 
-game.style.display="block";
-menu.style.display="none";
-pause.style.display="none";
-finish.style.display="none";
+  if(raf){
 
-world=0;
-particles=[];
-trail=[];
-shake=0;
-flash=0;
+    cancelAnimationFrame(
+      raf
+    );
 
-gravityDirection=1;
+    raf=0;
 
-currentMode="cube";
+  }
 
-resetPlayer();
+  world=0;
 
-generateLevel();
+  checkpoints=[];
 
-levelName.textContent=
-(current+1)+" • "+LEVELS[current][0];
+  particles=[];
+  trail=[];
 
-modeText.textContent="⬛ CUBE";
-coinsText.textContent="🪙 0/3";
+  shake=0;
+  flash=0;
 
-running=true;
-last=performance.now();
+  gravityDirection=1;
 
-if(sound)startMusic();
+  resetPlayer();
 
-draw();
+  generateLevel();
 
-raf=requestAnimationFrame(loop);
+  game.style.display=
+    "block";
+
+  menu.style.display=
+    "none";
+
+  pause.style.display=
+    "none";
+
+  finish.style.display=
+    "none";
+
+  practiceInfo.style.display=
+    practiceMode?
+    "block":
+    "none";
+
+  levelName.textContent=
+    (current+1)+
+    " • "+
+    LEVELS[current].name;
+
+  coinsText.textContent=
+    "🪙 "+
+    runCoins+
+    "/3";
+
+  running=true;
+
+  last=
+    performance.now();
+
+  draw();
+
+  raf=
+    requestAnimationFrame(
+      loop
+    );
+
 }
 
 /* =====================================================
@@ -495,118 +1666,208 @@ raf=requestAnimationFrame(loop);
 
 function generateLevel(){
 
-obstacles=[];
-portals=[];
-pads=[];
-coins=[];
+  obstacles=[];
+  pads=[];
+  portals=[];
+  coins=[];
 
-const length=11500+current*600;
+  const length=
+    11500+
+    current*600;
 
-let x=650;
-let pattern=0;
+  let x=650;
+  let p=0;
 
-while(x<length){
+  const patterns=[
 
-const type=pattern%10;
+    "spike",
+    "double",
+    "saw",
+    "gap",
+    "pad",
+    "spike",
+    "saw",
+    "speed",
+    "double",
+    "gap",
+    "spikeSaw",
+    "triple"
 
-if(type===0){
+  ];
 
-spike(x);
-x+=420;
+  while(x<length){
 
-}else if(type===1){
+    const type=
+      patterns[
+        p%
+        patterns.length
+      ];
 
-/*
-  DWA KOLCE DOKŁADNIE OBOK SIEBIE.
-*/
-spike(x);
-spike(x+46);
-x+=520;
+    if(type==="spike"){
 
-}else if(type===2){
+      spike(x);
 
-saw(x);
-x+=520;
+      x+=430;
 
-}else if(type===3){
+    }
 
-gap(x,150);
-x+=630;
+    else if(type==="double"){
 
-}else if(type===4){
+      /*
+        46 px = dokładna szerokość kolca.
+        Brak przerwy.
+      */
 
-pad(x);
-spike(x+190);
-x+=600;
+      spike(x);
+      spike(x+46);
 
-}else if(type===5){
+      x+=520;
 
-spike(x);
-saw(x+230);
-x+=650;
+    }
 
-}else if(type===6){
+    else if(type==="triple"){
 
-speedPortal(x);
-spike(x+250);
-x+=650;
+      spike(x);
+      spike(x+46);
+      spike(x+92);
 
-}else if(type===7){
+      x+=610;
 
-gravityPortal(x);
-spike(x+270);
-x+=700;
+    }
 
-}else if(type===8){
+    else if(type==="saw"){
 
-spike(x);
-spike(x+46);
-spike(x+92);
-x+=650;
+      saw(x);
 
-}else{
+      x+=520;
 
-saw(x);
-spike(x+150);
-x+=650;
-}
+    }
 
-pattern++;
-}
+    else if(type==="spikeSaw"){
 
-/*
-  TRYBY.
-  Każdy portal ma duży odstęp od następnego,
-  żeby tryb rzeczywiście dało się przetestować.
-*/
+      spike(x);
+      saw(x+230);
 
-const base=1800;
+      x+=650;
 
-modePortal(base,"ship");
-modePortal(base+900,"cube");
+    }
 
-modePortal(base+1900,"ufo");
-modePortal(base+2900,"cube");
+    else if(type==="gap"){
 
-modePortal(base+3900,"wave");
-modePortal(base+5100,"cube");
+      gap(x,150);
 
-modePortal(base+6100,"ball");
-modePortal(base+7300,"cube");
+      x+=630;
 
-const positions=[
-length*.25,
-length*.52,
-length*.79
-];
+    }
 
-positions.forEach((x,i)=>{
-coins.push({
-id:i,
-x:x,
-collected:false
-});
-});
+    else if(type==="pad"){
+
+      pad(x);
+
+      spike(x+190);
+
+      x+=600;
+
+    }
+
+    else if(type==="speed"){
+
+      speedPortal(x);
+
+      spike(x+250);
+
+      saw(x+480);
+
+      x+=760;
+
+    }
+
+    p++;
+
+  }
+
+  const positions=[
+
+    length*.25,
+    length*.52,
+    length*.79
+
+  ];
+
+  positions.forEach(
+    (cx,i)=>{
+
+      let finalX=cx;
+
+      for(
+        let a=0;
+        a<40;
+        a++
+      ){
+
+        let bad=false;
+
+        for(
+          const o of obstacles
+        ){
+
+          if(
+            o.type==="gap"
+          ){
+
+            if(
+              finalX>
+                o.x-100&&
+              finalX<
+                o.x+
+                o.w+
+                100
+            ){
+
+              bad=true;
+              break;
+
+            }
+
+          }
+
+          else{
+
+            if(
+              Math.abs(
+                finalX-o.x
+              )<120
+            ){
+
+              bad=true;
+              break;
+
+            }
+
+          }
+
+        }
+
+        if(!bad)break;
+
+        finalX+=120;
+
+      }
+
+      coins.push({
+
+        id:i,
+
+        x:finalX,
+
+        collected:
+          collected.has(i)
+
+      });
+
+    }
+  );
+
 }
 
 /* =====================================================
@@ -614,184 +1875,137 @@ collected:false
 ===================================================== */
 
 function spike(x){
-obstacles.push({type:"spike",x});
+
+  obstacles.push({
+    type:"spike",
+    x:x
+  });
+
 }
 
 function saw(x){
-obstacles.push({type:"saw",x,r:28});
+
+  obstacles.push({
+    type:"saw",
+    x:x,
+    r:28
+  });
+
 }
 
 function gap(x,w){
-obstacles.push({type:"gap",x,w});
+
+  obstacles.push({
+    type:"gap",
+    x:x,
+    w:w
+  });
+
 }
 
 function pad(x){
-pads.push({x,used:false});
+
+  pads.push({
+    x:x,
+    used:false
+  });
+
 }
 
 function speedPortal(x){
-portals.push({
-type:"speed",
-x,
-used:false
-});
-}
 
-function gravityPortal(x){
-portals.push({
-type:"gravity",
-x,
-used:false
-});
-}
+  portals.push({
+    type:"speed",
+    x:x,
+    used:false
+  });
 
-function modePortal(x,mode){
-portals.push({
-type:"mode",
-mode,
-x,
-used:false
-});
 }
 
 /* =====================================================
    INPUT
 ===================================================== */
 
-function action(){
+function jump(){
 
-if(!running||paused||dying||finished)return;
+  if(
+    !running||
+    paused||
+    dying||
+    finished
+  ){
+    return;
+  }
 
-if(currentMode==="cube"){
-cubeJump();
-return;
-}
+  if(
+    player.grounded
+  ){
 
-if(currentMode==="ball"){
-ballFlip();
-return;
-}
+    player.vy=-730;
 
-if(currentMode==="ship"){
-shipFlap();
-return;
-}
+    player.grounded=false;
 
-if(currentMode==="ufo"){
-ufoJump();
-return;
-}
+    particlesJump();
 
-if(currentMode==="wave"){
-waveSwitch();
-return;
-}
-}
+    shake=3;
 
-/* CUBE */
-
-function cubeJump(){
-
-if(!player.grounded)return;
-
-player.vy=-730*gravityDirection;
-player.grounded=false;
-
-particlesJump();
-}
-
-/* BALL */
-
-function ballFlip(){
-
-gravityDirection*=-1;
-
-player.vy=0;
-player.grounded=false;
-
-particlesPortal(player.x);
-}
-
-/* SHIP */
-
-function shipFlap(){
-
-/*
-  Kliknięcie powoduje mocne wznoszenie.
-  Puszczenie = opadanie.
-  Działa płynnie zamiast zwykłego skoku.
-*/
-
-player.vy=-520*gravityDirection;
-}
-
-/* UFO */
-
-function ufoJump(){
-
-player.vy=-620*gravityDirection;
-
-particlesJump();
-}
-
-/* WAVE */
-
-function waveSwitch(){
-
-/*
-  TO BYŁ GŁÓWNY BŁĄD POPRZEDNIEJ WERSJI.
-
-  Wave zmienia kierunek przy KAŻDYM kliknięciu.
-*/
-
-player.waveDir*=-1;
-
-player.vy=
-player.waveDir*
-720*
-gravityDirection;
+  }
 
 }
 
-/*
-  Pointer + klawiatura.
-*/
+game.addEventListener(
+  "pointerdown",
+  e=>{
 
-game.addEventListener("pointerdown",e=>{
+    if(
+      e.target.closest(
+        ".gameButtons"
+      )||
+      e.target.closest(
+        "#pause"
+      )||
+      e.target.closest(
+        "#finish"
+      )
+    ){
+      return;
+    }
 
-if(
-e.target.closest(".gameButtons")||
-e.target.closest("#pause")||
-e.target.closest("#finish")
-)return;
+    jump();
 
-action();
+  },
+  {passive:true}
+);
 
-});
+addEventListener(
+  "keydown",
+  e=>{
 
-addEventListener("keydown",e=>{
+    if(
+      e.code==="Space"||
+      e.code==="ArrowUp"||
+      e.code==="KeyW"
+    ){
 
-if(
-e.code==="Space"||
-e.code==="ArrowUp"||
-e.code==="KeyW"
-){
+      e.preventDefault();
 
-e.preventDefault();
-action();
+      jump();
 
-}
+    }
 
-if(
-e.code==="Escape"||
-e.code==="KeyP"
-){
+    if(
+      e.code==="Escape"||
+      e.code==="KeyP"
+    ){
 
-if(running)togglePause();
+      if(running){
+        togglePause();
+      }
 
-}
+    }
 
-});
+  }
+);
 
 /* =====================================================
    UPDATE
@@ -799,380 +2013,177 @@ if(running)togglePause();
 
 function update(dt){
 
-let speed=LEVELS[current][2];
+  const level=
+    LEVELS[current];
 
-/* speed portal */
+  let speed=
+    level.speed;
 
-for(const p of portals){
+  for(
+    const p of portals
+  ){
 
-if(
-p.type==="speed"&&
-world+player.x>p.x&&
-world+player.x<p.x+180
-){
+    if(
+      p.type==="speed"&&
+      world+player.x>
+        p.x&&
+      world+player.x<
+        p.x+180
+    ){
 
-speed*=1.18;
+      speed*=1.18;
 
-}
+    }
 
-}
+  }
 
-world+=speed*dt;
+  world+=
+    speed*
+    dt;
 
-/* ===================================================
-   CUBE
-=================================================== */
+  const gravity=
+    2100;
 
-if(currentMode==="cube"){
+  player.vy+=
+    gravity*
+    dt;
 
-const gravity=2100*gravityDirection;
+  player.y+=
+    player.vy*
+    dt;
 
-player.vy+=gravity*dt;
-player.y+=player.vy*dt;
+  const floor=
+    ground-
+    player.size;
 
-if(gravityDirection===1){
+  if(
+    player.y>=floor
+  ){
 
-const floor=ground-player.size;
+    if(
+      !gapUnder()
+    ){
 
-if(player.y>=floor&&!gapUnder()){
+      player.y=floor;
 
-player.y=floor;
-player.vy=0;
-player.grounded=true;
+      player.vy=0;
 
-}else{
+      player.grounded=true;
 
-player.grounded=false;
-player.rot+=dt*8;
+      player.rot=
+        Math.round(
+          player.rot/
+          (Math.PI/2)
+        )*
+        (Math.PI/2);
 
-}
+    }
 
-}else{
+    else{
 
-if(player.y<=0&&!gapUnder()){
+      player.grounded=false;
 
-player.y=0;
-player.vy=0;
-player.grounded=true;
+    }
 
-}else{
+  }
 
-player.grounded=false;
-player.rot-=dt*8;
+  else{
 
-}
+    player.grounded=false;
 
-}
+    player.rot+=
+      dt*8;
 
-}
+  }
 
-/* ===================================================
-   BALL
-=================================================== */
+  checkPads();
+  checkCoins();
+  collisions();
 
-else if(currentMode==="ball"){
+  trail.push({
 
-const gravity=2100*gravityDirection;
+    x:
+      player.x+
+      17,
 
-player.vy+=gravity*dt;
-player.y+=player.vy*dt;
+    y:
+      player.y+
+      17,
 
-if(gravityDirection===1){
+    life:.35,
 
-const floor=ground-player.size;
+    size:18
 
-if(player.y>=floor){
+  });
 
-player.y=floor;
-player.vy=0;
-player.grounded=true;
+  updateTrail(dt);
+  updateParticles(dt);
 
-}else{
+  if(shake>0){
 
-player.grounded=false;
+    shake-=
+      dt*13;
 
-}
+    if(shake<0){
+      shake=0;
+    }
 
-}else{
+  }
 
-if(player.y<=0){
+  if(flash>0){
 
-player.y=0;
-player.vy=0;
-player.grounded=true;
+    flash-=
+      dt*3;
 
-}else{
+    if(flash<0){
+      flash=0;
+    }
 
-player.grounded=false;
-
-}
-
-}
-
-player.rot+=dt*8*gravityDirection;
-
-}
-
-/* ===================================================
-   SHIP
-=================================================== */
-
-else if(currentMode==="ship"){
-
-/*
-  Grawitacja + opadanie.
-*/
-
-player.vy+=1450*gravityDirection*dt;
-
-/*
-  Opór.
-*/
-
-player.vy*=Math.pow(.985,dt*60);
-
-player.y+=player.vy*dt;
-
-const minY=15;
-const maxY=ground-player.size-15;
-
-if(player.y<minY){
-
-player.y=minY;
-player.vy=0;
-
-}
-
-if(player.y>maxY){
-
-player.y=maxY;
-player.vy=0;
-
-}
-
-player.rot=
-Math.max(
--.65,
-Math.min(
-.65,
-player.vy*.001
-)
-);
-
-}
-
-/* ===================================================
-   UFO
-=================================================== */
-
-else if(currentMode==="ufo"){
-
-player.vy+=1500*gravityDirection*dt;
-
-player.y+=player.vy*dt;
-
-const minY=15;
-const maxY=ground-player.size-15;
-
-if(player.y<minY){
-
-player.y=minY;
-player.vy=0;
-
-}
-
-if(player.y>maxY){
-
-player.y=maxY;
-player.vy=0;
-
-}
-
-player.rot=player.vy*.0007;
-
-}
-
-/* ===================================================
-   WAVE
-=================================================== */
-
-else if(currentMode==="wave"){
-
-/*
-  Wave NIE używa grawitacji.
-  Leci po linii prostej po skosie.
-
-  Każde kliknięcie:
-  góra -> dół
-  dół -> góra
-*/
-
-const waveSpeed=720;
-
-player.vy=
-player.waveDir*
-waveSpeed;
-
-player.y+=player.vy*dt;
-
-if(player.y<=10){
-
-player.y=10;
-player.waveDir=1;
-
-}
-
-if(
-player.y>=ground-player.size-10
-){
-
-player.y=
-ground-player.size-10;
-
-player.waveDir=-1;
-
-}
-
-player.rot=
-player.waveDir>0?
-.45:
--.45;
-
-}
-
-/* ===================================================
-   MECHANIKI
-=================================================== */
-
-checkPads();
-checkPortals();
-checkCoins();
-checkCollisions();
-
-trail.push({
-x:player.x+17,
-y:player.y+17,
-life:.3,
-size:18
-});
-
-updateTrail(dt);
-updateParticles(dt);
-
-if(shake>0){
-
-shake-=dt*13;
-
-if(shake<0)shake=0;
-
-}
-
-if(flash>0){
-
-flash-=dt*3;
-
-if(flash<0)flash=0;
-
-}
+  }
 
 }
 
 /* =====================================================
-   PADY
+   PAD
 ===================================================== */
 
 function checkPads(){
 
-if(
-currentMode!=="cube"&&
-currentMode!=="ball"
-)return;
+  for(
+    const p of pads
+  ){
 
-for(const p of pads){
+    if(p.used){
+      continue;
+    }
 
-if(p.used)continue;
+    const px=
+      world+
+      player.x+
+      17;
 
-const px=world+player.x+17;
+    if(
+      px>p.x&&
+      px<p.x+50&&
+      player.grounded
+    ){
 
-if(
-px>p.x&&
-px<p.x+50&&
-player.grounded
-){
+      p.used=true;
 
-p.used=true;
+      player.vy=
+        -1000;
 
-player.vy=
--1000*
-gravityDirection;
+      player.grounded=false;
 
-player.grounded=false;
+      particlesPad(
+        p.x-world
+      );
 
-particlesPad(p.x-world);
+      shake=5;
 
-}
+    }
 
-}
-
-}
-
-/* =====================================================
-   PORTALE
-===================================================== */
-
-function checkPortals(){
-
-const px=world+player.x+17;
-
-for(const p of portals){
-
-if(p.used)continue;
-
-if(
-px>p.x&&
-px<p.x+60
-){
-
-p.used=true;
-
-if(p.type==="speed"){
-
-/* tylko chwilowy efekt prędkości */
-
-particlesPortal(p.x-world);
-
-}
-
-else if(p.type==="gravity"){
-
-gravityDirection*=-1;
-
-player.vy=0;
-player.grounded=false;
-
-particlesPortal(p.x-world);
-
-}
-
-else if(p.type==="mode"){
-
-/*
-  NAJWAŻNIEJSZE:
-  portal natychmiast zmienia tryb.
-*/
-
-changeMode(p.mode);
-
-particlesMode(
-p.x-world,
-p.mode
-);
-
-}
-
-}
-
-}
+  }
 
 }
 
@@ -1182,38 +2193,56 @@ p.mode
 
 function checkCoins(){
 
-for(const c of coins){
+  for(
+    const c of coins
+  ){
 
-if(c.collected)continue;
+    if(c.collected){
+      continue;
+    }
 
-const x=c.x-world;
+    const x=
+      c.x-
+      world;
 
-const y=
-gravityDirection===1?
-ground-125:
-125;
+    const y=
+      ground-
+      125;
 
-if(
-Math.hypot(
-player.x+17-x,
-player.y+17-y
-)<40
-){
+    if(
+      Math.hypot(
+        player.x+
+        17-
+        x,
 
-c.collected=true;
+        player.y+
+        17-
+        y
+      )<38
+    ){
 
-collected.add(c.id);
+      c.collected=true;
 
-runCoins=collected.size;
+      collected.add(
+        c.id
+      );
 
-coinsText.textContent=
-"🪙 "+runCoins+"/3";
+      runCoins=
+        collected.size;
 
-particlesCoin(x,y);
+      coinsText.textContent=
+        "🪙 "+
+        runCoins+
+        "/3";
 
-}
+      particlesCoin(
+        x,
+        y
+      );
 
-}
+    }
+
+  }
 
 }
 
@@ -1221,120 +2250,131 @@ particlesCoin(x,y);
    COLLISIONS
 ===================================================== */
 
-function checkCollisions(){
+function collisions(){
 
-const px=world+player.x;
+  const px=
+    world+
+    player.x;
 
-const left=px+5;
-const right=px+player.size-5;
-const top=player.y+5;
-const bottom=player.y+player.size-5;
+  const s=
+    player.size;
 
-/* przeszkody */
+  const left=
+    px+5;
 
-for(const o of obstacles){
+  const right=
+    px+s-5;
 
-if(o.type==="spike"){
+  const top=
+    player.y+5;
 
-if(
-right>o.x+4&&
-left<o.x+46
-){
+  const bottom=
+    player.y+s-5;
 
-if(
-gravityDirection===1&&
-bottom>ground-45
-){
+  for(
+    const o of obstacles
+  ){
 
-die();
-return;
+    if(
+      o.type==="spike"
+    ){
 
-}
+      if(
+        right>
+          o.x+4&&
+        left<
+          o.x+46&&
+        bottom>
+          ground-45
+      ){
 
-if(
-gravityDirection===-1&&
-top<48
-){
+        die();
 
-die();
-return;
+        return;
 
-}
+      }
 
-}
+    }
 
-}
+    if(
+      o.type==="saw"
+    ){
 
-if(o.type==="saw"){
+      const cx=o.x;
 
-const cy=
-gravityDirection===1?
-ground-o.r:
-o.r;
+      const cy=
+        ground-
+        o.r;
 
-const nx=Math.max(left,Math.min(o.x,right));
-const ny=Math.max(top,Math.min(cy,bottom));
+      const nx=
+        Math.max(
+          left,
+          Math.min(
+            cx,
+            right
+          )
+        );
 
-const dx=o.x-nx;
-const dy=cy-ny;
+      const ny=
+        Math.max(
+          top,
+          Math.min(
+            cy,
+            bottom
+          )
+        );
 
-if(
-dx*dx+dy*dy<
-(o.r-5)*(o.r-5)
-){
+      const dx=
+        cx-
+        nx;
 
-die();
-return;
+      const dy=
+        cy-
+        ny;
 
-}
+      if(
+        dx*dx+
+        dy*dy<
+        (o.r-5)*
+        (o.r-5)
+      ){
 
-}
+        die();
 
-if(
-o.type==="gap"&&
-(currentMode==="cube"||
-currentMode==="ball")&&
-gravityDirection===1
-){
+        return;
 
-const center=world+player.x+17;
+      }
 
-if(
-center>o.x&&
-center<o.x+o.w&&
-bottom>=ground-8
-){
+    }
 
-die();
-return;
+    if(
+      o.type==="gap"
+    ){
 
-}
+      const center=
+        world+
+        player.x+
+        s/2;
 
-}
+      if(
+        center>
+          o.x&&
+        center<
+          o.x+
+          o.w&&
+        bottom>=
+          ground-8
+      ){
 
-}
+        die();
 
-/*
-  Tryby latające nie mogą wylecieć poza ekran.
-*/
+        return;
 
-if(
-currentMode==="ship"||
-currentMode==="ufo"||
-currentMode==="wave"
-){
+      }
 
-if(
-player.y<=2||
-player.y+player.size>=ground-2
-){
+    }
 
-die();
-return;
-
-}
-
-}
+  }
 
 }
 
@@ -1344,26 +2384,32 @@ return;
 
 function gapUnder(){
 
-const center=
-world+
-player.x+
-player.size/2;
+  const center=
+    world+
+    player.x+
+    player.size/2;
 
-for(const o of obstacles){
+  for(
+    const o of obstacles
+  ){
 
-if(
-o.type==="gap"&&
-center>o.x&&
-center<o.x+o.w
-){
+    if(
+      o.type==="gap"&&
+      center>
+        o.x&&
+      center<
+        o.x+
+        o.w
+    ){
 
-return true;
+      return true;
 
-}
+    }
 
-}
+  }
 
-return false;
+  return false;
+
 }
 
 /* =====================================================
@@ -1372,30 +2418,155 @@ return false;
 
 function die(){
 
-if(dying||finished||!running)return;
+  if(
+    dying||
+    finished||
+    !running
+  ){
+    return;
+  }
 
-dying=true;
-running=false;
+  dying=true;
 
-deaths++;
+  deaths++;
 
-shake=14;
-flash=1;
+  running=false;
 
-particlesDeath();
+  shake=14;
+  flash=1;
 
-setTimeout(()=>{
+  particlesDeath();
 
-if(!dying)return;
+  if(
+    practiceMode&&
+    checkpoints.length
+  ){
 
-dying=false;
+    const cp=
+      checkpoints[
+        checkpoints.length-1
+      ];
 
-startLevel(
-current,
-false
-);
+    setTimeout(
+      ()=>{
 
-},600);
+        if(!dying){
+          return;
+        }
+
+        dying=false;
+
+        restoreCheckpoint(cp);
+
+      },
+      500
+    );
+
+    return;
+
+  }
+
+  setTimeout(
+    ()=>{
+
+      if(!dying){
+        return;
+      }
+
+      dying=false;
+
+      startLevel(
+        current,
+        false,
+        practiceMode
+      );
+
+    },
+    650
+  );
+
+}
+
+/* =====================================================
+   PRACTICE CHECKPOINTS
+===================================================== */
+
+function createCheckpoint(){
+
+  if(!practiceMode){
+    return;
+  }
+
+  const last=
+    checkpoints[
+      checkpoints.length-1
+    ];
+
+  if(
+    !last||
+    world-last.world>
+      700
+  ){
+
+    checkpoints.push({
+
+      world:world,
+
+      coins:
+        new Set(
+          collected
+        )
+
+    });
+
+  }
+
+}
+
+function restoreCheckpoint(cp){
+
+  world=
+    cp.world;
+
+  collected=
+    new Set(
+      cp.coins
+    );
+
+  runCoins=
+    collected.size;
+
+  coins.forEach(
+    c=>{
+      c.collected=
+        collected.has(
+          c.id
+        );
+    }
+  );
+
+  player.y=
+    ground-
+    player.size;
+
+  player.vy=0;
+
+  player.grounded=true;
+
+  coinsText.textContent=
+    "🪙 "+
+    runCoins+
+    "/3";
+
+  running=true;
+
+  last=
+    performance.now();
+
+  raf=
+    requestAnimationFrame(
+      loop
+    );
 
 }
 
@@ -1405,51 +2576,134 @@ false
 
 function checkWin(){
 
-const length=11500+current*600;
+  const length=
+    11500+
+    current*600;
 
-if(world>=length){
-finishLevel();
-}
+  if(
+    world>=length
+  ){
+
+    finishLevel();
+
+  }
 
 }
 
 function finishLevel(){
 
-if(finished)return;
+  if(finished){
+    return;
+  }
 
-finished=true;
-running=false;
+  finished=true;
 
-stopMusic();
+  running=false;
 
-set(
-"nd_level_"+current,
-"1"
-);
+  set(
+    "nd_level_"+current,
+    "1"
+  );
 
-const old=
-Number(
-get("nd_totalCoins","0")
-);
+  const old=
+    Number(
+      get(
+        "nd_totalCoins",
+        "0"
+      )
+    );
 
-set(
-"nd_totalCoins",
-old+runCoins
-);
+  set(
+    "nd_totalCoins",
+    old+
+    runCoins
+  );
 
-checkAchievements();
+  checkAchievements();
 
-document.getElementById("finishInfo").textContent=
-LEVELS[current][0]+
-" • 🪙 "+
-runCoins+
-"/3 • ☠️ "+
-deaths+
-" śmierci";
+  renderMenu();
 
-finish.style.display="flex";
+  document.getElementById(
+    "finishInfo"
+  ).textContent=
+    LEVELS[current].name+
+    " • 🪙 "+
+    runCoins+
+    "/3"+
+    " • ☠️ "+
+    deaths+
+    " śmierci";
 
-renderMenu();
+  finish.style.display=
+    "flex";
+
+}
+
+/* =====================================================
+   LOOP
+===================================================== */
+
+function loop(time){
+
+  if(!running){
+    return;
+  }
+
+  if(paused){
+
+    last=time;
+
+    raf=
+      requestAnimationFrame(
+        loop
+      );
+
+    return;
+
+  }
+
+  let dt=
+    (time-last)/
+    1000;
+
+  if(
+    !Number.isFinite(dt)||
+    dt<0
+  ){
+
+    dt=0;
+
+  }
+
+  dt=
+    Math.min(
+      dt,
+      .05
+    );
+
+  last=time;
+
+  update(dt);
+
+  /*
+    Checkpoint co około 700 px
+    w Practice Mode.
+  */
+
+  createCheckpoint();
+
+  draw();
+
+  checkWin();
+
+  if(running){
+
+    raf=
+      requestAnimationFrame(
+        loop
+      );
+
+  }
 
 }
 
@@ -1459,178 +2713,265 @@ renderMenu();
 
 function draw(){
 
-const color=LEVELS[current][3];
+  const color=
+    skinColor();
 
-ctx.clearRect(0,0,W,H);
+  ctx.clearRect(
+    0,
+    0,
+    W,
+    H
+  );
 
-ctx.save();
+  ctx.save();
 
-if(shake>0){
+  if(shake>0){
 
-ctx.translate(
-(Math.random()-.5)*shake,
-(Math.random()-.5)*shake
-);
+    ctx.translate(
+      (Math.random()-.5)*
+        shake,
 
-}
+      (Math.random()-.5)*
+        shake
+    );
 
-const bg=ctx.createLinearGradient(0,0,0,H);
+  }
 
-bg.addColorStop(0,"#080b20");
-bg.addColorStop(1,"#020207");
+  const bg=
+    ctx.createLinearGradient(
+      0,
+      0,
+      0,
+      H
+    );
 
-ctx.fillStyle=bg;
-ctx.fillRect(0,0,W,H);
+  bg.addColorStop(
+    0,
+    "#080b20"
+  );
 
-drawStars();
-drawGrid();
+  bg.addColorStop(
+    1,
+    "#020207"
+  );
 
-ctx.fillStyle="#0b0d18";
+  ctx.fillStyle=bg;
 
-ctx.fillRect(
-0,
-ground,
-W,
-H-ground
-);
+  ctx.fillRect(
+    0,
+    0,
+    W,
+    H
+  );
 
-ctx.strokeStyle=color;
-ctx.shadowColor=color;
-ctx.shadowBlur=14;
-ctx.lineWidth=3;
+  drawStars();
+  drawGrid();
 
-ctx.beginPath();
-ctx.moveTo(0,ground);
-ctx.lineTo(W,ground);
-ctx.stroke();
+  ctx.fillStyle=
+    "#0b0d18";
 
-ctx.shadowBlur=0;
+  ctx.fillRect(
+    0,
+    ground,
+    W,
+    H-ground
+  );
 
-/* przeszkody */
+  ctx.strokeStyle=
+    color;
 
-for(const o of obstacles){
+  ctx.shadowColor=
+    color;
 
-const x=o.x-world;
+  ctx.shadowBlur=14;
 
-if(x<-100||x>W+100)continue;
+  ctx.lineWidth=3;
 
-if(o.type==="spike")drawSpike(x);
+  ctx.beginPath();
 
-if(o.type==="saw")drawSaw(x,o.r);
+  ctx.moveTo(
+    0,
+    ground
+  );
 
-if(o.type==="gap"){
+  ctx.lineTo(
+    W,
+    ground
+  );
 
-ctx.fillStyle="#020207";
+  ctx.stroke();
 
-ctx.fillRect(
-x,
-ground,
-o.w,
-H-ground
-);
+  ctx.shadowBlur=0;
 
-}
+  for(
+    const o of obstacles
+  ){
 
-}
+    const x=
+      o.x-
+      world;
 
-/* pady */
+    if(
+      x<-100||
+      x>W+100
+    ){
+      continue;
+    }
 
-for(const p of pads){
+    if(
+      o.type==="spike"
+    ){
 
-const x=p.x-world;
+      drawSpike(x);
 
-if(x>-100&&x<W+100){
-drawPad(x);
-}
+    }
 
-}
+    if(
+      o.type==="saw"
+    ){
 
-/* portale */
+      drawSaw(
+        x,
+        o.r
+      );
 
-for(const p of portals){
+    }
 
-const x=p.x-world;
+    if(
+      o.type==="gap"
+    ){
 
-if(x>-100&&x<W+100){
+      ctx.fillStyle=
+        "#020207";
 
-if(p.type==="speed")
-drawPortal(x,"#ffe14a",">>");
+      ctx.fillRect(
+        x,
+        ground,
+        o.w,
+        H-ground
+      );
 
-if(p.type==="gravity")
-drawPortal(x,"#ff4be8","↕");
+    }
 
-if(p.type==="mode"){
+  }
 
-const data={
-ship:["#ff9b3d","🚀"],
-ufo:["#8cff4d","🛸"],
-wave:["#45b7ff","〰"],
-ball:["#d66cff","●"],
-cube:["#00eaff","⬛"]
-};
+  for(
+    const p of pads
+  ){
 
-drawPortal(
-x,
-data[p.mode][0],
-data[p.mode][1]
-);
+    const x=
+      p.x-
+      world;
 
-}
+    if(
+      x>-100&&
+      x<W+100
+    ){
 
-}
+      drawPad(x);
 
-}
+    }
 
-/* monety */
+  }
 
-for(const c of coins){
+  for(
+    const p of portals
+  ){
 
-if(c.collected)continue;
+    const x=
+      p.x-
+      world;
 
-const x=c.x-world;
+    if(
+      x>-100&&
+      x<W+100
+    ){
 
-if(x>-50&&x<W+50){
+      drawSpeedPortal(x);
 
-drawCoin(
-x,
-gravityDirection===1?
-ground-125:
-125
-);
+    }
 
-}
+  }
 
-}
+  for(
+    const c of coins
+  ){
 
-drawTrail();
+    if(c.collected){
+      continue;
+    }
 
-if(!dying&&!finished){
-drawPlayer();
-}
+    const x=
+      c.x-
+      world;
 
-drawParticles();
+    if(
+      x>-50&&
+      x<W+50
+    ){
 
-if(flash>0){
+      drawCoin(
+        x,
+        ground-125
+      );
 
-ctx.fillStyle=
-"rgba(255,255,255,"+
-Math.min(.5,flash*.5)+")";
+    }
 
-ctx.fillRect(0,0,W,H);
+  }
 
-}
+  drawTrail();
 
-ctx.restore();
+  if(
+    !dying&&
+    !finished
+  ){
 
-const length=11500+current*600;
+    drawPlayer();
 
-const p=Math.min(
-100,
-Math.floor(world/length*100)
-);
+  }
 
-percent.textContent=p+"%";
-gameBar.style.width=p+"%";
+  drawParticles();
+
+  if(flash>0){
+
+    ctx.fillStyle=
+      "rgba(255,255,255,"+
+      Math.min(
+        .5,
+        flash*.5
+      )+
+      ")";
+
+    ctx.fillRect(
+      0,
+      0,
+      W,
+      H
+    );
+
+  }
+
+  ctx.restore();
+
+  const length=
+    11500+
+    current*600;
+
+  const p=
+    Math.min(
+      100,
+      Math.floor(
+        world/
+        length*
+        100
+      )
+    );
+
+  percent.textContent=
+    p+"%";
+
+  gameBar.style.width=
+    p+"%";
 
 }
 
@@ -1640,384 +2981,508 @@ gameBar.style.width=p+"%";
 
 function drawPlayer(){
 
-const color=LEVELS[current][3];
+  const color=
+    skinColor();
 
-ctx.save();
+  ctx.save();
 
-ctx.translate(
-player.x+17,
-player.y+17
-);
+  ctx.translate(
+    player.x+
+    17,
 
-ctx.rotate(player.rot);
+    player.y+
+    17
+  );
 
-ctx.shadowColor=color;
-ctx.shadowBlur=20;
+  ctx.rotate(
+    player.rot
+  );
 
-if(currentMode==="cube"){
+  ctx.shadowColor=
+    color;
 
-ctx.fillStyle=color;
-ctx.fillRect(-17,-17,34,34);
+  ctx.shadowBlur=20;
 
-ctx.shadowBlur=0;
-ctx.strokeStyle="#fff";
-ctx.strokeRect(-17,-17,34,34);
+  ctx.fillStyle=
+    color;
 
-}
+  ctx.fillRect(
+    -17,
+    -17,
+    34,
+    34
+  );
 
-else if(currentMode==="ship"){
+  ctx.shadowBlur=0;
 
-ctx.fillStyle=color;
+  ctx.strokeStyle=
+    "white";
 
-ctx.beginPath();
+  ctx.lineWidth=2;
 
-ctx.moveTo(23,0);
-ctx.lineTo(-15,-14);
-ctx.lineTo(-8,0);
-ctx.lineTo(-15,14);
-ctx.closePath();
+  ctx.strokeRect(
+    -17,
+    -17,
+    34,
+    34
+  );
 
-ctx.fill();
-
-ctx.fillStyle="#fff";
-ctx.fillRect(-4,-5,9,10);
-
-}
-
-else if(currentMode==="ufo"){
-
-ctx.fillStyle=color;
-
-ctx.beginPath();
-
-ctx.ellipse(
-0,
-3,
-21,
-10,
-0,
-0,
-Math.PI*2
-);
-
-ctx.fill();
-
-ctx.fillStyle="#fff";
-
-ctx.beginPath();
-
-ctx.arc(
-0,
--5,
-9,
-Math.PI,
-Math.PI*2
-);
-
-ctx.fill();
-
-}
-
-else if(currentMode==="wave"){
-
-ctx.fillStyle=color;
-
-ctx.beginPath();
-
-ctx.moveTo(-18,9);
-ctx.lineTo(18,-9);
-ctx.lineTo(18,7);
-ctx.closePath();
-
-ctx.fill();
-
-}
-
-else if(currentMode==="ball"){
-
-ctx.fillStyle=color;
-
-ctx.beginPath();
-
-ctx.arc(
-0,
-0,
-17,
-0,
-Math.PI*2
-);
-
-ctx.fill();
-
-ctx.strokeStyle="#fff";
-ctx.stroke();
-
-}
-
-ctx.shadowBlur=0;
-ctx.restore();
+  ctx.restore();
 
 }
 
 /* =====================================================
-   DRAW OBJECTS
+   SPIKES
 ===================================================== */
 
 function drawSpike(x){
 
-const c=LEVELS[current][3];
+  const color=
+    LEVELS[current].color;
 
-ctx.save();
+  ctx.save();
 
-ctx.fillStyle=c;
-ctx.shadowColor=c;
-ctx.shadowBlur=16;
+  ctx.fillStyle=
+    color;
 
-ctx.beginPath();
+  ctx.shadowColor=
+    color;
 
-if(gravityDirection===1){
+  ctx.shadowBlur=16;
 
-ctx.moveTo(x,ground);
-ctx.lineTo(x+23,ground-47);
-ctx.lineTo(x+46,ground);
+  ctx.beginPath();
 
-}else{
+  ctx.moveTo(
+    x,
+    ground
+  );
 
-ctx.moveTo(x,0);
-ctx.lineTo(x+23,47);
-ctx.lineTo(x+46,0);
+  ctx.lineTo(
+    x+23,
+    ground-47
+  );
 
-}
+  ctx.lineTo(
+    x+46,
+    ground
+  );
 
-ctx.closePath();
-ctx.fill();
+  ctx.closePath();
 
-ctx.shadowBlur=0;
-ctx.strokeStyle="#fff";
-ctx.stroke();
+  ctx.fill();
 
-ctx.restore();
+  ctx.shadowBlur=0;
 
-}
+  ctx.strokeStyle=
+    "white";
 
-function drawSaw(x,r){
+  ctx.stroke();
 
-const c=LEVELS[current][3];
-
-const cy=
-gravityDirection===1?
-ground-r:
-r;
-
-ctx.save();
-
-ctx.translate(x,cy);
-ctx.rotate(performance.now()/280);
-
-ctx.fillStyle=c;
-ctx.shadowColor=c;
-ctx.shadowBlur=17;
-
-const teeth=14;
-
-ctx.beginPath();
-
-for(let i=0;i<teeth*2;i++){
-
-const a=i*Math.PI/teeth;
-const rr=i%2===0?r:r*.7;
-
-const xx=Math.cos(a)*rr;
-const yy=Math.sin(a)*rr;
-
-if(i===0)ctx.moveTo(xx,yy);
-else ctx.lineTo(xx,yy);
-
-}
-
-ctx.closePath();
-ctx.fill();
-
-ctx.shadowBlur=0;
-
-ctx.fillStyle="#05050c";
-
-ctx.beginPath();
-ctx.arc(0,0,r*.28,0,Math.PI*2);
-ctx.fill();
-
-ctx.restore();
-
-}
-
-function drawPad(x){
-
-ctx.save();
-
-ctx.fillStyle="#49ff9a";
-ctx.shadowColor="#49ff9a";
-ctx.shadowBlur=18;
-
-ctx.beginPath();
-
-ctx.arc(
-x+25,
-ground-10,
-20,
-Math.PI,
-Math.PI*2
-);
-
-ctx.fill();
-
-ctx.shadowBlur=0;
-ctx.strokeStyle="#fff";
-ctx.stroke();
-
-ctx.restore();
-
-}
-
-function drawPortal(x,color,text){
-
-ctx.save();
-
-ctx.translate(
-x+30,
-H*.48
-);
-
-ctx.strokeStyle=color;
-ctx.shadowColor=color;
-ctx.shadowBlur=22;
-ctx.lineWidth=5;
-
-ctx.beginPath();
-
-ctx.arc(
-0,
-0,
-30+Math.sin(performance.now()/140)*4,
-0,
-Math.PI*2
-);
-
-ctx.stroke();
-
-ctx.shadowBlur=0;
-
-ctx.fillStyle="#fff";
-ctx.font="bold 20px Arial";
-ctx.textAlign="center";
-ctx.textBaseline="middle";
-ctx.fillText(text,0,0);
-
-ctx.restore();
-
-}
-
-function drawCoin(x,y){
-
-ctx.save();
-
-ctx.translate(x,y);
-
-ctx.shadowColor="#ffd43b";
-ctx.shadowBlur=20;
-ctx.fillStyle="#ffd43b";
-
-ctx.beginPath();
-ctx.arc(0,0,14,0,Math.PI*2);
-ctx.fill();
-
-ctx.shadowBlur=0;
-ctx.strokeStyle="#fff";
-ctx.stroke();
-
-ctx.restore();
+  ctx.restore();
 
 }
 
 /* =====================================================
-   BACKGROUND
+   SAW
+===================================================== */
+
+function drawSaw(
+  x,
+  r
+){
+
+  const color=
+    LEVELS[current].color;
+
+  const cy=
+    ground-r;
+
+  ctx.save();
+
+  ctx.translate(
+    x,
+    cy
+  );
+
+  ctx.rotate(
+    performance.now()/280
+  );
+
+  ctx.fillStyle=
+    color;
+
+  ctx.shadowColor=
+    color;
+
+  ctx.shadowBlur=17;
+
+  const teeth=14;
+
+  ctx.beginPath();
+
+  for(
+    let i=0;
+    i<teeth*2;
+    i++
+  ){
+
+    const a=
+      i*Math.PI/teeth;
+
+    const rr=
+      i%2===0?
+      r:
+      r*.7;
+
+    const xx=
+      Math.cos(a)*
+      rr;
+
+    const yy=
+      Math.sin(a)*
+      rr;
+
+    if(i===0){
+      ctx.moveTo(
+        xx,
+        yy
+      );
+    }else{
+      ctx.lineTo(
+        xx,
+        yy
+      );
+    }
+
+  }
+
+  ctx.closePath();
+  ctx.fill();
+
+  ctx.shadowBlur=0;
+
+  ctx.fillStyle=
+    "#05050c";
+
+  ctx.beginPath();
+
+  ctx.arc(
+    0,
+    0,
+    r*.28,
+    0,
+    Math.PI*2
+  );
+
+  ctx.fill();
+
+  ctx.restore();
+
+}
+
+/* =====================================================
+   PAD
+===================================================== */
+
+function drawPad(x){
+
+  ctx.save();
+
+  ctx.fillStyle=
+    "#49ff9a";
+
+  ctx.shadowColor=
+    "#49ff9a";
+
+  ctx.shadowBlur=18;
+
+  ctx.beginPath();
+
+  ctx.arc(
+    x+25,
+    ground-10,
+    20,
+    Math.PI,
+    Math.PI*2
+  );
+
+  ctx.fill();
+
+  ctx.shadowBlur=0;
+
+  ctx.strokeStyle=
+    "white";
+
+  ctx.stroke();
+
+  ctx.restore();
+
+}
+
+/* =====================================================
+   SPEED PORTAL
+===================================================== */
+
+function drawSpeedPortal(x){
+
+  ctx.save();
+
+  ctx.translate(
+    x+25,
+    H*.48
+  );
+
+  ctx.strokeStyle=
+    "#ffe14a";
+
+  ctx.shadowColor=
+    "#ffe14a";
+
+  ctx.shadowBlur=20;
+
+  ctx.lineWidth=5;
+
+  ctx.beginPath();
+
+  ctx.arc(
+    0,
+    0,
+    29+
+    Math.sin(
+      performance.now()/120
+    )*4,
+    0,
+    Math.PI*2
+  );
+
+  ctx.stroke();
+
+  ctx.shadowBlur=0;
+
+  ctx.fillStyle=
+    "white";
+
+  ctx.font=
+    "bold 18px Arial";
+
+  ctx.textAlign=
+    "center";
+
+  ctx.textBaseline=
+    "middle";
+
+  ctx.fillText(
+    ">>",
+    0,
+    0
+  );
+
+  ctx.restore();
+
+}
+
+/* =====================================================
+   COIN
+===================================================== */
+
+function drawCoin(
+  x,
+  y
+){
+
+  const s=
+    1+
+    Math.sin(
+      performance.now()/130
+    )*.1;
+
+  ctx.save();
+
+  ctx.translate(
+    x,
+    y
+  );
+
+  ctx.scale(
+    s,
+    s
+  );
+
+  ctx.shadowColor=
+    "#ffd43b";
+
+  ctx.shadowBlur=22;
+
+  ctx.fillStyle=
+    "#ffd43b";
+
+  ctx.beginPath();
+
+  ctx.arc(
+    0,
+    0,
+    14,
+    0,
+    Math.PI*2
+  );
+
+  ctx.fill();
+
+  ctx.shadowBlur=0;
+
+  ctx.strokeStyle=
+    "white";
+
+  ctx.lineWidth=2;
+
+  ctx.stroke();
+
+  ctx.restore();
+
+}
+
+/* =====================================================
+   STARS
 ===================================================== */
 
 function createStars(){
 
-stars=[];
+  stars=[];
 
-for(let i=0;i<70;i++){
+  for(
+    let i=0;
+    i<75;
+    i++
+  ){
 
-stars.push({
-x:Math.random()*W,
-y:Math.random()*ground,
-r:Math.random()*2+.5,
-v:Math.random()*.8+.2
-});
+    stars.push({
 
-}
+      x:
+        Math.random()*W,
+
+      y:
+        Math.random()*
+        Math.max(
+          100,
+          ground*.9
+        ),
+
+      r:
+        Math.random()*2+.5,
+
+      v:
+        Math.random()*.8+.2
+
+    });
+
+  }
 
 }
 
 function drawStars(){
 
-ctx.fillStyle="#fff";
+  ctx.fillStyle=
+    "white";
 
-for(const s of stars){
+  for(
+    const s of stars
+  ){
 
-s.x-=s.v;
+    s.x-=s.v;
 
-if(s.x<0)s.x=W;
+    if(
+      s.x<0
+    ){
+      s.x=W;
+    }
 
-ctx.globalAlpha=.3+s.r*.2;
+    ctx.globalAlpha=
+      .3+
+      s.r*.2;
 
-ctx.beginPath();
+    ctx.beginPath();
 
-ctx.arc(
-s.x,
-s.y,
-s.r,
-0,
-Math.PI*2
-);
+    ctx.arc(
+      s.x,
+      s.y,
+      s.r,
+      0,
+      Math.PI*2
+    );
 
-ctx.fill();
+    ctx.fill();
+
+  }
+
+  ctx.globalAlpha=1;
 
 }
 
-ctx.globalAlpha=1;
-
-}
+/* =====================================================
+   GRID
+===================================================== */
 
 function drawGrid(){
 
-const color=LEVELS[current][3];
+  const color=
+    LEVELS[current].color;
 
-ctx.strokeStyle=color;
-ctx.globalAlpha=.08;
+  ctx.strokeStyle=
+    color;
 
-const size=70;
-const off=-(world*.25)%size;
+  ctx.globalAlpha=.08;
 
-for(let x=off;x<W;x+=size){
+  const size=70;
 
-ctx.beginPath();
-ctx.moveTo(x,0);
-ctx.lineTo(x,ground);
-ctx.stroke();
+  const off=
+    -(world*.25)%
+    size;
 
-}
+  for(
+    let x=off;
+    x<W;
+    x+=size
+  ){
 
-for(let y=40;y<ground;y+=size){
+    ctx.beginPath();
 
-ctx.beginPath();
-ctx.moveTo(0,y);
-ctx.lineTo(W,y);
-ctx.stroke();
+    ctx.moveTo(
+      x,
+      0
+    );
 
-}
+    ctx.lineTo(
+      x,
+      ground
+    );
 
-ctx.globalAlpha=1;
+    ctx.stroke();
+
+  }
+
+  for(
+    let y=40;
+    y<ground;
+    y+=size
+  ){
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+      0,
+      y
+    );
+
+    ctx.lineTo(
+      W,
+      y
+    );
+
+    ctx.stroke();
+
+  }
+
+  ctx.globalAlpha=1;
 
 }
 
@@ -2027,43 +3492,77 @@ ctx.globalAlpha=1;
 
 function updateTrail(dt){
 
-for(let i=trail.length-1;i>=0;i--){
+  for(
+    let i=
+      trail.length-1;
+    i>=0;
+    i--
+  ){
 
-trail[i].life-=dt;
+    trail[i].life-=dt;
 
-if(trail[i].life<=0){
-trail.splice(i,1);
-}
+    if(
+      trail[i].life<=0
+    ){
 
-}
+      trail.splice(
+        i,
+        1
+      );
 
-if(trail.length>35){
-trail.splice(0,trail.length-35);
-}
+    }
+
+  }
+
+  if(
+    trail.length>35
+  ){
+
+    trail.splice(
+      0,
+      trail.length-35
+    );
+
+  }
 
 }
 
 function drawTrail(){
 
-const color=LEVELS[current][3];
+  const color=
+    skinColor();
 
-for(const t of trail){
+  for(
+    const t of trail
+  ){
 
-ctx.globalAlpha=
-Math.max(0,t.life/.3)*.35;
+    ctx.globalAlpha=
+      Math.max(
+        0,
+        t.life/.35
+      )*.35;
 
-ctx.fillStyle=color;
+    ctx.fillStyle=
+      color;
 
-ctx.fillRect(
-t.x-t.size/2,
-t.y-t.size/2,
-t.size,
-t.size
-);
+    ctx.shadowColor=
+      color;
 
-}
+    ctx.shadowBlur=15;
 
-ctx.globalAlpha=1;
+    ctx.fillRect(
+      t.x-
+        t.size/2,
+      t.y-
+        t.size/2,
+      t.size,
+      t.size
+    );
+
+  }
+
+  ctx.globalAlpha=1;
+  ctx.shadowBlur=0;
 
 }
 
@@ -2071,274 +3570,482 @@ ctx.globalAlpha=1;
    PARTICLES
 ===================================================== */
 
-function particle(x,y,vx,vy,life,size,color){
+function particle(
+  x,
+  y,
+  vx,
+  vy,
+  life,
+  size,
+  color
+){
 
-particles.push({
-x,y,vx,vy,
-life,
-max:life,
-size,
-color,
-rot:Math.random()*6,
-spin:(Math.random()-.5)*8
-});
+  if(
+    particles.length>300
+  ){
+    return;
+  }
 
-if(particles.length>300){
-particles.shift();
-}
+  particles.push({
+
+    x:x,
+    y:y,
+    vx:vx,
+    vy:vy,
+
+    life:life,
+    max:life,
+
+    size:size,
+
+    color:color,
+
+    rot:
+      Math.random()*6,
+
+    spin:
+      (Math.random()-.5)*10
+
+  });
 
 }
 
 function particlesJump(){
 
-for(let i=0;i<10;i++){
+  for(
+    let i=0;
+    i<10;
+    i++
+  ){
 
-particle(
-player.x+17,
-player.y+17,
-(Math.random()-.5)*150,
-Math.random()*80,
-.4,
-3,
-LEVELS[current][3]
-);
+    particle(
 
-}
+      player.x+17,
+      player.y+17,
+
+      (Math.random()-.5)*150,
+      Math.random()*80,
+
+      .4,
+      3,
+      skinColor()
+
+    );
+
+  }
 
 }
 
 function particlesDeath(){
 
-for(let i=0;i<45;i++){
+  for(
+    let i=0;
+    i<45;
+    i++
+  ){
 
-particle(
-player.x+17,
-player.y+17,
-(Math.random()-.5)*500,
-(Math.random()-.6)*500,
-.8,
-Math.random()*7+2,
-LEVELS[current][3]
-);
+    particle(
 
-}
+      player.x+17,
+      player.y+17,
 
-}
+      (Math.random()-.5)*500,
+      (Math.random()-.6)*500,
 
-function particlesCoin(x,y){
+      .9,
+      Math.random()*7+2,
+      skinColor()
 
-for(let i=0;i<20;i++){
+    );
 
-particle(
-x,
-y,
-(Math.random()-.5)*250,
-(Math.random()-.7)*250,
-.7,
-4,
-"#ffd43b"
-);
+  }
 
 }
+
+function particlesCoin(
+  x,
+  y
+){
+
+  for(
+    let i=0;
+    i<20;
+    i++
+  ){
+
+    particle(
+
+      x,
+      y,
+
+      (Math.random()-.5)*250,
+      (Math.random()-.7)*250,
+
+      .7,
+      Math.random()*5+2,
+
+      "#ffd43b"
+
+    );
+
+  }
 
 }
 
 function particlesPad(x){
 
-for(let i=0;i<18;i++){
+  for(
+    let i=0;
+    i<18;
+    i++
+  ){
 
-particle(
-x,
-ground-15,
-(Math.random()-.5)*220,
--Math.random()*220,
-.7,
-4,
-"#49ff9a"
-);
+    particle(
 
-}
+      x,
+      ground-15,
 
-}
+      (Math.random()-.5)*220,
+      -Math.random()*220,
 
-function particlesPortal(x){
+      .7,
+      4,
 
-for(let i=0;i<25;i++){
+      "#49ff9a"
 
-particle(
-x,
-H*.48,
-(Math.random()-.5)*300,
-(Math.random()-.5)*300,
-.7,
-4,
-"#ff4be8"
-);
+    );
 
-}
-
-}
-
-function particlesMode(x,mode){
-
-const colors={
-cube:"#00eaff",
-ship:"#ff9b3d",
-ufo:"#8cff4d",
-wave:"#45b7ff",
-ball:"#d66cff"
-};
-
-for(let i=0;i<35;i++){
-
-particle(
-x,
-H*.48,
-(Math.random()-.5)*350,
-(Math.random()-.5)*350,
-.8,
-4,
-colors[mode]
-);
-
-}
+  }
 
 }
 
 function updateParticles(dt){
 
-for(let i=particles.length-1;i>=0;i--){
+  for(
+    let i=
+      particles.length-1;
+    i>=0;
+    i--
+  ){
 
-const p=particles[i];
+    const p=
+      particles[i];
 
-p.life-=dt;
+    p.life-=dt;
 
-p.x+=p.vx*dt;
-p.y+=p.vy*dt;
+    p.x+=
+      p.vx*
+      dt;
 
-p.vy+=500*dt;
-p.rot+=p.spin*dt;
+    p.y+=
+      p.vy*
+      dt;
 
-if(p.life<=0){
-particles.splice(i,1);
-}
+    p.vy+=
+      500*
+      dt;
 
-}
+    p.rot+=
+      p.spin*
+      dt;
+
+    if(
+      p.life<=0
+    ){
+
+      particles.splice(
+        i,
+        1
+      );
+
+    }
+
+  }
 
 }
 
 function drawParticles(){
 
-for(const p of particles){
+  for(
+    const p of particles
+  ){
 
-ctx.globalAlpha=
-Math.max(0,p.life/p.max);
+    ctx.globalAlpha=
+      Math.max(
+        0,
+        p.life/
+        p.max
+      );
 
-ctx.fillStyle=p.color;
+    ctx.fillStyle=
+      p.color;
 
-ctx.save();
+    ctx.save();
 
-ctx.translate(p.x,p.y);
-ctx.rotate(p.rot);
+    ctx.translate(
+      p.x,
+      p.y
+    );
 
-ctx.fillRect(
--p.size/2,
--p.size/2,
-p.size,
-p.size
-);
+    ctx.rotate(
+      p.rot
+    );
 
-ctx.restore();
+    ctx.shadowColor=
+      p.color;
 
-}
+    ctx.shadowBlur=10;
 
-ctx.globalAlpha=1;
+    ctx.fillRect(
+      -p.size/2,
+      -p.size/2,
+      p.size,
+      p.size
+    );
+
+    ctx.restore();
+
+  }
+
+  ctx.globalAlpha=1;
+
+  ctx.shadowBlur=0;
 
 }
 
 /* =====================================================
-   MUSIC
+   AUDIO
 ===================================================== */
+
+let audio=null;
+let musicTimer=null;
+let musicIndex=0;
+
+let sound=
+  get(
+    "nd_sound",
+    "1"
+  )==="1";
+
+let effects=
+  get(
+    "nd_effects",
+    "1"
+  )==="1";
 
 function startMusic(){
 
-stopMusic();
+  stopMusic();
 
-try{
+  try{
 
-if(!audio){
+    if(!audio){
 
-audio=new(
-window.AudioContext||
-window.webkitAudioContext
-)();
+      audio=
+        new(
+          window.AudioContext||
+          window.webkitAudioContext
+        )();
 
-}
+    }
 
-if(audio.state==="suspended"){
-audio.resume();
-}
+    if(
+      audio.state===
+      "suspended"
+    ){
 
-const notes=[
-262,330,392,523,
-392,330,294,330
-];
+      audio.resume();
 
-musicIndex=0;
+    }
 
-function note(){
+    const level=
+      LEVELS[current];
 
-if(!sound||!running||paused)return;
+    musicIndex=0;
 
-const osc=audio.createOscillator();
-const gain=audio.createGain();
+    function note(){
 
-osc.type="square";
+      if(
+        !sound||
+        !running||
+        paused
+      ){
 
-osc.frequency.value=
-notes[musicIndex%notes.length];
+        return;
 
-gain.gain.setValueAtTime(
-.03,
-audio.currentTime
-);
+      }
 
-gain.gain.exponentialRampToValueAtTime(
-.001,
-audio.currentTime+.15
-);
+      const osc=
+        audio.createOscillator();
 
-osc.connect(gain);
-gain.connect(audio.destination);
+      const gain=
+        audio.createGain();
 
-osc.start();
-osc.stop(audio.currentTime+.16);
+      osc.type=
+        "square";
 
-musicIndex++;
+      osc.frequency.value=
+        level.notes[
+          musicIndex%
+          level.notes.length
+        ];
 
-}
+      gain.gain.setValueAtTime(
+        .03,
+        audio.currentTime
+      );
 
-note();
+      gain.gain.exponentialRampToValueAtTime(
+        .001,
+        audio.currentTime+
+        .16
+      );
 
-musicTimer=setInterval(
-note,
-60000/LEVELS[current][4]
-);
+      osc.connect(
+        gain
+      );
 
-}catch(e){}
+      gain.connect(
+        audio.destination
+      );
+
+      osc.start();
+
+      osc.stop(
+        audio.currentTime+
+        .17
+      );
+
+      musicIndex++;
+
+    }
+
+    note();
+
+    musicTimer=
+      setInterval(
+        note,
+        60000/
+        level.bpm
+      );
+
+  }catch(e){}
 
 }
 
 function stopMusic(){
 
-if(musicTimer){
+  if(musicTimer){
 
-clearInterval(musicTimer);
-musicTimer=null;
+    clearInterval(
+      musicTimer
+    );
+
+    musicTimer=null;
+
+  }
 
 }
 
+/* =====================================================
+   SETTINGS
+===================================================== */
+
+function updateSettings(){
+
+  document.getElementById(
+    "settingsSound"
+  ).textContent=
+    sound?
+    "WŁĄCZONY":
+    "WYŁĄCZONY";
+
+  document.getElementById(
+    "effectsBtn"
+  ).textContent=
+    effects?
+    "WŁĄCZONE":
+    "WYŁĄCZONE";
+
+  document.getElementById(
+    "soundBtn"
+  ).textContent=
+    sound?
+    "🔊":
+    "🔇";
+
 }
+
+document.getElementById(
+  "settingsSound"
+).onclick=()=>{
+
+  sound=!sound;
+
+  set(
+    "nd_sound",
+    sound?
+    "1":
+    "0"
+  );
+
+  updateSettings();
+
+  if(
+    sound&&
+    running&&
+    !paused
+  ){
+
+    startMusic();
+
+  }else{
+
+    stopMusic();
+
+  }
+
+};
+
+document.getElementById(
+  "effectsBtn"
+).onclick=()=>{
+
+  effects=!effects;
+
+  set(
+    "nd_effects",
+    effects?
+    "1":
+    "0"
+  );
+
+  updateSettings();
+
+};
+
+document.getElementById(
+  "resetBtn"
+).onclick=()=>{
+
+  const ok=
+    confirm(
+      "Na pewno usunąć cały postęp?"
+    );
+
+  if(!ok){
+    return;
+  }
+
+  try{
+
+    localStorage.clear();
+
+  }catch(e){}
+
+  location.reload();
+
+};
 
 /* =====================================================
    PAUSE
@@ -2346,190 +4053,422 @@ musicTimer=null;
 
 function togglePause(){
 
-if(!running)return;
+  if(!running){
+    return;
+  }
 
-paused=!paused;
+  paused=!paused;
 
-pause.style.display=
-paused?"flex":"none";
+  pause.style.display=
+    paused?
+    "flex":
+    "none";
 
-if(paused){
+  if(paused){
 
-stopMusic();
+    stopMusic();
 
-}else{
+  }else{
 
-last=performance.now();
+    last=
+      performance.now();
 
-if(sound)startMusic();
+    if(sound){
+      startMusic();
+    }
+
+  }
 
 }
 
-}
+document.getElementById(
+  "pauseBtn"
+).onclick=e=>{
 
-document.getElementById("pauseBtn").onclick=e=>{
-e.stopPropagation();
-togglePause();
+  e.stopPropagation();
+
+  togglePause();
+
 };
 
-document.getElementById("resume").onclick=()=>{
-paused=false;
-pause.style.display="none";
-last=performance.now();
-if(sound)startMusic();
+document.getElementById(
+  "resume"
+).onclick=()=>{
+
+  paused=false;
+
+  pause.style.display=
+    "none";
+
+  last=
+    performance.now();
+
+  if(sound){
+    startMusic();
+  }
+
+};
+
+document.getElementById(
+  "restart"
+).onclick=()=>{
+
+  startLevel(
+    current,
+    true,
+    practiceMode
+  );
+
 };
 
 /* =====================================================
-   MENU
+   MENU Z GRY
 ===================================================== */
 
 function goMenu(){
 
-running=false;
-paused=false;
-finished=false;
-dying=false;
+  running=false;
+  paused=false;
+  finished=false;
+  dying=false;
 
-if(raf){
-cancelAnimationFrame(raf);
-raf=0;
+  if(raf){
+
+    cancelAnimationFrame(
+      raf
+    );
+
+    raf=0;
+
+  }
+
+  stopMusic();
+
+  game.style.display=
+    "none";
+
+  menu.style.display=
+    "flex";
+
+  pause.style.display=
+    "none";
+
+  finish.style.display=
+    "none";
+
+  renderMenu();
+
+  renderAchievements();
+
+  renderSkins();
+
+  renderMissions();
+
 }
 
-stopMusic();
+document.getElementById(
+  "menuBtn"
+).onclick=e=>{
 
-game.style.display="none";
-menu.style.display="flex";
+  e.stopPropagation();
 
-pause.style.display="none";
-finish.style.display="none";
+  goMenu();
 
-renderMenu();
-
-}
-
-document.getElementById("menuBtn").onclick=e=>{
-e.stopPropagation();
-goMenu();
 };
 
-document.getElementById("pauseMenu").onclick=goMenu;
-document.getElementById("finishMenu").onclick=goMenu;
+document.getElementById(
+  "pauseMenu"
+).onclick=
+  goMenu;
 
-document.getElementById("again").onclick=()=>{
-startLevel(current,true);
+document.getElementById(
+  "finishMenu"
+).onclick=
+  goMenu;
+
+document.getElementById(
+  "again"
+).onclick=()=>{
+
+  startLevel(
+    current,
+    true,
+    practiceMode
+  );
+
+};
+
+document.getElementById(
+  "nextLevel"
+).onclick=()=>{
+
+  if(
+    current<
+    LEVELS.length-1
+  ){
+
+    startLevel(
+      current+1,
+      true,
+      false
+    );
+
+  }else{
+
+    goMenu();
+
+  }
+
 };
 
 /* =====================================================
-   SOUND
+   RANDOM
 ===================================================== */
 
-function updateSound(){
+document.getElementById(
+  "randomBtn"
+).onclick=()=>{
 
-document.getElementById("soundBtn").textContent=
-sound?"🔊":"🔇";
+  const index=
+    Math.floor(
+      Math.random()*
+      LEVELS.length
+    );
 
-}
+  startLevel(
+    index,
+    true,
+    false
+  );
 
-document.getElementById("soundBtn").onclick=e=>{
+};
 
-e.stopPropagation();
+/* =====================================================
+   PRACTICE
+===================================================== */
 
-sound=!sound;
+document.getElementById(
+  "practiceMenuBtn"
+).onclick=()=>{
 
-set(
-"nd_sound",
-sound?"1":"0"
+  const index=
+    Math.floor(
+      Math.random()*
+      LEVELS.length
+    );
+
+  startLevel(
+    index,
+    true,
+    true
+  );
+
+};
+
+/* =====================================================
+   OVERLAYS
+===================================================== */
+
+document.getElementById(
+  "skinsBtn"
+).onclick=()=>{
+
+  skins.style.display=
+    "flex";
+
+  renderSkins();
+
+};
+
+document.getElementById(
+  "closeSkins"
+).onclick=()=>{
+
+  skins.style.display=
+    "none";
+
+};
+
+document.getElementById(
+  "missionsBtn"
+).onclick=()=>{
+
+  missions.style.display=
+    "flex";
+
+  renderMissions();
+
+};
+
+document.getElementById(
+  "closeMissions"
+).onclick=()=>{
+
+  missions.style.display=
+    "none";
+
+};
+
+document.getElementById(
+  "settingsBtn"
+).onclick=()=>{
+
+  settings.style.display=
+    "flex";
+
+  updateSettings();
+
+};
+
+document.getElementById(
+  "closeSettings"
+).onclick=()=>{
+
+  settings.style.display=
+    "none";
+
+};
+
+document.getElementById(
+  "infoBtn"
+).onclick=()=>{
+
+  info.style.display=
+    "flex";
+
+};
+
+document.getElementById(
+  "closeInfo"
+).onclick=()=>{
+
+  info.style.display=
+    "none";
+
+};
+
+document.getElementById(
+  "achBtn"
+).onclick=()=>{
+
+  achievements.style.display=
+    "flex";
+
+  renderAchievements();
+
+};
+
+document.getElementById(
+  "closeAch"
+).onclick=()=>{
+
+  achievements.style.display=
+    "none";
+
+};
+
+/* =====================================================
+   SOUND BUTTON
+===================================================== */
+
+document.getElementById(
+  "soundBtn"
+).onclick=e=>{
+
+  e.stopPropagation();
+
+  sound=!sound;
+
+  set(
+    "nd_sound",
+    sound?
+    "1":
+    "0"
+  );
+
+  updateSettings();
+
+  if(
+    sound&&
+    running&&
+    !paused
+  ){
+
+    startMusic();
+
+  }else{
+
+    stopMusic();
+
+  }
+
+};
+
+/* =====================================================
+   VISIBILITY
+===================================================== */
+
+document.addEventListener(
+  "visibilitychange",
+  ()=>{
+
+    if(
+      document.hidden&&
+      running&&
+      !paused
+    ){
+
+      paused=true;
+
+      pause.style.display=
+        "flex";
+
+      stopMusic();
+
+    }
+
+  }
 );
 
-updateSound();
+addEventListener(
+  "blur",
+  ()=>{
 
-if(sound&&running&&!paused){
-startMusic();
-}else{
-stopMusic();
-}
+    if(
+      running&&
+      !paused
+    ){
 
-};
+      paused=true;
 
-/* =====================================================
-   AUTO PAUSE
-===================================================== */
+      pause.style.display=
+        "flex";
 
-document.addEventListener("visibilitychange",()=>{
+      stopMusic();
 
-if(
-document.hidden&&
-running&&
-!paused
-){
+    }
 
-paused=true;
-pause.style.display="flex";
-stopMusic();
-
-}
-
-});
-
-addEventListener("blur",()=>{
-
-if(
-running&&
-!paused
-){
-
-paused=true;
-pause.style.display="flex";
-stopMusic();
-
-}
-
-});
-
-/* =====================================================
-   LOOP
-===================================================== */
-
-function loop(time){
-
-if(!running)return;
-
-if(paused){
-
-last=time;
-raf=requestAnimationFrame(loop);
-return;
-
-}
-
-let dt=(time-last)/1000;
-
-if(!Number.isFinite(dt)||dt<0)dt=0;
-
-dt=Math.min(dt,.05);
-
-last=time;
-
-update(dt);
-draw();
-checkWin();
-
-if(running){
-raf=requestAnimationFrame(loop);
-}
-
-}
+  }
+);
 
 /* =====================================================
    INIT
 ===================================================== */
 
 resize();
+
 renderMenu();
+
 renderAchievements();
-updateSound();
+
+renderSkins();
+
+renderMissions();
+
+updateSettings();
 
 </script>
 
 </body>
 </html>
+```
