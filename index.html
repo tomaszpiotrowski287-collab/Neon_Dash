@@ -7,7 +7,10 @@
 <title>Neon Dash</title>
 
 <style>
-*{box-sizing:border-box}
+*{
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
+}
 
 html,body{
     margin:0;
@@ -25,6 +28,8 @@ button{
     border:0;
     cursor:pointer;
     touch-action:manipulation;
+    user-select:none;
+    -webkit-user-select:none;
 }
 
 #app{
@@ -32,7 +37,13 @@ button{
     width:100%;
     height:100%;
     overflow:hidden;
-    background:radial-gradient(circle at 50% 30%,#172050,#080817 45%,#030308);
+    background:
+        radial-gradient(
+            circle at 50% 30%,
+            #172050,
+            #080817 45%,
+            #030308
+        );
 }
 
 .hidden{
@@ -49,12 +60,13 @@ button{
     align-items:center;
     justify-content:center;
     padding:20px;
-    z-index:100;
+    z-index:1000;
     pointer-events:auto;
 }
 
 #menu{
-    z-index:500;
+    z-index:5000;
+    pointer-events:auto;
 }
 
 .logo{
@@ -62,13 +74,17 @@ button{
     font-weight:1000;
     letter-spacing:5px;
     color:#0ff;
-    text-shadow:0 0 8px #0ff,0 0 25px #08f;
+    text-shadow:
+        0 0 8px #0ff,
+        0 0 25px #08f;
     margin-bottom:25px;
+    pointer-events:none;
 }
 
 .subtitle{
     color:#aaa;
     margin:-15px 0 25px;
+    pointer-events:none;
 }
 
 .menuButtons{
@@ -76,11 +92,13 @@ button{
     display:flex;
     flex-direction:column;
     gap:12px;
+    position:relative;
+    z-index:6000;
 }
 
 .menuBtn{
     position:relative;
-    z-index:9999;
+    z-index:7000;
     min-height:58px;
     border-radius:14px;
     border:2px solid #0ff;
@@ -88,11 +106,15 @@ button{
     box-shadow:0 0 15px rgba(0,255,255,.18);
     font-size:20px;
     font-weight:900;
-    pointer-events:auto;
+    pointer-events:auto!important;
 }
 
 .menuBtn:hover{
     background:rgba(0,255,255,.2);
+}
+
+.menuBtn:active{
+    transform:scale(.97);
 }
 
 .back{
@@ -125,7 +147,8 @@ button{
 .skinGrid,
 .achievementGrid{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
+    grid-template-columns:
+        repeat(auto-fit,minmax(130px,1fr));
     gap:12px;
 }
 
@@ -170,10 +193,12 @@ button{
     inset:0;
     display:none;
     z-index:1;
+    pointer-events:none;
 }
 
 #game.active{
     display:block;
+    pointer-events:auto;
 }
 
 #canvas{
@@ -247,17 +272,18 @@ button{
     box-shadow:0 0 20px #0ff4;
     z-index:16;
     font-weight:900;
+    pointer-events:auto;
 }
 
 /* ================= PAUSE / RESULT ================= */
 
 #pauseScreen{
-    z-index:600;
+    z-index:6000;
     background:#000b;
 }
 
 #result{
-    z-index:700;
+    z-index:7000;
     background:#000b;
 }
 
@@ -291,6 +317,7 @@ button{
 }
 
 /* AUDIO */
+
 #audioUnlock{
     display:none!important;
     pointer-events:none!important;
@@ -342,32 +369,45 @@ button{
 <section id="menu" class="screen">
 
     <div class="logo">NEON DASH</div>
-    <div class="subtitle">RUN • JUMP • SURVIVE</div>
+
+    <div class="subtitle">
+        RUN • JUMP • SURVIVE
+    </div>
 
     <div class="menuButtons">
 
-        <!-- BEZPOŚREDNI START -->
         <button
+            type="button"
             id="playBtn"
-            class="menuBtn"
-            onclick="startGameDirect()"
-        >
+            class="menuBtn">
             ▶ GRAJ
         </button>
 
-        <button id="levelsBtn" class="menuBtn">
+        <button
+            type="button"
+            id="levelsBtn"
+            class="menuBtn">
             ☷ POZIOMY
         </button>
 
-        <button id="shopBtn" class="menuBtn">
+        <button
+            type="button"
+            id="shopBtn"
+            class="menuBtn">
             ◆ SKLEP
         </button>
 
-        <button id="achievementsBtn" class="menuBtn">
+        <button
+            type="button"
+            id="achievementsBtn"
+            class="menuBtn">
             ★ OSIĄGNIĘCIA
         </button>
 
-        <button id="settingsBtn" class="menuBtn">
+        <button
+            type="button"
+            id="settingsBtn"
+            class="menuBtn">
             ⚙ USTAWIENIA
         </button>
 
@@ -378,7 +418,7 @@ button{
 
 <section id="levelsScreen" class="screen hidden">
 
-    <button class="back" id="levelsBack">
+    <button type="button" class="back" id="levelsBack">
         ← Wróć
     </button>
 
@@ -393,7 +433,7 @@ button{
 
 <section id="shopScreen" class="screen hidden">
 
-    <button class="back" id="shopBack">
+    <button type="button" class="back" id="shopBack">
         ← Wróć
     </button>
 
@@ -416,7 +456,7 @@ button{
 
 <section id="achievementsScreen" class="screen hidden">
 
-    <button class="back" id="achievementsBack">
+    <button type="button" class="back" id="achievementsBack">
         ← Wróć
     </button>
 
@@ -424,7 +464,10 @@ button{
 
         <h2>OSIĄGNIĘCIA</h2>
 
-        <div id="achievementGrid" class="achievementGrid"></div>
+        <div
+            id="achievementGrid"
+            class="achievementGrid">
+        </div>
 
     </div>
 
@@ -434,7 +477,7 @@ button{
 
 <section id="settingsScreen" class="screen hidden">
 
-    <button class="back" id="settingsBack">
+    <button type="button" class="back" id="settingsBack">
         ← Wróć
     </button>
 
@@ -443,24 +486,48 @@ button{
         <h2>USTAWIENIA</h2>
 
         <div class="setting">
+
             <span>Muzyka</span>
-            <button id="musicSwitch" class="switch on">
+
+            <button
+                type="button"
+                id="musicSwitch"
+                class="switch on">
+
                 <i></i>
+
             </button>
+
         </div>
 
         <div class="setting">
+
             <span>Dźwięki</span>
-            <button id="soundSwitch" class="switch on">
+
+            <button
+                type="button"
+                id="soundSwitch"
+                class="switch on">
+
                 <i></i>
+
             </button>
+
         </div>
 
         <div class="setting">
+
             <span>Efekty</span>
-            <button id="fxSwitch" class="switch on">
+
+            <button
+                type="button"
+                id="fxSwitch"
+                class="switch on">
+
                 <i></i>
+
             </button>
+
         </div>
 
     </div>
@@ -491,7 +558,9 @@ button{
 
             </div>
 
-            <button id="pause">
+            <button
+                type="button"
+                id="pause">
                 Ⅱ
             </button>
 
@@ -499,7 +568,9 @@ button{
 
     </div>
 
-    <button id="mobileJump">
+    <button
+        type="button"
+        id="mobileJump">
         JUMP
     </button>
 
@@ -515,15 +586,24 @@ button{
 
         <div class="menuButtons">
 
-            <button id="resumeBtn" class="menuBtn">
+            <button
+                type="button"
+                id="resumeBtn"
+                class="menuBtn">
                 ▶ WRÓĆ DO GRY
             </button>
 
-            <button id="pauseRestart" class="menuBtn">
+            <button
+                type="button"
+                id="pauseRestart"
+                class="menuBtn">
                 ↻ RESTART
             </button>
 
-            <button id="pauseMenu" class="menuBtn">
+            <button
+                type="button"
+                id="pauseMenu"
+                class="menuBtn">
                 ⌂ MENU
             </button>
 
@@ -547,15 +627,21 @@ button{
 
         <div class="resultButtons">
 
-            <button id="resultRestart">
+            <button
+                type="button"
+                id="resultRestart">
                 ↻ JESZCZE RAZ
             </button>
 
-            <button id="resultNext">
+            <button
+                type="button"
+                id="resultNext">
                 ▶ NASTĘPNY
             </button>
 
-            <button id="resultMenu">
+            <button
+                type="button"
+                id="resultMenu">
                 ⌂ MENU
             </button>
 
@@ -574,7 +660,7 @@ button{
    LEVELS
 ========================================================= */
 
-const levels = [
+const levels=[
 ["NEON RUSH","#00ffff",5.8,7000,150,261.63],
 ["CRYSTAL DRIVE","#6fa8ff",6,7300,128,220],
 ["LAVA PULSE","#ff482e",6.2,7600,172,164.81],
@@ -632,13 +718,14 @@ const achievements=[
 let save;
 
 try{
-    save=JSON.parse(localStorage.getItem("neonDashSave")||"null");
+    save=JSON.parse(
+        localStorage.getItem("neonDashSave")||"null"
+    );
 }catch(e){
     save=null;
 }
 
 if(!save){
-
     save={
         unlocked:1,
         coins:0,
@@ -653,8 +740,15 @@ if(!save){
             fx:true
         }
     };
-
 }
+
+save.unlocked=Math.max(
+    1,
+    Math.min(
+        levels.length,
+        Number(save.unlocked)||1
+    )
+);
 
 function saveGame(){
 
@@ -693,14 +787,50 @@ const achievementGrid=$("achievementGrid");
 const coinCount=$("coinCount");
 const progressBar=$("progressBar");
 const levelName=$("levelName");
-
 const mobileJump=$("mobileJump");
+const playBtn=$("playBtn");
+
+/* =========================================================
+   GAME VARIABLES
+========================================================= */
+
+let currentLevel=0;
+
+let running=false;
+let paused=false;
+
+let player={
+    x:130,
+    y:0,
+    size:38,
+    vy:0,
+    grounded:true,
+    rotation:0
+};
+
+let cameraX=0;
+let worldX=0;
+
+let deaths=0;
+let collectedThisLevel=0;
+
+let obstacles=[];
+let coins=[];
+let particles=[];
+let trail=[];
+let stars=[];
+
+let levelSpeed=6;
+let levelLength=7000;
+let levelColor="#0ff";
+
+let lastTime=0;
 
 /* =========================================================
    SCREEN FUNCTIONS
 ========================================================= */
 
-function showOnly(screen){
+function hideAllScreens(){
 
     menu.classList.add("hidden");
     levelsScreen.classList.add("hidden");
@@ -708,8 +838,15 @@ function showOnly(screen){
     achievementsScreen.classList.add("hidden");
     settingsScreen.classList.add("hidden");
 
-    screen.classList.remove("hidden");
+    pauseScreen.classList.add("hidden");
+    result.classList.add("hidden");
+}
 
+function showOnly(screen){
+
+    hideAllScreens();
+
+    screen.classList.remove("hidden");
 }
 
 function openMenu(){
@@ -721,52 +858,126 @@ function openMenu(){
 
     game.classList.remove("active");
 
-    pauseScreen.classList.add("hidden");
-    result.classList.add("hidden");
+    hideAllScreens();
 
-    showOnly(menu);
+    menu.classList.remove("hidden");
 }
 
 function openLevels(){
 
     running=false;
-    showOnly(levelsScreen);
-    renderLevels();
 
+    game.classList.remove("active");
+
+    showOnly(levelsScreen);
+
+    renderLevels();
 }
 
 function openShop(){
 
     running=false;
-    showOnly(shopScreen);
-    renderSkins();
 
+    game.classList.remove("active");
+
+    showOnly(shopScreen);
+
+    renderSkins();
 }
 
 function openAchievements(){
 
     running=false;
-    showOnly(achievementsScreen);
-    renderAchievements();
 
+    game.classList.remove("active");
+
+    showOnly(achievementsScreen);
+
+    renderAchievements();
 }
 
 function openSettings(){
 
     running=false;
-    showOnly(settingsScreen);
-    renderSettings();
 
+    game.classList.remove("active");
+
+    showOnly(settingsScreen);
+
+    renderSettings();
 }
 
 /* =========================================================
-   MENU
+   MENU BUTTONS
 ========================================================= */
 
-$("levelsBtn").onclick=openLevels;
-$("shopBtn").onclick=openShop;
-$("achievementsBtn").onclick=openAchievements;
-$("settingsBtn").onclick=openSettings;
+playBtn.addEventListener(
+    "pointerdown",
+    function(e){
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        startGameDirect();
+
+    },
+    {passive:false}
+);
+
+playBtn.addEventListener(
+    "click",
+    function(e){
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        /*
+          pointerdown normalnie już uruchomił grę.
+          To jest dodatkowe zabezpieczenie dla myszy.
+        */
+
+        if(!running){
+            startGameDirect();
+        }
+
+    }
+);
+
+$("levelsBtn").addEventListener(
+    "click",
+    function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        openLevels();
+    }
+);
+
+$("shopBtn").addEventListener(
+    "click",
+    function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        openShop();
+    }
+);
+
+$("achievementsBtn").addEventListener(
+    "click",
+    function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        openAchievements();
+    }
+);
+
+$("settingsBtn").addEventListener(
+    "click",
+    function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        openSettings();
+    }
+);
 
 $("levelsBack").onclick=openMenu;
 $("shopBack").onclick=openMenu;
@@ -774,64 +985,27 @@ $("achievementsBack").onclick=openMenu;
 $("settingsBack").onclick=openMenu;
 
 /* =========================================================
-   DIRECT START
-   TO JEST NAJWAŻNIEJSZA POPRAWKA
+   START — NAJWAŻNIEJSZA CZĘŚĆ
 ========================================================= */
 
 function startGameDirect(){
 
-    console.log("GRAJ — startGameDirect()");
+    /*
+      Natychmiast chowamy menu.
+      Nie czekamy na audio.
+      Nie czekamy na inne funkcje.
+    */
 
-    try{
+    hideAllScreens();
 
-        startLevel(0);
+    menu.classList.add("hidden");
 
-    }catch(error){
+    game.classList.add("active");
 
-        console.error(
-            "Błąd startu poziomu:",
-            error
-        );
+    running=true;
+    paused=false;
 
-        /*
-           Nawet jeśli coś zepsuje się dalej,
-           wymuszamy pokazanie gry.
-        */
-
-        try{
-
-            menu.classList.add("hidden");
-            levelsScreen.classList.add("hidden");
-            shopScreen.classList.add("hidden");
-            achievementsScreen.classList.add("hidden");
-            settingsScreen.classList.add("hidden");
-
-            pauseScreen.classList.add("hidden");
-            result.classList.add("hidden");
-
-            game.classList.add("active");
-
-            running=true;
-            paused=false;
-
-            createLevel();
-
-            lastTime=0;
-
-            requestAnimationFrame(gameLoop);
-
-        }catch(secondError){
-
-            console.error(
-                "Awaryjny start również nie działa:",
-                secondError
-            );
-
-            alert(
-                "Gra nie może się uruchomić. Sprawdź konsolę przeglądarki."
-            );
-        }
-    }
+    startLevel(0);
 }
 
 /* =========================================================
@@ -846,25 +1020,37 @@ function renderLevels(){
 
         const b=document.createElement("button");
 
+        b.type="button";
+
         b.className=
             "level "+
-            (i<save.unlocked
+            (
+                i<save.unlocked
                 ?"unlocked"
-                :"locked");
+                :"locked"
+            );
 
         b.innerHTML=
-            `<strong>${i+1}. ${lv[0]}</strong>
+            `<strong>
+                ${i+1}. ${lv[0]}
+             </strong>
+
              <small>
-             ${i<save.unlocked
-                ?"Odblokowany"
-                :"🔒 Zablokowany"}
+                ${
+                    i<save.unlocked
+                    ?"Odblokowany"
+                    :"🔒 Zablokowany"
+                }
              </small>`;
 
         if(i<save.unlocked){
 
-            b.onclick=()=>{
-                startLevel(i);
-            };
+            b.addEventListener(
+                "click",
+                function(){
+                    startLevel(i);
+                }
+            );
 
         }
 
@@ -884,9 +1070,13 @@ function renderSkins(){
 
     skins.forEach((s,i)=>{
 
-        const owned=save.ownedSkins.includes(i);
+        const owned=
+            save.ownedSkins.includes(i);
 
-        const b=document.createElement("button");
+        const b=
+            document.createElement("button");
+
+        b.type="button";
 
         b.className=
             "skin "+
@@ -932,11 +1122,9 @@ function renderSkins(){
 
                 renderSkins();
             }
-
         };
 
         skinGrid.appendChild(b);
-
     });
 }
 
@@ -950,9 +1138,11 @@ function renderAchievements(){
 
     achievements.forEach(a=>{
 
-        const done=!!save.achievements[a[0]];
+        const done=
+            !!save.achievements[a[0]];
 
-        const d=document.createElement("div");
+        const d=
+            document.createElement("div");
 
         d.className=
             "achievement "+
@@ -968,7 +1158,6 @@ function renderAchievements(){
              </small>`;
 
         achievementGrid.appendChild(d);
-
     });
 }
 
@@ -999,7 +1188,6 @@ function checkAchievements(){
 
         if(save.attempts[currentLevel]>=5)
             save.achievements.survivor=true;
-
     }
 
     saveGame();
@@ -1011,26 +1199,20 @@ function checkAchievements(){
 
 function renderSettings(){
 
-    $("musicSwitch")
-        .classList
-        .toggle(
-            "on",
-            save.settings.music
-        );
+    $("musicSwitch").classList.toggle(
+        "on",
+        save.settings.music
+    );
 
-    $("soundSwitch")
-        .classList
-        .toggle(
-            "on",
-            save.settings.sound
-        );
+    $("soundSwitch").classList.toggle(
+        "on",
+        save.settings.sound
+    );
 
-    $("fxSwitch")
-        .classList
-        .toggle(
-            "on",
-            save.settings.fx
-        );
+    $("fxSwitch").classList.toggle(
+        "on",
+        save.settings.fx
+    );
 }
 
 $("musicSwitch").onclick=()=>{
@@ -1039,7 +1221,6 @@ $("musicSwitch").onclick=()=>{
         !save.settings.music;
 
     saveGame();
-
     renderSettings();
 
     if(save.settings.music)
@@ -1054,7 +1235,6 @@ $("soundSwitch").onclick=()=>{
         !save.settings.sound;
 
     saveGame();
-
     renderSettings();
 };
 
@@ -1064,7 +1244,6 @@ $("fxSwitch").onclick=()=>{
         !save.settings.fx;
 
     saveGame();
-
     renderSettings();
 };
 
@@ -1076,7 +1255,6 @@ function resize(){
 
     canvas.width=innerWidth;
     canvas.height=innerHeight;
-
 }
 
 addEventListener(
@@ -1085,42 +1263,6 @@ addEventListener(
 );
 
 resize();
-
-/* =========================================================
-   GAME VARIABLES
-========================================================= */
-
-let currentLevel=0;
-
-let running=false;
-let paused=false;
-
-let player={
-    x:130,
-    y:0,
-    size:38,
-    vy:0,
-    grounded:true,
-    rotation:0
-};
-
-let cameraX=0;
-let worldX=0;
-
-let deaths=0;
-let collectedThisLevel=0;
-
-let obstacles=[];
-let coins=[];
-let particles=[];
-let trail=[];
-let stars=[];
-
-let levelSpeed=6;
-let levelLength=7000;
-let levelColor="#0ff";
-
-let lastTime=0;
 
 /* =========================================================
    CREATE LEVEL
@@ -1142,6 +1284,7 @@ function createLevel(){
         canvas.height-100;
 
     player.x=130;
+
     player.y=
         ground-player.size;
 
@@ -1153,10 +1296,12 @@ function createLevel(){
 
         stars.push({
             x:Math.random()*levelLength,
-            y:Math.random()*canvas.height*.65,
-            r:Math.random()*2+1
+            y:
+                Math.random()*
+                canvas.height*.65,
+            r:
+                Math.random()*2+1
         });
-
     }
 
     let x=600;
@@ -1224,7 +1369,6 @@ function createLevel(){
                 r:12,
                 taken:false
             });
-
         }
 
         x+=180+Math.random()*250;
@@ -1234,11 +1378,13 @@ function createLevel(){
 
         coins.push({
             x:850+i*700,
-            y:ground-100-Math.random()*100,
+            y:
+                ground-
+                100-
+                Math.random()*100,
             r:12,
             taken:false
         });
-
     }
 }
 
@@ -1249,7 +1395,7 @@ function createLevel(){
 function startLevel(index){
 
     if(
-        index<0 ||
+        index<0||
         index>=levels.length
     ){
         return;
@@ -1261,7 +1407,8 @@ function startLevel(index){
 
     currentLevel=index;
 
-    const data=levels[index];
+    const data=
+        levels[index];
 
     levelName.textContent=data[0];
     levelColor=data[1];
@@ -1274,14 +1421,12 @@ function startLevel(index){
 
     deaths=0;
 
-    menu.classList.add("hidden");
-    levelsScreen.classList.add("hidden");
-    shopScreen.classList.add("hidden");
-    achievementsScreen.classList.add("hidden");
-    settingsScreen.classList.add("hidden");
+    /*
+      NAJPIERW GRA.
+      AUDIO NIE MOŻE ZABLOKOWAĆ STARTU.
+    */
 
-    pauseScreen.classList.add("hidden");
-    result.classList.add("hidden");
+    hideAllScreens();
 
     game.classList.add("active");
 
@@ -1292,24 +1437,33 @@ function startLevel(index){
 
     lastTime=0;
 
+    requestAnimationFrame(
+        gameLoop
+    );
+
     /*
-       Najpierw uruchamiamy grę.
-       Audio jest dopiero później.
+      Audio dopiero po uruchomieniu gry.
     */
 
-    requestAnimationFrame(gameLoop);
+    setTimeout(
+        function(){
 
-    try{
-        unlockAudio();
-    }catch(e){
-        console.log("Audio niedostępne");
-    }
+            unlockAudio().then(
+                function(){
 
-    try{
-        startMusic();
-    }catch(e){
-        console.log("Muzyka niedostępna");
-    }
+                    if(
+                        running&&
+                        !paused
+                    ){
+                        startMusic();
+                    }
+
+                }
+            );
+
+        },
+        0
+    );
 }
 
 /* =========================================================
@@ -1330,37 +1484,34 @@ function jump(){
     }
 }
 
-/* Klik / dotyk */
-
 gameTouch.addEventListener(
     "pointerdown",
-    e=>{
+    function(e){
 
         e.preventDefault();
+
         jump();
 
-    }
+    },
+    {passive:false}
 );
-
-/* przycisk JUMP */
 
 mobileJump.addEventListener(
     "pointerdown",
-    e=>{
+    function(e){
 
         e.preventDefault();
         e.stopPropagation();
 
         jump();
 
-    }
+    },
+    {passive:false}
 );
-
-/* klawiatura */
 
 document.addEventListener(
     "keydown",
-    e=>{
+    function(e){
 
         if(
             e.code==="Space"||
@@ -1371,9 +1522,7 @@ document.addEventListener(
 
             if(!e.repeat)
                 jump();
-
         }
-
     }
 );
 
@@ -1381,7 +1530,7 @@ document.addEventListener(
    PAUSE
 ========================================================= */
 
-$("pause").onclick=e=>{
+$("pause").onclick=function(e){
 
     e.preventDefault();
     e.stopPropagation();
@@ -1391,12 +1540,14 @@ $("pause").onclick=e=>{
 
     paused=true;
 
+    stopMusic();
+
     pauseScreen.classList.remove(
         "hidden"
     );
 };
 
-$("resumeBtn").onclick=()=>{
+$("resumeBtn").onclick=function(){
 
     paused=false;
 
@@ -1404,26 +1555,28 @@ $("resumeBtn").onclick=()=>{
         "hidden"
     );
 
+    lastTime=performance.now();
+
+    if(save.settings.music)
+        startMusic();
 };
 
-$("pauseRestart").onclick=()=>{
+$("pauseRestart").onclick=function(){
 
     pauseScreen.classList.add(
         "hidden"
     );
 
     startLevel(currentLevel);
-
 };
 
-$("pauseMenu").onclick=()=>{
+$("pauseMenu").onclick=function(){
 
     pauseScreen.classList.add(
         "hidden"
     );
 
     openMenu();
-
 };
 
 /* =========================================================
@@ -1433,12 +1586,11 @@ $("pauseMenu").onclick=()=>{
 function overlap(a,b){
 
     return(
-        a.x<b.x+b.w &&
-        a.x+a.w>b.x &&
-        a.y<b.y+b.h &&
+        a.x<b.x+b.w&&
+        a.x+a.w>b.x&&
+        a.y<b.y+b.h&&
         a.y+a.h>b.y
     );
-
 }
 
 function collision(){
@@ -1465,7 +1617,6 @@ function collision(){
 
                 die();
                 return;
-
             }
         }
 
@@ -1481,7 +1632,7 @@ function collision(){
             if(overlap(p,h)){
 
                 if(
-                    player.vy>0 &&
+                    player.vy>0&&
                     player.y+
                     player.size-
                     player.vy<=o.y
@@ -1497,7 +1648,6 @@ function collision(){
 
                     die();
                     return;
-
                 }
             }
         }
@@ -1511,10 +1661,12 @@ function collision(){
                 o.y-o.h/2;
 
             const px=
-                player.x+player.size/2;
+                player.x+
+                player.size/2;
 
             const py=
-                player.y+player.size/2;
+                player.y+
+                player.size/2;
 
             if(
                 Math.hypot(
@@ -1525,7 +1677,6 @@ function collision(){
 
                 die();
                 return;
-
             }
         }
     }
@@ -1538,10 +1689,12 @@ function collision(){
 function collectCoins(){
 
     const px=
-        player.x+player.size/2;
+        player.x+
+        player.size/2;
 
     const py=
-        player.y+player.size/2;
+        player.y+
+        player.size/2;
 
     for(const c of coins){
 
@@ -1574,7 +1727,6 @@ function collectCoins(){
                     vy:(Math.random()-.5)*5,
                     life:30
                 });
-
             }
         }
     }
@@ -1606,26 +1758,29 @@ function die(){
             vy:(Math.random()-.5)*10,
             life:50
         });
-
     }
 
-    setTimeout(()=>{
+    setTimeout(
+        function(){
 
-        if(
-            confirm(
-                "Zginąłeś! Chcesz spróbować ponownie?"
-            )
-        ){
+            if(
+                confirm(
+                    "Zginąłeś! Chcesz spróbować ponownie?"
+                )
+            ){
 
-            startLevel(currentLevel);
+                startLevel(
+                    currentLevel
+                );
 
-        }else{
+            }else{
 
-            openMenu();
+                openMenu();
+            }
 
-        }
-
-    },350);
+        },
+        350
+    );
 }
 
 /* =========================================================
@@ -1650,17 +1805,15 @@ function win(){
         save.completed.push(
             currentLevel
         );
-
     }
 
     if(
-        currentLevel+1<levels.length &&
+        currentLevel+1<levels.length&&
         save.unlocked<=currentLevel+1
     ){
 
         save.unlocked=
             currentLevel+2;
-
     }
 
     checkAchievements();
@@ -1686,19 +1839,23 @@ function win(){
    RESULT BUTTONS
 ========================================================= */
 
-$("resultRestart").onclick=()=>{
+$("resultRestart").onclick=function(){
 
     result.classList.add(
         "hidden"
     );
 
-    startLevel(currentLevel);
-
+    startLevel(
+        currentLevel
+    );
 };
 
-$("resultNext").onclick=()=>{
+$("resultNext").onclick=function(){
 
-    if(currentLevel<levels.length-1){
+    if(
+        currentLevel<
+        levels.length-1
+    ){
 
         result.classList.add(
             "hidden"
@@ -1707,19 +1864,16 @@ $("resultNext").onclick=()=>{
         startLevel(
             currentLevel+1
         );
-
     }
-
 };
 
-$("resultMenu").onclick=()=>{
+$("resultMenu").onclick=function(){
 
     result.classList.add(
         "hidden"
     );
 
     openMenu();
-
 };
 
 /* =========================================================
@@ -1759,7 +1913,6 @@ function update(dt){
         player.grounded=false;
 
         player.rotation+=.15*dt;
-
     }
 
     collision();
@@ -1801,7 +1954,6 @@ function update(dt){
         p.y+=p.vy*dt;
         p.vy+=.15*dt;
         p.life-=dt;
-
     }
 
     particles=
@@ -1809,12 +1961,9 @@ function update(dt){
             p=>p.life>0
         );
 
-    if(
-        worldX>=levelLength
-    ){
+    if(worldX>=levelLength){
 
         win();
-
     }
 }
 
@@ -1871,16 +2020,12 @@ function draw(){
         let sx=
             s.x-cameraX*.3;
 
-        if(
-            sx<-10
-        ){
-
+        if(sx<-10)
             sx+=levelLength;
 
-        }
-
         if(
-            sx<canvas.width+10
+            sx<
+            canvas.width+10
         ){
 
             ctx.beginPath();
@@ -1894,7 +2039,6 @@ function draw(){
             );
 
             ctx.fill();
-
         }
     }
 
@@ -1910,13 +2054,18 @@ function draw(){
     ){
 
         ctx.beginPath();
-        ctx.moveTo(x,0);
+
+        ctx.moveTo(
+            x,
+            0
+        );
+
         ctx.lineTo(
             x,
             canvas.height
         );
-        ctx.stroke();
 
+        ctx.stroke();
     }
 
     for(
@@ -1926,13 +2075,18 @@ function draw(){
     ){
 
         ctx.beginPath();
-        ctx.moveTo(0,y);
+
+        ctx.moveTo(
+            0,
+            y
+        );
+
         ctx.lineTo(
             canvas.width,
             y
         );
-        ctx.stroke();
 
+        ctx.stroke();
     }
 
     /* ZIEMIA */
@@ -1971,8 +2125,7 @@ function draw(){
         ctx.shadowBlur=15;
         ctx.shadowColor=levelColor;
 
-        ctx.strokeStyle=
-            levelColor;
+        ctx.strokeStyle=levelColor;
 
         ctx.fillStyle=
             "rgba(0,0,0,.45)";
@@ -2000,7 +2153,6 @@ function draw(){
 
             ctx.fill();
             ctx.stroke();
-
         }
 
         if(o.type==="block"){
@@ -2018,7 +2170,6 @@ function draw(){
                 o.w,
                 o.h
             );
-
         }
 
         if(o.type==="saw"){
@@ -2072,7 +2223,6 @@ function draw(){
                         px,
                         py
                     );
-
             }
 
             ctx.closePath();
@@ -2157,7 +2307,6 @@ function draw(){
                 22,
                 22
             );
-
         }
     }
 
@@ -2285,8 +2434,7 @@ function draw(){
                 p.life/50
             );
 
-        ctx.fillStyle=
-            levelColor;
+        ctx.fillStyle=levelColor;
 
         ctx.fillRect(
             p.x-cameraX,
@@ -2305,6 +2453,9 @@ function draw(){
 
 function gameLoop(time){
 
+    if(!running&&!paused)
+        return;
+
     if(!lastTime)
         lastTime=time;
 
@@ -2319,6 +2470,7 @@ function gameLoop(time){
     );
 
     update(dt);
+
     draw();
 
     if(running||paused){
@@ -2326,7 +2478,6 @@ function gameLoop(time){
         requestAnimationFrame(
             gameLoop
         );
-
     }
 }
 
@@ -2375,7 +2526,6 @@ function initAudio(){
     }catch(e){
 
         return false;
-
     }
 }
 
@@ -2391,7 +2541,6 @@ async function unlockAudio(){
         ){
 
             await audioCtx.resume();
-
         }
 
     }catch(e){}
@@ -2468,51 +2617,53 @@ function startMusic(){
     musicStep=0;
 
     musicTimer=
-        setInterval(()=>{
+        setInterval(
+            function(){
 
-            if(
-                !running||
-                paused
-            )
-                return;
+                if(
+                    !running||
+                    paused
+                )
+                    return;
 
-            const scale=[
-                1,
-                1.122,
-                1.26,
-                1.335,
-                1.498,
-                1.682,
-                1.888
-            ];
-
-            note(
-                root*
-                scale[
-                    musicStep%
-                    scale.length
-                ],
-                .16,
-                "square",
-                .035
-            );
-
-            if(
-                musicStep%4===0
-            ){
+                const scale=[
+                    1,
+                    1.122,
+                    1.26,
+                    1.335,
+                    1.498,
+                    1.682,
+                    1.888
+                ];
 
                 note(
-                    root/2,
-                    .12,
-                    "triangle",
-                    .045
+                    root*
+                    scale[
+                        musicStep%
+                        scale.length
+                    ],
+                    .16,
+                    "square",
+                    .035
                 );
 
-            }
+                if(
+                    musicStep%4===0
+                ){
 
-            musicStep++;
+                    note(
+                        root/2,
+                        .12,
+                        "triangle",
+                        .045
+                    );
+                }
 
-        },interval);
+                musicStep++;
+
+            },
+            interval
+        );
 }
 
 function stopMusic(){
@@ -2582,7 +2733,6 @@ function sfxJump(){
         .07,
         "square"
     );
-
 }
 
 function sfxCoin(){
@@ -2592,7 +2742,6 @@ function sfxCoin(){
         .1,
         "triangle"
     );
-
 }
 
 function sfxDeath(){
@@ -2602,7 +2751,6 @@ function sfxDeath(){
         .3,
         "sawtooth"
     );
-
 }
 
 function sfxWin(){
@@ -2642,7 +2790,7 @@ function sfxWin(){
 }
 
 /* =========================================================
-   INITIALIZE
+   START
 ========================================================= */
 
 renderLevels();
@@ -2650,6 +2798,19 @@ renderSkins();
 renderAchievements();
 renderSettings();
 
+/*
+  Na samym końcu upewniamy się,
+  że menu jest widoczne i gra ukryta.
+*/
+
+game.classList.remove("active");
+pauseScreen.classList.add("hidden");
+result.classList.add("hidden");
+
+menu.classList.remove("hidden");
+menu.style.pointerEvents="auto";
+
+playBtn.style.pointerEvents="auto";
 </script>
 
 </body>
