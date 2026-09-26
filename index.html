@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<title>Neon Dash 2.0</title>
+<title>Neon Dash 2.1</title>
 
 <style>
 *{
@@ -44,15 +44,15 @@ button:active{
   flex-direction:column;
   align-items:center;
   padding:
-    max(18px,env(safe-area-inset-top))
+    max(16px,env(safe-area-inset-top))
     14px
-    max(30px,env(safe-area-inset-bottom));
+    max(25px,env(safe-area-inset-bottom));
   background:
-    radial-gradient(circle at 50% 4%,#272d78,#090a20 45%,#020207);
+    radial-gradient(circle at 50% 4%,#292f82,#090a20 45%,#020207);
 }
 
 .logo{
-  margin:10px 0 2px;
+  margin:8px 0 2px;
   font-size:clamp(32px,7vw,58px);
   font-weight:900;
   letter-spacing:clamp(2px,1vw,7px);
@@ -61,10 +61,10 @@ button:active{
     0 0 10px #00eaff,
     0 0 25px #00eaff,
     0 0 45px #a855ff;
-  animation:pulse 1.8s infinite alternate;
+  animation:neonPulse 1.8s infinite alternate;
 }
 
-@keyframes pulse{
+@keyframes neonPulse{
   from{transform:scale(1)}
   to{transform:scale(1.035)}
 }
@@ -72,7 +72,7 @@ button:active{
 .subtitle{
   opacity:.7;
   font-size:clamp(12px,3vw,16px);
-  margin-bottom:12px;
+  margin-bottom:10px;
   text-align:center;
 }
 
@@ -80,12 +80,12 @@ button:active{
   width:min(720px,100%);
   display:flex;
   align-items:center;
-  gap:12px;
-  padding:12px;
+  gap:11px;
+  padding:10px;
   border:2px solid #303963;
   border-radius:16px;
   background:#10152ddd;
-  margin-bottom:10px;
+  margin-bottom:9px;
 }
 
 .avatar{
@@ -96,7 +96,7 @@ button:active{
   border-radius:12px;
   background:#111827;
   border:2px solid #00eaff;
-  font-size:25px;
+  font-size:24px;
   box-shadow:0 0 16px #00eaff55;
 }
 
@@ -132,6 +132,7 @@ button:active{
   text-align:right;
   white-space:nowrap;
   font-weight:bold;
+  line-height:1.45;
 }
 
 .progress{
@@ -139,8 +140,8 @@ button:active{
   background:#11152d;
   border:2px solid #303963;
   border-radius:17px;
-  padding:13px;
-  margin-bottom:10px;
+  padding:12px;
+  margin-bottom:9px;
 }
 
 .progressTop{
@@ -155,7 +156,7 @@ button:active{
   background:#050712;
   border-radius:20px;
   overflow:hidden;
-  margin-top:8px;
+  margin-top:7px;
 }
 
 #menuBar{
@@ -169,7 +170,7 @@ button:active{
 #doneText{
   text-align:center;
   opacity:.65;
-  margin-top:6px;
+  margin-top:5px;
   font-size:13px;
 }
 
@@ -178,12 +179,12 @@ button:active{
   display:grid;
   grid-template-columns:repeat(4,minmax(0,1fr));
   gap:7px;
-  margin-bottom:10px;
+  margin-bottom:9px;
 }
 
 .menuButtons button{
-  min-height:46px;
-  padding:8px 5px;
+  min-height:44px;
+  padding:7px 4px;
   border-radius:12px;
   background:#202747;
   border:1px solid #3d4a78;
@@ -200,7 +201,7 @@ button:active{
 
 .level{
   min-width:0;
-  min-height:105px;
+  min-height:100px;
   text-align:left;
   padding:11px;
   border-radius:15px;
@@ -237,15 +238,10 @@ button:active{
   color:#9cecff;
 }
 
-.locked{
-  opacity:.55;
-  filter:saturate(.5);
-}
-
 #achBtn{
   width:min(720px,100%);
   min-height:46px;
-  margin-top:10px;
+  margin-top:9px;
   padding:11px;
   border-radius:14px;
   background:#242a50;
@@ -256,11 +252,11 @@ button:active{
 .overlay{
   position:fixed;
   inset:0;
-  z-index:30;
+  z-index:50;
   display:none;
   align-items:center;
   justify-content:center;
-  background:#000b;
+  background:#000c;
   padding:15px;
 }
 
@@ -311,30 +307,12 @@ button:active{
   border:1px solid #303b66;
 }
 
-.shopItem{
-  position:relative;
-}
-
 .shopItem h3{
   margin:0 0 5px;
 }
 
 .shopItem small{
   opacity:.65;
-}
-
-.shopItem button{
-  margin-top:9px;
-  min-height:40px;
-}
-
-.owned{
-  border-color:#49ff9a;
-}
-
-.equipped{
-  box-shadow:0 0 16px #00eaff33;
-  border-color:#00eaff;
 }
 
 .ach{
@@ -369,7 +347,7 @@ button:active{
 }
 
 .dailyReward{
-  font-size:26px;
+  font-size:25px;
   font-weight:900;
   margin:10px;
 }
@@ -386,7 +364,7 @@ button:active{
 
 .statValue{
   display:block;
-  font-size:24px;
+  font-size:23px;
   font-weight:900;
   color:#00eaff;
   margin-top:4px;
@@ -404,6 +382,7 @@ button:active{
   position:fixed;
   inset:0;
   display:none;
+  background:#020207;
   touch-action:none;
   overscroll-behavior:none;
 }
@@ -419,7 +398,7 @@ canvas{
 
 #hud{
   position:absolute;
-  z-index:4;
+  z-index:10;
   left:max(10px,env(safe-area-inset-left));
   right:max(10px,env(safe-area-inset-right));
   top:max(10px,env(safe-area-inset-top));
@@ -455,7 +434,7 @@ canvas{
   top:70px;
   left:50%;
   transform:translateX(-50%);
-  z-index:6;
+  z-index:12;
   font-weight:900;
   font-size:22px;
   opacity:0;
@@ -467,7 +446,7 @@ canvas{
   position:absolute;
   right:max(10px,env(safe-area-inset-right));
   top:max(10px,env(safe-area-inset-top));
-  z-index:10;
+  z-index:15;
   display:flex;
   gap:6px;
 }
@@ -486,7 +465,7 @@ canvas{
   left:50%;
   transform:translateX(-50%);
   bottom:15px;
-  z-index:7;
+  z-index:12;
   padding:7px 12px;
   border-radius:20px;
   background:#10152ddd;
@@ -511,24 +490,24 @@ canvas{
 
 @media(max-height:500px){
   .logo{
-    margin:3px 0;
+    margin:2px 0;
     font-size:30px;
   }
 
   .subtitle{
-    margin-bottom:5px;
+    margin-bottom:4px;
   }
 
   .profile{
-    padding:7px;
+    padding:6px;
   }
 
   .progress{
-    padding:8px;
+    padding:7px;
   }
 
   .level{
-    min-height:68px;
+    min-height:67px;
   }
 }
 </style>
@@ -537,12 +516,16 @@ canvas{
 
 <body>
 
+<!-- =====================================================
+     MENU
+===================================================== -->
+
 <div id="menu">
 
   <div class="logo">NEON DASH</div>
 
   <div class="subtitle">
-    ULTIMATE EDITION 2.0 • Dotknij / kliknij / SPACJA
+    ULTIMATE EDITION 2.1 • Dotknij / kliknij / SPACJA
   </div>
 
   <div class="profile">
@@ -551,6 +534,7 @@ canvas{
 <div class="avatar" id="avatar">◆</div>
 
 <div class="profileInfo">
+
   <div class="profileTop">
     <span>NEON PLAYER</span>
     <span id="playerLevel">LVL 1</span>
@@ -559,6 +543,7 @@ canvas{
   <div class="xpBar">
     <div id="xpFill"></div>
   </div>
+
 </div>
 
 <div class="wallet">
@@ -603,70 +588,138 @@ canvas{
 
 </div>
 
-<!-- SKLEP -->
+<!-- =====================================================
+     SHOP
+===================================================== -->
 
 <div class="overlay" id="shopOverlay">
   <div class="panel">
-    <h2>🛒 SKLEP</h2>
-    <p>Twoje monety: 🪙 <b id="shopCoins">0</b></p>
-    <div class="cardGrid" id="shopList"></div>
-    <button class="closeBtn" data-close="shopOverlay">ZAMKNIJ</button>
+
+```
+<h2>🛒 SKLEP</h2>
+
+<p>
+  Twoje monety:
+  🪙 <b id="shopCoins">0</b>
+</p>
+
+<div class="cardGrid" id="shopList"></div>
+
+<button class="closeBtn" data-close="shopOverlay">
+  ZAMKNIJ
+</button>
+```
+
   </div>
 </div>
 
-<!-- DAILY -->
+<!-- =====================================================
+     DAILY
+===================================================== -->
 
 <div class="overlay" id="dailyOverlay">
   <div class="panel">
-    <h2>📅 DAILY CHALLENGE</h2>
-    <div class="dailyBox">
-      <div id="dailyText"></div>
-      <div class="dailyReward">🎁 +50 XP<br>🪙 +20</div>
-      <div id="dailyStatus"></div>
-    </div>
-    <button id="dailyStart">▶ ROZPOCZNIJ DAILY</button>
-    <button class="closeBtn" data-close="dailyOverlay">ZAMKNIJ</button>
+
+```
+<h2>📅 DAILY CHALLENGE</h2>
+
+<div class="dailyBox">
+
+  <div id="dailyText"></div>
+
+  <div class="dailyReward">
+    🎁 +50 XP<br>
+    🪙 +20
+  </div>
+
+  <div id="dailyStatus"></div>
+
+</div>
+
+<button id="dailyStart">
+  ▶ ROZPOCZNIJ DAILY
+</button>
+
+<button class="closeBtn" data-close="dailyOverlay">
+  ZAMKNIJ
+</button>
+```
+
   </div>
 </div>
 
-<!-- MISJE -->
+<!-- =====================================================
+     MISSIONS
+===================================================== -->
 
 <div class="overlay" id="missionsOverlay">
   <div class="panel">
-    <h2>🎯 MISJE</h2>
-    <div id="missionList"></div>
-    <button class="closeBtn" data-close="missionsOverlay">ZAMKNIJ</button>
+
+```
+<h2>🎯 MISJE</h2>
+
+<div id="missionList"></div>
+
+<button class="closeBtn" data-close="missionsOverlay">
+  ZAMKNIJ
+</button>
+```
+
   </div>
 </div>
 
-<!-- SKINY -->
+<!-- =====================================================
+     SKINS
+===================================================== -->
 
 <div class="overlay" id="skinsOverlay">
   <div class="panel">
-    <h2>🎨 SKINY</h2>
-    <div class="cardGrid" id="skinList"></div>
-    <button class="closeBtn" data-close="skinsOverlay">ZAMKNIJ</button>
+
+```
+<h2>🎨 SKINY</h2>
+
+<div class="cardGrid" id="skinList"></div>
+
+<button class="closeBtn" data-close="skinsOverlay">
+  ZAMKNIJ
+</button>
+```
+
   </div>
 </div>
 
-<!-- ACHIEVEMENTY -->
+<!-- =====================================================
+     ACHIEVEMENTS
+===================================================== -->
 
 <div class="overlay" id="achievements">
   <div class="panel">
-    <h2>🏆 ACHIEVEMENTY</h2>
-    <div id="achList"></div>
-    <button class="closeBtn" data-close="achievements">ZAMKNIJ</button>
+
+```
+<h2>🏆 ACHIEVEMENTY</h2>
+
+<div id="achList"></div>
+
+<button class="closeBtn" data-close="achievements">
+  ZAMKNIJ
+</button>
+```
+
   </div>
 </div>
 
-<!-- STATYSTYKI -->
+<!-- =====================================================
+     STATS
+===================================================== -->
 
 <div class="overlay" id="statsOverlay">
   <div class="panel">
-    <h2>📊 STATYSTYKI</h2>
 
 ```
+<h2>📊 STATYSTYKI</h2>
+
 <div class="statsGrid">
+
   <div class="statBox">
     Ukończone
     <span class="statValue" id="statCompleted">0</span>
@@ -696,51 +749,64 @@ canvas{
     Achievementy
     <span class="statValue" id="statAch">0</span>
   </div>
+
 </div>
 
-<button id="resetBtn">🗑️ RESET PROGRESU</button>
-<button class="closeBtn" data-close="statsOverlay">ZAMKNIJ</button>
+<button id="resetBtn">
+  🗑️ RESET PROGRESU
+</button>
+
+<button class="closeBtn" data-close="statsOverlay">
+  ZAMKNIJ
+</button>
 ```
 
   </div>
 </div>
 
-<!-- INFO -->
+<!-- =====================================================
+     INFO
+===================================================== -->
 
 <div class="overlay" id="infoOverlay">
   <div class="panel">
-    <h2>ℹ️ NEON DASH 2.0</h2>
 
 ```
+<h2>ℹ️ NEON DASH 2.1</h2>
+
 <p>
   Neon Dash to szybka gra typu rhythm runner.
 </p>
 
 <p>
   🟦 Skacz nad przeszkodami.<br>
-  🪙 Zbieraj 3 monety na każdym poziomie.<br>
+  🪙 Zbieraj 3 monety.<br>
   🟢 Korzystaj z padów.<br>
-  🟡 Przechodź przez portale.<br>
+  🟡 Używaj portali.<br>
   💜 Uważaj na zmianę grawitacji.
 </p>
 
 <p>
-  Możesz grać dotykiem, myszką albo klawiszami
-  <b>SPACJA / W / ↑</b>.
+  Sterowanie:
+  <b>SPACJA / W / ↑ / klik / dotknięcie ekranu</b>
 </p>
 
 <p>
-  W Practice Mode checkpointy pozwalają ćwiczyć poziom
-  bez zaczynania od początku.
+  Practice Mode pozwala ćwiczyć poziomy
+  z checkpointami.
 </p>
 
-<button class="closeBtn" data-close="infoOverlay">ZAMKNIJ</button>
+<button class="closeBtn" data-close="infoOverlay">
+  ZAMKNIJ
+</button>
 ```
 
   </div>
 </div>
 
-<!-- GRA -->
+<!-- =====================================================
+     GAME
+===================================================== -->
 
 <div id="game">
 
@@ -750,9 +816,19 @@ canvas{
 
 ```
 <div class="hudLine">
-  <span id="levelName">LEVEL</span>
-  <span id="coins">🪙 0/3</span>
-  <span id="percent">0%</span>
+
+  <span id="levelName">
+    LEVEL
+  </span>
+
+  <span id="coins">
+    🪙 0/3
+  </span>
+
+  <span id="percent">
+    0%
+  </span>
+
 </div>
 
 <div class="hudBar">
@@ -762,57 +838,120 @@ canvas{
 
   </div>
 
-  <div id="comboHud">COMBO x2</div>
+  <div id="comboHud">
+    🔥 COMBO x2
+  </div>
 
   <div class="gameButtons">
-    <button id="pauseBtn">⏸</button>
-    <button id="soundBtn">🔊</button>
-    <button id="gameMenuBtn">☰</button>
-  </div>
-
-  <div id="challengeBadge" class="challengeBadge" style="display:none"></div>
-
-  <div class="overlay" id="pause">
-    <div class="panel">
-      <h2>⏸ PAUZA</h2>
-      <button id="resume">▶ WRÓĆ DO GRY</button>
-      <button id="pauseMenu">☰ MENU</button>
-    </div>
-  </div>
-
-  <div class="overlay" id="finish">
-    <div class="panel">
 
 ```
-  <h2 id="finishTitle">🎉 UKOŃCZONO!</h2>
+<button id="pauseBtn">
+  ⏸
+</button>
+
+<button id="soundBtn">
+  🔊
+</button>
+
+<button id="gameMenuBtn">
+  ☰
+</button>
+```
+
+  </div>
+
+  <div
+    id="challengeBadge"
+    class="challengeBadge"
+    style="display:none">
+  </div>
+
+  <!-- PAUSE -->
+
+  <div class="overlay" id="pause">
+
+```
+<div class="panel">
+
+  <h2>⏸ PAUZA</h2>
+
+  <button id="resume">
+    ▶ WRÓĆ DO GRY
+  </button>
+
+  <button id="pauseMenu">
+    ☰ MENU
+  </button>
+
+</div>
+```
+
+  </div>
+
+  <!-- FINISH -->
+
+  <div class="overlay" id="finish">
+
+```
+<div class="panel">
+
+  <h2 id="finishTitle">
+    🎉 UKOŃCZONO!
+  </h2>
 
   <p id="finishInfo"></p>
 
   <div class="statsGrid">
+
     <div class="statBox">
       🪙 MONETY
-      <span class="statValue" id="finishCoins">0/3</span>
+      <span
+        class="statValue"
+        id="finishCoins">
+        0/3
+      </span>
     </div>
 
     <div class="statBox">
       ☠️ ŚMIERCI
-      <span class="statValue" id="finishDeaths">0</span>
+      <span
+        class="statValue"
+        id="finishDeaths">
+        0
+      </span>
     </div>
 
     <div class="statBox">
       🔥 COMBO
-      <span class="statValue" id="finishCombo">0</span>
+      <span
+        class="statValue"
+        id="finishCombo">
+        0
+      </span>
     </div>
 
     <div class="statBox">
       ⭐ XP
-      <span class="statValue" id="finishXP">0</span>
+      <span
+        class="statValue"
+        id="finishXP">
+        0
+      </span>
     </div>
+
   </div>
 
-  <button id="again">🔄 ZAGRAJ PONOWNIE</button>
-  <button id="nextLevel">➡️ NASTĘPNY POZIOM</button>
-  <button id="finishMenu">☰ MENU</button>
+  <button id="again">
+    🔄 ZAGRAJ PONOWNIE
+  </button>
+
+  <button id="nextLevel">
+    ➡️ NASTĘPNY POZIOM
+  </button>
+
+  <button id="finishMenu">
+    ☰ MENU
+  </button>
 
 </div>
 ```
@@ -851,6 +990,8 @@ const LEVELS=[
 ["FINAL OVERDRIVE","⭐⭐⭐⭐⭐⭐⭐⭐",450,"#ff247f",180]
 ];
 
+/* Triple Spike NIE ISTNIEJE. */
+
 const SKINS=[
 ["cyan","CYAN","#00eaff",0],
 ["purple","PURPLE","#a855ff",3],
@@ -863,13 +1004,12 @@ const SKINS=[
 ];
 
 const SHOP_ITEMS=[
-["trail_fire","🔥 FIRE TRAIL",60,"trail"],
-["trail_electric","⚡ ELECTRIC TRAIL",80,"trail"],
-["trail_rainbow","🌈 RAINBOW TRAIL",120,"trail"],
-["trail_ghost","👻 GHOST TRAIL",150,"trail"],
-["effect_burst","💥 MEGA DEATH",100,"effect"],
-["effect_star","⭐ STAR DEATH",140,"effect"],
-["boost_xp","🚀 XP BOOST",100,"boost"]
+["trail_fire","🔥 FIRE TRAIL",60],
+["trail_electric","⚡ ELECTRIC TRAIL",80],
+["trail_rainbow","🌈 RAINBOW TRAIL",120],
+["trail_ghost","👻 GHOST TRAIL",150],
+["effect_burst","💥 MEGA DEATH",100],
+["effect_star","⭐ STAR DEATH",140]
 ];
 
 const ACH=[
@@ -906,20 +1046,19 @@ const ACH=[
 ["streak3","🔥 Seria","Ukończ 3 poziomy z rzędu."],
 ["streak5","🔥🔥 Nie do zatrzymania","Ukończ 5 poziomów z rzędu."],
 ["speedrunner","⚡ Speedrunner","Ukończ poziom bez śmierci i zbierz wszystkie monety."],
-["rich","💰 Skarbiec","Zbierz 100 monet łącznie."],
-["shop","🛒 Kolekcjoner","Kup pierwszy przedmiot w sklepie."],
-["daily","📅 Codzienny","Ukończ Daily Challenge."],
-["chest","🎁 Otwarta skrzynia","Otwórz skrzynię."]
+["rich","💰 Skarbiec","Zbierz 100 monet."],
+["shop","🛒 Kolekcjoner","Kup pierwszy przedmiot."],
+["daily","📅 Codzienny","Ukończ Daily Challenge."]
 ];
 
 const MISSIONS=[
-["complete3","Ukończ 3 poziomy",3,"completed"],
-["complete10","Ukończ 10 poziomów",10,"completed"],
-["complete20","Ukończ wszystkie 20 poziomów",20,"completed"],
-["coins10","Zbierz 10 monet",10,"coins"],
-["coins25","Zbierz 25 monet",25,"coins"],
-["coins50","Zbierz 50 monet",50,"coins"],
-["coins100","Zbierz 100 monet",100,"coins"]
+["Ukończ 3 poziomy",3,"completed"],
+["Ukończ 10 poziomów",10,"completed"],
+["Ukończ wszystkie 20 poziomów",20,"completed"],
+["Zbierz 10 monet",10,"coins"],
+["Zbierz 25 monet",25,"coins"],
+["Zbierz 50 monet",50,"coins"],
+["Zbierz 100 monet",100,"coins"]
 ];
 
 const NOTE_SETS=[
@@ -970,16 +1109,16 @@ const challengeBadge=document.getElementById("challengeBadge");
 
 function get(key,def){
   try{
-    const v=localStorage.getItem(key);
-    return v===null?def:v;
+    const value=localStorage.getItem(key);
+    return value===null?def:value;
   }catch(e){
     return def;
   }
 }
 
-function set(key,val){
+function set(key,value){
   try{
-    localStorage.setItem(key,String(val));
+    localStorage.setItem(key,String(value));
   }catch(e){}
 }
 
@@ -993,17 +1132,20 @@ function completed(i){
 }
 
 function completedCount(){
-  let n=0;
 
-  for(let i=0;i<LEVELS.length;i++){
-    if(completed(i)) n++;
+  let count=0;
+
+  for(
+    let i=0;
+    i<LEVELS.length;
+    i++
+  ){
+
+    if(completed(i))
+      count++;
   }
 
-  return n;
-}
-
-function totalDeaths(){
-  return num("nd_totalDeaths",0);
+  return count;
 }
 
 function totalCoins(){
@@ -1014,8 +1156,8 @@ function bankCoins(){
   return num("nd_bankCoins",0);
 }
 
-function gems(){
-  return num("nd_gems",0);
+function totalDeaths(){
+  return num("nd_totalDeaths",0);
 }
 
 function playerXP(){
@@ -1025,12 +1167,72 @@ function playerXP(){
 function playerLevel(){
   return Math.max(
     1,
-    Math.floor(playerXP()/250)+1
+    Math.floor(
+      playerXP()/250
+    )+1
   );
 }
 
-function xpIntoLevel(){
+function xpInsideLevel(){
   return playerXP()%250;
+}
+
+/* =========================================================
+   PROFILE
+========================================================= */
+
+function updateProfile(){
+
+  const lvl=playerLevel();
+
+  document.getElementById(
+    "playerLevel"
+  ).textContent=
+    "LVL "+lvl;
+
+  document.getElementById(
+    "xpFill"
+  ).style.width=
+    Math.round(
+      xpInsideLevel()/250*100
+    )+"%";
+
+  document.getElementById(
+    "walletCoins"
+  ).textContent=
+    bankCoins();
+
+  document.getElementById(
+    "walletGems"
+  ).textContent=
+    num("nd_gems",0);
+
+  document.getElementById(
+    "avatar"
+  ).textContent=
+    lvl>=20?
+    "👑":
+    lvl>=15?
+    "⚡":
+    lvl>=10?
+    "💎":
+    lvl>=5?
+    "🔥":
+    "◆";
+}
+
+function addXP(amount){
+
+  set(
+    "nd_xp",
+    playerXP()+
+    Math.max(
+      0,
+      Math.floor(amount)
+    )
+  );
+
+  updateProfile();
 }
 
 /* =========================================================
@@ -1042,120 +1244,118 @@ function achUnlocked(id){
 }
 
 function unlock(id){
-  if(achUnlocked(id)) return;
 
-  set("nd_ach_"+id,"1");
+  if(achUnlocked(id))
+    return;
+
+  set(
+    "nd_ach_"+id,
+    "1"
+  );
+
   renderAchievements();
 }
 
-function unlockLevelAchievement(i){
-  if(i===0) unlock("first");
-  else if(i===11) unlock("final");
-  else unlock("level"+(i+1));
+function unlockLevelAchievement(index){
+
+  if(index===0){
+    unlock("first");
+    return;
+  }
+
+  if(index===11){
+    unlock("final");
+    return;
+  }
+
+  unlock(
+    "level"+(index+1)
+  );
 }
 
 function checkAchievements(){
 
-  const n=completedCount();
-  const tc=totalCoins();
+  const count=
+    completedCount();
 
-  if(n>=3) unlock("three");
-  if(n>=6) unlock("six");
-  if(n>=10) unlock("ten");
-  if(n>=20) unlock("all");
+  const coins=
+    totalCoins();
 
-  if(tc>=10) unlock("coins10");
-  if(tc>=25) unlock("coins25");
-  if(tc>=50) unlock("coins50");
-  if(tc>=100) unlock("rich");
+  if(count>=3)
+    unlock("three");
 
-  if(deaths===0) unlock("perfect");
-  if(deaths>=3) unlock("survivor");
-  if(runCoins===3) unlock("allcoins");
+  if(count>=6)
+    unlock("six");
 
-  if(runCoins===3 && deaths===0)
+  if(count>=10)
+    unlock("ten");
+
+  if(count>=20)
+    unlock("all");
+
+  if(coins>=10)
+    unlock("coins10");
+
+  if(coins>=25)
+    unlock("coins25");
+
+  if(coins>=50)
+    unlock("coins50");
+
+  if(coins>=100)
+    unlock("rich");
+
+  if(deaths===0)
+    unlock("perfect");
+
+  if(deaths>=3)
+    unlock("survivor");
+
+  if(runCoins===3)
+    unlock("allcoins");
+
+  if(
+    deaths===0&&
+    runCoins===3
+  ){
     unlock("speedrunner");
+  }
 
-  const streak=num("nd_streak",0);
+  const streak=
+    num("nd_streak",0);
 
-  if(streak>=3) unlock("streak3");
-  if(streak>=5) unlock("streak5");
+  if(streak>=3)
+    unlock("streak3");
+
+  if(streak>=5)
+    unlock("streak5");
 }
 
 function renderAchievements(){
 
   achList.innerHTML="";
 
-  ACH.forEach(a=>{
+  for(
+    const a of ACH
+  ){
 
-    const d=document.createElement("div");
+    const div=
+      document.createElement("div");
 
-    d.className=
+    div.className=
       "ach"+
-      (achUnlocked(a[0])?" on":"");
+      (
+        achUnlocked(a[0])?
+        " on":
+        ""
+      );
 
-    d.innerHTML=
+    div.innerHTML=
       "<b>"+a[1]+"</b><br>"+
       "<small>"+a[2]+"</small>";
 
-    achList.appendChild(d);
-  });
-}
-
-/* =========================================================
-   XP
-========================================================= */
-
-function addXP(amount){
-
-  let bonus=num("nd_xpBoost",0);
-
-  if(bonus>0){
-    amount*=2;
-    set(
-      "nd_xpBoost",
-      Math.max(0,bonus-1)
-    );
+    achList.appendChild(div);
   }
-
-  set(
-    "nd_xp",
-    playerXP()+Math.max(0,Math.floor(amount))
-  );
-
-  updateProfile();
-}
-
-function updateProfile(){
-
-  const lvl=playerLevel();
-  const xp=xpIntoLevel();
-
-  document.getElementById(
-    "playerLevel"
-  ).textContent="LVL "+lvl;
-
-  document.getElementById(
-    "xpFill"
-  ).style.width=
-    Math.round(xp/250*100)+"%";
-
-  document.getElementById(
-    "walletCoins"
-  ).textContent=bankCoins();
-
-  document.getElementById(
-    "walletGems"
-  ).textContent=gems();
-
-  document.getElementById(
-    "avatar"
-  ).textContent=
-    lvl>=20?"👑":
-    lvl>=15?"⚡":
-    lvl>=10?"💎":
-    lvl>=5?"🔥":
-    "◆";
 }
 
 /* =========================================================
@@ -1163,166 +1363,159 @@ function updateProfile(){
 ========================================================= */
 
 function ownedItem(id){
-  return get("nd_item_"+id,"0")==="1";
-}
 
-function buyItem(item){
-
-  const id=item[0];
-  const price=item[2];
-
-  if(ownedItem(id)){
-
-    if(item[3]==="trail"){
-      set("nd_trail",id);
-    }
-
-    if(item[3]==="effect"){
-      set("nd_effect",id);
-    }
-
-    renderShop();
-    return;
-  }
-
-  if(bankCoins()<price){
-    alert("Potrzebujesz "+price+" monet.");
-    return;
-  }
-
-  set(
-    "nd_bankCoins",
-    bankCoins()-price
-  );
-
-  set(
+  return get(
     "nd_item_"+id,
-    "1"
-  );
-
-  if(item[3]==="trail")
-    set("nd_trail",id);
-
-  if(item[3]==="effect")
-    set("nd_effect",id);
-
-  unlock("shop");
-
-  renderShop();
-  updateProfile();
+    "0"
+  )==="1";
 }
 
 function renderShop(){
 
   document.getElementById(
     "shopCoins"
-  ).textContent=bankCoins();
+  ).textContent=
+    bankCoins();
 
   shopList.innerHTML="";
 
-  SHOP_ITEMS.forEach(item=>{
+  for(
+    const item of SHOP_ITEMS
+  ){
 
-    const d=document.createElement("div");
+    const div=
+      document.createElement("div");
 
-    d.className=
-      "shopItem"+
-      (ownedItem(item[0])?" owned":"");
+    div.className="shopItem";
 
-    const active=
-      item[3]==="trail" &&
-      get("nd_trail","classic")===item[0];
-
-    d.innerHTML=
+    div.innerHTML=
       "<h3>"+item[1]+"</h3>"+
       "<small>"+
-      (ownedItem(item[0])?
+      (
+        ownedItem(item[0])?
         "Odblokowane":
-        "Cena: 🪙 "+item[2])+
+        "Cena: 🪙 "+item[2]
+      )+
       "</small>";
 
-    const b=document.createElement("button");
+    const button=
+      document.createElement("button");
 
-    b.textContent=
-      active?
-      "✅ UŻYWASZ":
+    button.textContent=
       ownedItem(item[0])?
-      "🎨 UŻYJ":
+      (
+        get("nd_trail","classic")===item[0]||
+        get("nd_effect","")===item[0]?
+        "✅ UŻYWASZ":
+        "🎨 UŻYJ"
+      ):
       "🛒 KUP";
 
-    b.onclick=()=>{
-      buyItem(item);
+    button.onclick=()=>{
+
+      if(ownedItem(item[0])){
+
+        if(
+          item[0].startsWith("trail_")
+        ){
+
+          set(
+            "nd_trail",
+            item[0]
+          );
+        }
+
+        if(
+          item[0].startsWith("effect_")
+        ){
+
+          set(
+            "nd_effect",
+            item[0]
+          );
+        }
+
+        renderShop();
+        return;
+      }
+
+      if(
+        bankCoins()<item[2]
+      ){
+
+        alert(
+          "Masz za mało monet."
+        );
+
+        return;
+      }
+
+      set(
+        "nd_bankCoins",
+        bankCoins()-item[2]
+      );
+
+      set(
+        "nd_item_"+item[0],
+        "1"
+      );
+
+      if(
+        item[0].startsWith("trail_")
+      ){
+
+        set(
+          "nd_trail",
+          item[0]
+        );
+      }
+
+      if(
+        item[0].startsWith("effect_")
+      ){
+
+        set(
+          "nd_effect",
+          item[0]
+        );
+      }
+
+      unlock("shop");
+
+      updateProfile();
+      renderShop();
     };
 
-    d.appendChild(b);
-
-    shopList.appendChild(d);
-  });
+    div.appendChild(button);
+    shopList.appendChild(div);
+  }
 }
 
 /* =========================================================
    SKINS
 ========================================================= */
 
-function skinUnlocked(skin){
-  return playerLevel()>=skin[3];
-}
-
-function skinOwned(skin){
-
-  if(skin[3]===0)
-    return true;
-
-  return get(
-    "nd_skin_"+skin[0],
-    "0"
-  )==="1";
-}
-
-function equipSkin(skin){
-
-  if(!skinOwned(skin)){
-
-    if(playerLevel()>=skin[3]){
-
-      set(
-        "nd_skin_"+skin[0],
-        "1"
-      );
-
-    }else{
-      alert(
-        "Odblokujesz ten skin na poziomie "+
-        skin[3]+"."
-      );
-      return;
-    }
-  }
-
-  set(
-    "nd_skin",
-    skin[0]
-  );
-
-  renderSkins();
-}
-
 function renderSkins(){
 
   skinList.innerHTML="";
 
-  SKINS.forEach(skin=>{
+  for(
+    const skin of SKINS
+  ){
 
-    const d=document.createElement("div");
+    const unlocked=
+      playerLevel()>=skin[3];
 
-    d.className=
-      "shopItem"+
-      (
-        get("nd_skin","cyan")===skin[0]?
-        " equipped":
-        ""
-      );
+    const selected=
+      get("nd_skin","cyan")===
+      skin[0];
 
-    d.innerHTML=
+    const div=
+      document.createElement("div");
+
+    div.className="shopItem";
+
+    div.innerHTML=
       '<div class="skinPreview" style="background:'+
       skin[2]+
       ';color:'+
@@ -1331,162 +1524,182 @@ function renderSkins(){
       "<h3>"+skin[1]+"</h3>"+
       "<small>Poziom "+skin[3]+"</small>";
 
-    const b=document.createElement("button");
+    const button=
+      document.createElement("button");
 
-    b.textContent=
-      get("nd_skin","cyan")===skin[0]?
+    button.textContent=
+      selected?
       "✅ WYBRANY":
-      skinOwned(skin)?
+      unlocked?
       "🎨 WYBIERZ":
-      skinUnlocked(skin)?
-      "🔓 ODBLOKUJ":
       "🔒 ZABLOKOWANY";
 
-    b.onclick=()=>{
-      equipSkin(skin);
+    button.onclick=()=>{
+
+      if(!unlocked){
+
+        alert(
+          "Ten skin odblokuje się na poziomie "+
+          skin[3]+"."
+        );
+
+        return;
+      }
+
+      set(
+        "nd_skin",
+        skin[0]
+      );
+
+      renderSkins();
     };
 
-    d.appendChild(b);
-    skinList.appendChild(d);
-  });
+    div.appendChild(button);
+    skinList.appendChild(div);
+  }
 }
 
 /* =========================================================
    MISSIONS
 ========================================================= */
 
-function missionProgress(m){
-
-  const type=m[3];
-
-  if(type==="completed")
-    return completedCount();
-
-  if(type==="coins")
-    return totalCoins();
-
-  return 0;
-}
-
 function renderMissions(){
 
   missionList.innerHTML="";
 
-  MISSIONS.forEach(m=>{
+  for(
+    const m of MISSIONS
+  ){
 
-    const value=Math.min(
-      m[2],
-      missionProgress(m)
-    );
+    const progress=
+      m[2]==="completed"?
+      completedCount():
+      totalCoins();
 
-    const d=document.createElement("div");
+    const value=
+      Math.min(
+        progress,
+        m[1]
+      );
 
-    d.className="mission";
+    const div=
+      document.createElement("div");
 
-    d.innerHTML=
-      "<b>"+m[1]+"</b>"+
-      "<br>"+
-      value+" / "+m[2]+
+    div.className="mission";
+
+    div.innerHTML=
+      "<b>"+m[0]+"</b><br>"+
+      value+" / "+m[1]+
       '<div class="missionBar">'+
       '<div class="missionFill" style="width:'+
-      Math.min(100,value/m[2]*100)+
+      Math.round(
+        value/m[1]*100
+      )+
       '%"></div>'+
       "</div>";
 
-    missionList.appendChild(d);
-  });
+    missionList.appendChild(div);
+  }
 }
 
 /* =========================================================
    DAILY
 ========================================================= */
 
-function todayKey(){
+function dateKey(){
 
-  const d=new Date();
+  const d=
+    new Date();
 
-  return d.getFullYear()+"-"+
-    String(d.getMonth()+1).padStart(2,"0")+"-"+
-    String(d.getDate()).padStart(2,"0");
+  return d.getFullYear()+
+    "-"+
+    String(
+      d.getMonth()+1
+    ).padStart(2,"0")+
+    "-"+
+    String(
+      d.getDate()
+    ).padStart(2,"0");
 }
 
-function dailyData(){
+function dailyInfo(){
 
-  const key=todayKey();
+  const key=
+    dateKey();
 
   let hash=0;
 
-  for(let i=0;i<key.length;i++){
+  for(
+    let i=0;
+    i<key.length;
+    i++
+  ){
+
     hash=
-      (hash*31+
-      key.charCodeAt(i))>>>0;
+      (
+        hash*31+
+        key.charCodeAt(i)
+      )>>>0;
   }
 
-  const level=
-    hash%LEVELS.length;
-
-  const type=
-    hash%2===0?
-    "coins":
-    "perfect";
-
   return {
-    key:key,
-    level:level,
-    type:type
+    level:
+      hash%LEVELS.length,
+
+    type:
+      hash%2===0?
+      "coins":
+      "perfect",
+
+    key:key
   };
 }
 
-function dailyCompleted(){
+function dailyDone(){
 
   return get(
-    "nd_daily_"+todayKey(),
+    "nd_daily_"+dateKey(),
     "0"
   )==="1";
 }
 
 function renderDaily(){
 
-  const d=dailyData();
-
-  let text;
-
-  if(d.type==="coins"){
-
-    text=
-      "Zbierz wszystkie 3 monety na poziomie:<br><b>"+
-      LEVELS[d.level][0]+
-      "</b>";
-
-  }else{
-
-    text=
-      "Ukończ bez śmierci poziom:<br><b>"+
-      LEVELS[d.level][0]+
-      "</b>";
-  }
+  const d=
+    dailyInfo();
 
   document.getElementById(
     "dailyText"
-  ).innerHTML=text;
+  ).innerHTML=
+    d.type==="coins"?
+    "Zbierz wszystkie 3 monety na:<br><b>"+
+    LEVELS[d.level][0]+
+    "</b>":
+    "Ukończ bez śmierci:<br><b>"+
+    LEVELS[d.level][0]+
+    "</b>";
 
   document.getElementById(
     "dailyStatus"
-  ).innerHTML=
-    dailyCompleted()?
-    "✅ Dzisiejsze wyzwanie ukończone!":
+  ).textContent=
+    dailyDone()?
+    "✅ Wyzwanie ukończone!":
     "❌ Jeszcze nieukończone.";
 }
 
 function startDaily(){
 
-  if(dailyCompleted()){
+  if(dailyDone()){
 
-    alert("Dzisiejsze wyzwanie jest już ukończone.");
+    alert(
+      "Dzisiejsze Daily jest już ukończone."
+    );
+
     return;
   }
 
-  const d=dailyData();
+  const d=
+    dailyInfo();
 
   dailyMode=true;
   dailyType=d.type;
@@ -1498,43 +1711,7 @@ function startDaily(){
 }
 
 /* =========================================================
-   RANDOM CHALLENGE
-========================================================= */
-
-let challengeMode=false;
-let challengeType="";
-
-function startRandomChallenge(){
-
-  const types=[
-    "DOUBLE SPEED",
-    "LOW GRAVITY",
-    "NO COINS",
-    "PERFECT RUN"
-  ];
-
-  challengeType=
-    types[
-      Math.floor(
-        Math.random()*types.length
-      )
-    ];
-
-  challengeMode=true;
-
-  const level=
-    Math.floor(
-      Math.random()*LEVELS.length
-    );
-
-  startLevel(
-    level,
-    true
-  );
-}
-
-/* =========================================================
-   GAME STATE
+   GAME VARIABLES
 ========================================================= */
 
 let W=window.innerWidth;
@@ -1551,6 +1728,7 @@ const player={
 };
 
 let current=0;
+
 let running=false;
 let paused=false;
 let finished=false;
@@ -1566,12 +1744,14 @@ let runCoins=0;
 let combo=0;
 let maxCombo=0;
 
-let collected=new Set();
+let collected=
+  new Set();
 
 let obstacles=[];
 let coinObjects=[];
 let pads=[];
 let portals=[];
+
 let particles=[];
 let stars=[];
 let trail=[];
@@ -1591,13 +1771,16 @@ let sound=
 let practiceMode=
   get("nd_practice","0")==="1";
 
-let dailyMode=false;
-let dailyType="";
+let checkpoint=0;
 
 let startTime=0;
 let elapsed=0;
 
-let checkpoint=0;
+let dailyMode=false;
+let dailyType="";
+
+let challengeMode=false;
+let challengeType="";
 
 let speedMultiplier=1;
 
@@ -1607,45 +1790,57 @@ let speedMultiplier=1;
 
 function resize(){
 
-  W=Math.max(
-    240,
-    window.innerWidth
-  );
-
-  H=Math.max(
-    240,
-    window.innerHeight
-  );
-
-  const d=Math.min(
+  W=
     Math.max(
-      window.devicePixelRatio||1,
-      1
-    ),
-    2
-  );
+      240,
+      window.innerWidth
+    );
 
-  canvas.width=Math.round(W*d);
-  canvas.height=Math.round(H*d);
+  H=
+    Math.max(
+      240,
+      window.innerHeight
+    );
 
-  canvas.style.width=W+"px";
-  canvas.style.height=H+"px";
+  const d=
+    Math.min(
+      Math.max(
+        window.devicePixelRatio||1,
+        1
+      ),
+      2
+    );
+
+  canvas.width=
+    Math.round(W*d);
+
+  canvas.height=
+    Math.round(H*d);
+
+  canvas.style.width=
+    W+"px";
+
+  canvas.style.height=
+    H+"px";
 
   ctx.setTransform(
     d,0,0,d,0,0
   );
 
-  ground=Math.max(
-    160,
-    Math.min(
-      H-55,
-      H*.78
-    )
-  );
+  ground=
+    Math.max(
+      160,
+      Math.min(
+        H-55,
+        H*.78
+      )
+    );
 
   if(!running){
+
     player.y=
-      ground-player.size;
+      ground-
+      player.size;
   }
 
   createStars();
@@ -1657,74 +1852,84 @@ window.addEventListener(
   {passive:true}
 );
 
-window.addEventListener(
-  "orientationchange",
-  ()=>{
-    setTimeout(resize,100);
-  },
-  {passive:true}
-);
-
 /* =========================================================
    LEVEL MENU
 ========================================================= */
 
-function bestTime(i){
-
-  return num(
-    "nd_bestTime_"+i,
-    0
-  );
-}
-
 function formatTime(ms){
 
-  if(!ms) return "--:--";
+  if(!ms)
+    return "--:--";
 
-  const s=
-    Math.floor(ms/1000);
+  const seconds=
+    Math.floor(
+      ms/1000
+    );
 
-  const min=
-    Math.floor(s/60);
+  const minutes=
+    Math.floor(
+      seconds/60
+    );
 
   const sec=
-    s%60;
+    seconds%60;
 
-  return String(min).padStart(2,"0")+
+  return String(minutes)
+    .padStart(2,"0")+
     ":"+
-    String(sec).padStart(2,"0");
+    String(sec)
+    .padStart(2,"0");
 }
 
 function renderMenu(){
 
   levelsBox.innerHTML="";
 
-  LEVELS.forEach((l,i)=>{
+  for(
+    let i=0;
+    i<LEVELS.length;
+    i++
+  ){
 
-    const b=document.createElement("button");
+    const l=
+      LEVELS[i];
 
-    b.type="button";
-    b.className="level";
+    const button=
+      document.createElement("button");
 
-    const locked=
-      i>0 &&
-      !completed(i-1);
+    button.type="button";
+    button.className="level";
 
-    if(locked)
-      b.classList.add("locked");
+    const bestCoins=
+      num(
+        "nd_bestCoins_"+i,
+        0
+      );
 
-    const bc=
-      num("nd_bestCoins_"+i,0);
+    const bestDeaths=
+      num(
+        "nd_bestDeaths_"+i,
+        999
+      );
 
-    const bd=
-      num("nd_bestDeaths_"+i,999);
+    const bestTime=
+      num(
+        "nd_bestTime_"+i,
+        0
+      );
 
-    const bt=
-      bestTime(i);
+    /*
+      WAŻNA ZMIANA 2.1:
+      ŻADEN POZIOM NIE JEST BLOKOWANY.
+    */
 
-    b.innerHTML=
+    button.innerHTML=
       '<span class="levelStatus">'+
-      (locked?"🔒":completed(i)?"✅":"▶️")+
+      (
+        completed(i)?
+        "✅":
+        "▶️"
+      )+
       '</span>'+
       '<div class="levelName">'+
       (i+1)+". "+l[0]+
@@ -1733,26 +1938,23 @@ function renderMenu(){
       l[1]+" • "+l[2]+" px/s"+
       '</div>'+
       '<div class="levelRecord">'+
-      "🪙 "+bc+"/3 • ☠️ "+
-      (bd===999?"--":bd)+
-      " • ⏱ "+formatTime(bt)+
+      "🪙 "+bestCoins+"/3"+
+      " • ☠️ "+
+      (
+        bestDeaths===999?
+        "--":
+        bestDeaths
+      )+
+      " • ⏱ "+
+      formatTime(bestTime)+
       '</div>';
 
-    b.addEventListener(
+    button.addEventListener(
       "click",
-      e=>{
+      function(e){
 
         e.preventDefault();
         e.stopPropagation();
-
-        if(locked){
-
-          alert(
-            "Najpierw ukończ poprzedni poziom."
-          );
-
-          return;
-        }
 
         dailyMode=false;
         challengeMode=false;
@@ -1764,38 +1966,42 @@ function renderMenu(){
       }
     );
 
-    levelsBox.appendChild(b);
-  });
+    levelsBox.appendChild(button);
+  }
 
   const done=
     completedCount();
 
-  const p=
+  const percent=
     Math.round(
-      done/LEVELS.length*100
+      done/
+      LEVELS.length*
+      100
     );
 
   document.getElementById(
     "progressText"
-  ).textContent=p+"%";
+  ).textContent=
+    percent+"%";
 
   document.getElementById(
     "menuBar"
-  ).style.width=p+"%";
+  ).style.width=
+    percent+"%";
 
   document.getElementById(
     "doneText"
   ).textContent=
-    done+" / "+
+    done+
+    " / "+
     LEVELS.length+
     " poziomów";
 
   updateProfile();
-  renderSkins();
 }
 
 /* =========================================================
-   GENERATE LEVEL
+   LEVEL GENERATION
 ========================================================= */
 
 function generateLevel(){
@@ -1810,7 +2016,7 @@ function generateLevel(){
     current*600;
 
   let x=650;
-  let p=0;
+  let pattern=0;
 
   const patterns=[
     "spike",
@@ -1827,16 +2033,17 @@ function generateLevel(){
     "gravity",
     "saw",
     "double",
-    "pad",
-    "spike",
-    "saw"
+    "pad"
   ];
 
-  while(x<length){
+  while(
+    x<length
+  ){
 
     const type=
       patterns[
-        p%patterns.length
+        pattern%
+        patterns.length
       ];
 
     if(type==="spike"){
@@ -1846,7 +2053,12 @@ function generateLevel(){
 
     }else if(type==="double"){
 
-      /* TYLKO DOUBLE SPIKE */
+      /*
+        DOUBLE SPIKE:
+        dwa zwykłe kolce.
+        Triple Spike nie istnieje.
+      */
+
       spike(x);
       spike(x+46);
 
@@ -1875,22 +2087,23 @@ function generateLevel(){
       saw(x+480);
       x+=760;
 
-    }else if(type==="gravity"){
-
-      gravityPortal(x);
-      spike(x+280);
-      spike(x+326);
-      x+=720;
-
     }else if(type==="spikeSaw"){
 
       spike(x);
       saw(x+230);
       x+=650;
 
+    }else if(type==="gravity"){
+
+      gravityPortal(x);
+
+      spike(x+280);
+      spike(x+326);
+
+      x+=720;
     }
 
-    p++;
+    pattern++;
   }
 
   const positions=[
@@ -1899,69 +2112,71 @@ function generateLevel(){
     length*.79
   ];
 
-  positions.forEach(
-    (cx,i)=>{
+  for(
+    let i=0;
+    i<positions.length;
+    i++
+  ){
 
-      let finalX=cx;
+    let finalX=
+      positions[i];
+
+    for(
+      let attempt=0;
+      attempt<40;
+      attempt++
+    ){
+
+      let bad=false;
 
       for(
-        let a=0;
-        a<40;
-        a++
+        const o of obstacles
       ){
 
-        let bad=false;
+        if(o.type==="gap"){
 
-        for(
-          const o of obstacles
-        ){
+          if(
+            finalX>
+            o.x-100&&
+            finalX<
+            o.x+o.w+100
+          ){
 
-          if(o.type==="gap"){
+            bad=true;
+            break;
+          }
 
-            if(
-              finalX>o.x-100&&
-              finalX<
-              o.x+o.w+100
-            ){
+        }else{
 
-              bad=true;
-              break;
-            }
+          if(
+            Math.abs(
+              finalX-o.x
+            )<120
+          ){
 
-          }else{
-
-            if(
-              Math.abs(
-                finalX-o.x
-              )<120
-            ){
-
-              bad=true;
-              break;
-            }
+            bad=true;
+            break;
           }
         }
-
-        if(!bad) break;
-
-        finalX+=120;
       }
 
-      coinObjects.push({
-        id:i,
-        x:finalX,
-        collected:
-          collected.has(i)
-      });
+      if(!bad)
+        break;
+
+      finalX+=120;
     }
-  );
+
+    coinObjects.push({
+      id:i,
+      x:finalX,
+      collected:
+        collected.has(i)
+    });
+  }
 }
 
-/* =========================================================
-   OBJECTS
-========================================================= */
-
 function spike(x){
+
   obstacles.push({
     type:"spike",
     x:x
@@ -1969,6 +2184,7 @@ function spike(x){
 }
 
 function saw(x){
+
   obstacles.push({
     type:"saw",
     x:x,
@@ -1977,6 +2193,7 @@ function saw(x){
 }
 
 function gap(x,w){
+
   obstacles.push({
     type:"gap",
     x:x,
@@ -1985,6 +2202,7 @@ function gap(x,w){
 }
 
 function pad(x){
+
   pads.push({
     x:x,
     used:false
@@ -1992,6 +2210,7 @@ function pad(x){
 }
 
 function speedPortal(x,mult){
+
   portals.push({
     type:"speed",
     x:x,
@@ -2001,6 +2220,7 @@ function speedPortal(x,mult){
 }
 
 function gravityPortal(x){
+
   portals.push({
     type:"gravity",
     x:x,
@@ -2009,12 +2229,8 @@ function gravityPortal(x){
 }
 
 /* =========================================================
-   START LEVEL
+   START LEVEL — FIX 2.1
 ========================================================= */
-
-function baseGravity(){
-  return current===9?-1:1;
-}
 
 function resetPlayer(){
 
@@ -2037,137 +2253,192 @@ function resetPlayer(){
   player.grounded=true;
 }
 
+function baseGravity(){
+
+  /*
+    Gravity Break = level 10,
+    czyli indeks 9.
+  */
+
+  return current===9?
+    -1:
+    1;
+}
+
 function startLevel(index,newRun=true){
 
+  /*
+    Bardzo ważne:
+    sprawdzamy tylko zakres.
+    Nie ma blokady poziomów.
+  */
+
   if(
+    !Number.isInteger(index)||
     index<0||
     index>=LEVELS.length
-  ) return;
+  ){
 
-  try{
-
-    current=index;
-
-    if(newRun){
-
-      deaths=0;
-      runCoins=0;
-      combo=0;
-      maxCombo=0;
-      collected=new Set();
-      checkpoint=0;
-    }
-
-    running=false;
-    paused=false;
-    finished=false;
-    dying=false;
-
-    if(raf){
-      cancelAnimationFrame(raf);
-      raf=0;
-    }
-
-    stopMusic();
-
-    game.style.display="block";
-    menu.style.display="none";
-
-    pause.style.display="none";
-    finish.style.display="none";
-
-    world=
-      practiceMode&&
-      checkpoint>0?
-      checkpoint:
-      0;
-
-    elapsed=0;
-    startTime=performance.now();
-
-    particles=[];
-    trail=[];
-
-    shake=0;
-    flash=0;
-
-    gravityDirection=
-      baseGravity();
-
-    speedMultiplier=1;
-
-    if(
-      challengeMode
-    ){
-
-      if(challengeType==="DOUBLE SPEED")
-        speedMultiplier=1.55;
-
-      if(challengeType==="LOW GRAVITY")
-        speedMultiplier=.62;
-    }
-
-    resetPlayer();
-
-    generateLevel();
-    createStars();
-
-    levelName.textContent=
-      (current+1)+
-      " • "+
-      LEVELS[current][0];
-
-    coinsText.textContent=
-      "🪙 "+
-      runCoins+
-      "/3";
-
-    challengeBadge.style.display=
-      challengeMode||dailyMode?
-      "block":
-      "none";
-
-    if(dailyMode){
-
-      challengeBadge.textContent=
-        "📅 DAILY • "+
-        (
-          dailyType==="coins"?
-          "3 MONETY":
-          "PERFECT RUN"
-        );
-
-    }else if(challengeMode){
-
-      challengeBadge.textContent=
-        "🎲 CHALLENGE • "+
-        challengeType;
-    }
-
-    running=true;
-
-    if(sound)
-      startMusic();
-
-    draw();
-
-    last=performance.now();
-
-    raf=
-      requestAnimationFrame(
-        loop
-      );
-
-  }catch(err){
-
-    console.error(err);
-
-    alert(
-      "Wystąpił błąd podczas uruchamiania poziomu."
+    console.error(
+      "Nieprawidłowy poziom:",
+      index
     );
 
-    goMenu();
+    return;
   }
+
+  /*
+    Zatrzymujemy poprzednią pętlę.
+  */
+
+  if(raf){
+
+    cancelAnimationFrame(
+      raf
+    );
+
+    raf=0;
+  }
+
+  stopMusic();
+
+  current=index;
+
+  if(newRun){
+
+    deaths=0;
+    runCoins=0;
+    combo=0;
+    maxCombo=0;
+    collected=new Set();
+    checkpoint=0;
+  }
+
+  running=false;
+  paused=false;
+  finished=false;
+  dying=false;
+
+  world=
+    practiceMode&&
+    checkpoint>0?
+    checkpoint:
+    0;
+
+  elapsed=0;
+
+  startTime=
+    performance.now();
+
+  particles=[];
+  trail=[];
+
+  shake=0;
+  flash=0;
+
+  gravityDirection=
+    baseGravity();
+
+  speedMultiplier=1;
+
+  if(
+    challengeMode
+  ){
+
+    if(
+      challengeType==="DOUBLE SPEED"
+    ){
+      speedMultiplier=1.55;
+    }
+
+    if(
+      challengeType==="LOW GRAVITY"
+    ){
+      speedMultiplier=.62;
+    }
+  }
+
+  resetPlayer();
+
+  /*
+    Generowanie odbywa się PRZED pierwszą klatką.
+  */
+
+  generateLevel();
+  createStars();
+
+  levelName.textContent=
+    (current+1)+
+    " • "+
+    LEVELS[current][0];
+
+  coinsText.textContent=
+    "🪙 0/3";
+
+  percent.textContent="0%";
+  gameBar.style.width="0%";
+
+  if(dailyMode){
+
+    challengeBadge.style.display=
+      "block";
+
+    challengeBadge.textContent=
+      "📅 DAILY • "+
+      (
+        dailyType==="coins"?
+        "3 MONETY":
+        "PERFECT RUN"
+      );
+
+  }else if(challengeMode){
+
+    challengeBadge.style.display=
+      "block";
+
+    challengeBadge.textContent=
+      "🎲 CHALLENGE • "+
+      challengeType;
+
+  }else{
+
+    challengeBadge.style.display=
+      "none";
+  }
+
+  /*
+    Najważniejszy fragment:
+    najpierw pokazujemy game,
+    potem uruchamiamy loop.
+  */
+
+  menu.style.display="none";
+  game.style.display="block";
+
+  /*
+    Wymuszamy prawidłowy rozmiar canvasu.
+  */
+
+  resize();
+
+  resetPlayer();
+
+  running=true;
+  paused=false;
+  finished=false;
+
+  last=
+    performance.now();
+
+  if(sound)
+    startMusic();
+
+  draw();
+
+  raf=
+    requestAnimationFrame(
+      loop
+    );
 }
 
 /* =========================================================
@@ -2181,16 +2452,22 @@ function jump(){
     paused||
     dying||
     finished
-  ) return;
+  )
+    return;
 
-  if(player.grounded){
+  if(
+    player.grounded
+  ){
 
     let force=
       -730*
       gravityDirection;
 
-    if(challengeType==="LOW GRAVITY")
+    if(
+      challengeType==="LOW GRAVITY"
+    ){
       force*=.9;
+    }
 
     player.vy=force;
     player.grounded=false;
@@ -2203,13 +2480,14 @@ function jump(){
 
 game.addEventListener(
   "pointerdown",
-  e=>{
+  function(e){
 
     if(
       e.target.closest(".gameButtons")||
       e.target.closest("#pause")||
       e.target.closest("#finish")
-    ) return;
+    )
+      return;
 
     jump();
   },
@@ -2218,7 +2496,7 @@ game.addEventListener(
 
 window.addEventListener(
   "keydown",
-  e=>{
+  function(e){
 
     if(
       e.code==="Space"||
@@ -2227,7 +2505,12 @@ window.addEventListener(
     ){
 
       e.preventDefault();
-      jump();
+
+      if(
+        game.style.display!=="none"
+      ){
+        jump();
+      }
     }
 
     if(
@@ -2255,16 +2538,16 @@ function update(dt){
     LEVELS[current][2]*
     speedMultiplier;
 
-  if(challengeType==="NO COINS")
-    runCoins=0;
-
-  for(const p of portals){
+  for(
+    const p of portals
+  ){
 
     if(
       p.type==="speed"&&
       world+player.x>p.x&&
       world+player.x<p.x+180
     ){
+
       speed*=p.mult;
     }
   }
@@ -2275,10 +2558,15 @@ function update(dt){
     2100*
     gravityDirection;
 
-  player.vy+=gravity*dt;
-  player.y+=player.vy*dt;
+  player.vy+=
+    gravity*dt;
 
-  if(gravityDirection===1){
+  player.y+=
+    player.vy*dt;
+
+  if(
+    gravityDirection===1
+  ){
 
     const floor=
       ground-player.size;
@@ -2329,16 +2617,23 @@ function update(dt){
   collisions();
 
   if(
-    practiceMode&&
-    Math.floor(world/750)>
-    Math.floor(checkpoint/750)
+    practiceMode
   ){
 
-    checkpoint=
-      Math.floor(world/750)*750;
+    if(
+      world>=checkpoint+750
+    ){
+
+      checkpoint=
+        Math.floor(
+          world/750
+        )*750;
+    }
   }
 
-  if(Math.random()<.9){
+  if(
+    Math.random()<.9
+  ){
 
     trail.push({
       x:player.x+17,
@@ -2353,7 +2648,8 @@ function update(dt){
 
   if(shake>0){
 
-    shake-=dt*13;
+    shake-=
+      dt*13;
 
     if(shake<0)
       shake=0;
@@ -2361,7 +2657,8 @@ function update(dt){
 
   if(flash>0){
 
-    flash-=dt*3;
+    flash-=
+      dt*3;
 
     if(flash<0)
       flash=0;
@@ -2384,6 +2681,7 @@ function gapUnder(){
       center>o.x&&
       center<o.x+o.w
     ){
+
       return true;
     }
   }
@@ -2397,9 +2695,12 @@ function gapUnder(){
 
 function checkPads(){
 
-  for(const p of pads){
+  for(
+    const p of pads
+  ){
 
-    if(p.used) continue;
+    if(p.used)
+      continue;
 
     const px=
       world+
@@ -2431,9 +2732,12 @@ function checkPads(){
 
 function checkPortals(){
 
-  for(const p of portals){
+  for(
+    const p of portals
+  ){
 
-    if(p.used) continue;
+    if(p.used)
+      continue;
 
     const px=
       world+
@@ -2447,7 +2751,9 @@ function checkPortals(){
 
       p.used=true;
 
-      if(p.type==="gravity"){
+      if(
+        p.type==="gravity"
+      ){
 
         gravityDirection*=-1;
 
@@ -2466,7 +2772,9 @@ function checkPortals(){
 
 function checkCoins(){
 
-  if(challengeType==="NO COINS")
+  if(
+    challengeType==="NO COINS"
+  )
     return;
 
   for(
@@ -2499,12 +2807,15 @@ function checkCoins(){
 
       c.collected=true;
 
-      collected.add(c.id);
+      collected.add(
+        c.id
+      );
 
       runCoins=
         collected.size;
 
       combo++;
+
       maxCombo=
         Math.max(
           maxCombo,
@@ -2544,9 +2855,14 @@ function showCombo(){
   );
 
   showCombo.timer=
-    setTimeout(()=>{
-      comboHud.style.opacity="0";
-    },800);
+    setTimeout(
+      function(){
+
+        comboHud.style.opacity="0";
+
+      },
+      800
+    );
 }
 
 /* =========================================================
@@ -2578,7 +2894,9 @@ function collisions(){
     const o of obstacles
   ){
 
-    if(o.type==="spike"){
+    if(
+      o.type==="spike"
+    ){
 
       if(
         gravityDirection===1&&
@@ -2603,7 +2921,9 @@ function collisions(){
       }
     }
 
-    if(o.type==="saw"){
+    if(
+      o.type==="saw"
+    ){
 
       const cx=o.x;
 
@@ -2615,20 +2935,30 @@ function collisions(){
       const nx=
         Math.max(
           left,
-          Math.min(cx,right)
+          Math.min(
+            cx,
+            right
+          )
         );
 
       const ny=
         Math.max(
           top,
-          Math.min(cy,bottom)
+          Math.min(
+            cy,
+            bottom
+          )
         );
 
-      const dx=cx-nx;
-      const dy=cy-ny;
+      const dx=
+        cx-nx;
+
+      const dy=
+        cy-ny;
 
       if(
-        dx*dx+dy*dy<
+        dx*dx+
+        dy*dy<
         (o.r-5)*
         (o.r-5)
       ){
@@ -2638,7 +2968,9 @@ function collisions(){
       }
     }
 
-    if(o.type==="gap"){
+    if(
+      o.type==="gap"
+    ){
 
       const center=
         world+
@@ -2669,14 +3001,15 @@ function die(){
     dying||
     finished||
     !running
-  ) return;
+  )
+    return;
 
   dying=true;
+  running=false;
+
   deaths++;
 
   combo=0;
-
-  running=false;
 
   shake=14;
   flash=1;
@@ -2699,47 +3032,64 @@ function die(){
     )
   );
 
-  setTimeout(()=>{
+  setTimeout(
+    function(){
 
-    if(!dying)
-      return;
+      if(!dying)
+        return;
 
-    dying=false;
+      dying=false;
 
-    if(practiceMode){
+      if(
+        practiceMode&&
+        checkpoint>0
+      ){
 
-      startLevel(
-        current,
-        false
-      );
+        /*
+          Practice:
+          wracamy do checkpointu.
+        */
 
-    }else{
+        startLevel(
+          current,
+          false
+        );
 
-      const savedCoins=
-        new Set(collected);
+      }else{
 
-      const savedDeaths=
-        deaths;
+        /*
+          Normalny tryb:
+          zachowujemy monety zdobyte
+          przed śmiercią.
+        */
 
-      startLevel(
-        current,
-        true
-      );
+        const savedCoins=
+          new Set(collected);
 
-      collected=
-        savedCoins;
+        const savedDeaths=
+          deaths;
 
-      runCoins=
-        collected.size;
+        startLevel(
+          current,
+          true
+        );
 
-      deaths=
-        savedDeaths;
+        collected=
+          savedCoins;
 
-      generateLevel();
-      resetPlayer();
-    }
+        deaths=
+          savedDeaths;
 
-  },650);
+        runCoins=
+          collected.size;
+
+        generateLevel();
+        resetPlayer();
+      }
+
+    },
+    650
+  );
 }
 
 /* =========================================================
@@ -2756,32 +3106,34 @@ function finishLevel(){
 
   stopMusic();
 
-  const time=elapsed;
+  elapsed=
+    performance.now()-
+    startTime;
 
-  const oldBest=
-    bestTime(current);
+  const oldTime=
+    num(
+      "nd_bestTime_"+current,
+      0
+    );
 
   if(
-    !oldBest||
-    time<oldBest
+    oldTime===0||
+    elapsed<oldTime
   ){
 
     set(
       "nd_bestTime_"+current,
-      Math.floor(time)
+      Math.floor(elapsed)
     );
   }
-
-  const oldCoins=
-    num(
-      "nd_bestCoins_"+current,
-      0
-    );
 
   set(
     "nd_bestCoins_"+current,
     Math.max(
-      oldCoins,
+      num(
+        "nd_bestCoins_"+current,
+        0
+      ),
       runCoins
     )
   );
@@ -2828,11 +3180,16 @@ function finishLevel(){
   )
     xpReward+=50;
 
+  /*
+    Daily reward.
+  */
+
   if(
     dailyMode
   ){
 
-    const d=dailyData();
+    const d=
+      dailyInfo();
 
     const success=
       d.type==="coins"?
@@ -2858,18 +3215,26 @@ function finishLevel(){
 
   }else{
 
-    addXP(xpReward);
-  }
-
-  if(runCoins===3){
-
-    set(
-      "nd_gems",
-      gems()+1
+    addXP(
+      xpReward
     );
   }
 
-  let streak=
+  /*
+    3 monety = kryształ.
+  */
+
+  if(
+    runCoins===3
+  ){
+
+    set(
+      "nd_gems",
+      num("nd_gems",0)+1
+    );
+  }
+
+  const streak=
     num("nd_streak",0)+1;
 
   set(
@@ -2883,9 +3248,12 @@ function finishLevel(){
 
   checkAchievements();
 
-  renderDaily();
   renderMenu();
+  renderAchievements();
   renderMissions();
+  renderDaily();
+  updateProfile();
+  updateStatsUI();
 
   document.getElementById(
     "finishTitle"
@@ -2899,7 +3267,7 @@ function finishLevel(){
   ).textContent=
     LEVELS[current][0]+
     " • ⏱ "+
-    formatTime(time);
+    formatTime(elapsed);
 
   document.getElementById(
     "finishCoins"
@@ -2919,11 +3287,14 @@ function finishLevel(){
   document.getElementById(
     "finishXP"
   ).textContent=
+    dailyMode?
+    "+50":
     "+"+xpReward;
 
   finish.style.display="flex";
 
   particlesWin();
+
   victoryAnimation();
 }
 
@@ -2958,10 +3329,11 @@ function loop(time){
     dt=0;
   }
 
-  dt=Math.min(
-    dt,
-    .05
-  );
+  dt=
+    Math.min(
+      dt,
+      .05
+    );
 
   last=time;
 
@@ -2984,8 +3356,12 @@ function checkWin(){
     11500+
     current*600;
 
-  if(world>=length)
+  if(
+    world>=length
+  ){
+
     finishLevel();
+  }
 }
 
 /* =========================================================
@@ -2994,7 +3370,13 @@ function checkWin(){
 
 function draw(){
 
-  const l=
+  if(
+    current<0||
+    current>=LEVELS.length
+  )
+    return;
+
+  const level=
     LEVELS[current];
 
   ctx.clearRect(
@@ -3014,25 +3396,32 @@ function draw(){
     );
   }
 
-  const gr=
+  const gradient=
     ctx.createLinearGradient(
-      0,0,0,H
+      0,
+      0,
+      0,
+      H
     );
 
-  gr.addColorStop(
+  gradient.addColorStop(
     0,
     "#080b20"
   );
 
-  gr.addColorStop(
+  gradient.addColorStop(
     1,
     "#020207"
   );
 
-  ctx.fillStyle=gr;
+  ctx.fillStyle=
+    gradient;
 
   ctx.fillRect(
-    0,0,W,H
+    0,
+    0,
+    W,
+    H
   );
 
   drawStars();
@@ -3048,9 +3437,14 @@ function draw(){
     H-ground
   );
 
-  ctx.strokeStyle=l[3];
+  ctx.strokeStyle=
+    level[3];
+
   ctx.lineWidth=3;
-  ctx.shadowColor=l[3];
+
+  ctx.shadowColor=
+    level[3];
+
   ctx.shadowBlur=12;
 
   ctx.beginPath();
@@ -3082,13 +3476,22 @@ function draw(){
     )
       continue;
 
-    if(o.type==="spike")
+    if(
+      o.type==="spike"
+    )
       drawSpike(x);
 
-    if(o.type==="saw")
-      drawSaw(x,o.r);
+    if(
+      o.type==="saw"
+    )
+      drawSaw(
+        x,
+        o.r
+      );
 
-    if(o.type==="gap"){
+    if(
+      o.type==="gap"
+    ){
 
       ctx.fillStyle="#020207";
 
@@ -3101,7 +3504,9 @@ function draw(){
     }
   }
 
-  for(const p of pads){
+  for(
+    const p of pads
+  ){
 
     const x=
       p.x-world;
@@ -3113,7 +3518,9 @@ function draw(){
       drawPad(x);
   }
 
-  for(const p of portals){
+  for(
+    const p of portals
+  ){
 
     const x=
       p.x-world;
@@ -3123,7 +3530,9 @@ function draw(){
       x<W+100
     ){
 
-      if(p.type==="speed")
+      if(
+        p.type==="speed"
+      )
         drawSpeedPortal(x);
       else
         drawGravityPortal(x);
@@ -3137,6 +3546,11 @@ function draw(){
     if(c.collected)
       continue;
 
+    if(
+      challengeType==="NO COINS"
+    )
+      continue;
+
     const x=
       c.x-world;
 
@@ -3145,17 +3559,12 @@ function draw(){
       x<W+50
     ){
 
-      if(
-        challengeType!=="NO COINS"
-      ){
-
-        drawCoin(
-          x,
-          gravityDirection===1?
-          ground-125:
-          125
-        );
-      }
+      drawCoin(
+        x,
+        gravityDirection===1?
+        ground-125:
+        125
+      );
     }
   }
 
@@ -3164,8 +3573,10 @@ function draw(){
   if(
     !dying&&
     !finished
-  )
+  ){
+
     drawPlayer();
+  }
 
   drawParticles();
 
@@ -3180,7 +3591,10 @@ function draw(){
       ")";
 
     ctx.fillRect(
-      0,0,W,H
+      0,
+      0,
+      W,
+      H
     );
   }
 
@@ -3190,47 +3604,56 @@ function draw(){
     11500+
     current*600;
 
-  const p=Math.min(
-    100,
-    Math.floor(
-      world/length*100
-    )
-  );
+  const progress=
+    Math.min(
+      100,
+      Math.floor(
+        world/
+        length*
+        100
+      )
+    );
 
   document.getElementById(
     "percent"
   ).textContent=
-    p+"%";
+    progress+"%";
 
   document.getElementById(
     "gameBar"
   ).style.width=
-    p+"%";
+    progress+"%";
 }
 
 /* =========================================================
    PLAYER
 ========================================================= */
 
-function currentSkinColor(){
+function skinColor(){
 
   const id=
-    get("nd_skin","cyan");
-
-  const skin=
-    SKINS.find(
-      s=>s[0]===id
+    get(
+      "nd_skin",
+      "cyan"
     );
 
-  return skin?
-    skin[2]:
-    LEVELS[current][3];
+  for(
+    const s of SKINS
+  ){
+
+    if(
+      s[0]===id
+    )
+      return s[2];
+  }
+
+  return LEVELS[current][3];
 }
 
 function drawPlayer(){
 
   const color=
-    currentSkinColor();
+    skinColor();
 
   ctx.save();
 
@@ -3243,10 +3666,10 @@ function drawPlayer(){
     player.rot
   );
 
+  ctx.fillStyle=color;
+
   ctx.shadowColor=color;
   ctx.shadowBlur=20;
-
-  ctx.fillStyle=color;
 
   ctx.fillRect(
     -17,
@@ -3271,18 +3694,18 @@ function drawPlayer(){
 }
 
 /* =========================================================
-   OBSTACLES
+   OBSTACLES DRAW
 ========================================================= */
 
 function drawSpike(x){
 
-  const c=
+  const color=
     LEVELS[current][3];
 
   ctx.save();
 
-  ctx.fillStyle=c;
-  ctx.shadowColor=c;
+  ctx.fillStyle=color;
+  ctx.shadowColor=color;
   ctx.shadowBlur=16;
 
   ctx.beginPath();
@@ -3337,10 +3760,10 @@ function drawSpike(x){
 
 function drawSaw(x,r){
 
-  const c=
+  const color=
     LEVELS[current][3];
 
-  const cy=
+  const y=
     gravityDirection===1?
     ground-r:
     r;
@@ -3349,15 +3772,16 @@ function drawSaw(x,r){
 
   ctx.translate(
     x,
-    cy
+    y
   );
 
   ctx.rotate(
     performance.now()/280
   );
 
-  ctx.fillStyle=c;
-  ctx.shadowColor=c;
+  ctx.fillStyle=color;
+
+  ctx.shadowColor=color;
   ctx.shadowBlur=17;
 
   const teeth=14;
@@ -3370,24 +3794,24 @@ function drawSaw(x,r){
     i++
   ){
 
-    const a=
+    const angle=
       i*Math.PI/teeth;
 
-    const rr=
+    const radius=
       i%2===0?
       r:
       r*.7;
 
-    const xx=
-      Math.cos(a)*rr;
+    const px=
+      Math.cos(angle)*radius;
 
-    const yy=
-      Math.sin(a)*rr;
+    const py=
+      Math.sin(angle)*radius;
 
     if(i===0)
-      ctx.moveTo(xx,yy);
+      ctx.moveTo(px,py);
     else
-      ctx.lineTo(xx,yy);
+      ctx.lineTo(px,py);
   }
 
   ctx.closePath();
@@ -3414,7 +3838,7 @@ function drawSaw(x,r){
 
 function drawCoin(x,y){
 
-  const s=
+  const scale=
     1+
     Math.sin(
       performance.now()/130
@@ -3428,8 +3852,8 @@ function drawCoin(x,y){
   );
 
   ctx.scale(
-    s,
-    s
+    scale,
+    scale
   );
 
   ctx.shadowColor="#ffd43b";
@@ -3453,13 +3877,14 @@ function drawCoin(x,y){
 
   ctx.strokeStyle="white";
   ctx.lineWidth=2;
+
   ctx.stroke();
 
   ctx.restore();
 }
 
 /* =========================================================
-   PADS / PORTALS
+   PADY I PORTALE
 ========================================================= */
 
 function drawPad(x){
@@ -3467,6 +3892,7 @@ function drawPad(x){
   ctx.save();
 
   ctx.fillStyle="#49ff9a";
+
   ctx.shadowColor="#49ff9a";
   ctx.shadowBlur=18;
 
@@ -3500,8 +3926,10 @@ function drawSpeedPortal(x){
   );
 
   ctx.strokeStyle="#ffe14a";
+
   ctx.shadowColor="#ffe14a";
   ctx.shadowBlur=20;
+
   ctx.lineWidth=5;
 
   ctx.beginPath();
@@ -3544,8 +3972,10 @@ function drawGravityPortal(x){
   );
 
   ctx.strokeStyle="#ff4be8";
+
   ctx.shadowColor="#ff4be8";
   ctx.shadowBlur=22;
+
   ctx.lineWidth=5;
 
   ctx.beginPath();
@@ -3593,14 +4023,21 @@ function createStars(){
   ){
 
     stars.push({
-      x:Math.random()*W,
-      y:Math.random()*
+      x:
+        Math.random()*W,
+
+      y:
+        Math.random()*
         Math.max(
           100,
           ground*.9
         ),
-      r:Math.random()*2+.5,
-      v:Math.random()*.8+.2
+
+      r:
+        Math.random()*2+.5,
+
+      v:
+        Math.random()*.8+.2
     });
   }
 }
@@ -3610,23 +4047,26 @@ function drawStars(){
   ctx.fillStyle="white";
 
   for(
-    const s of stars
+    const star of stars
   ){
 
-    s.x-=s.v;
+    star.x-=star.v;
 
-    if(s.x<0)
-      s.x=W;
+    if(
+      star.x<0
+    )
+      star.x=W;
 
     ctx.globalAlpha=
-      .3+s.r*.2;
+      .3+
+      star.r*.2;
 
     ctx.beginPath();
 
     ctx.arc(
-      s.x,
-      s.y,
-      s.r,
+      star.x,
+      star.y,
+      star.r,
       0,
       Math.PI*2
     );
@@ -3639,19 +4079,19 @@ function drawStars(){
 
 function drawGrid(){
 
-  const c=
+  const color=
     LEVELS[current][3];
 
-  ctx.strokeStyle=c;
+  ctx.strokeStyle=color;
   ctx.globalAlpha=.08;
 
   const size=70;
 
-  const off=
+  const offset=
     -(world*.25)%size;
 
   for(
-    let x=off;
+    let x=offset;
     x<W;
     x+=size
   ){
@@ -3697,18 +4137,18 @@ function drawGrid(){
 
 function drawSpeedLines(){
 
-  const c=
+  const color=
     LEVELS[current][3];
 
-  ctx.strokeStyle=c;
+  ctx.strokeStyle=color;
   ctx.globalAlpha=.12;
   ctx.lineWidth=2;
 
-  const off=
+  const offset=
     -(world*.8)%190;
 
   for(
-    let x=off-190;
+    let x=offset-190;
     x<W+190;
     x+=190
   ){
@@ -3756,11 +4196,17 @@ function updateTrail(dt){
     if(
       trail[i].life<=0
     ){
-      trail.splice(i,1);
+
+      trail.splice(
+        i,
+        1
+      );
     }
   }
 
-  if(trail.length>40){
+  if(
+    trail.length>40
+  ){
 
     trail.splice(
       0,
@@ -3769,18 +4215,35 @@ function updateTrail(dt){
   }
 }
 
-function trailColor(i){
+function getTrailColor(index){
 
   const type=
-    get("nd_trail","classic");
+    get(
+      "nd_trail",
+      "classic"
+    );
 
-  if(type==="trail_fire")
-    return i%2?"#ff7338":"#ffd43b";
+  if(
+    type==="trail_fire"
+  ){
 
-  if(type==="trail_electric")
-    return i%2?"#00eaff":"#ffffff";
+    return index%2?
+      "#ff7338":
+      "#ffd43b";
+  }
 
-  if(type==="trail_rainbow"){
+  if(
+    type==="trail_electric"
+  ){
+
+    return index%2?
+      "#00eaff":
+      "#ffffff";
+  }
+
+  if(
+    type==="trail_rainbow"
+  ){
 
     const colors=[
       "#ff3b3b",
@@ -3792,14 +4255,16 @@ function trailColor(i){
     ];
 
     return colors[
-      i%colors.length
+      index%colors.length
     ];
   }
 
-  if(type==="trail_ghost")
+  if(
+    type==="trail_ghost"
+  )
     return "#aab7ff";
 
-  return currentSkinColor();
+  return skinColor();
 }
 
 function drawTrail(){
@@ -3816,11 +4281,12 @@ function drawTrail(){
         t.life/.35
       )*.35;
 
-    const c=
-      trailColor(i++);
+    const color=
+      getTrailColor(i++);
 
-    ctx.fillStyle=c;
-    ctx.shadowColor=c;
+    ctx.fillStyle=color;
+
+    ctx.shadowColor=color;
     ctx.shadowBlur=15;
 
     ctx.fillRect(
@@ -3840,12 +4306,19 @@ function drawTrail(){
 ========================================================= */
 
 function particle(
-  x,y,vx,vy,life,size,type
+  x,
+  y,
+  vx,
+  vy,
+  life,
+  size,
+  type
 ){
 
   if(
     particles.length>300
-  ) return;
+  )
+    return;
 
   particles.push({
     x:x,
@@ -3883,15 +4356,12 @@ function particlesJump(){
 
 function particlesDeath(){
 
-  const mega=
+  const count=
     get(
       "nd_effect",
       ""
-    )==="effect_burst";
-
-  const count=
-    mega?
-    85:
+    )==="effect_burst"?
+    80:
     45;
 
   for(
@@ -4005,21 +4475,33 @@ function updateParticles(dt){
 
     p.life-=dt;
 
-    p.x+=p.vx*dt;
-    p.y+=p.vy*dt;
+    p.x+=
+      p.vx*dt;
 
-    p.vy+=500*dt;
-    p.rot+=p.spin*dt;
+    p.y+=
+      p.vy*dt;
 
-    if(p.life<=0){
-      particles.splice(i,1);
+    p.vy+=
+      500*dt;
+
+    p.rot+=
+      p.spin*dt;
+
+    if(
+      p.life<=0
+    ){
+
+      particles.splice(
+        i,
+        1
+      );
     }
   }
 }
 
 function drawParticles(){
 
-  let i=0;
+  let colorIndex=0;
 
   for(
     const p of particles
@@ -4031,19 +4513,27 @@ function drawParticles(){
         p.life/p.max
       );
 
-    let c=
+    let color=
       LEVELS[current][3];
 
-    if(p.type==="coin")
-      c="#ffd43b";
+    if(
+      p.type==="coin"
+    )
+      color="#ffd43b";
 
-    if(p.type==="pad")
-      c="#49ff9a";
+    if(
+      p.type==="pad"
+    )
+      color="#49ff9a";
 
-    if(p.type==="portal")
-      c="#ff4be8";
+    if(
+      p.type==="portal"
+    )
+      color="#ff4be8";
 
-    if(p.type==="win"){
+    if(
+      p.type==="win"
+    ){
 
       const colors=[
         "#00eaff",
@@ -4053,13 +4543,16 @@ function drawParticles(){
         "#9c7bff"
       ];
 
-      c=
+      color=
         colors[
-          i++%colors.length
+          colorIndex%
+          colors.length
         ];
+
+      colorIndex++;
     }
 
-    ctx.fillStyle=c;
+    ctx.fillStyle=color;
 
     ctx.save();
 
@@ -4072,7 +4565,7 @@ function drawParticles(){
       p.rot
     );
 
-    ctx.shadowColor=c;
+    ctx.shadowColor=color;
     ctx.shadowBlur=10;
 
     ctx.fillRect(
@@ -4101,32 +4594,35 @@ function startMusic(){
 
     if(!audio){
 
-      audio=new(
-        window.AudioContext||
-        window.webkitAudioContext
-      )();
+      audio=
+        new(
+          window.AudioContext||
+          window.webkitAudioContext
+        )();
     }
 
     if(
       audio.state==="suspended"
-    )
-      audio.resume();
+    ){
 
-    const setIndex=
+      audio.resume();
+    }
+
+    const index=
       Math.min(
         current,
         NOTE_SETS.length-1
       );
 
     const notes=
-      NOTE_SETS[setIndex];
+      NOTE_SETS[index];
 
     const wave=
-      WAVE[setIndex];
+      WAVE[index];
 
     musicIndex=0;
 
-    function note(){
+    function playNote(){
 
       if(
         !sound||
@@ -4135,15 +4631,15 @@ function startMusic(){
       )
         return;
 
-      const osc=
+      const oscillator=
         audio.createOscillator();
 
       const gain=
         audio.createGain();
 
-      osc.type=wave;
+      oscillator.type=wave;
 
-      osc.frequency.value=
+      oscillator.frequency.value=
         notes[
           musicIndex%
           notes.length
@@ -4159,35 +4655,42 @@ function startMusic(){
         audio.currentTime+.16
       );
 
-      osc.connect(gain);
+      oscillator.connect(gain);
       gain.connect(
         audio.destination
       );
 
-      osc.start();
+      oscillator.start();
 
-      osc.stop(
+      oscillator.stop(
         audio.currentTime+.17
       );
 
       musicIndex++;
     }
 
-    note();
+    playNote();
 
     musicTimer=
       setInterval(
-        note,
+        playNote,
         60000/
         LEVELS[current][4]
       );
 
-  }catch(e){}
+  }catch(e){
+
+    console.warn(
+      "Audio niedostępne."
+    );
+  }
 }
 
 function stopMusic(){
 
-  if(musicTimer){
+  if(
+    musicTimer
+  ){
 
     clearInterval(
       musicTimer
@@ -4231,8 +4734,10 @@ document.getElementById(
   "pauseBtn"
 ).addEventListener(
   "click",
-  e=>{
+  function(e){
+
     e.stopPropagation();
+
     togglePause();
   }
 );
@@ -4241,10 +4746,12 @@ document.getElementById(
   "resume"
 ).addEventListener(
   "click",
-  ()=>{
+  function(){
+
     paused=false;
 
-    pause.style.display="none";
+    pause.style.display=
+      "none";
 
     last=
       performance.now();
@@ -4255,7 +4762,7 @@ document.getElementById(
 );
 
 /* =========================================================
-   MENU
+   GAME MENU
 ========================================================= */
 
 function goMenu(){
@@ -4289,15 +4796,17 @@ function goMenu(){
   renderAchievements();
   renderMissions();
   renderDaily();
-  updateStatsUI();
+  updateStats();
 }
 
 document.getElementById(
   "gameMenuBtn"
 ).addEventListener(
   "click",
-  e=>{
+  function(e){
+
     e.stopPropagation();
+
     goMenu();
   }
 );
@@ -4320,7 +4829,10 @@ document.getElementById(
   "again"
 ).addEventListener(
   "click",
-  ()=>{
+  function(){
+
+    finish.style.display="none";
+
     startLevel(
       current,
       true
@@ -4332,11 +4844,14 @@ document.getElementById(
   "nextLevel"
 ).addEventListener(
   "click",
-  ()=>{
+  function(){
 
     finish.style.display="none";
 
-    if(current<LEVELS.length-1){
+    if(
+      current<
+      LEVELS.length-1
+    ){
 
       startLevel(
         current+1,
@@ -4351,7 +4866,7 @@ document.getElementById(
 );
 
 /* =========================================================
-   SOUND
+   SOUND BUTTON
 ========================================================= */
 
 function updateSound(){
@@ -4368,7 +4883,7 @@ document.getElementById(
   "soundBtn"
 ).addEventListener(
   "click",
-  e=>{
+  function(e){
 
     e.stopPropagation();
 
@@ -4376,7 +4891,9 @@ document.getElementById(
 
     set(
       "nd_sound",
-      sound?"1":"0"
+      sound?
+      "1":
+      "0"
     );
 
     updateSound();
@@ -4397,12 +4914,48 @@ document.getElementById(
 );
 
 /* =========================================================
-   SETTINGS / BUTTONS
+   RANDOM CHALLENGE
+========================================================= */
+
+function randomChallenge(){
+
+  const types=[
+    "DOUBLE SPEED",
+    "LOW GRAVITY",
+    "NO COINS",
+    "PERFECT RUN"
+  ];
+
+  challengeType=
+    types[
+      Math.floor(
+        Math.random()*
+        types.length
+      )
+    ];
+
+  challengeMode=true;
+  dailyMode=false;
+
+  const level=
+    Math.floor(
+      Math.random()*
+      LEVELS.length
+    );
+
+  startLevel(
+    level,
+    true
+  );
+}
+
+/* =========================================================
+   BUTTONS
 ========================================================= */
 
 document.getElementById(
   "shopBtn"
-).onclick=()=>{
+).onclick=function(){
 
   renderShop();
 
@@ -4413,7 +4966,7 @@ document.getElementById(
 
 document.getElementById(
   "dailyBtn"
-).onclick=()=>{
+).onclick=function(){
 
   renderDaily();
 
@@ -4424,7 +4977,7 @@ document.getElementById(
 
 document.getElementById(
   "missionsBtn"
-).onclick=()=>{
+).onclick=function(){
 
   renderMissions();
 
@@ -4435,9 +4988,9 @@ document.getElementById(
 
 document.getElementById(
   "statsBtn"
-).onclick=()=>{
+).onclick=function(){
 
-  updateStatsUI();
+  updateStats();
 
   document.getElementById(
     "statsOverlay"
@@ -4446,7 +4999,7 @@ document.getElementById(
 
 document.getElementById(
   "skinBtn"
-).onclick=()=>{
+).onclick=function(){
 
   renderSkins();
 
@@ -4457,31 +5010,36 @@ document.getElementById(
 
 document.getElementById(
   "randomBtn"
-).onclick=()=>{
-  startRandomChallenge();
+).onclick=function(){
+
+  randomChallenge();
 };
 
 document.getElementById(
   "practiceBtn"
-).onclick=()=>{
+).onclick=function(){
 
-  practiceMode=!practiceMode;
+  practiceMode=
+    !practiceMode;
 
   set(
     "nd_practice",
-    practiceMode?"1":"0"
+    practiceMode?
+    "1":
+    "0"
   );
 
   alert(
     practiceMode?
-    "🧪 Practice Mode: WŁĄCZONY":
-    "🧪 Practice Mode: WYŁĄCZONY"
+    "🧪 Practice Mode WŁĄCZONY":
+    "🧪 Practice Mode WYŁĄCZONY"
   );
 };
 
 document.getElementById(
   "infoBtn"
-).onclick=()=>{
+).onclick=function(){
+
   document.getElementById(
     "infoOverlay"
   ).style.display="flex";
@@ -4489,7 +5047,8 @@ document.getElementById(
 
 document.getElementById(
   "dailyStart"
-).onclick=()=>{
+).onclick=function(){
+
   document.getElementById(
     "dailyOverlay"
   ).style.display="none";
@@ -4499,7 +5058,8 @@ document.getElementById(
 
 document.getElementById(
   "achBtn"
-).onclick=()=>{
+).onclick=function(){
+
   renderAchievements();
 
   document.getElementById(
@@ -4507,17 +5067,26 @@ document.getElementById(
   ).style.display="flex";
 };
 
+/* =========================================================
+   CLOSE BUTTONS
+========================================================= */
+
 document.querySelectorAll(
   "[data-close]"
 ).forEach(
-  b=>{
+  function(button){
 
-    b.addEventListener(
+    button.addEventListener(
       "click",
-      ()=>{
-        document.getElementById(
-          b.dataset.close
-        ).style.display="none";
+      function(){
+
+        const target=
+          document.getElementById(
+            button.dataset.close
+          );
+
+        if(target)
+          target.style.display="none";
       }
     );
   }
@@ -4527,29 +5096,32 @@ document.querySelectorAll(
    STATS
 ========================================================= */
 
-function updateStatsUI(){
+function updateStats(){
 
-  let achCount=0;
+  let achievements=0;
 
-  ACH.forEach(
-    a=>{
-      if(achUnlocked(a[0]))
-        achCount++;
-    }
-  );
+  for(
+    const a of ACH
+  ){
 
-  let maxC=
-    num("nd_maxCombo",0);
+    if(
+      achUnlocked(a[0])
+    )
+      achievements++;
+  }
 
-  maxC=
+  const currentMax=
     Math.max(
-      maxC,
+      num(
+        "nd_maxCombo",
+        0
+      ),
       maxCombo
     );
 
   set(
     "nd_maxCombo",
-    maxC
+    currentMax
   );
 
   document.getElementById(
@@ -4570,7 +5142,7 @@ function updateStatsUI(){
   document.getElementById(
     "statCombo"
   ).textContent=
-    maxC;
+    currentMax;
 
   document.getElementById(
     "statXP"
@@ -4580,23 +5152,21 @@ function updateStatsUI(){
   document.getElementById(
     "statAch"
   ).textContent=
-    achCount+"/"+ACH.length;
+    achievements+
+    "/"+
+    ACH.length;
 }
-
-/* =========================================================
-   RESET
-========================================================= */
 
 document.getElementById(
   "resetBtn"
-).onclick=()=>{
+).onclick=function(){
 
-  const ok=
+  const yes=
     confirm(
-      "Na pewno usunąć cały progres Neon Dash?"
+      "Na pewno usunąć cały progres?"
     );
 
-  if(!ok)
+  if(!yes)
     return;
 
   try{
@@ -4612,7 +5182,7 @@ document.getElementById(
 
 document.addEventListener(
   "visibilitychange",
-  ()=>{
+  function(){
 
     if(
       document.hidden&&
@@ -4622,7 +5192,8 @@ document.addEventListener(
 
       paused=true;
 
-      pause.style.display="flex";
+      pause.style.display=
+        "flex";
 
       stopMusic();
     }
@@ -4631,7 +5202,7 @@ document.addEventListener(
 
 window.addEventListener(
   "blur",
-  ()=>{
+  function(){
 
     if(
       running&&
@@ -4640,7 +5211,8 @@ window.addEventListener(
 
       paused=true;
 
-      pause.style.display="flex";
+      pause.style.display=
+        "flex";
 
       stopMusic();
     }
@@ -4655,26 +5227,31 @@ function victoryAnimation(){
 
   let frames=0;
 
-  function anim(){
+  function animate(){
 
     if(!finished)
       return;
 
-    updateParticles(.016);
+    updateParticles(
+      .016
+    );
+
     draw();
 
     frames++;
 
-    if(frames<100){
+    if(
+      frames<100
+    ){
 
       requestAnimationFrame(
-        anim
+        animate
       );
     }
   }
 
   requestAnimationFrame(
-    anim
+    animate
   );
 }
 
@@ -4682,8 +5259,16 @@ function victoryAnimation(){
    INIT
 ========================================================= */
 
+/*
+  Jeżeli stary zapis nie ma banku monet,
+  kopiujemy monety z poprzedniej wersji.
+*/
+
 if(
-  get("nd_bankCoins",null)===null
+  get(
+    "nd_bankCoins",
+    null
+  )===null
 ){
 
   set(
@@ -4693,15 +5278,24 @@ if(
 }
 
 resize();
+
 renderMenu();
 renderAchievements();
 renderMissions();
 renderShop();
 renderSkins();
 renderDaily();
-updateStatsUI();
+updateStats();
 updateProfile();
 updateSound();
+
+/*
+  Gra zaczyna się dopiero po kliknięciu
+  poziomu — menu jest domyślnie widoczne.
+*/
+
+menu.style.display="flex";
+game.style.display="none";
 
 </script>
 
