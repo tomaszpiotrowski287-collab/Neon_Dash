@@ -3,7 +3,7 @@
 <html lang="pl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>NEON DASH</title>
 
 <style>
@@ -17,7 +17,7 @@ html,body{
   width:100%;
   height:100%;
   overflow:hidden;
-  background:#03030a;
+  background:#02030a;
   color:#fff;
   font-family:Arial,sans-serif;
 }
@@ -29,75 +29,118 @@ button{
   cursor:pointer;
   touch-action:manipulation;
   user-select:none;
-  -webkit-user-select:none;
 }
+
+/* =========================
+   MENU
+========================= */
 
 #menu{
   position:fixed;
   inset:0;
   overflow:auto;
   text-align:center;
-  padding:25px 15px 40px;
+  padding:24px 14px 40px;
   background:
-    radial-gradient(circle at 50% 0,#252b78,#090a20 45%,#020207);
+    radial-gradient(circle at 50% -10%,#3440a0 0,#11163d 30%,#050713 65%,#020207 100%);
+}
+
+#menu:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:.16;
+  background:
+    linear-gradient(transparent 95%,#00eaff 96%),
+    linear-gradient(90deg,transparent 95%,#00eaff 96%);
+  background-size:55px 55px;
+  mask-image:linear-gradient(to bottom,black,transparent);
 }
 
 .logo{
-  font-size:clamp(38px,9vw,70px);
+  position:relative;
+  font-size:clamp(40px,9vw,74px);
   font-weight:900;
   letter-spacing:5px;
-  margin:8px 0;
+  margin:8px 0 3px;
+  color:#fff;
   text-shadow:
-    0 0 12px #00eaff,
-    0 0 30px #00eaff,
-    0 0 60px #a855ff;
-  animation:pulse 1.5s infinite alternate;
+    0 0 10px #00eaff,
+    0 0 25px #00eaff,
+    0 0 55px #9b5cff;
+  animation:logoPulse 1.8s infinite alternate;
 }
 
-@keyframes pulse{
-  to{transform:scale(1.03)}
+@keyframes logoPulse{
+  from{transform:scale(1)}
+  to{transform:scale(1.035)}
 }
 
 .sub{
+  position:relative;
   opacity:.7;
   margin-bottom:18px;
+  font-size:14px;
 }
 
 .stats{
-  width:min(760px,100%);
+  position:relative;
+  width:min(820px,100%);
   margin:auto;
-  background:#11152d;
-  border:2px solid #303963;
-  border-radius:18px;
-  padding:15px;
+  padding:17px;
+  border:1px solid #46548d;
+  border-radius:20px;
+  background:linear-gradient(135deg,#121833dd,#090d20dd);
+  box-shadow:
+    0 0 30px #00eaff12,
+    inset 0 0 30px #536cff08;
+  backdrop-filter:blur(8px);
 }
 
 .statsTop{
-  display:flex;
-  justify-content:space-around;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
   gap:8px;
-  flex-wrap:wrap;
-  font-weight:bold;
+}
+
+.stat{
+  padding:10px 6px;
+  border-radius:12px;
+  background:#080c1b;
+  border:1px solid #28365f;
+}
+
+.stat b{
+  font-size:18px;
+}
+
+.stat small{
+  display:block;
+  opacity:.55;
+  margin-top:3px;
 }
 
 .progress{
   height:12px;
-  background:#050712;
+  background:#03050d;
   border-radius:20px;
-  margin-top:12px;
+  margin-top:13px;
   overflow:hidden;
+  border:1px solid #26345d;
 }
 
 #progressBar{
   height:100%;
   width:0;
   background:linear-gradient(90deg,#00eaff,#7b5cff,#ff27d7);
-  box-shadow:0 0 15px #00eaff;
-  transition:width .3s;
+  box-shadow:0 0 18px #00eaff;
+  transition:width .4s;
 }
 
 .menuButtons{
-  width:min(760px,100%);
+  position:relative;
+  width:min(820px,100%);
   margin:15px auto;
   display:grid;
   grid-template-columns:repeat(3,1fr);
@@ -106,47 +149,75 @@ button{
 
 .menuButtons button,
 .smallBtn{
-  min-height:48px;
+  min-height:52px;
   padding:10px;
-  border-radius:12px;
-  background:#242b55;
-  border:1px solid #52608e;
+  border-radius:14px;
+  background:linear-gradient(135deg,#202957,#141a39);
+  border:1px solid #4d5d91;
   font-weight:bold;
+  transition:.15s;
+  box-shadow:0 5px 15px #0005;
 }
 
-.menuButtons button:active,
-.panel button:active,
-.gameBtns button:active{
-  transform:scale(.96);
+.menuButtons button:hover,
+.smallBtn:hover{
+  transform:translateY(-2px);
+  border-color:#00eaff;
+  box-shadow:0 0 18px #00eaff22;
+}
+
+.menuButtons button:active{
+  transform:scale(.97);
 }
 
 #levels{
-  width:min(760px,100%);
+  position:relative;
+  width:min(820px,100%);
   margin:auto;
   display:grid;
   grid-template-columns:repeat(2,1fr);
-  gap:9px;
+  gap:10px;
 }
 
 .level{
-  min-height:78px;
+  min-height:82px;
   text-align:left;
-  padding:12px;
-  border-radius:15px;
-  background:linear-gradient(135deg,#171c3b,#0c1024);
-  border:2px solid #303861;
+  padding:13px;
+  border-radius:16px;
+  background:
+    linear-gradient(135deg,#171e42,#0b1026);
+  border:1px solid #35436f;
+  position:relative;
+  overflow:hidden;
+  transition:.15s;
+}
+
+.level:before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(120deg,transparent,#00eaff10,transparent);
+  transform:translateX(-100%);
+  transition:.4s;
+}
+
+.level:hover:before{
+  transform:translateX(100%);
 }
 
 .level:hover{
+  transform:translateY(-2px);
   border-color:#00eaff;
+  box-shadow:0 0 20px #00eaff18;
 }
 
 .level:active{
-  transform:scale(.96);
+  transform:scale(.97);
 }
 
 .level.locked{
-  opacity:.4;
+  opacity:.35;
+  filter:grayscale(.4);
 }
 
 .level b{
@@ -154,13 +225,17 @@ button{
 }
 
 .level small{
-  opacity:.65;
+  opacity:.6;
 }
 
 .status{
   float:right;
-  font-size:20px;
+  font-size:21px;
 }
+
+/* =========================
+   PANELE
+========================= */
 
 .panelBg{
   position:fixed;
@@ -169,61 +244,77 @@ button{
   display:none;
   align-items:center;
   justify-content:center;
-  padding:15px;
-  background:#000b;
+  padding:14px;
+  background:#000c;
+  backdrop-filter:blur(7px);
 }
 
 .panel{
-  width:min(600px,100%);
+  width:min(620px,100%);
   max-height:90vh;
   overflow:auto;
-  background:#10142c;
-  border:2px solid #46558b;
-  border-radius:20px;
-  padding:20px;
+  padding:22px;
+  border-radius:22px;
   text-align:center;
+  background:
+    linear-gradient(145deg,#151b3c,#080c1e);
+  border:1px solid #526298;
+  box-shadow:
+    0 0 50px #00eaff18,
+    inset 0 0 30px #ffffff05;
 }
 
 .panel h2{
   margin-top:0;
+  text-shadow:0 0 12px #00eaff;
 }
 
 .panel button{
   width:100%;
-  min-height:45px;
+  min-height:46px;
   margin-top:9px;
-  border-radius:12px;
-  background:#29335e;
   padding:10px;
+  border-radius:13px;
+  background:#242d58;
+  border:1px solid #46588f;
   font-weight:bold;
 }
 
+.panel button:hover{
+  border-color:#00eaff;
+}
+
 .item{
-  padding:12px;
+  padding:13px;
   margin:8px 0;
-  background:#191e3b;
-  border-radius:12px;
+  border-radius:13px;
+  background:#111735;
+  border:1px solid #28365f;
   text-align:left;
-  overflow:hidden;
 }
 
 .item.unlocked{
-  border:1px solid #00eaff;
+  border-color:#00eaff;
+  box-shadow:0 0 12px #00eaff12;
 }
 
 .item button{
   width:auto;
-  padding:7px 12px;
   float:right;
   margin:0;
+  padding:7px 12px;
 }
+
+/* =========================
+   GRA
+========================= */
 
 #game{
   position:fixed;
   inset:0;
   display:none;
   touch-action:none;
-  overscroll-behavior:none;
+  background:#020207;
 }
 
 canvas{
@@ -242,7 +333,7 @@ canvas{
   right:10px;
   top:10px;
   pointer-events:none;
-  text-shadow:0 2px 5px #000;
+  text-shadow:0 2px 6px #000;
 }
 
 .hudline{
@@ -255,23 +346,18 @@ canvas{
 
 .hudbar{
   height:9px;
-  background:#0009;
+  background:#000b;
   border-radius:20px;
   margin-top:7px;
   overflow:hidden;
+  border:1px solid #26345d;
 }
 
 #gameBar{
   height:100%;
   width:0;
-  background:#00eaff;
+  background:linear-gradient(90deg,#00eaff,#9b5cff,#ff27d7);
   box-shadow:0 0 14px #00eaff;
-}
-
-#fpsCounter{
-  margin-top:3px;
-  font-size:11px;
-  opacity:.65;
 }
 
 .gameBtns{
@@ -286,9 +372,22 @@ canvas{
 .gameBtns button{
   min-width:44px;
   min-height:44px;
-  border-radius:10px;
-  background:#10162ddd;
+  border-radius:11px;
+  background:#0c1225dd;
   border:1px solid #53618e;
+}
+
+#fpsCounter{
+  position:absolute;
+  z-index:7;
+  right:10px;
+  top:62px;
+  padding:5px 8px;
+  border-radius:7px;
+  background:#050814aa;
+  color:#8df6ff;
+  font:11px monospace;
+  pointer-events:none;
 }
 
 #combo{
@@ -300,7 +399,8 @@ canvas{
   font-size:30px;
   font-weight:900;
   opacity:0;
-  text-shadow:0 0 15px #00eaff;
+  color:#fff;
+  text-shadow:0 0 12px #00eaff,0 0 30px #00eaff;
   pointer-events:none;
 }
 
@@ -312,7 +412,6 @@ canvas{
   opacity:.65;
   font-size:12px;
   pointer-events:none;
-  white-space:nowrap;
 }
 
 #touchControls{
@@ -332,16 +431,24 @@ canvas{
 }
 
 .touchBtn{
-  width:70px;
+  width:68px;
   height:60px;
   border-radius:15px;
-  background:#111a3dcc;
+  background:#101a35cc;
   border:2px solid #53618e;
-  font-size:25px;
+  font-size:24px;
   pointer-events:auto;
 }
 
+/* =========================
+   RESPONSIVE
+========================= */
+
 @media(max-width:650px){
+  .statsTop{
+    grid-template-columns:repeat(2,1fr);
+  }
+
   #levels{
     grid-template-columns:1fr;
   }
@@ -349,15 +456,11 @@ canvas{
   .menuButtons{
     grid-template-columns:1fr 1fr;
   }
-
-  .touchBtn{
-    width:64px;
-  }
 }
 
 @media(max-height:520px){
-  #touchControls{
-    bottom:7px;
+  #menu{
+    padding-top:8px;
   }
 
   .logo{
@@ -386,20 +489,35 @@ canvas{
 <div id="menu">
 
   <div class="logo">NEON DASH</div>
-
-  <div class="sub">
-    Ultimate Edition • komputer + telefon
-  </div>
+  <div class="sub">Ultimate Edition • 20 poziomów • 120 FPS ready</div>
 
   <div class="stats">
-    <div class="statsTop">
-      <span>🏆 <b id="completed">0</b>/20</span>
-      <span>🪙 <b id="coins">0</b></span>
-      <span>💎 <b id="diamonds">0</b></span>
-      <span>⭐ <b id="stars">0</b></span>
-    </div>
 
 ```
+<div class="statsTop">
+
+  <div class="stat">
+    🏆 <b id="completed">0</b>/20
+    <small>POZIOMY</small>
+  </div>
+
+  <div class="stat">
+    🪙 <b id="coins">0</b>
+    <small>MONETY</small>
+  </div>
+
+  <div class="stat">
+    💎 <b id="diamonds">0</b>
+    <small>DIAMENTY</small>
+  </div>
+
+  <div class="stat">
+    ⭐ <b id="stars">0</b>
+    <small>GWIAZDKI</small>
+  </div>
+
+</div>
+
 <div class="progress">
   <div id="progressBar"></div>
 </div>
@@ -420,6 +538,8 @@ canvas{
 
 </div>
 
+<!-- SKLEP -->
+
 <div id="shop" class="panelBg">
   <div class="panel">
     <h2>🛒 SKLEP</h2>
@@ -427,6 +547,8 @@ canvas{
     <button onclick="closePanel('shop')">ZAMKNIJ</button>
   </div>
 </div>
+
+<!-- ACHIEVEMENTY -->
 
 <div id="achievements" class="panelBg">
   <div class="panel">
@@ -436,6 +558,8 @@ canvas{
   </div>
 </div>
 
+<!-- MISJE -->
+
 <div id="missions" class="panelBg">
   <div class="panel">
     <h2>🎯 MISJE</h2>
@@ -444,16 +568,26 @@ canvas{
   </div>
 </div>
 
+<!-- USTAWIENIA -->
+
 <div id="settings" class="panelBg">
   <div class="panel">
     <h2>⚙️ USTAWIENIA</h2>
-    <button id="musicToggle"></button>
-    <button id="sfxToggle"></button>
-    <button id="touchToggle"></button>
-    <button id="resetSave">🗑️ RESETUJ ZAPIS</button>
-    <button onclick="closePanel('settings')">ZAMKNIJ</button>
+
+```
+<button id="musicToggle"></button>
+<button id="sfxToggle"></button>
+<button id="touchToggle"></button>
+<button id="fpsToggle"></button>
+
+<button id="resetSave">🗑️ RESETUJ ZAPIS</button>
+<button onclick="closePanel('settings')">ZAMKNIJ</button>
+```
+
   </div>
 </div>
+
+<!-- PAUZA -->
 
 <div id="pausePanel" class="panelBg">
   <div class="panel">
@@ -464,6 +598,8 @@ canvas{
   </div>
 </div>
 
+<!-- KONIEC -->
+
 <div id="finishPanel" class="panelBg">
   <div class="panel">
     <h2 id="finishTitle">🎉 UKOŃCZONO!</h2>
@@ -473,6 +609,8 @@ canvas{
     <button id="finishMenuBtn">☰ MENU</button>
   </div>
 </div>
+
+<!-- GRA -->
 
 <div id="game">
 
@@ -490,13 +628,11 @@ canvas{
 <div class="hudbar">
   <div id="gameBar"></div>
 </div>
-
-<div id="fpsCounter">
-  FPS: --
-</div>
 ```
 
   </div>
+
+  <div id="fpsCounter">FPS: --</div>
 
   <div class="gameBtns">
     <button id="pauseBtn">⏸</button>
@@ -506,7 +642,6 @@ canvas{
   </div>
 
   <div id="combo">COMBO x1</div>
-
   <div id="practiceText"></div>
 
   <div id="touchControls">
@@ -561,6 +696,7 @@ const LEVELS=[
   length:10500+i*420
 }));
 
+
 /* =====================================================
    DOM
 ===================================================== */
@@ -578,51 +714,95 @@ let W=innerWidth;
 let H=innerHeight;
 let ground=H*.78;
 
+
 /* =====================================================
-   ZAPIS
+   BEZPIECZNY ZAPIS
 ===================================================== */
 
-const read=(k,d)=>{
-  try{
-    const v=localStorage.getItem(k);
-    return v===null?d:v;
-  }catch(e){
-    return d;
-  }
-};
+function read(key,def){
 
-const write=(k,v)=>{
   try{
-    localStorage.setItem(k,String(v));
+
+    const value=localStorage.getItem(key);
+
+    return value===null?
+      def:
+      value;
+
+  }catch(e){
+
+    return def;
+  }
+}
+
+
+function write(key,value){
+
+  try{
+    localStorage.setItem(
+      key,
+      String(value)
+    );
   }catch(e){}
-};
+}
+
+
+function readArray(key){
+
+  try{
+
+    const value=
+      JSON.parse(
+        read(key,"[]")
+      );
+
+    return Array.isArray(value)?
+      value:
+      [];
+
+  }catch(e){
+
+    return [];
+  }
+}
+
 
 let save={
-  coins:Number(read("nd_coins",0)),
-  diamonds:Number(read("nd_diamonds",0)),
-  stars:Number(read("nd_stars",0)),
-  completed:[],
-  skin:read("nd_skin","cyan"),
-  trail:read("nd_trail","neon"),
-  music:read("nd_music","1")==="1",
-  sfx:read("nd_sfx","1")==="1",
-  touch:read("nd_touch","0")==="1",
-  deaths:Number(read("nd_deaths",0))
+
+  coins:Number(read("nd_coins",0))||0,
+
+  diamonds:
+    Number(read("nd_diamonds",0))||0,
+
+  stars:
+    Number(read("nd_stars",0))||0,
+
+  completed:
+    readArray("nd_completed"),
+
+  skin:
+    read("nd_skin","cyan"),
+
+  trail:
+    read("nd_trail","neon"),
+
+  music:
+    read("nd_music","1")==="1",
+
+  sfx:
+    read("nd_sfx","1")==="1",
+
+  touch:
+    read("nd_touch","0")==="1",
+
+  highFPS:
+    read("nd_highfps","1")==="1",
+
+  deaths:
+    Number(read("nd_deaths",0))||0
+
 };
 
-try{
-  const savedCompleted=JSON.parse(
-    read("nd_completed","[]")
-  );
-
-  if(Array.isArray(savedCompleted)){
-    save.completed=savedCompleted
-      .filter(v=>Number.isInteger(v))
-      .filter(v=>v>=0&&v<LEVELS.length);
-  }
-}catch(e){
-  save.completed=[];
-}
 
 function saveGame(){
 
@@ -635,14 +815,17 @@ function saveGame(){
   write("nd_music",save.music?"1":"0");
   write("nd_sfx",save.sfx?"1":"0");
   write("nd_touch",save.touch?"1":"0");
+  write("nd_highfps",save.highFPS?"1":"0");
   write("nd_deaths",save.deaths);
 }
+
 
 /* =====================================================
    OSIĄGNIĘCIA
 ===================================================== */
 
 const ACH=[
+
 ["first","🎮 Pierwszy krok","Ukończ pierwszy poziom."],
 ["five","🔥 Rozgrzewka","Ukończ 5 poziomów."],
 ["ten","⚡ Weteran","Ukończ 10 poziomów."],
@@ -653,113 +836,169 @@ const ACH=[
 ["death50","💀 Nie poddawaj się","Zgiń 50 razy."],
 ["perfect","🌟 Perfekcja","Ukończ poziom bez śmierci."],
 ["speed","🚀 Prędkość","Ukończ poziom 15 lub wyższy."]
+
 ];
 
+
 function unlocked(id){
-  return read("nd_ach_"+id,"0")==="1";
+
+  return read(
+    "nd_ach_"+id,
+    "0"
+  )==="1";
+
 }
 
+
 function unlock(id){
+
   if(!unlocked(id)){
-    write("nd_ach_"+id,"1");
+
+    write(
+      "nd_ach_"+id,
+      "1"
+    );
+
   }
+
 }
+
 
 function checkAchievements(){
 
-  const n=save.completed.length;
+  const n=
+    save.completed.length;
 
   if(n>=1)unlock("first");
   if(n>=5)unlock("five");
   if(n>=10)unlock("ten");
   if(n>=20)unlock("twenty");
 
-  if(save.coins>=10)unlock("coin10");
-  if(save.coins>=30)unlock("coin30");
+  if(save.coins>=10)
+    unlock("coin10");
 
-  if(save.diamonds>=1)unlock("diamond");
-  if(save.deaths>=50)unlock("death50");
+  if(save.coins>=30)
+    unlock("coin30");
 
-  if(runDeaths===0)unlock("perfect");
-  if(current>=14)unlock("speed");
+  if(save.diamonds>=1)
+    unlock("diamond");
+
+  if(save.deaths>=50)
+    unlock("death50");
+
+  if(runDeaths===0)
+    unlock("perfect");
+
+  if(current>=14)
+    unlock("speed");
 
   renderAchievements();
 }
+
 
 /* =====================================================
    MISJE
 ===================================================== */
 
 const MISSIONS=[
+
 ["coin","🪙 Zbierz 5 monet",5],
 ["coin20","💰 Zbierz 20 monet",20],
 ["levels","🏆 Ukończ 3 poziomy",3],
 ["diamond","💎 Zdobądź diament",1],
 ["deaths","💀 Zgiń 10 razy",10]
+
 ];
 
+
 function missionValue(id){
-  return Number(read("nd_m_"+id,0));
+
+  return Number(
+    read("nd_m_"+id,0)
+  )||0;
+
 }
 
+
 function missionDone(id){
-  return read("nd_md_"+id,"0")==="1";
+
+  return read(
+    "nd_md_"+id,
+    "0"
+  )==="1";
+
 }
+
 
 function missionAdd(id,n){
 
-  if(missionDone(id))return;
+  if(missionDone(id))
+    return;
 
-  const m=MISSIONS.find(x=>x[0]===id);
+  const m=
+    MISSIONS.find(
+      x=>x[0]===id
+    );
 
   if(!m)return;
 
-  const old=missionValue(id);
-
-  const v=Math.min(
+  const value=Math.min(
     m[2],
-    old+n
+    missionValue(id)+n
   );
 
-  write("nd_m_"+id,v);
+  write(
+    "nd_m_"+id,
+    value
+  );
 
-  if(v>=m[2]){
+  if(value>=m[2]){
 
-    write("nd_md_"+id,"1");
+    write(
+      "nd_md_"+id,
+      "1"
+    );
 
     save.coins+=5;
 
-    saveGame();
   }
+
 }
+
 
 /* =====================================================
    SKLEP
 ===================================================== */
 
 const SHOP=[
+
 ["skin","cyan","🟦 CYAN","Darmowy",0],
 ["skin","purple","🟪 PURPLE","100 monet",100],
 ["skin","red","🟥 RED","200 monet",200],
 ["skin","gold","🟨 GOLD","350 monet",350],
 ["skin","green","🟩 GREEN","500 monet",500],
+
 ["trail","neon","🌈 NEON TRAIL","Darmowy",0],
 ["trail","fire","🔥 FIRE TRAIL","150 monet",150],
 ["trail","ice","❄️ ICE TRAIL","250 monet",250],
 ["trail","rainbow","🌈 RAINBOW TRAIL","400 monet",400]
+
 ];
+
 
 function owned(type,id){
 
-  const defaultOwned=
-    (type==="skin"&&id==="cyan")||
-    (type==="trail"&&id==="neon");
+  const free=
+    type==="skin"&&id==="cyan"||
+    type==="trail"&&id==="neon";
 
   return read(
     "nd_owned_"+type+"_"+id,
-    defaultOwned?"1":"0"
+    free?"1":"0"
   )==="1";
+
 }
+
 
 function buy(type,id,price){
 
@@ -772,10 +1011,12 @@ function buy(type,id,price){
 
     saveGame();
     renderShop();
+
     return;
   }
 
-  if(save.coins<price)return;
+  if(save.coins<price)
+    return;
 
   save.coins-=price;
 
@@ -794,6 +1035,7 @@ function buy(type,id,price){
   renderShop();
   renderMenu();
 }
+
 
 /* =====================================================
    MENU
@@ -816,12 +1058,12 @@ function renderMenu(){
   $("progressBar").style.width=
     Math.min(
       100,
-      save.completed.length/
-      LEVELS.length*
-      100
+      save.completed.length/20*100
     )+"%";
 
+
   $("levels").innerHTML="";
+
 
   LEVELS.forEach((l,i)=>{
 
@@ -836,19 +1078,14 @@ function renderMenu(){
       "level "+
       (unlockedLevel?"":"locked");
 
-    const starCount=
-      i<5?2:
-      i<12?3:
-      4;
-
     b.innerHTML=
       '<span class="status">'+
       (
-        save.completed.includes(i)
-        ?"✅"
-        :unlockedLevel
-        ?"▶️"
-        :"🔒"
+        save.completed.includes(i)?
+        "✅":
+        unlockedLevel?
+        "▶️":
+        "🔒"
       )+
       '</span>'+
       '<b>'+
@@ -857,23 +1094,26 @@ function renderMenu(){
       l.name+
       '</b><br>'+
       '<small>⭐ '+
-      starCount+
+      (i<5?2:i<12?3:4)+
       " • "+
       l.speed+
-      " px/s"+
-      '</small>';
+      " px/s</small>";
+
 
     b.onclick=()=>{
 
-      if(unlockedLevel){
+      if(unlockedLevel)
         startLevel(i,false);
-      }
 
     };
 
+
     $("levels").appendChild(b);
+
   });
+
 }
+
 
 function renderAchievements(){
 
@@ -881,7 +1121,7 @@ function renderAchievements(){
 
   ACH.forEach(a=>{
 
-    const on=
+    const active=
       unlocked(a[0]);
 
     const d=
@@ -889,20 +1129,22 @@ function renderAchievements(){
 
     d.className=
       "item "+
-      (on?"unlocked":"");
+      (active?"unlocked":"");
 
     d.innerHTML=
-      (on?"🏆 ":"🔒 ")+
+      (active?"🏆 ":"🔒 ")+
       "<b>"+
       a[1]+
-      "</b><br>"+
-      "<small>"+
+      "</b><br><small>"+
       a[2]+
       "</small>";
 
     $("achList").appendChild(d);
+
   });
+
 }
+
 
 function renderMissions(){
 
@@ -930,16 +1172,17 @@ function renderMissions(){
       v+
       " / "+
       m[2]+
-      (
-        done?
+      (done?
         " • NAGRODA: 5 🪙":
-        ""
-      )+
+        "")+
       "</small>";
 
     $("missionList").appendChild(d);
+
   });
+
 }
+
 
 function renderShop(){
 
@@ -947,7 +1190,7 @@ function renderShop(){
 
   SHOP.forEach(s=>{
 
-    const ownedItem=
+    const isOwned=
       owned(s[0],s[1]);
 
     const selected=
@@ -979,19 +1222,29 @@ function renderShop(){
       (
         selected?
         "WYBRANO":
-        ownedItem?
+        isOwned?
         "WYBIERZ":
         s[4]+" 🪙"
       )+
       "</button>";
 
     $("shopItems").appendChild(d);
+
   });
+
 }
 
+
 function closePanel(id){
+
   $(id).style.display="none";
+
 }
+
+
+/* =====================================================
+   PRZYCISKI MENU
+===================================================== */
 
 $("shopBtn").onclick=()=>{
   $("shop").style.display="flex";
@@ -1013,59 +1266,68 @@ $("settingsBtn").onclick=()=>{
   renderSettings();
 };
 
-$("randomBtn").onclick=()=>{
 
-  const available=[];
+function availableLevels(){
 
-  for(let i=0;i<LEVELS.length;i++){
+  const list=[];
+
+  for(
+    let i=0;
+    i<LEVELS.length;
+    i++
+  ){
 
     if(
       i===0||
       save.completed.includes(i-1)
     ){
-      available.push(i);
+      list.push(i);
     }
+
   }
 
-  if(available.length){
-    startLevel(
-      available[
-        Math.floor(
-          Math.random()*
-          available.length
-        )
-      ],
-      false
-    );
-  }
+  return list;
+
+}
+
+
+$("randomBtn").onclick=()=>{
+
+  const list=
+    availableLevels();
+
+  if(!list.length)return;
+
+  startLevel(
+    list[
+      Math.floor(
+        Math.random()*list.length
+      )
+    ],
+    false
+  );
+
 };
+
 
 $("practiceBtn").onclick=()=>{
 
-  const available=[];
+  const list=
+    availableLevels();
 
-  for(let i=0;i<LEVELS.length;i++){
+  if(!list.length)return;
 
-    if(
-      i===0||
-      save.completed.includes(i-1)
-    ){
-      available.push(i);
-    }
-  }
+  startLevel(
+    list[
+      Math.floor(
+        Math.random()*list.length
+      )
+    ],
+    true
+  );
 
-  if(available.length){
-    startLevel(
-      available[
-        Math.floor(
-          Math.random()*
-          available.length
-        )
-      ],
-      true
-    );
-  }
 };
+
 
 /* =====================================================
    USTAWIENIA
@@ -1084,44 +1346,68 @@ function renderSettings(){
   $("touchToggle").textContent=
     "📱 Sterowanie dotykowe: "+
     (save.touch?"WŁ.":"WYŁ.");
+
+  $("fpsToggle").textContent=
+    "🚀 Tryb 120 Hz / wysoki FPS: "+
+    (save.highFPS?"WŁ.":"WYŁ.");
+
 }
+
 
 $("musicToggle").onclick=()=>{
 
   save.music=!save.music;
 
   saveGame();
+
   renderSettings();
 
   if(
     save.music&&
-    running
-  ){
+    running&&
+    !paused
+  )
     startMusic();
-  }else{
+  else
     stopMusic();
-  }
+
 };
+
 
 $("sfxToggle").onclick=()=>{
 
   save.sfx=!save.sfx;
 
   saveGame();
+
   renderSettings();
+
 };
+
 
 $("touchToggle").onclick=()=>{
 
   save.touch=!save.touch;
 
   saveGame();
+
   renderSettings();
 
-  if(running){
-    updateTouch();
-  }
+  updateTouch();
+
 };
+
+
+$("fpsToggle").onclick=()=>{
+
+  save.highFPS=!save.highFPS;
+
+  saveGame();
+
+  renderSettings();
+
+};
+
 
 $("resetSave").onclick=()=>{
 
@@ -1131,14 +1417,19 @@ $("resetSave").onclick=()=>{
     )
   ){
 
-    localStorage.clear();
+    try{
+      localStorage.clear();
+    }catch(e){}
 
     location.reload();
+
   }
+
 };
 
+
 /* =====================================================
-   POSTAĆ
+   PLAYER
 ===================================================== */
 
 const player={
@@ -1150,87 +1441,15 @@ const player={
   grounded:false
 };
 
-/* =====================================================
-   CANVAS
-===================================================== */
-
-function resize(){
-
-  W=Math.max(
-    260,
-    innerWidth
-  );
-
-  H=Math.max(
-    260,
-    innerHeight
-  );
-
-  const d=
-    Math.min(
-      devicePixelRatio||1,
-      2
-    );
-
-  canvas.width=
-    Math.round(W*d);
-
-  canvas.height=
-    Math.round(H*d);
-
-  canvas.style.width=
-    W+"px";
-
-  canvas.style.height=
-    H+"px";
-
-  ctx.setTransform(
-    d,0,0,d,0,0
-  );
-
-  ground=
-    Math.max(
-      160,
-      Math.min(
-        H-55,
-        H*.78
-      )
-    );
-
-  if(!running){
-
-    player.y=
-      ground-
-      player.size;
-  }
-
-  createStars();
-}
-
-addEventListener(
-  "resize",
-  resize,
-  {passive:true}
-);
-
-addEventListener(
-  "orientationchange",
-  ()=>{
-    setTimeout(
-      resize,
-      100
-    );
-  },
-  {passive:true}
-);
 
 /* =====================================================
-   STAN GRY
+   STAN
 ===================================================== */
 
 let current=0;
 let running=false;
 let paused=false;
+let finished=false;
 let practice=false;
 
 let world=0;
@@ -1261,19 +1480,6 @@ let particles=[];
 let stars=[];
 let trail=[];
 
-let finished=false;
-
-/* =====================================================
-   120 HZ FIZYKA
-===================================================== */
-
-const FIXED_DT=1/120;
-
-let accumulator=0;
-
-let fpsFrames=0;
-let fpsLast=performance.now();
-let displayedFPS=0;
 
 /* =====================================================
    AUDIO
@@ -1281,10 +1487,9 @@ let displayedFPS=0;
 
 let audio=null;
 let master=null;
-let musicGain=null;
-let sfxGain=null;
 let musicTimer=null;
 let musicIndex=0;
+
 
 function initAudio(){
 
@@ -1301,21 +1506,12 @@ function initAudio(){
       master=
         audio.createGain();
 
-      musicGain=
-        audio.createGain();
+      master.gain.value=.7;
 
-      sfxGain=
-        audio.createGain();
-
-      master.gain.value=.8;
-      musicGain.gain.value=.8;
-      sfxGain.gain.value=.8;
-
-      musicGain.connect(master);
-      sfxGain.connect(master);
       master.connect(
         audio.destination
       );
+
     }
 
     if(
@@ -1325,9 +1521,11 @@ function initAudio(){
     }
 
   }catch(e){}
+
 }
 
-function sfxTone(
+
+function tone(
   freq,
   duration=.12,
   type="square",
@@ -1337,7 +1535,7 @@ function sfxTone(
   if(
     !save.sfx||
     !audio||
-    !sfxGain
+    !master
   )return;
 
   try{
@@ -1358,91 +1556,35 @@ function sfxTone(
 
     g.gain.exponentialRampToValueAtTime(
       .001,
-      audio.currentTime+
-      duration
+      audio.currentTime+duration
     );
 
     o.connect(g);
-    g.connect(sfxGain);
+    g.connect(master);
 
     o.start();
 
     o.stop(
-      audio.currentTime+
-      duration
+      audio.currentTime+duration
     );
 
   }catch(e){}
+
 }
 
-function musicTone(
-  freq,
-  duration=.16,
-  type="triangle",
-  volume=.035
-){
-
-  if(
-    !save.music||
-    !audio||
-    !musicGain
-  )return;
-
-  try{
-
-    const o=
-      audio.createOscillator();
-
-    const g=
-      audio.createGain();
-
-    o.type=type;
-    o.frequency.value=freq;
-
-    g.gain.setValueAtTime(
-      volume,
-      audio.currentTime
-    );
-
-    g.gain.exponentialRampToValueAtTime(
-      .001,
-      audio.currentTime+
-      duration
-    );
-
-    o.connect(g);
-    g.connect(musicGain);
-
-    o.start();
-
-    o.stop(
-      audio.currentTime+
-      duration
-    );
-
-  }catch(e){}
-}
 
 function startMusic(){
 
   if(!save.music)return;
 
   initAudio();
+
   stopMusic();
 
   const notes=[
-    261,
-    330,
-    392,
-    523,
-    392,
-    330,
-    294,
-    349,
-    440,
-    523,
-    659,
-    523
+    261,330,392,523,
+    392,330,294,349,
+    440,523,659,523
   ];
 
   musicIndex=0;
@@ -1453,9 +1595,7 @@ function startMusic(){
       !running||
       paused||
       !save.music
-    ){
-      return;
-    }
+    )return;
 
     const f=
       notes[
@@ -1463,7 +1603,7 @@ function startMusic(){
         notes.length
       ];
 
-    musicTone(
+    tone(
       f,
       .16,
       "triangle",
@@ -1474,15 +1614,17 @@ function startMusic(){
       musicIndex%4===0
     ){
 
-      musicTone(
+      tone(
         f/2,
-        .22,
+        .2,
         "sine",
-        .022
+        .025
       );
+
     }
 
     musicIndex++;
+
   }
 
   note();
@@ -1493,7 +1635,9 @@ function startMusic(){
       60000/
       LEVELS[current].bpm
     );
+
 }
+
 
 function stopMusic(){
 
@@ -1504,11 +1648,94 @@ function stopMusic(){
     );
 
     musicTimer=null;
+
   }
+
 }
 
+
 /* =====================================================
-   START POZIOMU
+   RESIZE
+===================================================== */
+
+function resize(){
+
+  W=
+    Math.max(
+      260,
+      innerWidth
+    );
+
+  H=
+    Math.max(
+      260,
+      innerHeight
+    );
+
+  const d=
+    Math.min(
+      devicePixelRatio||1,
+      2
+    );
+
+  canvas.width=
+    Math.round(W*d);
+
+  canvas.height=
+    Math.round(H*d);
+
+  canvas.style.width=
+    W+"px";
+
+  canvas.style.height=
+    H+"px";
+
+  ctx.setTransform(
+    d,0,0,d,0,0
+  );
+
+  ground=
+    Math.max(
+      150,
+      Math.min(
+        H-55,
+        H*.78
+      )
+    );
+
+  if(!running){
+
+    player.y=
+      ground-
+      player.size;
+
+  }
+
+  createStars();
+
+}
+
+
+addEventListener(
+  "resize",
+  resize,
+  {passive:true}
+);
+
+addEventListener(
+  "orientationchange",
+  ()=>{
+    setTimeout(
+      resize,
+      100
+    );
+  },
+  {passive:true}
+);
+
+
+/* =====================================================
+   START LEVEL
 ===================================================== */
 
 function startLevel(
@@ -1519,9 +1746,7 @@ function startLevel(
   if(
     index<0||
     index>=LEVELS.length
-  ){
-    return;
-  }
+  )return;
 
   initAudio();
 
@@ -1559,8 +1784,6 @@ function startLevel(
   particles=[];
   trail=[];
 
-  accumulator=0;
-
   $("menu").style.display="none";
   $("game").style.display="block";
 
@@ -1583,17 +1806,16 @@ function startLevel(
 
   running=true;
 
-  last=performance.now();
+  last=
+    performance.now();
 
   updateTouch();
-
   updateSoundButton();
 
-  if(save.music){
+  if(save.music)
     startMusic();
-  }
 
-  sfxTone(
+  tone(
     440,
     .08,
     "sine",
@@ -1603,10 +1825,14 @@ function startLevel(
   cancelAnimationFrame(raf);
 
   raf=
-    requestAnimationFrame(
-      loop
-    );
+    requestAnimationFrame(loop);
+
 }
+
+
+/* =====================================================
+   RESET PLAYER
+===================================================== */
 
 function resetPlayer(){
 
@@ -1627,12 +1853,14 @@ function resetPlayer(){
   player.vy=0;
   player.rot=0;
   player.grounded=true;
+
 }
 
+
 /* =====================================================
-   GENERATOR
-   UWAGA:
-   BRAK PROSTOKĄTNYCH PRZESZKÓD
+   GENEROWANIE
+   WAŻNE:
+   NIE MA JUŻ PROSTOKĄTNYCH PRZESZKÓD.
 ===================================================== */
 
 function generateLevel(){
@@ -1640,140 +1868,152 @@ function generateLevel(){
   let x=550;
   let pattern=0;
 
-  while(
-    x<
-    LEVELS[current].length
-  ){
+  const length=
+    LEVELS[current].length;
+
+  while(x<length){
 
     const type=
-      pattern%10;
-
-    /*
-      TYLKO:
-      kolce,
-      piły,
-      przerwy,
-      pady,
-      portale.
-      
-      NIE MA BLOCK().
-    */
+      pattern%12;
 
     if(type===0){
 
       spike(x);
-
       x+=390;
 
-    }else if(type===1){
+    }
+
+    else if(type===1){
 
       spike(x);
       spike(x+60);
-
       x+=500;
 
-    }else if(type===2){
+    }
+
+    else if(type===2){
 
       saw(x);
-
       x+=520;
 
-    }else if(type===3){
+    }
 
-      gap(
-        x,
-        150
-      );
+    else if(type===3){
 
+      gap(x,150);
       x+=620;
 
-    }else if(type===4){
+    }
+
+    else if(type===4){
 
       pad(x);
       spike(x+220);
-
       x+=650;
 
-    }else if(type===5){
+    }
+
+    else if(type===5){
 
       saw(x);
       spike(x+180);
-
       x+=680;
 
-    }else if(type===6){
+    }
+
+    else if(type===6){
+
+      spike(x);
+      saw(x+180);
+      x+=620;
+
+    }
+
+    else if(type===7){
 
       speedPortal(x);
       spike(x+250);
-
       x+=720;
 
-    }else if(type===7){
+    }
+
+    else if(type===8){
 
       gravityPortal(x);
       spike(x+260);
-
       x+=700;
 
-    }else if(type===8){
+    }
+
+    else if(type===9){
 
       spike(x);
       spike(x+55);
       saw(x+230);
-
       x+=700;
 
-    }else{
+    }
 
-      gap(
-        x,
-        200
-      );
+    else if(type===10){
 
-      pad(
-        x+240
-      );
+      saw(x);
+      saw(x+220);
+      spike(x+440);
+      x+=760;
 
-      spike(
-        x+470
-      );
+    }
 
+    else{
+
+      gap(x,180);
+      pad(x+240);
+      spike(x+470);
       x+=850;
+
     }
 
     pattern++;
+
   }
 
-  /*
-    DOKŁADNIE 3 MONETY
-  */
+
+  /* 3 MONETY */
 
   const coinPositions=[
-    LEVELS[current].length*.22,
-    LEVELS[current].length*.50,
-    LEVELS[current].length*.78
+
+    length*.22,
+    length*.50,
+    length*.78
+
   ];
 
   coinPositions.forEach(
     (x,i)=>{
 
       coins.push({
+
         x:x,
+
         y:
           gravity===1?
           ground-125:
           125,
+
         id:i,
+
         got:false
+
       });
 
     }
   );
 
+
+  /* 1 DIAMENT */
+
   diamonds.push({
 
-    x:
-      LEVELS[current].length*.63,
+    x:length*.63,
 
     y:
       gravity===1?
@@ -1783,7 +2023,9 @@ function generateLevel(){
     got:false
 
   });
+
 }
+
 
 /* =====================================================
    OBIEKTY
@@ -1795,7 +2037,9 @@ function spike(x){
     type:"spike",
     x:x
   });
+
 }
+
 
 function saw(x){
 
@@ -1805,7 +2049,9 @@ function saw(x){
     r:28,
     phase:Math.random()*6
   });
+
 }
+
 
 function gap(x,w){
 
@@ -1814,7 +2060,9 @@ function gap(x,w){
     x:x,
     w:w
   });
+
 }
+
 
 function pad(x){
 
@@ -1822,7 +2070,9 @@ function pad(x){
     x:x,
     used:false
   });
+
 }
+
 
 function speedPortal(x){
 
@@ -1831,7 +2081,9 @@ function speedPortal(x){
     x:x,
     used:false
   });
+
 }
+
 
 function gravityPortal(x){
 
@@ -1840,7 +2092,9 @@ function gravityPortal(x){
     x:x,
     used:false
   });
+
 }
+
 
 /* =====================================================
    STEROWANIE
@@ -1852,9 +2106,7 @@ function jump(){
     !running||
     paused||
     finished
-  ){
-    return;
-  }
+  )return;
 
   if(player.grounded){
 
@@ -1864,7 +2116,7 @@ function jump(){
 
     player.grounded=false;
 
-    sfxTone(
+    tone(
       520,
       .09,
       "square",
@@ -1872,8 +2124,11 @@ function jump(){
     );
 
     particlesJump();
+
   }
+
 }
+
 
 addEventListener(
   "keydown",
@@ -1888,6 +2143,7 @@ addEventListener(
       e.preventDefault();
 
       jump();
+
     }
 
     if(
@@ -1895,12 +2151,14 @@ addEventListener(
       e.code==="KeyP"
     ){
 
-      if(running){
+      if(running)
         togglePause();
-      }
+
     }
+
   }
 );
+
 
 $("jumpBtn").addEventListener(
   "pointerdown",
@@ -1909,6 +2167,7 @@ $("jumpBtn").addEventListener(
     jump();
   }
 );
+
 
 $("leftBtn").addEventListener(
   "pointerdown",
@@ -1921,8 +2180,10 @@ $("leftBtn").addEventListener(
         45,
         player.x-25
       );
+
   }
 );
+
 
 $("rightBtn").addEventListener(
   "pointerdown",
@@ -1935,16 +2196,17 @@ $("rightBtn").addEventListener(
         W-70,
         player.x+25
       );
+
   }
 );
+
 
 canvas.addEventListener(
   "pointerdown",
   e=>{
 
     if(
-      e.pointerType!=="mouse"||
-      e.button===0
+      e.target===canvas
     ){
       jump();
     }
@@ -1952,8 +2214,10 @@ canvas.addEventListener(
   }
 );
 
+
 /* =====================================================
-   UPDATE FIZYKI
+   UPDATE
+   FIXED STEP = 120 Hz
 ===================================================== */
 
 function update(dt){
@@ -1963,28 +2227,26 @@ function update(dt){
     speedBoost;
 
   world+=
-    speed*
-    dt;
+    speed*dt;
+
 
   const g=
     2100*
     gravity;
 
   player.vy+=
-    g*
-    dt;
+    g*dt;
 
   player.y+=
-    player.vy*
-    dt;
+    player.vy*dt;
 
-  if(
-    gravity===1
-  ){
+
+  /* GRAWITACJA */
+
+  if(gravity===1){
 
     const floor=
-      ground-
-      player.size;
+      ground-player.size;
 
     if(
       player.y>=floor&&
@@ -2005,16 +2267,14 @@ function update(dt){
     }else{
 
       player.grounded=false;
+      player.rot+=dt*8;
 
-      player.rot+=
-        dt*8;
     }
 
   }else{
 
     if(
-      player.y<=0&&
-      !gapAtPlayer()
+      player.y<=0
     ){
 
       player.y=0;
@@ -2024,71 +2284,88 @@ function update(dt){
     }else{
 
       player.grounded=false;
+      player.rot-=dt*8;
 
-      player.rot-=
-        dt*8;
     }
+
   }
+
 
   checkPads();
   checkPortals();
   checkCollectibles();
   checkCollisions();
 
+
   if(speedBoost>1){
 
     speedBoost=
       Math.max(
         1,
-        speedBoost-
-        dt*.15
+        speedBoost-dt*.15
       );
+
   }
+
+
+  /* CHECKPOINTY PRACTICE */
 
   if(
     practice&&
     world>
-    checkpoint+1800
+      checkpoint+1800
   ){
 
     checkpoint=world;
+
   }
+
+
+  /* TRAIL */
 
   if(
     Math.random()<.85
   ){
 
     trail.push({
+
       x:player.x+17,
       y:player.y+17,
       life:.35
+
     });
+
   }
+
 
   updateTrail(dt);
   updateParticles(dt);
   updateCombo(dt);
+
 
   if(shake>0){
 
     shake=
       Math.max(
         0,
-        shake-
-        dt*14
+        shake-dt*14
       );
+
   }
+
 
   if(flash>0){
 
     flash=
       Math.max(
         0,
-        flash-
-        dt*3
+        flash-dt*3
       );
+
   }
+
 }
+
 
 function gapAtPlayer(){
 
@@ -2103,7 +2380,9 @@ function gapAtPlayer(){
       cx>o.x&&
       cx<o.x+o.w
   );
+
 }
+
 
 /* =====================================================
    MECHANIKI
@@ -2111,11 +2390,10 @@ function gapAtPlayer(){
 
 function checkPads(){
 
-  for(
-    const p of pads
-  ){
+  for(const p of pads){
 
-    if(p.used)continue;
+    if(p.used)
+      continue;
 
     const px=
       world+
@@ -2140,23 +2418,26 @@ function checkPads(){
         p.x-world
       );
 
-      sfxTone(
+      tone(
         700,
         .15,
         "square",
         .08
       );
+
     }
+
   }
+
 }
+
 
 function checkPortals(){
 
-  for(
-    const p of portals
-  ){
+  for(const p of portals){
 
-    if(p.used)continue;
+    if(p.used)
+      continue;
 
     const px=
       world+
@@ -2176,7 +2457,7 @@ function checkPortals(){
 
         speedBoost=1.45;
 
-        sfxTone(
+        tone(
           900,
           .18,
           "sawtooth",
@@ -2190,28 +2471,32 @@ function checkPortals(){
         player.vy=0;
         player.grounded=false;
 
-        sfxTone(
+        tone(
           250,
           .2,
           "triangle",
           .08
         );
+
       }
 
       particlesPortal(
         p.x-world
       );
+
     }
+
   }
+
 }
+
 
 function checkCollectibles(){
 
-  for(
-    const c of coins
-  ){
+  for(const c of coins){
 
-    if(c.got)continue;
+    if(c.got)
+      continue;
 
     const x=
       c.x-world;
@@ -2234,7 +2519,7 @@ function checkCollectibles(){
         1
       );
 
-      sfxTone(
+      tone(
         900+
         combo*40,
         .1,
@@ -2248,14 +2533,16 @@ function checkCollectibles(){
       );
 
       showCombo();
+
     }
+
   }
 
-  for(
-    const d of diamonds
-  ){
 
-    if(d.got)continue;
+  for(const d of diamonds){
+
+    if(d.got)
+      continue;
 
     const x=
       d.x-world;
@@ -2276,7 +2563,7 @@ function checkCollectibles(){
         1
       );
 
-      sfxTone(
+      tone(
         1200,
         .2,
         "triangle",
@@ -2287,9 +2574,13 @@ function checkCollectibles(){
         x,
         d.y
       );
+
     }
+
   }
+
 }
+
 
 /* =====================================================
    KOLIZJE
@@ -2317,9 +2608,10 @@ function checkCollisions(){
     player.size-
     5;
 
-  for(
-    const o of obstacles
-  ){
+
+  for(const o of obstacles){
+
+    /* KOLCE */
 
     if(
       o.type==="spike"
@@ -2334,7 +2626,9 @@ function checkCollisions(){
 
         die();
         return;
+
       }
+
 
       if(
         gravity===-1&&
@@ -2345,8 +2639,13 @@ function checkCollisions(){
 
         die();
         return;
+
       }
+
     }
+
+
+    /* PIŁA */
 
     if(
       o.type==="saw"
@@ -2390,14 +2689,13 @@ function checkCollisions(){
 
         die();
         return;
+
       }
+
     }
 
-    /*
-      BRAK KOLIZJI Z BLOCK.
-      Prostokątne przeszkody zostały
-      całkowicie usunięte z gry.
-    */
+
+    /* DZIURA */
 
     if(
       o.type==="gap"
@@ -2417,10 +2715,15 @@ function checkCollisions(){
 
         die();
         return;
+
       }
+
     }
+
   }
+
 }
+
 
 /* =====================================================
    ŚMIERĆ
@@ -2431,9 +2734,7 @@ function die(){
   if(
     !running||
     finished
-  ){
-    return;
-  }
+  )return;
 
   runDeaths++;
 
@@ -2451,7 +2752,7 @@ function die(){
 
   particlesDeath();
 
-  sfxTone(
+  tone(
     100,
     .3,
     "sawtooth",
@@ -2462,72 +2763,74 @@ function die(){
 
   stopMusic();
 
-  setTimeout(
-    ()=>{
 
-      if(finished)return;
+  setTimeout(()=>{
 
-      if(
-        practice&&
-        checkpoint>0
-      ){
+    if(finished)
+      return;
 
-        world=
-          checkpoint;
 
-        player.x=
-          Math.max(
-            80,
-            Math.min(
-              180,
-              W*.22
-            )
-          );
+    if(
+      practice&&
+      checkpoint>0
+    ){
 
-        player.y=
-          gravity===1?
-          ground-player.size:
-          0;
+      world=checkpoint;
 
-        player.vy=0;
-        player.grounded=true;
-
-        particlesRespawn();
-
-        running=true;
-
-        last=
-          performance.now();
-
-        if(save.music){
-          startMusic();
-        }
-
-        raf=
-          requestAnimationFrame(
-            loop
-          );
-
-      }else{
-
-        startLevel(
-          current,
-          practice
+      player.x=
+        Math.max(
+          80,
+          Math.min(
+            180,
+            W*.22
+          )
         );
-      }
 
-    },
-    500
-  );
+      player.y=
+        gravity===1?
+        ground-player.size:
+        0;
+
+      player.vy=0;
+      player.grounded=true;
+
+      particlesRespawn();
+
+      running=true;
+
+      last=
+        performance.now();
+
+      if(save.music)
+        startMusic();
+
+      raf=
+        requestAnimationFrame(
+          loop
+        );
+
+    }else{
+
+      startLevel(
+        current,
+        practice
+      );
+
+    }
+
+  },500);
+
 }
 
+
 /* =====================================================
-   WYGRANA
+   KONIEC
 ===================================================== */
 
 function finishLevel(){
 
-  if(finished)return;
+  if(finished)
+    return;
 
   finished=true;
   running=false;
@@ -2535,14 +2838,10 @@ function finishLevel(){
   stopMusic();
 
   if(
-    !save.completed.includes(
-      current
-    )
+    !save.completed.includes(current)
   ){
 
-    save.completed.push(
-      current
-    );
+    save.completed.push(current);
 
     save.completed.sort(
       (a,b)=>a-b
@@ -2552,13 +2851,13 @@ function finishLevel(){
       "levels",
       1
     );
+
   }
 
   save.coins+=runCoins;
 
-  if(runDiamond){
+  if(runDiamond)
     save.diamonds++;
-  }
 
   save.stars+=
     current<5?
@@ -2596,7 +2895,13 @@ function finishLevel(){
     "flex";
 
   particlesWin();
+
 }
+
+
+/* =====================================================
+   KONIEC PRZYCISKI
+===================================================== */
 
 $("nextBtn").onclick=()=>{
 
@@ -2612,8 +2917,11 @@ $("nextBtn").onclick=()=>{
       current+1,
       false
     );
+
   }
+
 };
+
 
 $("againBtn").onclick=()=>{
 
@@ -2624,14 +2932,29 @@ $("againBtn").onclick=()=>{
     current,
     practice
   );
+
 };
+
 
 $("finishMenuBtn").onclick=
   goMenu;
 
+
 /* =====================================================
-   FPS
+   120 FPS / FIXED PHYSICS
 ===================================================== */
+
+const FIXED_DT=
+  1/120;
+
+let accumulator=0;
+
+let fpsFrames=0;
+let fpsLast=
+  performance.now();
+
+let displayedFPS=0;
+
 
 function updateFPS(time){
 
@@ -2654,19 +2977,32 @@ function updateFPS(time){
     $("fpsCounter").textContent=
       "FPS: "+
       displayedFPS+
-      " • Fizyka: 120 Hz";
+      " • "+
+      (
+        displayedFPS>=110?
+        "120Hz+":
+        displayedFPS>=55?
+        "60Hz":
+        "LOW"
+      );
+
   }
+
 }
 
+
 /* =====================================================
-   GŁÓWNA PĘTLA
+   LOOP
 ===================================================== */
 
 function loop(time){
 
-  if(!running)return;
+  if(!running)
+    return;
+
 
   updateFPS(time);
+
 
   if(paused){
 
@@ -2678,82 +3014,77 @@ function loop(time){
       );
 
     return;
+
   }
+
 
   let frameDt=
-    (time-last)/1000;
-
-  if(
-    !Number.isFinite(frameDt)||
-    frameDt<0
-  ){
-
-    frameDt=0;
-  }
-
-  /*
-    Chronimy grę przed wielkim skokiem czasu
-    po przełączeniu karty / lagach.
-  */
-
-  frameDt=
     Math.min(
-      frameDt,
-      .1
+      .05,
+      Math.max(
+        0,
+        (time-last)/1000
+      )
     );
 
   last=time;
 
-  accumulator+=frameDt;
 
   /*
-    FIZYKA DZIAŁA ZAWSZE W KROKACH 120 Hz.
-    Dzięki temu prędkość gry nie zależy od FPS.
+    FIZYKA DZIAŁA W 120 Hz.
+    Renderowanie pozostaje zsynchronizowane
+    z ekranem przez requestAnimationFrame.
   */
+
+  accumulator+=frameDt;
+
 
   let steps=0;
 
   while(
     accumulator>=FIXED_DT&&
-    steps<12
+    steps<8
   ){
 
-    update(
-      FIXED_DT
-    );
+    update(FIXED_DT);
 
     accumulator-=
       FIXED_DT;
 
     steps++;
+
+    if(!running)
+      break;
+
   }
 
-  /*
-    Jeśli urządzenie mocno zwolni,
-    czyścimy zaległy czas zamiast
-    wykonywać setki aktualizacji.
-  */
-
-  if(steps>=12){
-    accumulator=0;
-  }
 
   draw();
 
+
   if(
+    running&&
     world>=
-    LEVELS[current].length
+      LEVELS[current].length
   ){
 
     finishLevel();
     return;
+
   }
 
-  raf=
-    requestAnimationFrame(
-      loop
-    );
+
+  if(running){
+
+    raf=
+      requestAnimationFrame(
+        loop
+      );
+
+  }
+
 }
+
 
 /* =====================================================
    RYSOWANIE
@@ -2773,6 +3104,7 @@ function draw(){
 
   ctx.save();
 
+
   if(shake>0){
 
     ctx.translate(
@@ -2781,7 +3113,9 @@ function draw(){
       (Math.random()-.5)*
       shake
     );
+
   }
+
 
   const bg=
     ctx.createLinearGradient(
@@ -2807,10 +3141,13 @@ function draw(){
     H
   );
 
+
   drawStars();
   drawGrid();
 
-  ctx.fillStyle="#0a0c17";
+
+  ctx.fillStyle=
+    "#080b16";
 
   ctx.fillRect(
     0,
@@ -2818,6 +3155,9 @@ function draw(){
     W,
     H-ground
   );
+
+
+  /* PODŁOGA */
 
   ctx.strokeStyle=
     l.color;
@@ -2845,10 +3185,8 @@ function draw(){
 
   ctx.shadowBlur=0;
 
-  /*
-    PRZESZKODY:
-    tylko kolce, piły i przerwy.
-  */
+
+  /* PRZESZKODY */
 
   for(
     const o of obstacles
@@ -2860,26 +3198,23 @@ function draw(){
     if(
       x<-200||
       x>W+200
-    ){
-      continue;
-    }
+    )continue;
+
 
     if(
       o.type==="spike"
-    ){
-
+    )
       drawSpike(x);
-    }
+
 
     if(
       o.type==="saw"
-    ){
-
+    )
       drawSaw(
         x,
         o.r
       );
-    }
+
 
     if(
       o.type==="gap"
@@ -2894,8 +3229,13 @@ function draw(){
         o.w,
         H-ground
       );
+
     }
+
   }
+
+
+  /* PADY */
 
   for(
     const p of pads
@@ -2907,11 +3247,13 @@ function draw(){
     if(
       x>-100&&
       x<W+100
-    ){
-
+    )
       drawPad(x);
-    }
+
   }
+
+
+  /* PORTALE */
 
   for(
     const p of portals
@@ -2927,22 +3269,24 @@ function draw(){
 
       if(
         p.type==="speed"
-      ){
-
+      )
         drawSpeedPortal(x);
-
-      }else{
-
+      else
         drawGravityPortal(x);
-      }
+
     }
+
   }
+
+
+  /* MONETY */
 
   for(
     const c of coins
   ){
 
-    if(c.got)continue;
+    if(c.got)
+      continue;
 
     const x=
       c.x-world;
@@ -2950,20 +3294,23 @@ function draw(){
     if(
       x>-50&&
       x<W+50
-    ){
-
+    )
       drawCoin(
         x,
         c.y
       );
-    }
+
   }
+
+
+  /* DIAMENT */
 
   for(
     const d of diamonds
   ){
 
-    if(d.got)continue;
+    if(d.got)
+      continue;
 
     const x=
       d.x-world;
@@ -2971,26 +3318,27 @@ function draw(){
     if(
       x>-50&&
       x<W+50
-    ){
-
+    )
       drawDiamond(
         x,
         d.y
       );
-    }
+
   }
 
+
   drawTrail();
+
 
   if(
     running&&
     !finished
-  ){
-
+  )
     drawPlayer();
-  }
+
 
   drawParticles();
+
 
   if(flash>0){
 
@@ -3008,11 +3356,14 @@ function draw(){
       W,
       H
     );
+
   }
+
 
   ctx.restore();
 
-  const p=
+
+  const progress=
     Math.min(
       100,
       Math.floor(
@@ -3022,11 +3373,12 @@ function draw(){
       )
     );
 
+
   $("percent").textContent=
-    p+"%";
+    progress+"%";
 
   $("gameBar").style.width=
-    p+"%";
+    progress+"%";
 
   $("runCollect").textContent=
     "🪙 "+
@@ -3034,10 +3386,13 @@ function draw(){
     "/3 💎 "+
     (runDiamond?"1":"0")+
     "/1";
+
 }
+
 
 /* =====================================================
    POSTAĆ
+   TYLKO KWADRAT + OCZY
 ===================================================== */
 
 function skinColor(){
@@ -3051,7 +3406,9 @@ function skinColor(){
     green:"#49ff9a"
 
   }[save.skin]||"#00eaff";
+
 }
+
 
 function drawPlayer(){
 
@@ -3069,6 +3426,7 @@ function drawPlayer(){
     player.rot
   );
 
+
   ctx.shadowColor=c;
   ctx.shadowBlur=22;
 
@@ -3081,9 +3439,11 @@ function drawPlayer(){
     34
   );
 
+
   ctx.shadowBlur=0;
 
   ctx.strokeStyle="#fff";
+
   ctx.lineWidth=2;
 
   ctx.strokeRect(
@@ -3093,13 +3453,11 @@ function drawPlayer(){
     34
   );
 
-  /*
-    TYLKO OCZY.
-    BRAK RĄK.
-    BRAK NÓG.
-  */
 
-  ctx.fillStyle="#05050c";
+  /* TYLKO OCZY */
+
+  ctx.fillStyle=
+    "#05050c";
 
   ctx.beginPath();
 
@@ -3121,8 +3479,11 @@ function drawPlayer(){
 
   ctx.fill();
 
+
   ctx.restore();
+
 }
+
 
 /* =====================================================
    KOLCE
@@ -3138,13 +3499,12 @@ function drawSpike(x){
   ctx.fillStyle=c;
 
   ctx.shadowColor=c;
-  ctx.shadowBlur=16;
+  ctx.shadowBlur=18;
 
   ctx.beginPath();
 
-  if(
-    gravity===1
-  ){
+
+  if(gravity===1){
 
     ctx.moveTo(
       x,
@@ -3177,7 +3537,9 @@ function drawSpike(x){
       x+46,
       0
     );
+
   }
+
 
   ctx.closePath();
 
@@ -3190,7 +3552,9 @@ function drawSpike(x){
   ctx.stroke();
 
   ctx.restore();
+
 }
+
 
 /* =====================================================
    PIŁA
@@ -3224,6 +3588,7 @@ function drawSaw(x,r){
 
   ctx.beginPath();
 
+
   for(
     let i=0;
     i<28;
@@ -3234,9 +3599,9 @@ function drawSaw(x,r){
       i*Math.PI/14;
 
     const rr=
-      i%2?
-      r*.68:
-      r;
+      i%2===0?
+      r:
+      r*.68;
 
     const xx=
       Math.cos(a)*rr;
@@ -3244,21 +3609,21 @@ function drawSaw(x,r){
     const yy=
       Math.sin(a)*rr;
 
-    if(i){
-      ctx.lineTo(
-        xx,
-        yy
-      );
-    }else{
+    if(i===0)
       ctx.moveTo(
         xx,
         yy
       );
-    }
+    else
+      ctx.lineTo(
+        xx,
+        yy
+      );
+
   }
 
-  ctx.closePath();
 
+  ctx.closePath();
   ctx.fill();
 
   ctx.shadowBlur=0;
@@ -3278,7 +3643,9 @@ function drawSaw(x,r){
   ctx.fill();
 
   ctx.restore();
+
 }
+
 
 /* =====================================================
    PAD
@@ -3305,11 +3672,19 @@ function drawPad(x){
 
   ctx.fill();
 
+  ctx.shadowBlur=0;
+
+  ctx.strokeStyle="#fff";
+
+  ctx.stroke();
+
   ctx.restore();
+
 }
 
+
 /* =====================================================
-   PORTALE PRĘDKOŚCI
+   PORTALE
 ===================================================== */
 
 function drawSpeedPortal(x){
@@ -3359,11 +3734,9 @@ function drawSpeedPortal(x){
   );
 
   ctx.restore();
+
 }
 
-/* =====================================================
-   PORTALE GRAWITACJI
-===================================================== */
 
 function drawGravityPortal(x){
 
@@ -3412,10 +3785,12 @@ function drawGravityPortal(x){
   );
 
   ctx.restore();
+
 }
 
+
 /* =====================================================
-   MONETY
+   MONETA / DIAMENT
 ===================================================== */
 
 function drawCoin(x,y){
@@ -3433,10 +3808,7 @@ function drawCoin(x,y){
       performance.now()/120
     )*.1;
 
-  ctx.scale(
-    s,
-    s
-  );
+  ctx.scale(s,s);
 
   ctx.fillStyle="#ffd43b";
 
@@ -3462,11 +3834,9 @@ function drawCoin(x,y){
   ctx.stroke();
 
   ctx.restore();
+
 }
 
-/* =====================================================
-   DIAMENT
-===================================================== */
 
 function drawDiamond(x,y){
 
@@ -3505,7 +3875,9 @@ function drawDiamond(x,y){
   );
 
   ctx.restore();
+
 }
+
 
 /* =====================================================
    TŁO
@@ -3523,8 +3895,7 @@ function createStars(){
 
     stars.push({
 
-      x:
-        Math.random()*W,
+      x:Math.random()*W,
 
       y:
         Math.random()*
@@ -3534,15 +3905,17 @@ function createStars(){
         ),
 
       r:
-        Math.random()*2+
-        .4,
+        Math.random()*2+.4,
 
       v:
-        Math.random()*.8+
-        .2
+        Math.random()*.8+.2
+
     });
+
   }
+
 }
+
 
 function drawStars(){
 
@@ -3554,13 +3927,11 @@ function drawStars(){
 
     s.x-=s.v;
 
-    if(s.x<0){
+    if(s.x<0)
       s.x=W;
-    }
 
     ctx.globalAlpha=
-      .25+
-      s.r*.2;
+      .25+s.r*.2;
 
     ctx.beginPath();
 
@@ -3573,10 +3944,13 @@ function drawStars(){
     );
 
     ctx.fill();
+
   }
 
   ctx.globalAlpha=1;
+
 }
+
 
 function drawGrid(){
 
@@ -3592,6 +3966,7 @@ function drawGrid(){
   const off=
     -(world*.25)%
     size;
+
 
   for(
     let x=off;
@@ -3612,7 +3987,9 @@ function drawGrid(){
     );
 
     ctx.stroke();
+
   }
+
 
   for(
     let y=40;
@@ -3633,10 +4010,14 @@ function drawGrid(){
     );
 
     ctx.stroke();
+
   }
 
+
   ctx.globalAlpha=1;
+
 }
+
 
 /* =====================================================
    TRAIL
@@ -3654,13 +4035,9 @@ function updateTrail(dt){
 
     if(
       trail[i].life<=0
-    ){
+    )
+      trail.splice(i,1);
 
-      trail.splice(
-        i,
-        1
-      );
-    }
   }
 
   if(
@@ -3671,8 +4048,11 @@ function updateTrail(dt){
       0,
       trail.length-35
     );
+
   }
+
 }
+
 
 function drawTrail(){
 
@@ -3683,6 +4063,7 @@ function drawTrail(){
     ice:"#8cecff"
 
   };
+
 
   for(
     let i=0;
@@ -3699,10 +4080,11 @@ function drawTrail(){
         t.life/.35
       )*.4;
 
+
     let c=
-      colors[
-        save.trail
-      ];
+      colors[save.trail]||
+      "#00eaff";
+
 
     if(
       save.trail==="rainbow"
@@ -3718,11 +4100,11 @@ function drawTrail(){
         "hsl("+
         hue+
         ",100%,60%)";
+
     }
 
-    ctx.fillStyle=
-      c||
-      "#00eaff";
+
+    ctx.fillStyle=c;
 
     ctx.fillRect(
       t.x-7,
@@ -3730,10 +4112,13 @@ function drawTrail(){
       14,
       14
     );
+
   }
 
   ctx.globalAlpha=1;
+
 }
+
 
 /* =====================================================
    PARTICLE
@@ -3751,23 +4136,23 @@ function particle(
 
   if(
     particles.length>300
-  ){
-    return;
-  }
+  )return;
 
   particles.push({
 
-    x:x,
-    y:y,
-    vx:vx,
-    vy:vy,
-    life:life,
+    x,
+    y,
+    vx,
+    vy,
+    life,
     max:life,
-    size:size,
-    type:type,
-    r:Math.random()*6
+    size,
+    type
+
   });
+
 }
+
 
 function particlesJump(){
 
@@ -3786,8 +4171,11 @@ function particlesJump(){
       4,
       "normal"
     );
+
   }
+
 }
+
 
 function particlesDeath(){
 
@@ -3806,8 +4194,11 @@ function particlesDeath(){
       Math.random()*7+2,
       "death"
     );
+
   }
+
 }
+
 
 function particlesCoin(x,y){
 
@@ -3826,8 +4217,11 @@ function particlesCoin(x,y){
       4,
       "coin"
     );
+
   }
+
 }
+
 
 function particlesDiamond(x,y){
 
@@ -3846,8 +4240,11 @@ function particlesDiamond(x,y){
       5,
       "diamond"
     );
+
   }
+
 }
+
 
 function particlesPad(x){
 
@@ -3866,8 +4263,11 @@ function particlesPad(x){
       4,
       "pad"
     );
+
   }
+
 }
+
 
 function particlesPortal(x){
 
@@ -3886,8 +4286,11 @@ function particlesPortal(x){
       4,
       "portal"
     );
+
   }
+
 }
+
 
 function particlesRespawn(){
 
@@ -3906,8 +4309,11 @@ function particlesRespawn(){
       5,
       "diamond"
     );
+
   }
+
 }
+
 
 function particlesWin(){
 
@@ -3926,8 +4332,11 @@ function particlesWin(){
       Math.random()*8+3,
       "win"
     );
+
   }
+
 }
+
 
 function updateParticles(dt){
 
@@ -3951,20 +4360,15 @@ function updateParticles(dt){
     p.vy+=
       500*dt;
 
-    p.r+=
-      dt*7;
-
     if(
       p.life<=0
-    ){
+    )
+      particles.splice(i,1);
 
-      particles.splice(
-        i,
-        1
-      );
-    }
   }
+
 }
+
 
 function drawParticles(){
 
@@ -3978,38 +4382,40 @@ function drawParticles(){
         p.life/p.max
       );
 
+
     let c=
       LEVELS[current].color;
 
+
     if(
       p.type==="coin"
-    ){
+    )
       c="#ffd43b";
-    }
+
 
     if(
       p.type==="diamond"
-    ){
+    )
       c="#58e8ff";
-    }
+
 
     if(
       p.type==="pad"
-    ){
+    )
       c="#49ff9a";
-    }
+
 
     if(
       p.type==="portal"
-    ){
+    )
       c="#ff4be8";
-    }
+
 
     if(
       p.type==="win"
     ){
 
-      const arr=[
+      const colors=[
         "#00eaff",
         "#ff36d1",
         "#ffe14a",
@@ -4017,20 +4423,16 @@ function drawParticles(){
         "#9c7bff"
       ];
 
-      /*
-        Kolor wybieramy przy tworzeniu
-        wizualnym, ale nie wpływa to
-        na fizykę.
-      */
-
       c=
-        arr[
+        colors[
           Math.floor(
             Math.random()*
-            arr.length
+            colors.length
           )
         ];
+
     }
+
 
     ctx.fillStyle=c;
 
@@ -4040,10 +4442,13 @@ function drawParticles(){
       p.size,
       p.size
     );
+
   }
 
   ctx.globalAlpha=1;
+
 }
+
 
 /* =====================================================
    COMBO
@@ -4061,11 +4466,15 @@ function showCombo(){
   $("combo").style.opacity="1";
 
   comboTimer=1;
+
 }
+
 
 function updateCombo(dt){
 
-  if(comboTimer>0){
+  if(
+    comboTimer>0
+  ){
 
     comboTimer-=dt;
 
@@ -4074,8 +4483,11 @@ function updateCombo(dt){
         0,
         comboTimer
       );
+
   }
+
 }
+
 
 /* =====================================================
    PAUZA
@@ -4086,9 +4498,7 @@ function togglePause(){
   if(
     !running||
     finished
-  ){
-    return;
-  }
+  )return;
 
   paused=!paused;
 
@@ -4096,6 +4506,7 @@ function togglePause(){
     paused?
     "flex":
     "none";
+
 
   if(paused){
 
@@ -4108,17 +4519,21 @@ function togglePause(){
 
     accumulator=0;
 
-    if(save.music){
+    if(save.music)
       startMusic();
-    }
+
   }
+
 }
+
 
 $("pauseBtn").onclick=
   togglePause;
 
+
 $("resumeBtn").onclick=
   togglePause;
+
 
 $("restartBtn").onclick=()=>{
 
@@ -4129,7 +4544,9 @@ $("restartBtn").onclick=()=>{
     current,
     practice
   );
+
 };
+
 
 $("restartGameBtn").onclick=()=>{
 
@@ -4137,7 +4554,9 @@ $("restartGameBtn").onclick=()=>{
     current,
     practice
   );
+
 };
+
 
 $("soundBtn").onclick=()=>{
 
@@ -4148,15 +4567,16 @@ $("soundBtn").onclick=()=>{
 
   updateSoundButton();
 
-  if(save.music){
-
+  if(
+    save.music&&
+    running
+  )
     startMusic();
-
-  }else{
-
+  else
     stopMusic();
-  }
+
 };
+
 
 function updateSoundButton(){
 
@@ -4164,7 +4584,13 @@ function updateSoundButton(){
     save.music?
     "🔊":
     "🔇";
+
 }
+
+
+/* =====================================================
+   MENU Z GRY
+===================================================== */
 
 $("menuGameBtn").onclick=
   goMenu;
@@ -4172,9 +4598,6 @@ $("menuGameBtn").onclick=
 $("pauseMenuBtn").onclick=
   goMenu;
 
-/* =====================================================
-   MENU
-===================================================== */
 
 function goMenu(){
 
@@ -4187,8 +4610,6 @@ function goMenu(){
   cancelAnimationFrame(
     raf
   );
-
-  accumulator=0;
 
   $("game").style.display=
     "none";
@@ -4205,10 +4626,10 @@ function goMenu(){
   renderMenu();
   renderAchievements();
   renderMissions();
-  renderShop();
-  renderSettings();
   updateSoundButton();
+
 }
+
 
 /* =====================================================
    TOUCH
@@ -4220,10 +4641,12 @@ function updateTouch(){
     save.touch?
     "flex":
     "none";
+
 }
 
+
 /* =====================================================
-   AUTO-PAUZA
+   AUTO PAUSE
 ===================================================== */
 
 document.addEventListener(
@@ -4237,9 +4660,12 @@ document.addEventListener(
     ){
 
       togglePause();
+
     }
+
   }
 );
+
 
 addEventListener(
   "blur",
@@ -4251,9 +4677,12 @@ addEventListener(
     ){
 
       togglePause();
+
     }
+
   }
 );
+
 
 /* =====================================================
    START APLIKACJI
