@@ -33,6 +33,8 @@ canvas{position:absolute;inset:0;width:100%;height:100%}
 .gameButtons{position:absolute;right:10px;top:10px;z-index:10;display:flex;gap:6px}
 .gameButtons button{min-width:44px;min-height:44px;padding:8px;background:#10162ddd;border:1px solid #53618e;border-radius:10px}
 #touchJump{position:absolute;z-index:9;right:20px;bottom:25px;width:88px;height:88px;border-radius:50%;background:#00eaff22;border:2px solid #00eaff;box-shadow:0 0 25px #00eaff55;font-size:28px;display:none}
+#checkpointInfo{position:absolute;z-index:6;left:50%;transform:translateX(-50%);top:60px;padding:6px 12px;border-radius:10px;background:#111936aa;border:1px solid #53618e;font-size:12px;display:none}
+#fps{position:absolute;z-index:6;left:10px;bottom:8px;font-size:11px;opacity:.55}
 .modal{position:fixed;inset:0;z-index:20;display:none;align-items:center;justify-content:center;background:#000b;padding:15px}
 .panel{width:min(600px,100%);max-height:90vh;overflow:auto;background:#10142c;border:2px solid #3d4a7d;border-radius:20px;padding:20px;box-shadow:0 0 40px #00eaff22}
 .panel h2{text-align:center;margin-top:0}
@@ -45,7 +47,7 @@ canvas{position:absolute;inset:0;width:100%;height:100%}
 
 <div id="menu">
 <div class="logo">NEON DASH</div>
-<div class="subtitle">Ultimate Edition • GD-style physics</div>
+<div class="subtitle">Ultimate Edition • Gameplay Overhaul</div>
 
 <div class="progress">
 <div class="progressTop"><span>📊 PROGRES</span><span id="progressText">0%</span></div>
@@ -80,6 +82,9 @@ canvas{position:absolute;inset:0;width:100%;height:100%}
 <div class="hudBar"><div id="gameBar"></div></div>
 </div>
 
+<div id="checkpointInfo">CHECKPOINT</div>
+<div id="fps">120 PHYSICS</div>
+
 <div class="gameButtons">
 <button id="pauseBtn">⏸</button>
 <button id="restartBtn">🔄</button>
@@ -106,6 +111,7 @@ canvas{position:absolute;inset:0;width:100%;height:100%}
 <button id="finishMenu">☰ MENU</button>
 </div>
 </div>
+
 </div>
 
 <div id="achievements" class="modal">
@@ -126,6 +132,7 @@ canvas{position:absolute;inset:0;width:100%;height:100%}
 <button id="touchSetting"></button>
 <button id="musicSetting"></button>
 <button id="sfxSetting"></button>
+<button id="fpsSetting"></button>
 <button class="close">ZAMKNIJ</button>
 </div>
 </div>
@@ -134,7 +141,7 @@ canvas{position:absolute;inset:0;width:100%;height:100%}
 "use strict";
 
 /* =========================================================
-   TWOJE POZIOMY — NAZWY I MUZYKA POZOSTAJĄ
+   LEVELS — NAZWY + MUZYKA ZOSTAJĄ
 ========================================================= */
 
 const LEVELS=[
@@ -164,19 +171,37 @@ const LEVELS=[
    SAVE
 ========================================================= */
 
-const DEFAULT={
-completed:[],coins:0,diamonds:0,stars:0,deaths:0,
-skin:0,music:true,sfx:true,touch:"ontouchstart"in window,
-achievements:[],missionCoins:0,missionDeaths:0
+const DEFAULT_SAVE={
+completed:[],
+coins:0,
+diamonds:0,
+stars:0,
+deaths:0,
+skin:0,
+music:true,
+sfx:true,
+touch:"ontouchstart"in window,
+showFps:true,
+achievements:[],
+missionCoins:0,
+missionDeaths:0
 };
 
-let save;
-try{save=JSON.parse(localStorage.getItem("neonDashSave"))||structuredClone(DEFAULT)}
-catch(e){save=structuredClone(DEFAULT)}
+function loadSave(){
+try{
+const raw=JSON.parse(localStorage.getItem("neonDashSave")||"null");
+return Object.assign({},DEFAULT_SAVE,raw||{});
+}catch(e){
+return Object.assign({},DEFAULT_SAVE);
+}
+}
+
+let save=loadSave();
 
 function saveGame(){
-try{localStorage.setItem("neonDashSave",JSON.stringify(save))}
-catch(e){}
+try{
+localStorage.setItem("neonDashSave",JSON.stringify(save));
+}catch(e){}
 }
 
 /* =========================================================
@@ -188,69 +213,79 @@ const game=document.getElementById("game");
 const canvas=document.getElementById("canvas");
 const ctx=canvas.getContext("2d");
 
-let W=innerWidth,H=innerHeight,ground=H*.78;
+let W=innerWidth;
+let H=innerHeight;
+let ground=H*.78;
+
+/* =========================================================
+   PLAYER
+========================================================= */
 
 const PLAYER={
+x:0,
+y:0,
 size:36,
-x:0,y:0,vy:0,rotation:0,
-grounded:false,alive:true,
+vy:0,
+rotation:0,
+grounded:false,
+alive:true,
 mode:"cube"
 };
 
 /* =========================================================
-   FIZYKA
+   PHYSICS
 ========================================================= */
-
-/*
-   To jest celowo zrobione jako stały silnik fizyki.
-   Renderowanie może działać na 60/120/144/165/240 Hz,
-   ale fizyka pozostaje przewidywalna.
-*/
 
 const PHYSICS={
 dt:1/120,
 gravity:2450,
 cubeJump:760,
-cubeJumpPad:1040,
-shipGravity:1250,
-shipThrust:2050,
-ufoGravity:1900,
-ufoJump:650,
-ballGravity:2350,
-waveSpeed:360,
-rotation:7.2,
-maxSteps:8
+cubePad:1060,
+shipGravity:1180,
+shipThrust:2100,
+ufoGravity:2050,
+ufoJump:700,
+ballGravity:2400,
+waveSpeed:365,
+maxSteps:10
 };
 
 let accumulator=0;
 let lastTime=0;
 let raf=0;
 
+let current=0;
 let running=false;
 let paused=false;
 let finished=false;
 let practice=false;
 
 let world=0;
+let speedMultiplier=1;
+let gravityDirection=1;
+
 let deathsRun=0;
 let runCoins=0;
-let collected=new Set();
-
-let gravityDirection=1;
-let speedMultiplier=1;
 
 let obstacles=[];
 let coins=[];
 let pads=[];
 let orbs=[];
 let portals=[];
+let checkpoints=[];
 let particles=[];
 let stars=[];
 let trail=[];
 
+let practiceCheckpoint=-1;
+
 let audio=null;
 let musicTimer=null;
 let musicIndex=0;
+
+let fpsFrames=0;
+let fpsTime=performance.now();
+let currentFps=120;
 
 /* =========================================================
    RESIZE
@@ -263,8 +298,8 @@ H=Math.max(240,innerHeight);
 
 const d=Math.min(devicePixelRatio||1,2);
 
-canvas.width=W*d;
-canvas.height=H*d;
+canvas.width=Math.round(W*d);
+canvas.height=Math.round(H*d);
 canvas.style.width=W+"px";
 canvas.style.height=H+"px";
 
@@ -304,7 +339,9 @@ b.innerHTML=
 <div class="levelName">${i+1}. ${l.name}</div>
 <div class="levelInfo">${"⭐".repeat(l.diff)} • ${l.speed} speed</div>`;
 
-if(unlocked)b.onclick=()=>startLevel(i,false);
+if(unlocked){
+b.onclick=()=>startLevel(i,false);
+}
 
 box.appendChild(b);
 });
@@ -318,7 +355,7 @@ document.getElementById("doneText").textContent=
 }
 
 /* =========================================================
-   START
+   START LEVEL
 ========================================================= */
 
 function startLevel(index,isPractice=false){
@@ -336,21 +373,23 @@ paused=false;
 finished=false;
 
 world=0;
-accumulator=0;
+speedMultiplier=1;
+gravityDirection=LEVELS[current].gravity;
+
 deathsRun=0;
 runCoins=0;
-collected=new Set();
 
-gravityDirection=LEVELS[current].gravity;
-speedMultiplier=1;
+collectedCoinsReset();
 
 PLAYER.mode="cube";
 PLAYER.alive=true;
-PLAYER.grounded=true;
 PLAYER.vy=0;
 PLAYER.rotation=0;
-PLAYER.x=Math.max(100,W*.22);
+PLAYER.grounded=true;
+PLAYER.x=Math.max(110,W*.22);
 PLAYER.y=gravityDirection===1?ground-PLAYER.size:0;
+
+practiceCheckpoint=-1;
 
 generateLevel();
 
@@ -359,6 +398,7 @@ game.style.display="block";
 
 document.getElementById("pause").style.display="none";
 document.getElementById("finish").style.display="none";
+document.getElementById("checkpointInfo").style.display="none";
 
 document.getElementById("levelName").textContent=
 `${current+1} • ${LEVELS[current].name}`;
@@ -370,6 +410,7 @@ updateHUD();
 
 running=true;
 lastTime=performance.now();
+accumulator=0;
 
 if(save.music)startMusic();
 
@@ -378,8 +419,14 @@ draw();
 raf=requestAnimationFrame(loop);
 }
 
+function collectedCoinsReset(){
+collected=new Set();
+}
+
+let collected=new Set();
+
 /* =========================================================
-   GENERATOR
+   MANUAL LEVEL GENERATION
 ========================================================= */
 
 function generateLevel(){
@@ -389,136 +436,255 @@ coins=[];
 pads=[];
 orbs=[];
 portals=[];
+checkpoints=[];
 
 const length=LEVELS[current].length;
+const d=LEVELS[current].diff;
 
-let x=600;
-let n=0;
+let x=520;
+let section=0;
 
-while(x<length-800){
+/*
+   Sekcje są celowo uporządkowane.
+   Nie jest to czysty random.
+*/
 
-const type=n%14;
+while(x<length-900){
 
-if(type===0){
+const pattern=section%12;
+
+/* spokojny start */
+if(pattern===0){
+
 spike(x);
-x+=420;
-}
+x+=430;
 
-else if(type===1){
 spike(x);
-spike(x+72);
-x+=570;
+spike(x+68);
+x+=610;
+
+coinAt(x-170,1);
+
 }
 
-else if(type===2){
-saw(x);
-x+=500;
-}
+/* orb */
+else if(pattern===1){
 
-else if(type===3){
-gap(x,145);
-x+=600;
-}
-
-else if(type===4){
-pad(x);
-spike(x+220);
-x+=650;
-}
-
-else if(type===5){
 orb(x,"yellow");
-spike(x+180);
-x+=650;
-}
-
-else if(type===6){
-speedPortal(x,1.15);
+spike(x+190);
 spike(x+260);
-x+=760;
-}
-
-else if(type===7){
-gravityPortal(x);
-spike(x+260);
-x+=760;
-}
-
-else if(type===8){
-saw(x);
-saw(x+190);
 x+=680;
+
 }
 
-else if(type===9){
-/* brak triple spike */
-spike(x);
-spike(x+70);
-x+=620;
+/* saw */
+else if(pattern===2){
+
+saw(x);
+coinAt(x,1);
+x+=510;
+
+saw(x);
+x+=520;
+
 }
 
-else if(type===10){
-orb(x,"blue");
-saw(x+240);
+/* gap */
+else if(pattern===3){
+
+gap(x,145);
+coinAt(x+70,1);
+x+=650;
+
+}
+
+/* pad */
+else if(pattern===4){
+
+pad(x);
+spike(x+215);
+spike(x+285);
+x+=700;
+
+}
+
+/* gravity */
+else if(pattern===5){
+
+gravityPortal(x);
+spike(x+240,{gravity:-gravityDirection});
+x+=720;
+
+}
+
+/* speed */
+else if(pattern===6){
+
+speedPortal(x,1.12);
+saw(x+260);
+x+=720;
+
+}
+
+/* ship */
+else if(pattern===7){
+
+modePortal(x,"ship");
+x+=420;
+
+saw(x);
+saw(x+220);
+x+=650;
+
+}
+
+/* ufo */
+else if(pattern===8){
+
+modePortal(x,"ufo");
+spike(x+250);
+coinAt(x+330,1);
+x+=760;
+
+}
+
+/* wave */
+else if(pattern===9){
+
+modePortal(x,"wave");
+spike(x+220);
+spike(x+300);
+x+=700;
+
+}
+
+/* ball */
+else if(pattern===10){
+
+modePortal(x,"ball");
+gravityPortal(x+330);
+x+=720;
+
+}
+
+/* return cube */
+else{
+
+modePortal(x,"cube");
+checkpoint(x+80);
+spike(x+240);
 x+=700;
 }
 
-else if(type===11){
-modePortal(x,"ship");
-spike(x+320);
-x+=800;
+section++;
 }
 
-else if(type===12){
-modePortal(x,"ufo");
-saw(x+280);
-x+=800;
+/*
+   3 monety na każdym poziomie.
+*/
+
+coinAt(length*.25,1);
+coinAt(length*.52,-1);
+coinAt(length*.79,1);
+
+/*
+   Checkpointy tylko w Practice.
+*/
+
+checkpoint(length*.30);
+checkpoint(length*.60);
+checkpoint(length*.82);
 }
 
-else{
-modePortal(x,"wave");
-spike(x+280);
-x+=850;
-}
+function coinAt(x,side){
 
-n++;
-}
-
-[.24,.51,.78].forEach((r,i)=>{
 coins.push({
-id:i,
-x:length*r,
+id:coins.length,
+x:x,
+side:side,
 collected:false
 });
+}
+
+function checkpoint(x){
+
+checkpoints.push({
+x:x,
+activated:false
 });
 }
 
 /* =========================================================
-   OBIEKTY
+   OBJECTS
 ========================================================= */
 
-function spike(x){obstacles.push({type:"spike",x})}
-function saw(x){obstacles.push({type:"saw",x,r:29})}
-function gap(x,w){obstacles.push({type:"gap",x,w})}
+function spike(x,options={}){
+obstacles.push({
+type:"spike",
+x,
+gravity:options.gravity??gravityDirection
+});
+}
+
+function saw(x){
+obstacles.push({
+type:"saw",
+x,
+r:29,
+gravity:gravityDirection
+});
+}
+
+function gap(x,w){
+obstacles.push({
+type:"gap",
+x,
+w,
+gravity:gravityDirection
+});
+}
 
 function pad(x){
-pads.push({x,used:false});
+pads.push({
+x,
+gravity:gravityDirection,
+used:false
+});
 }
 
 function orb(x,color){
-orbs.push({x,color,used:false});
+orbs.push({
+x,
+color,
+gravity:gravityDirection,
+used:false
+});
 }
 
 function speedPortal(x,mult){
-portals.push({type:"speed",x,mult,used:false});
+portals.push({
+type:"speed",
+x,
+mult,
+used:false
+});
 }
 
 function gravityPortal(x){
-portals.push({type:"gravity",x,used:false});
+portals.push({
+type:"gravity",
+x,
+used:false
+});
 }
 
 function modePortal(x,mode){
-portals.push({type:"mode",mode,x,used:false});
+portals.push({
+type:"mode",
+x,
+mode,
+used:false
+});
 }
 
 /* =========================================================
@@ -532,45 +698,65 @@ if(!running||paused||finished||!PLAYER.alive)return;
 if(PLAYER.mode==="cube"){
 
 if(PLAYER.grounded){
+
 PLAYER.vy=-PHYSICS.cubeJump*gravityDirection;
 PLAYER.grounded=false;
-PLAYER.rotation+=gravityDirection===1?Math.PI/2:-Math.PI/2;
-burst(PLAYER.x+18,PLAYER.y+18,8,LEVELS[current].color);
+
+PLAYER.rotation+=
+gravityDirection===1
+?Math.PI/2
+:-Math.PI/2;
+
+burst(
+PLAYER.x+18,
+PLAYER.y+18,
+9,
+LEVELS[current].color
+);
+
 playSfx(520);
 }
 
+return;
 }
 
-else if(PLAYER.mode==="ship"){
+if(PLAYER.mode==="ship"){
 
 PLAYER.vy=-PHYSICS.shipThrust*gravityDirection;
 playSfx(620);
-
+return;
 }
 
-else if(PLAYER.mode==="ufo"){
+if(PLAYER.mode==="ufo"){
 
 PLAYER.vy=-PHYSICS.ufoJump*gravityDirection;
 playSfx(700);
-
+return;
 }
 
-else if(PLAYER.mode==="wave"){
+if(PLAYER.mode==="wave"){
 
 PLAYER.vy=-PHYSICS.waveSpeed*gravityDirection;
+return;
 }
 
-else if(PLAYER.mode==="ball"){
+if(PLAYER.mode==="ball"){
 
 gravityDirection*=-1;
 PLAYER.vy=0;
-burst(PLAYER.x+18,PLAYER.y+18,12,"#4de8ff");
 playSfx(580);
+return;
 }
 }
 
 game.addEventListener("pointerdown",e=>{
-if(e.target.closest(".gameButtons")||e.target.id==="touchJump")return;
+
+if(
+e.target.closest(".gameButtons")||
+e.target.closest(".modal")||
+e.target.id==="touchJump"
+)return;
+
 action();
 });
 
@@ -603,22 +789,63 @@ startLevel(current,practice);
 
 function physics(dt){
 
-const level=LEVELS[current];
+if(!running)return;
 
-world+=level.speed*speedMultiplier*dt;
+world+=LEVELS[current].speed*speedMultiplier*dt;
+
+updatePlayer(dt);
+
+checkPads();
+checkOrbs();
+checkPortals();
+checkCoins();
+checkCheckpoints();
+checkCollisions();
+
+updateTrail(dt);
+updateParticles(dt);
+
+if(
+practice&&
+world>=LEVELS[current].length
+){
+finishLevel();
+return;
+}
+
+if(
+!practice&&
+world>=LEVELS[current].length
+){
+finishLevel();
+}
+}
+
+/* =========================================================
+   PLAYER PHYSICS
+========================================================= */
+
+function updatePlayer(dt){
 
 /* CUBE */
 
 if(PLAYER.mode==="cube"){
 
-PLAYER.vy+=PHYSICS.gravity*gravityDirection*dt;
+PLAYER.vy+=
+PHYSICS.gravity*
+gravityDirection*
+dt;
+
 PLAYER.y+=PLAYER.vy*dt;
 
 if(gravityDirection===1){
 
 const floor=ground-PLAYER.size;
 
-if(PLAYER.y>=floor&&!inGap()){
+if(
+PLAYER.y>=floor&&
+!insideGapAtPlayer()
+){
 
 PLAYER.y=floor;
 PLAYER.vy=0;
@@ -628,12 +855,16 @@ snapRotation();
 }else{
 
 PLAYER.grounded=false;
-PLAYER.rotation+=PHYSICS.rotation*dt;
+PLAYER.rotation+=
+gravityDirection*7.2*dt;
 }
 
 }else{
 
-if(PLAYER.y<=0&&!inGap()){
+if(
+PLAYER.y<=0&&
+!insideGapAtPlayer()
+){
 
 PLAYER.y=0;
 PLAYER.vy=0;
@@ -643,55 +874,61 @@ snapRotation();
 }else{
 
 PLAYER.grounded=false;
-PLAYER.rotation-=PHYSICS.rotation*dt;
+PLAYER.rotation-=
+7.2*dt;
 }
 }
 }
 
 /* SHIP */
 
-if(PLAYER.mode==="ship"){
+else if(PLAYER.mode==="ship"){
 
-PLAYER.vy+=PHYSICS.shipGravity*gravityDirection*dt;
+PLAYER.vy+=
+PHYSICS.shipGravity*
+gravityDirection*
+dt;
+
 PLAYER.y+=PLAYER.vy*dt;
 
-if(PLAYER.y<0){
-PLAYER.y=0;
-PLAYER.vy=0;
-}
-
-if(PLAYER.y+PLAYER.size>ground){
-PLAYER.y=ground-PLAYER.size;
-PLAYER.vy=0;
-}
+clampVertical();
 
 PLAYER.rotation=
-Math.max(-.65,Math.min(.65,PLAYER.vy*.001));
+Math.max(
+-.65,
+Math.min(
+.65,
+PLAYER.vy*.001
+)
+);
 }
 
 /* UFO */
 
-if(PLAYER.mode==="ufo"){
+else if(PLAYER.mode==="ufo"){
 
-PLAYER.vy+=PHYSICS.ufoGravity*gravityDirection*dt;
+PLAYER.vy+=
+PHYSICS.ufoGravity*
+gravityDirection*
+dt;
+
 PLAYER.y+=PLAYER.vy*dt;
 
-if(PLAYER.y<0){
-PLAYER.y=0;
-PLAYER.vy=0;
-}
+clampVertical();
 
-if(PLAYER.y+PLAYER.size>ground){
-PLAYER.y=ground-PLAYER.size;
-PLAYER.vy=0;
-}
+PLAYER.rotation=
+PLAYER.vy<0?-.35:.35;
 }
 
 /* BALL */
 
-if(PLAYER.mode==="ball"){
+else if(PLAYER.mode==="ball"){
 
-PLAYER.vy+=PHYSICS.ballGravity*gravityDirection*dt;
+PLAYER.vy+=
+PHYSICS.ballGravity*
+gravityDirection*
+dt;
+
 PLAYER.y+=PLAYER.vy*dt;
 
 if(gravityDirection===1){
@@ -709,231 +946,452 @@ PLAYER.vy=0;
 }
 }
 
-PLAYER.rotation+=gravityDirection*7*dt;
+PLAYER.rotation+=
+gravityDirection*8*dt;
 }
 
 /* WAVE */
 
-if(PLAYER.mode==="wave"){
-
-PLAYER.y+=PLAYER.vy*dt;
+else if(PLAYER.mode==="wave"){
 
 PLAYER.vy=
-PLAYER.vy>0
+PLAYER.vy>=0
 ?PHYSICS.waveSpeed
 :-PHYSICS.waveSpeed;
 
-if(PLAYER.y<0||PLAYER.y+PLAYER.size>ground){
-die();
-return;
-}
+PLAYER.y+=PLAYER.vy*dt;
 
 PLAYER.rotation=
 PLAYER.vy<0?-.65:.65;
+
+if(
+PLAYER.y<0||
+PLAYER.y+PLAYER.size>ground
+){
+die();
+return;
+}
+}
 }
 
-checkPads();
-checkOrbs();
-checkPortals();
-checkCoins();
-collisions();
+function clampVertical(){
 
-trail.push({
-x:PLAYER.x+18,
-y:PLAYER.y+18,
-life:.22
-});
+if(PLAYER.y<0){
+PLAYER.y=0;
+PLAYER.vy=0;
+}
 
-if(trail.length>30)trail.shift();
+if(PLAYER.y+PLAYER.size>ground){
+PLAYER.y=ground-PLAYER.size;
+PLAYER.vy=0;
+}
+}
 
-updateParticles(dt);
-updateTrail(dt);
+function snapRotation(){
 
-if(world>=level.length)finishLevel();
+PLAYER.rotation=
+Math.round(
+PLAYER.rotation/(Math.PI/2)
+)*
+(Math.PI/2);
+}
+
+function insideGapAtPlayer(){
+
+const x=world+PLAYER.x+PLAYER.size/2;
+
+return obstacles.some(o=>
+o.type==="gap"&&
+o.gravity===gravityDirection&&
+x>o.x&&
+x<o.x+o.w
+);
 }
 
 /* =========================================================
-   SPECIAL OBJECTS
+   PADS
 ========================================================= */
 
 function checkPads(){
 
 if(PLAYER.mode!=="cube")return;
 
+const px=world+PLAYER.x+18;
+
 for(const p of pads){
 
 if(p.used)continue;
 
-const x=world+PLAYER.x+18;
-
-if(x>p.x&&x<p.x+60&&PLAYER.grounded){
+if(
+p.gravity===gravityDirection&&
+px>p.x&&
+px<p.x+60&&
+PLAYER.grounded
+){
 
 p.used=true;
-PLAYER.vy=-PHYSICS.cubeJumpPad*gravityDirection;
-PLAYER.grounded=false;
-PLAYER.rotation+=gravityDirection===1?Math.PI/2:-Math.PI/2;
 
-burst(p.x-world,ground-10,18,"#49ff9a");
+PLAYER.vy=
+-PHYSICS.cubePad*
+gravityDirection;
+
+PLAYER.grounded=false;
+
+PLAYER.rotation+=
+gravityDirection===1
+?Math.PI/2
+:-Math.PI/2;
+
+burst(
+p.x-world,
+gravityDirection===1?ground-10:10,
+18,
+"#49ff9a"
+);
+
 playSfx(760);
 }
 }
 }
 
+/* =========================================================
+   ORBS
+========================================================= */
+
 function checkOrbs(){
+
+const px=world+PLAYER.x+18;
+const py=PLAYER.y+18;
 
 for(const o of orbs){
 
 if(o.used)continue;
 
-const dx=world+PLAYER.x+18-o.x;
-const dy=PLAYER.y+18-(gravityDirection===1?ground-110:110);
+const oy=
+o.gravity===1
+?ground-110
+:110;
 
-if(Math.hypot(dx,dy)<35){
+if(
+Math.hypot(px-o.x,py-oy)<35
+){
 
 o.used=true;
 
 if(o.color==="yellow"){
-PLAYER.vy=-PHYSICS.cubeJump*1.08*gravityDirection;
+
+PLAYER.vy=
+-PHYSICS.cubeJump*
+1.12*
+gravityDirection;
 }
 
 if(o.color==="blue"){
+
 gravityDirection*=-1;
 PLAYER.vy=0;
 }
 
-burst(o.x-world,dy+dy?PLAYER.y+18:ground-110,22,
-o.color==="yellow"?"#ffe14a":"#4de8ff");
+if(o.color==="pink"){
 
-playSfx(o.color==="yellow"?820:560);
+PLAYER.vy=
+-PHYSICS.cubeJump*
+.92*
+gravityDirection;
+}
+
+burst(
+o.x-world,
+oy,
+22,
+o.color==="blue"?"#4de8ff":"#ffe14a"
+);
+
+playSfx(800);
 }
 }
 }
+
+/* =========================================================
+   PORTALS
+========================================================= */
 
 function checkPortals(){
+
+const px=world+PLAYER.x+18;
 
 for(const p of portals){
 
 if(p.used)continue;
 
-const x=world+PLAYER.x+18;
-
-if(x>p.x&&x<p.x+65){
+if(px>p.x&&px<p.x+65){
 
 p.used=true;
 
 if(p.type==="speed"){
+
 speedMultiplier=p.mult;
 burst(p.x-world,H*.48,25,"#ffe14a");
 playSfx(900);
+
 }
 
-if(p.type==="gravity"){
+else if(p.type==="gravity"){
+
 gravityDirection*=-1;
 PLAYER.vy=0;
+
 burst(p.x-world,H*.48,30,"#ff4be8");
 playSfx(650);
+
 }
 
-if(p.type==="mode"){
+else if(p.type==="mode"){
+
 PLAYER.mode=p.mode;
-document.getElementById("modeText").textContent=p.mode.toUpperCase();
 PLAYER.vy=0;
-burst(p.x-world,H*.48,35,LEVELS[current].color);
+PLAYER.grounded=false;
+
+document.getElementById("modeText").textContent=
+PLAYER.mode.toUpperCase();
+
+burst(
+p.x-world,
+H*.48,
+35,
+LEVELS[current].color
+);
+
 playSfx(740);
 }
 }
 }
 }
 
+/* =========================================================
+   COINS
+========================================================= */
+
 function checkCoins(){
+
+const px=world+PLAYER.x+18;
+const py=PLAYER.y+18;
 
 for(const c of coins){
 
 if(c.collected)continue;
 
-const x=c.x-world;
-const y=gravityDirection===1?ground-125:125;
+const cy=
+c.side===1
+?ground-125
+:125;
 
-if(Math.hypot(PLAYER.x+18-x,PLAYER.y+18-y)<38){
+if(
+Math.hypot(px-c.x,py-cy)<38
+){
 
 c.collected=true;
 collected.add(c.id);
 runCoins++;
 
-updateHUD();
+burst(
+c.x-world,
+cy,
+20,
+"#ffd43b"
+);
 
-burst(x,y,20,"#ffd43b");
 playSfx(980);
+updateHUD();
 }
 }
 }
 
 /* =========================================================
-   COLLISION
+   PRACTICE CHECKPOINTS
 ========================================================= */
 
-function collisions(){
+function checkCheckpoints(){
 
-const left=world+PLAYER.x+6;
-const right=world+PLAYER.x+PLAYER.size-6;
-const top=PLAYER.y+6;
-const bottom=PLAYER.y+PLAYER.size-6;
+if(!practice)return;
+
+for(let i=0;i<checkpoints.length;i++){
+
+const cp=checkpoints[i];
+
+if(cp.activated)continue;
+
+if(world>=cp.x){
+
+cp.activated=true;
+practiceCheckpoint=i;
+
+showCheckpoint();
+}
+}
+}
+
+function showCheckpoint(){
+
+const el=document.getElementById("checkpointInfo");
+
+el.textContent=
+`✓ CHECKPOINT ${practiceCheckpoint+1}`;
+
+el.style.display="block";
+
+clearTimeout(showCheckpoint.timer);
+
+showCheckpoint.timer=setTimeout(()=>{
+el.style.display="none";
+},900);
+}
+
+function respawnPractice(){
+
+if(!practice||practiceCheckpoint<0){
+startLevel(current,true);
+return;
+}
+
+const cp=checkpoints[practiceCheckpoint];
+
+world=cp.x;
+
+gravityDirection=
+LEVELS[current].gravity;
+
+speedMultiplier=1;
+
+for(const p of portals){
+if(p.x<world)p.used=true;
+}
+
+for(const o of orbs){
+if(o.x<world)o.used=true;
+}
+
+for(const p of pads){
+if(p.x<world)p.used=true;
+}
+
+PLAYER.mode="cube";
+PLAYER.vy=0;
+PLAYER.rotation=0;
+PLAYER.alive=true;
+PLAYER.grounded=true;
+PLAYER.x=Math.max(110,W*.22);
+PLAYER.y=gravityDirection===1?ground-PLAYER.size:0;
+
+running=true;
+paused=false;
+lastTime=performance.now();
+
+updateHUD();
+}
+
+/* =========================================================
+   COLLISIONS
+========================================================= */
+
+function getPlayerRect(){
+
+return{
+left:world+PLAYER.x+6,
+right:world+PLAYER.x+PLAYER.size-6,
+top:PLAYER.y+6,
+bottom:PLAYER.y+PLAYER.size-6
+};
+}
+
+function checkCollisions(){
+
+const r=getPlayerRect();
 
 for(const o of obstacles){
 
+/* SPIKE */
+
 if(o.type==="spike"){
 
-if(right>o.x+7&&left<o.x+41){
+if(o.gravity===1){
 
-if(gravityDirection===1&&bottom>ground-43){
-die();return;
+if(
+r.right>o.x+5&&
+r.left<o.x+42&&
+r.bottom>ground-44
+){
+die();
+return;
 }
 
-if(gravityDirection===-1&&top<43){
-die();return;
+}else{
+
+if(
+r.right>o.x+5&&
+r.left<o.x+42&&
+r.top<44
+){
+die();
+return;
 }
 }
 }
+
+/* SAW */
 
 if(o.type==="saw"){
 
-const cy=gravityDirection===1?ground-o.r:o.r;
+const cy=
+o.gravity===1
+?ground-o.r
+:o.r;
 
-const nx=Math.max(left,Math.min(o.x,right));
-const ny=Math.max(top,Math.min(cy,bottom));
+const nx=Math.max(r.left,Math.min(o.x,r.right));
+const ny=Math.max(r.top,Math.min(cy,r.bottom));
 
 const dx=o.x-nx;
 const dy=cy-ny;
 
-if(dx*dx+dy*dy<(o.r-6)*(o.r-6)){
-die();return;
+const hitRadius=
+o.r-7;
+
+if(
+dx*dx+dy*dy<
+hitRadius*hitRadius
+){
+die();
+return;
 }
 }
 
-if(o.type==="gap"&&PLAYER.mode!=="wave"){
+/* GAP */
 
-const center=world+PLAYER.x+18;
+if(o.type==="gap"){
 
-if(center>o.x&&center<o.x+o.w&&bottom>=ground-5&&gravityDirection===1){
-die();return;
+const cx=world+PLAYER.x+18;
+
+if(
+o.gravity===1&&
+cx>o.x&&
+cx<o.x+o.w&&
+r.bottom>=ground-5
+){
+die();
+return;
+}
+
+if(
+o.gravity===-1&&
+cx>o.x&&
+cx<o.x+o.w&&
+r.top<=5
+){
+die();
+return;
 }
 }
 }
-}
-
-function inGap(){
-
-const x=world+PLAYER.x+18;
-
-return obstacles.some(o=>
-o.type==="gap"&&x>o.x&&x<o.x+o.w
-);
-}
-
-function snapRotation(){
-
-PLAYER.rotation=
-Math.round(PLAYER.rotation/(Math.PI/2))*(Math.PI/2);
 }
 
 /* =========================================================
@@ -953,12 +1411,28 @@ save.missionDeaths++;
 
 saveGame();
 
-burst(PLAYER.x+18,PLAYER.y+18,45,LEVELS[current].color);
-playSfx(80);
+burst(
+PLAYER.x+18,
+PLAYER.y+18,
+50,
+LEVELS[current].color
+);
+
+playSfx(90);
 
 setTimeout(()=>{
-startLevel(current,practice);
-},430);
+
+if(practice){
+
+respawnPractice();
+
+}else{
+
+startLevel(current,false);
+
+}
+
+},360);
 }
 
 /* =========================================================
@@ -994,11 +1468,16 @@ document.getElementById("finishInfo").textContent=
 
 document.getElementById("finish").style.display="flex";
 
-burst(W/2,H*.35,120,LEVELS[current].color);
+burst(
+W/2,
+H*.35,
+130,
+LEVELS[current].color
+);
 }
 
 /* =========================================================
-   LOOP
+   GAME LOOP
 ========================================================= */
 
 function loop(now){
@@ -1006,19 +1485,23 @@ function loop(now){
 if(!running)return;
 
 if(paused){
+
 lastTime=now;
 raf=requestAnimationFrame(loop);
 return;
 }
 
-let frame=Math.min(.05,(now-lastTime)/1000);
-lastTime=now;
+const frame=Math.min(.05,(now-lastTime)/1000);
 
+lastTime=now;
 accumulator+=frame;
 
 let steps=0;
 
-while(accumulator>=PHYSICS.dt&&steps<PHYSICS.maxSteps){
+while(
+accumulator>=PHYSICS.dt&&
+steps<PHYSICS.maxSteps
+){
 
 physics(PHYSICS.dt);
 
@@ -1028,7 +1511,11 @@ steps++;
 
 draw();
 
-if(running)raf=requestAnimationFrame(loop);
+updateFPS(now);
+
+if(running){
+raf=requestAnimationFrame(loop);
+}
 }
 
 /* =========================================================
@@ -1042,6 +1529,7 @@ const color=LEVELS[current].color;
 ctx.clearRect(0,0,W,H);
 
 const bg=ctx.createLinearGradient(0,0,0,H);
+
 bg.addColorStop(0,"#080b20");
 bg.addColorStop(1,"#020207");
 
@@ -1072,32 +1560,33 @@ const x=o.x-world;
 
 if(x<-120||x>W+120)continue;
 
-if(o.type==="spike")drawSpike(x);
-if(o.type==="saw")drawSaw(x,o.r);
-
-if(o.type==="gap"){
-ctx.fillStyle="#010105";
-ctx.fillRect(x,ground,o.w,H-ground);
-}
+if(o.type==="spike")drawSpike(x,o);
+if(o.type==="saw")drawSaw(x,o);
+if(o.type==="gap")drawGap(x,o);
 }
 
 for(const p of pads){
 
 const x=p.x-world;
-if(x>-100&&x<W+100)drawPad(x);
+
+if(x>-100&&x<W+100)
+drawPad(x,p);
 }
 
 for(const o of orbs){
 
 const x=o.x-world;
-if(x>-80&&x<W+80)drawOrb(x,o.color);
+
+if(x>-80&&x<W+80)
+drawOrb(x,o);
 }
 
 for(const p of portals){
 
 const x=p.x-world;
 
-if(x>-100&&x<W+100)drawPortal(x,p);
+if(x>-100&&x<W+100)
+drawPortal(x,p);
 }
 
 for(const c of coins){
@@ -1105,49 +1594,126 @@ for(const c of coins){
 if(c.collected)continue;
 
 const x=c.x-world;
+const y=c.side===1?ground-125:125;
 
 if(x>-60&&x<W+60)
-drawCoin(x,gravityDirection===1?ground-125:125);
+drawCoin(x,y);
+}
+
+if(practice){
+
+for(const cp of checkpoints){
+
+const x=cp.x-world;
+
+if(x>-20&&x<W+20)
+drawCheckpoint(x,cp);
+}
 }
 
 drawTrail();
 
-if(PLAYER.alive)drawPlayer();
+if(PLAYER.alive)
+drawPlayer();
 
 drawParticles();
 
-const p=Math.min(100,Math.floor(world/LEVELS[current].length*100));
+const percentValue=Math.min(
+100,
+Math.floor(
+world/LEVELS[current].length*100
+)
+);
 
-document.getElementById("percent").textContent=p+"%";
-document.getElementById("gameBar").style.width=p+"%";
+document.getElementById("percent").textContent=
+percentValue+"%";
+
+document.getElementById("gameBar").style.width=
+percentValue+"%";
 }
 
 /* =========================================================
-   PLAYER
+   PLAYER DRAW
 ========================================================= */
+
+function getSkinColor(){
+
+const colors=[
+"#00eaff",
+"#d35cff",
+"#ff5147",
+"#ffd43b",
+"#27f0c5",
+"#ff247f"
+];
+
+return colors[save.skin]||colors[0];
+}
 
 function drawPlayer(){
 
-const c=LEVELS[current].color;
+const c=getSkinColor();
 
 ctx.save();
 
-ctx.translate(PLAYER.x+18,PLAYER.y+18);
+ctx.translate(
+PLAYER.x+18,
+PLAYER.y+18
+);
+
 ctx.rotate(PLAYER.rotation);
 
 ctx.shadowColor=c;
 ctx.shadowBlur=22;
 
+if(PLAYER.mode==="wave"){
+
+ctx.fillStyle=c;
+
+ctx.beginPath();
+ctx.moveTo(-20,0);
+ctx.lineTo(20,-11);
+ctx.lineTo(20,11);
+ctx.closePath();
+ctx.fill();
+
+}else if(PLAYER.mode==="ship"){
+
+ctx.fillStyle=c;
+
+ctx.beginPath();
+ctx.moveTo(22,0);
+ctx.lineTo(-16,-15);
+ctx.lineTo(-9,0);
+ctx.lineTo(-16,15);
+ctx.closePath();
+ctx.fill();
+
+}else if(PLAYER.mode==="ufo"){
+
+ctx.fillStyle=c;
+
+ctx.beginPath();
+ctx.arc(0,2,17,Math.PI,0);
+ctx.lineTo(17,8);
+ctx.lineTo(-17,8);
+ctx.closePath();
+ctx.fill();
+
+}else{
+
 ctx.fillStyle=c;
 ctx.fillRect(-18,-18,36,36);
+}
 
 ctx.shadowBlur=0;
-
 ctx.strokeStyle="#fff";
 ctx.lineWidth=2;
+
+if(PLAYER.mode==="cube"){
+
 ctx.strokeRect(-18,-18,36,36);
 
-/* tylko oczy */
 ctx.fillStyle="#05050a";
 
 ctx.beginPath();
@@ -1155,29 +1721,35 @@ ctx.arc(-7,-4,3,0,Math.PI*2);
 ctx.arc(7,-4,3,0,Math.PI*2);
 ctx.fill();
 
+}
+
 ctx.restore();
 }
 
 /* =========================================================
-   DRAW OBSTACLES
+   OBJECT DRAW
 ========================================================= */
 
-function drawSpike(x){
+function drawSpike(x,o){
 
 const c=LEVELS[current].color;
 
 ctx.save();
+
 ctx.fillStyle=c;
 ctx.shadowColor=c;
 ctx.shadowBlur=18;
 
 ctx.beginPath();
 
-if(gravityDirection===1){
+if(o.gravity===1){
+
 ctx.moveTo(x,ground);
 ctx.lineTo(x+23,ground-48);
 ctx.lineTo(x+46,ground);
+
 }else{
+
 ctx.moveTo(x,0);
 ctx.lineTo(x+23,48);
 ctx.lineTo(x+46,0);
@@ -1193,12 +1765,17 @@ ctx.stroke();
 ctx.restore();
 }
 
-function drawSaw(x,r){
+function drawSaw(x,o){
 
 const c=LEVELS[current].color;
-const cy=gravityDirection===1?ground-r:r;
+
+const cy=
+o.gravity===1
+?ground-o.r
+:o.r;
 
 ctx.save();
+
 ctx.translate(x,cy);
 ctx.rotate(performance.now()/280);
 
@@ -1211,7 +1788,8 @@ ctx.beginPath();
 for(let i=0;i<28;i++){
 
 const a=i*Math.PI/14;
-const rr=i%2===0?r:r*.68;
+const rr=i%2===0?o.r:o.r*.68;
+
 const px=Math.cos(a)*rr;
 const py=Math.sin(a)*rr;
 
@@ -1226,13 +1804,25 @@ ctx.shadowBlur=0;
 ctx.fillStyle="#05050c";
 
 ctx.beginPath();
-ctx.arc(0,0,r*.27,0,Math.PI*2);
+ctx.arc(0,0,o.r*.27,0,Math.PI*2);
 ctx.fill();
 
 ctx.restore();
 }
 
-function drawPad(x){
+function drawGap(x,o){
+
+ctx.fillStyle="#010105";
+ctx.fillRect(x,0,o.w,o.gravity===1?0:ground);
+ctx.fillRect(
+x,
+o.gravity===1?ground:0,
+o.w,
+o.gravity===1?H-ground:ground
+);
+}
+
+function drawPad(x,p){
 
 ctx.save();
 
@@ -1241,18 +1831,31 @@ ctx.shadowColor="#49ff9a";
 ctx.shadowBlur=20;
 
 ctx.beginPath();
-ctx.arc(x+27,ground-8,20,Math.PI,Math.PI*2);
-ctx.fill();
 
+if(p.gravity===1){
+ctx.arc(x+27,ground-8,20,Math.PI,Math.PI*2);
+}else{
+ctx.arc(x+27,8,20,0,Math.PI);
+}
+
+ctx.fill();
 ctx.restore();
 }
 
-function drawOrb(x,color){
+function drawOrb(x,o){
 
-const c=color==="yellow"?"#ffe14a":"#4de8ff";
+const c=
+o.color==="yellow"
+?"#ffe14a"
+:o.color==="blue"
+?"#4de8ff"
+:"#ff69e8";
+
+const y=o.gravity===1?ground-110:110;
 
 ctx.save();
-ctx.translate(x,H*.48);
+
+ctx.translate(x,y);
 
 ctx.strokeStyle=c;
 ctx.shadowColor=c;
@@ -1260,7 +1863,14 @@ ctx.shadowBlur=20;
 ctx.lineWidth=4;
 
 ctx.beginPath();
-ctx.arc(0,0,23+Math.sin(performance.now()/100)*3,0,Math.PI*2);
+ctx.arc(
+0,
+0,
+23+Math.sin(performance.now()/100)*3,
+0,
+Math.PI*2
+);
+
 ctx.stroke();
 
 ctx.restore();
@@ -1269,11 +1879,25 @@ ctx.restore();
 function drawPortal(x,p){
 
 let c="#ff4be8";
+let label="↕";
 
-if(p.type==="speed")c="#ffe14a";
-if(p.type==="mode")c="#49ff9a";
+if(p.type==="speed"){
+c="#ffe14a";
+label=">>";
+}
+
+if(p.type==="mode"){
+c="#49ff9a";
+
+if(p.mode==="cube")label="■";
+if(p.mode==="ship")label="▲";
+if(p.mode==="ufo")label="●";
+if(p.mode==="ball")label="●";
+if(p.mode==="wave")label="〽";
+}
 
 ctx.save();
+
 ctx.translate(x+30,H*.48);
 
 ctx.strokeStyle=c;
@@ -1282,24 +1906,22 @@ ctx.shadowBlur=22;
 ctx.lineWidth=5;
 
 ctx.beginPath();
-ctx.arc(0,0,30+Math.sin(performance.now()/120)*4,0,Math.PI*2);
+
+ctx.arc(
+0,
+0,
+30+Math.sin(performance.now()/120)*4,
+0,
+Math.PI*2
+);
+
 ctx.stroke();
 
 ctx.shadowBlur=0;
 ctx.fillStyle="#fff";
 ctx.font="bold 18px Arial";
 ctx.textAlign="center";
-
-let text="↕";
-
-if(p.type==="speed")text=">>";
-if(p.type==="mode"){
-if(p.mode==="ship")text="▲";
-if(p.mode==="ufo")text="●";
-if(p.mode==="wave")text="〽";
-}
-
-ctx.fillText(text,0,7);
+ctx.fillText(label,0,7);
 
 ctx.restore();
 }
@@ -1307,6 +1929,7 @@ ctx.restore();
 function drawCoin(x,y){
 
 ctx.save();
+
 ctx.translate(x,y);
 
 ctx.fillStyle="#ffd43b";
@@ -1314,12 +1937,46 @@ ctx.shadowColor="#ffd43b";
 ctx.shadowBlur=20;
 
 ctx.beginPath();
-ctx.arc(0,0,14+Math.sin(performance.now()/120)*1.5,0,Math.PI*2);
+ctx.arc(
+0,
+0,
+14+Math.sin(performance.now()/120)*1.5,
+0,
+Math.PI*2
+);
+
 ctx.fill();
 
 ctx.shadowBlur=0;
 ctx.strokeStyle="#fff";
 ctx.stroke();
+
+ctx.restore();
+}
+
+function drawCheckpoint(x,cp){
+
+ctx.save();
+
+ctx.globalAlpha=cp.activated?.35:.8;
+ctx.strokeStyle="#00ff9d";
+ctx.shadowColor="#00ff9d";
+ctx.shadowBlur=15;
+ctx.lineWidth=2;
+
+ctx.beginPath();
+ctx.moveTo(x,20);
+ctx.lineTo(x,ground);
+ctx.stroke();
+
+ctx.fillStyle="#00ff9d";
+
+ctx.beginPath();
+ctx.moveTo(x,30);
+ctx.lineTo(x+25,38);
+ctx.lineTo(x,46);
+ctx.closePath();
+ctx.fill();
 
 ctx.restore();
 }
@@ -1393,43 +2050,18 @@ ctx.globalAlpha=1;
 }
 
 /* =========================================================
-   TRAIL + PARTICLES
+   PARTICLES
 ========================================================= */
-
-function updateTrail(dt){
-
-for(let i=trail.length-1;i>=0;i--){
-
-trail[i].life-=dt;
-
-if(trail[i].life<=0)
-trail.splice(i,1);
-}
-}
-
-function drawTrail(){
-
-const c=LEVELS[current].color;
-
-for(const t of trail){
-
-ctx.globalAlpha=Math.max(0,t.life/.22)*.28;
-ctx.fillStyle=c;
-
-ctx.fillRect(t.x-7,t.y-7,14,14);
-}
-
-ctx.globalAlpha=1;
-}
 
 function burst(x,y,count,color){
 
 for(let i=0;i<count;i++){
 
-if(particles.length>350)break;
+if(particles.length>380)break;
 
 particles.push({
-x,y,
+x,
+y,
 vx:(Math.random()-.5)*520,
 vy:(Math.random()-.5)*520,
 life:.4+Math.random()*.8,
@@ -1450,7 +2082,8 @@ p.x+=p.vx*dt;
 p.y+=p.vy*dt;
 p.vy+=450*dt;
 
-if(p.life<=0)particles.splice(i,1);
+if(p.life<=0)
+particles.splice(i,1);
 }
 }
 
@@ -1463,15 +2096,78 @@ ctx.fillStyle=p.color;
 ctx.shadowColor=p.color;
 ctx.shadowBlur=10;
 
-ctx.fillRect(p.x-p.size/2,p.y-p.size/2,p.size,p.size);
+ctx.fillRect(
+p.x-p.size/2,
+p.y-p.size/2,
+p.size,
+p.size
+);
 }
 
 ctx.globalAlpha=1;
 ctx.shadowBlur=0;
 }
 
+function updateTrail(dt){
+
+for(let i=trail.length-1;i>=0;i--){
+
+trail[i].life-=dt;
+
+if(trail[i].life<=0)
+trail.splice(i,1);
+}
+}
+
+function drawTrail(){
+
+const c=getSkinColor();
+
+for(const t of trail){
+
+ctx.globalAlpha=
+Math.max(0,t.life/.22)*.28;
+
+ctx.fillStyle=c;
+
+ctx.fillRect(
+t.x-7,
+t.y-7,
+14,
+14
+);
+}
+
+ctx.globalAlpha=1;
+}
+
 /* =========================================================
-   AUDIO — ZOSTAJE TWOJA MUZYKA
+   FPS
+========================================================= */
+
+function updateFPS(now){
+
+fpsFrames++;
+
+if(now-fpsTime>=500){
+
+currentFps=
+Math.round(
+fpsFrames*1000/(now-fpsTime)
+);
+
+fpsFrames=0;
+fpsTime=now;
+
+document.getElementById("fps").textContent=
+save.showFps
+?`${currentFps} FPS • PHYSICS 120 Hz`
+:"";
+}
+}
+
+/* =========================================================
+   AUDIO — ZACHOWANA MUZYKA
 ========================================================= */
 
 function getAudio(){
@@ -1479,7 +2175,10 @@ function getAudio(){
 if(audio)return audio;
 
 try{
-audio=new(window.AudioContext||window.webkitAudioContext)();
+audio=new(
+window.AudioContext||
+window.webkitAudioContext
+)();
 }catch(e){}
 
 return audio;
@@ -1492,6 +2191,7 @@ if(!save.sfx)return;
 try{
 
 const a=getAudio();
+
 if(!a)return;
 
 if(a.state==="suspended")a.resume();
@@ -1523,11 +2223,13 @@ if(!save.music)return;
 try{
 
 const a=getAudio();
+
 if(!a)return;
 
 if(a.state==="suspended")a.resume();
 
 const l=LEVELS[current];
+
 musicIndex=0;
 
 musicTimer=setInterval(()=>{
@@ -1538,7 +2240,10 @@ const o=a.createOscillator();
 const g=a.createGain();
 
 o.type=l.wave;
-o.frequency.value=l.notes[musicIndex%l.notes.length];
+o.frequency.value=
+l.notes[
+musicIndex%l.notes.length
+];
 
 g.gain.setValueAtTime(.018,a.currentTime);
 g.gain.exponentialRampToValueAtTime(.001,a.currentTime+.16);
@@ -1559,6 +2264,7 @@ musicIndex++;
 function stopMusic(){
 
 if(musicTimer){
+
 clearInterval(musicTimer);
 musicTimer=null;
 }
@@ -1578,7 +2284,7 @@ PLAYER.mode.toUpperCase();
 }
 
 /* =========================================================
-   PAUSE
+   PAUSE / MENU
 ========================================================= */
 
 function togglePause(){
@@ -1590,8 +2296,9 @@ paused=!paused;
 document.getElementById("pause").style.display=
 paused?"flex":"none";
 
-if(paused)stopMusic();
-else{
+if(paused){
+stopMusic();
+}else{
 lastTime=performance.now();
 if(save.music)startMusic();
 }
@@ -1629,8 +2336,12 @@ renderMenu();
 document.getElementById("pauseMenu").onclick=goMenu;
 document.getElementById("menuBtn").onclick=goMenu;
 document.getElementById("finishMenu").onclick=goMenu;
-document.getElementById("restartBtn").onclick=()=>startLevel(current,practice);
-document.getElementById("again").onclick=()=>startLevel(current,practice);
+document.getElementById("restartBtn").onclick=()=>{
+startLevel(current,practice);
+};
+document.getElementById("again").onclick=()=>{
+startLevel(current,practice);
+};
 
 /* =========================================================
    ACHIEVEMENTS
@@ -1651,7 +2362,6 @@ function unlock(id){
 
 if(!save.achievements.includes(id)){
 save.achievements.push(id);
-saveGame();
 }
 }
 
@@ -1682,7 +2392,8 @@ d.className="item";
 if(save.achievements.includes(a[0]))
 d.style.borderColor="#00eaff";
 
-d.innerHTML=`<b>${a[1]}</b><br><small>${a[2]}</small>`;
+d.innerHTML=
+`<b>${a[1]}</b><br><small>${a[2]}</small>`;
 
 box.appendChild(d);
 });
@@ -1728,6 +2439,7 @@ if(save.coins>=s[2]){
 
 save.coins-=s[2];
 save.skin=i;
+
 saveGame();
 renderShop();
 }
@@ -1743,13 +2455,12 @@ document.getElementById("shop").style.display="flex";
 };
 
 /* =========================================================
-   MISJE
+   MISSIONS
 ========================================================= */
 
 function renderMissions(){
 
-document.getElementById("missionList").innerHTML=
-`
+document.getElementById("missionList").innerHTML=`
 <div class="item">🪙 Zbierz 10 monet<br><b>${Math.min(save.missionCoins,10)}/10</b></div>
 <div class="item">☠️ Zgiń 20 razy<br><b>${Math.min(save.missionDeaths,20)}/20</b></div>
 <div class="item">⭐ Ukończ 10 poziomów<br><b>${Math.min(save.completed.length,10)}/10</b></div>
@@ -1775,6 +2486,9 @@ document.getElementById("musicSetting").textContent=
 
 document.getElementById("sfxSetting").textContent=
 `🔊 Efekty: ${save.sfx?"ON":"OFF"}`;
+
+document.getElementById("fpsSetting").textContent=
+`📈 FPS: ${save.showFps?"ON":"OFF"}`;
 }
 
 document.getElementById("settingsBtn").onclick=()=>{
@@ -1786,17 +2500,32 @@ document.getElementById("touchSetting").onclick=()=>{
 save.touch=!save.touch;
 saveGame();
 settingsUI();
+
+if(running)
+document.getElementById("touchJump").style.display=
+save.touch?"block":"none";
 };
 
 document.getElementById("musicSetting").onclick=()=>{
 save.music=!save.music;
 saveGame();
-if(save.music&&running)startMusic();else stopMusic();
+
+if(save.music&&running)
+startMusic();
+else
+stopMusic();
+
 settingsUI();
 };
 
 document.getElementById("sfxSetting").onclick=()=>{
 save.sfx=!save.sfx;
+saveGame();
+settingsUI();
+};
+
+document.getElementById("fpsSetting").onclick=()=>{
+save.showFps=!save.showFps;
 saveGame();
 settingsUI();
 };
@@ -1815,24 +2544,32 @@ if(i===0||save.completed.includes(i-1))
 available.push(i);
 }
 
+if(available.length)
 startLevel(
-available[Math.floor(Math.random()*available.length)],
+available[
+Math.floor(Math.random()*available.length)
+],
 false
 );
 };
 
 document.getElementById("practiceBtn").onclick=()=>{
 
-const i=
+const available=
 save.completed.length
-?save.completed[Math.floor(Math.random()*save.completed.length)]
-:0;
+?save.completed
+:[0];
 
-startLevel(i,true);
+startLevel(
+available[
+Math.floor(Math.random()*available.length)
+],
+true
+);
 };
 
 /* =========================================================
-   INFO / RESET
+   INFO
 ========================================================= */
 
 document.getElementById("infoBtn").onclick=()=>{
@@ -1840,26 +2577,32 @@ document.getElementById("infoBtn").onclick=()=>{
 alert(
 `NEON DASH
 
-Fizyka w stylu klasycznego rhythm-platformera:
+GAMEPLAY OVERHAUL
 
-• stała fizyka 120 Hz
-• auto-run
-• precyzyjny skok
-• grawitacja
-• obrót kostki
-• Jump Pad
-• Jump Orb
-• Gravity Orb
-• Speed Portal
-• Gravity Portal
-• Cube
-• Ship
-• UFO
-• Ball
-• Wave
-• Practice Mode
-• kolizje hitboxów
-• 120 FPS support
+✓ fizyka 120 Hz
+✓ auto-run
+✓ Cube
+✓ Ship
+✓ UFO
+✓ Ball
+✓ Wave
+✓ Jump Pads
+✓ Jump Orbs
+✓ Gravity Orbs
+✓ Speed Portals
+✓ Gravity Portals
+✓ Mode Portals
+✓ precyzyjne hitboxy
+✓ ręcznie uporządkowane sekcje
+✓ 3 monety na poziom
+✓ Practice Mode
+✓ checkpointy
+✓ FPS counter
+✓ skiny
+✓ achievementy
+✓ misje
+
+STEROWANIE
 
 SPACE / W / ↑ — akcja
 P / ESC — pauza
@@ -1867,40 +2610,58 @@ R — restart`
 );
 };
 
+/* =========================================================
+   RESET
+========================================================= */
+
 document.getElementById("resetBtn").onclick=()=>{
 
 if(confirm("Usunąć cały zapis Neon Dash?")){
 
 localStorage.removeItem("neonDashSave");
-save=structuredClone(DEFAULT);
+
+save=loadSave();
+
 renderMenu();
+renderAchievements();
+renderShop();
+renderMissions();
+settingsUI();
 }
 };
 
 /* =========================================================
-   CLOSE
+   CLOSE MODALS
 ========================================================= */
 
 document.querySelectorAll(".close").forEach(b=>{
-b.onclick=()=>b.closest(".modal").style.display="none";
+b.onclick=()=>{
+b.closest(".modal").style.display="none";
+};
 });
 
 /* =========================================================
-   VISIBILITY
+   AUTO PAUSE
 ========================================================= */
 
 document.addEventListener("visibilitychange",()=>{
 
-if(document.hidden&&running&&!paused){
+if(
+document.hidden&&
+running&&
+!paused
+){
 
 paused=true;
+
 document.getElementById("pause").style.display="flex";
+
 stopMusic();
 }
 });
 
 /* =========================================================
-   START
+   START APP
 ========================================================= */
 
 resize();
