@@ -3,8 +3,8 @@
 <html lang="pl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>Neon Dash 2.4</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Neon Dash 2.5</title>
 
 <style>
 *{
@@ -17,17 +17,12 @@ html,body{
   width:100%;
   height:100%;
   overflow:hidden;
-  background:#02030a;
+  background:#03030a;
   color:#fff;
-  font-family:Arial,Helvetica,sans-serif;
+  font-family:Arial,sans-serif;
 }
 
-body{
-  user-select:none;
-}
-
-button,
-input{
+button,input{
   font:inherit;
 }
 
@@ -35,6 +30,8 @@ button{
   color:#fff;
   border:0;
   cursor:pointer;
+  user-select:none;
+  -webkit-user-select:none;
   touch-action:manipulation;
 }
 
@@ -42,670 +39,359 @@ button:active{
   transform:scale(.97);
 }
 
-/* =====================================================
-   MENU
-===================================================== */
-
 #menu{
   position:fixed;
   inset:0;
-  z-index:10;
-  overflow-y:auto;
-  padding:18px 14px 35px;
+  overflow:auto;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:
+    max(18px,env(safe-area-inset-top))
+    14px
+    max(30px,env(safe-area-inset-bottom));
   background:
-    radial-gradient(circle at 50% -10%,#39459e 0,#141735 28%,transparent 55%),
-    radial-gradient(circle at 10% 80%,#35105f 0,transparent 32%),
-    radial-gradient(circle at 90% 70%,#063d55 0,transparent 30%),
-    #03040c;
-}
-
-.bgGlow{
-  position:fixed;
-  width:240px;
-  height:240px;
-  border-radius:50%;
-  filter:blur(80px);
-  opacity:.16;
-  pointer-events:none;
-  animation:floatGlow 8s ease-in-out infinite alternate;
-}
-
-.glow1{
-  background:#00eaff;
-  left:-100px;
-  top:30%;
-}
-
-.glow2{
-  background:#ff27d7;
-  right:-100px;
-  top:60%;
-  animation-delay:2s;
-}
-
-@keyframes floatGlow{
-  from{
-    transform:translateY(-30px);
-  }
-  to{
-    transform:translateY(40px);
-  }
-}
-
-.container{
-  position:relative;
-  width:min(900px,100%);
-  margin:auto;
-}
-
-/* =====================================================
-   HEADER
-===================================================== */
-
-.header{
-  text-align:center;
-  padding:5px 0 14px;
+    radial-gradient(circle at 50% 0%,#29327d,#090a20 43%,#020207 100%);
 }
 
 .logo{
-  font-size:clamp(36px,9vw,68px);
-  font-weight:1000;
-  letter-spacing:5px;
-  line-height:1;
-  color:#fff;
+  margin:10px 0 3px;
+  font-size:clamp(32px,8vw,58px);
+  font-weight:900;
+  letter-spacing:clamp(2px,1vw,7px);
+  text-align:center;
   text-shadow:
-    0 0 8px #00eaff,
+    0 0 10px #00eaff,
     0 0 25px #00eaff,
-    0 0 45px #a855ff,
-    0 0 70px #ff27d7;
-  animation:logoPulse 2s ease-in-out infinite alternate;
+    0 0 50px #a855ff;
+  animation:logoPulse 1.8s infinite alternate;
 }
 
 @keyframes logoPulse{
-  from{
-    filter:brightness(.95);
-  }
-  to{
-    filter:brightness(1.25);
-  }
-}
-
-.version{
-  display:inline-block;
-  margin-top:9px;
-  padding:5px 11px;
-  border:1px solid #00eaff66;
-  border-radius:20px;
-  background:#071923aa;
-  color:#79f5ff;
-  font-size:11px;
-  font-weight:bold;
-  letter-spacing:2px;
+  from{transform:scale(1)}
+  to{transform:scale(1.025)}
 }
 
 .subtitle{
-  margin-top:9px;
-  opacity:.65;
-  font-size:13px;
+  opacity:.72;
+  text-align:center;
+  font-size:clamp(12px,3vw,17px);
+  margin-bottom:14px;
 }
 
-/* =====================================================
-   PLAYER CARD
-===================================================== */
-
-.playerCard{
+.topCards{
+  width:min(900px,100%);
   display:grid;
-  grid-template-columns:auto 1fr auto;
-  gap:13px;
-  align-items:center;
-  padding:13px;
-  margin-bottom:10px;
-  border:1px solid #39477a;
-  border-radius:18px;
-  background:
-    linear-gradient(
-      135deg,
-      #11172ddd,
-      #0b0e20dd
-    );
-  box-shadow:
-    0 10px 40px #0006,
-    inset 0 0 30px #00eaff08;
-}
-
-.avatar{
-  width:58px;
-  height:58px;
-  display:grid;
-  place-items:center;
-  border-radius:16px;
-  border:2px solid #00eaff;
-  background:
-    radial-gradient(
-      circle,
-      #152a40,
-      #070a15
-    );
-  box-shadow:
-    0 0 20px #00eaff55;
-  font-size:29px;
-}
-
-.playerMain{
-  min-width:0;
-}
-
-.playerName{
-  font-size:17px;
-  font-weight:900;
-}
-
-.playerLevel{
-  color:#79f5ff;
-  font-size:12px;
-  margin-top:2px;
-}
-
-.xpBar{
-  height:9px;
-  margin-top:8px;
-  overflow:hidden;
-  border-radius:20px;
-  background:#03050d;
-}
-
-#xpFill{
-  width:0;
-  height:100%;
-  background:
-    linear-gradient(
-      90deg,
-      #00eaff,
-      #8b5cff,
-      #ff27d7
-    );
-  box-shadow:0 0 12px #00eaff;
-  transition:.3s;
-}
-
-.xpText{
-  margin-top:4px;
-  font-size:10px;
-  opacity:.55;
-}
-
-.wallet{
-  text-align:right;
-  font-weight:900;
-  line-height:1.7;
-  white-space:nowrap;
-  font-size:13px;
-}
-
-.wallet span{
-  color:#ffe14a;
-}
-
-.wallet .gem{
-  color:#bd8cff;
-}
-
-/* =====================================================
-   DAILY HERO
-===================================================== */
-
-.dailyHero{
-  position:relative;
-  overflow:hidden;
-  margin-bottom:10px;
-  padding:15px;
-  border:1px solid #4e3f88;
-  border-radius:18px;
-  background:
-    linear-gradient(
-      120deg,
-      #151435,
-      #21143b,
-      #10152e
-    );
-}
-
-.dailyHero:after{
-  content:"";
-  position:absolute;
-  width:130px;
-  height:130px;
-  right:-35px;
-  top:-55px;
-  border-radius:50%;
-  background:#ff27d722;
-  filter:blur(10px);
-}
-
-.dailyTop{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+  grid-template-columns:repeat(3,1fr);
   gap:10px;
+  margin-bottom:12px;
 }
 
-.dailyTitle{
-  font-size:16px;
-  font-weight:900;
+.topCard{
+  min-width:0;
+  background:#10142b;
+  border:1px solid #35416f;
+  border-radius:16px;
+  padding:11px;
+  text-align:center;
+  box-shadow:0 0 20px #0005;
 }
 
-.dailyBadge{
-  padding:5px 9px;
-  border-radius:20px;
-  background:#ff27d722;
-  border:1px solid #ff27d766;
-  color:#ff8be8;
-  font-size:10px;
-  font-weight:bold;
+.topCard small{
+  display:block;
+  opacity:.6;
+  margin-bottom:4px;
 }
 
-.dailyName{
-  margin-top:8px;
-  font-size:22px;
-  font-weight:1000;
+.topCard b{
+  font-size:clamp(15px,4vw,22px);
 }
 
-.dailyInfo{
-  margin-top:3px;
-  opacity:.65;
-  font-size:12px;
-}
-
-.dailyButton{
-  position:relative;
-  z-index:2;
-  width:100%;
-  min-height:40px;
-  margin-top:11px;
-  border-radius:11px;
-  background:
-    linear-gradient(
-      90deg,
-      #7b35ff,
-      #ff27d7
-    );
-  box-shadow:0 0 20px #ff27d733;
-  font-weight:900;
-}
-
-/* =====================================================
-   PROGRESS
-===================================================== */
-
-.progressCard{
-  padding:12px;
-  margin-bottom:10px;
-  border:1px solid #303963;
+.progress{
+  width:min(900px,100%);
+  background:#11152d;
+  border:2px solid #303963;
   border-radius:17px;
-  background:#0d1123dd;
+  padding:14px;
+  margin-bottom:12px;
 }
 
 .progressTop{
   display:flex;
   justify-content:space-between;
   gap:10px;
-  font-size:12px;
   font-weight:bold;
 }
 
-.progressBar{
-  height:11px;
-  margin-top:7px;
-  overflow:hidden;
+.bar{
+  height:12px;
+  background:#050712;
   border-radius:20px;
-  background:#03050d;
+  overflow:hidden;
+  margin-top:8px;
 }
 
 #menuBar{
-  width:0;
   height:100%;
-  background:
-    linear-gradient(
-      90deg,
-      #00eaff,
-      #7b5cff,
-      #ff27d7
-    );
-  box-shadow:0 0 15px #00eaff;
-  transition:.5s;
+  width:0;
+  background:linear-gradient(90deg,#00eaff,#7b5cff,#ff27d7);
+  box-shadow:0 0 14px #00eaff;
+  transition:.35s;
 }
 
-.progressBottom{
-  display:flex;
-  justify-content:space-between;
-  margin-top:6px;
-  font-size:10px;
-  opacity:.55;
-}
-
-/* =====================================================
-   QUICK ACTIONS
-===================================================== */
-
-.quickActions{
-  display:grid;
-  grid-template-columns:
-    repeat(6,1fr);
-  gap:7px;
-  margin-bottom:10px;
+#doneText{
+  text-align:center;
+  opacity:.65;
+  margin-top:7px;
+  font-size:13px;
 }
 
 .quick{
-  min-height:58px;
-  padding:7px 4px;
-  border:1px solid #34416e;
+  width:min(900px,100%);
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:8px;
+  margin-bottom:12px;
+}
+
+.quick button,
+#achBtn{
+  min-height:46px;
+  padding:10px;
   border-radius:13px;
-  background:#121831dd;
-  font-size:10px;
-  font-weight:bold;
-  transition:.15s;
-}
-
-.quick:hover{
-  border-color:#00eaff;
-  background:#17213bdd;
-}
-
-.quickIcon{
-  display:block;
-  font-size:20px;
-  margin-bottom:3px;
-}
-
-/* =====================================================
-   LEVEL SECTION
-===================================================== */
-
-.levelHeader{
-  display:flex;
-  justify-content:space-between;
-  align-items:end;
-  gap:10px;
-  margin:14px 2px 8px;
-}
-
-.sectionTitle{
-  font-size:20px;
-  font-weight:1000;
-}
-
-.sectionSub{
-  margin-top:2px;
-  font-size:10px;
-  opacity:.5;
-}
-
-.levelControls{
-  display:flex;
-  gap:6px;
-  flex-wrap:wrap;
-}
-
-.filterButton{
-  padding:7px 9px;
-  border-radius:9px;
-  background:#11172c;
-  border:1px solid #34416e;
-  font-size:10px;
+  background:#202750;
+  border:1px solid #465582;
   font-weight:bold;
 }
 
-.filterButton.active{
+.quick button:hover,
+#achBtn:hover{
   border-color:#00eaff;
-  color:#00eaff;
-  box-shadow:0 0 12px #00eaff22;
 }
 
-.searchBox{
+#dailyCard{
+  width:min(900px,100%);
+  padding:14px;
+  margin-bottom:12px;
+  border-radius:17px;
+  border:2px solid #8d5cff;
+  background:
+    linear-gradient(135deg,#25164d,#11152d);
+  box-shadow:0 0 25px #8d5cff22;
+}
+
+.dailyTitle{
+  font-weight:900;
+  font-size:18px;
+}
+
+.dailyInfo{
+  opacity:.72;
+  margin-top:4px;
+  font-size:13px;
+}
+
+#dailyBtn{
+  margin-top:10px;
   width:100%;
-  height:42px;
-  margin-bottom:8px;
-  padding:0 13px;
-  border:1px solid #34416e;
+  min-height:44px;
+  border-radius:12px;
+  background:#7c4dff;
+  font-weight:bold;
+}
+
+.searchRow{
+  width:min(900px,100%);
+  display:flex;
+  gap:8px;
+  margin-bottom:10px;
+}
+
+#search{
+  flex:1;
+  min-width:0;
+  min-height:44px;
+  padding:10px 13px;
+  color:#fff;
+  background:#0d1125;
+  border:1px solid #39476f;
   border-radius:12px;
   outline:none;
-  background:#080c1bdd;
-  color:#fff;
 }
 
-.searchBox:focus{
+#search:focus{
   border-color:#00eaff;
-  box-shadow:0 0 15px #00eaff22;
 }
 
 #levels{
+  width:min(900px,100%);
   display:grid;
-  grid-template-columns:
-    repeat(2,minmax(0,1fr));
-  gap:9px;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+  padding-bottom:20px;
 }
 
 .level{
-  position:relative;
-  min-height:108px;
-  overflow:hidden;
-  padding:12px;
+  min-width:0;
+  min-height:94px;
   text-align:left;
-  border:1px solid #303861;
-  border-radius:16px;
-  background:
-    linear-gradient(
-      135deg,
-      #151b38,
-      #0c1023
-    );
-  transition:
-    border-color .15s,
-    transform .15s,
-    box-shadow .15s;
-}
-
-.level:before{
-  content:"";
-  position:absolute;
-  left:0;
-  top:0;
-  bottom:0;
-  width:3px;
-  background:var(--levelColor,#00eaff);
-  box-shadow:0 0 12px var(--levelColor,#00eaff);
+  padding:12px;
+  border-radius:15px;
+  border:2px solid #303861;
+  background:linear-gradient(135deg,#171c3b,#0d1024);
+  position:relative;
+  overflow:hidden;
 }
 
 .level:hover{
-  border-color:var(--levelColor,#00eaff);
-  box-shadow:
-    0 0 20px #00eaff14;
-  transform:translateY(-2px);
+  border-color:#00eaff;
 }
 
 .levelStatus{
   float:right;
-  font-size:19px;
-}
-
-.levelFavorite{
-  position:absolute;
-  right:10px;
-  bottom:10px;
-  width:25px;
-  height:25px;
-  padding:0;
-  border-radius:8px;
-  background:#070a16aa;
-  border:1px solid #39466d;
-  font-size:13px;
-}
-
-.levelNumber{
-  color:#7b8bb9;
-  font-size:10px;
-  font-weight:bold;
+  font-size:20px;
 }
 
 .levelName{
-  margin-top:2px;
-  padding-right:30px;
-  font-size:15px;
-  font-weight:1000;
+  font-weight:900;
+  font-size:clamp(14px,3.5vw,18px);
+  padding-right:28px;
 }
 
 .levelInfo{
+  font-size:12px;
+  opacity:.7;
   margin-top:5px;
-  color:#aab4d3;
-  font-size:10px;
 }
 
-.levelRecord{
-  margin-top:9px;
-  color:#76edff;
-  font-size:10px;
+.levelBest{
+  font-size:11px;
+  color:#ffd43b;
+  margin-top:5px;
 }
 
-/* =====================================================
-   OVERLAYS
-===================================================== */
+.favorite{
+  position:absolute;
+  right:9px;
+  bottom:7px;
+  opacity:.75;
+  font-size:16px;
+}
+
+#achBtn{
+  width:min(900px,100%);
+  margin-bottom:20px;
+}
 
 .overlay{
   position:fixed;
   inset:0;
-  z-index:100;
+  z-index:30;
   display:none;
   align-items:center;
   justify-content:center;
+  background:#000b;
   padding:15px;
-  background:#000d;
-  backdrop-filter:blur(8px);
 }
 
 .panel{
-  width:min(650px,100%);
+  width:min(620px,100%);
   max-height:90vh;
   overflow:auto;
-  padding:19px;
-  border:1px solid #465481;
+  background:#10142c;
+  border:2px solid #3d4a7d;
   border-radius:20px;
-  background:
-    linear-gradient(
-      145deg,
-      #11162d,
-      #090d1d
-    );
-  box-shadow:
-    0 20px 70px #000b,
-    inset 0 0 35px #00eaff08;
+  padding:20px;
+  box-shadow:0 0 40px #00eaff22;
 }
 
 .panel h2{
-  margin:0 0 14px;
   text-align:center;
-  font-size:23px;
+  margin-top:0;
 }
 
-.panelClose{
+.panel button{
   width:100%;
   min-height:44px;
-  margin-top:10px;
-  border-radius:11px;
-  background:#242d52;
-  border:1px solid #465481;
+  margin-top:9px;
+  padding:10px;
+  border-radius:12px;
+  background:#29335e;
   font-weight:bold;
 }
 
-.cardGrid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:9px;
-}
-
-.card,
-.mission,
-.achievement,
-.stat{
-  padding:12px;
-  border:1px solid #303b66;
-  border-radius:13px;
-  background:#121832;
-}
-
-.achievement{
+.ach{
+  padding:11px;
   margin:7px 0;
-  opacity:.35;
+  border-radius:12px;
+  background:#191e3b;
+  opacity:.4;
 }
 
-.achievement.unlocked{
+.ach.on{
   opacity:1;
-  border-color:#00eaff;
-  box-shadow:0 0 12px #00eaff12;
+  border:1px solid #00eaff;
 }
 
-.mission{
-  margin:7px 0;
-}
-
-.missionBar{
-  height:7px;
-  margin-top:7px;
-  overflow:hidden;
-  border-radius:20px;
-  background:#03050d;
-}
-
-.missionFill{
-  height:100%;
-  background:#49ff9a;
-  box-shadow:0 0 10px #49ff9a;
-}
-
-.statsGrid{
+.statGrid{
   display:grid;
   grid-template-columns:repeat(2,1fr);
   gap:8px;
 }
 
 .stat{
-  text-align:center;
+  padding:12px;
+  background:#191e3b;
+  border-radius:12px;
 }
 
-.statValue{
-  display:block;
-  margin-top:4px;
-  color:#00eaff;
-  font-size:24px;
-  font-weight:1000;
+.shopItem{
+  padding:12px;
+  margin:8px 0;
+  border-radius:12px;
+  background:#191e3b;
+  border:1px solid #303861;
 }
 
-/* =====================================================
-   GAME
-===================================================== */
+.shopItem button{
+  margin-top:7px;
+}
+
+.mission{
+  padding:12px;
+  margin:8px 0;
+  border-radius:12px;
+  background:#191e3b;
+}
+
+.mission.done{
+  border:1px solid #49ff9a;
+}
 
 #game{
   position:fixed;
   inset:0;
-  z-index:50;
   display:none;
-  background:#020207;
   touch-action:none;
+  overscroll-behavior:none;
+  background:#03030a;
 }
 
-#canvas{
+canvas{
   position:absolute;
   inset:0;
   display:block;
   width:100%;
   height:100%;
+  touch-action:none;
 }
 
 #hud{
   position:absolute;
-  z-index:60;
-  left:10px;
-  right:10px;
-  top:10px;
+  z-index:5;
+  left:max(10px,env(safe-area-inset-left));
+  right:max(10px,env(safe-area-inset-right));
+  top:max(10px,env(safe-area-inset-top));
   pointer-events:none;
   text-shadow:0 2px 5px #000;
 }
@@ -714,117 +400,81 @@ button:active{
   display:flex;
   justify-content:space-between;
   gap:8px;
-  font-size:clamp(11px,3vw,17px);
+  font-size:clamp(11px,2.8vw,17px);
   font-weight:bold;
 }
 
 .hudBar{
-  height:8px;
-  margin-top:6px;
-  overflow:hidden;
+  margin-top:7px;
+  height:9px;
+  background:#0008;
   border-radius:20px;
-  background:#0009;
+  overflow:hidden;
 }
 
 #gameBar{
-  width:0;
   height:100%;
+  width:0;
   background:#00eaff;
   box-shadow:0 0 12px #00eaff;
 }
 
 .gameButtons{
   position:absolute;
-  z-index:70;
-  top:10px;
-  right:10px;
+  right:max(10px,env(safe-area-inset-right));
+  top:max(10px,env(safe-area-inset-top));
+  z-index:10;
   display:flex;
-  gap:6px;
+  gap:7px;
 }
 
 .gameButtons button{
-  width:44px;
-  height:44px;
-  border-radius:10px;
+  min-width:44px;
+  min-height:44px;
+  padding:8px 11px;
   background:#10162ddd;
   border:1px solid #53618e;
+  border-radius:10px;
 }
 
-#combo{
-  position:absolute;
-  z-index:65;
-  top:70px;
-  left:50%;
-  transform:translateX(-50%);
-  opacity:0;
-  pointer-events:none;
-  font-size:23px;
-  font-weight:1000;
-  text-shadow:
-    0 0 10px #00eaff,
-    0 0 25px #00eaff;
-  transition:.15s;
+#pause,
+#finish{
+  z-index:20;
 }
 
-#mode{
-  position:absolute;
-  z-index:65;
-  left:50%;
-  bottom:12px;
-  transform:translateX(-50%);
-  display:none;
-  padding:7px 12px;
-  border:1px solid #ff27d7;
-  border-radius:20px;
-  background:#10152ddd;
-  color:#ff9aed;
-  font-size:10px;
-  font-weight:bold;
+.finishStats{
+  text-align:center;
+  opacity:.8;
+  line-height:1.7;
 }
 
-/* =====================================================
-   RESPONSIVE
-===================================================== */
+@media(max-width:650px){
+  .topCards{
+    grid-template-columns:repeat(3,1fr);
+  }
 
-@media(max-width:720px){
-
-  .quickActions{
-    grid-template-columns:
-      repeat(3,1fr);
+  .quick{
+    grid-template-columns:repeat(2,1fr);
   }
 
   #levels{
     grid-template-columns:1fr;
   }
-
-  .levelHeader{
-    align-items:start;
-    flex-direction:column;
-  }
-
-  .levelControls{
-    width:100%;
-  }
 }
 
-@media(max-width:450px){
-
-  .playerCard{
-    grid-template-columns:auto 1fr;
+@media(max-height:520px){
+  .logo{
+    margin:3px 0;
+    font-size:30px;
   }
 
-  .wallet{
-    grid-column:1 / -1;
-    text-align:left;
-    padding-left:4px;
+  .subtitle{
+    margin-bottom:5px;
   }
 
-  .quick{
-    min-height:55px;
-  }
-
-  .cardGrid{
-    grid-template-columns:1fr;
+  .topCards,
+  .dailyCard{
+    display:none;
   }
 }
 </style>
@@ -833,700 +483,154 @@ button:active{
 
 <body>
 
-<div class="bgGlow glow1"></div>
-<div class="bgGlow glow2"></div>
-
-<!-- =====================================================
-MENU
-===================================================== -->
-
 <div id="menu">
 
-<div class="container">
+  <div class="logo">NEON DASH</div>
 
-  <div class="header">
+  <div class="subtitle">
+    Ultimate Edition 2.5 • Dotknij / kliknij / SPACJA
+  </div>
+
+  <div class="topCards">
+    <div class="topCard">
+      <small>🪙 MONETY</small>
+      <b id="coinsUI">0</b>
+    </div>
+    <div class="topCard">
+      <small>⭐ XP</small>
+      <b id="xpUI">0</b>
+    </div>
+    <div class="topCard">
+      <small>🔥 SERIA</small>
+      <b id="streakUI">0</b>
+    </div>
+  </div>
+
+  <div class="progress">
+    <div class="progressTop">
+      <span>📊 PROGRES GRY</span>
+      <span id="progressText">0%</span>
+    </div>
 
 ```
-<div class="logo">
-  NEON DASH
-</div>
-
-<div class="version">
-  ULTIMATE EDITION • 2.4
-</div>
-
-<div class="subtitle">
-  20 poziomów • monety • achievementy • skiny
-</div>
-```
-
-  </div>
-
-  <!-- PLAYER -->
-
-  <div class="playerCard">
-
-```
-<div
-  class="avatar"
-  id="avatar">
-  ◆
-</div>
-
-<div class="playerMain">
-
-  <div class="playerName">
-    NEON PLAYER
-  </div>
-
-  <div
-    class="playerLevel"
-    id="playerLevel">
-    LVL 1
-  </div>
-
-  <div class="xpBar">
-    <div id="xpFill"></div>
-  </div>
-
-  <div
-    class="xpText"
-    id="xpText">
-    0 / 250 XP
-  </div>
-
-</div>
-
-<div class="wallet">
-
-  🪙 <span id="bankCoins">0</span><br>
-
-  💎
-  <span
-    class="gem"
-    id="gems">
-    0
-  </span>
-
-</div>
-```
-
-  </div>
-
-  <!-- DAILY -->
-
-  <div class="dailyHero">
-
-```
-<div class="dailyTop">
-
-  <div class="dailyTitle">
-    📅 DAILY CHALLENGE
-  </div>
-
-  <div
-    class="dailyBadge"
-    id="dailyBadge">
-    DZISIAJ
-  </div>
-
-</div>
-
-<div
-  class="dailyName"
-  id="dailyName">
-  Ładowanie...
-</div>
-
-<div
-  class="dailyInfo"
-  id="dailyInfo">
-  Ładowanie wyzwania...
-</div>
-
-<button
-  class="dailyButton"
-  onclick="startDaily()">
-  ▶ ZAGRAJ DAILY
-</button>
-```
-
-  </div>
-
-  <!-- PROGRESS -->
-
-  <div class="progressCard">
-
-```
-<div class="progressTop">
-
-  <span>
-    📊 CAŁKOWITY PROGRES
-  </span>
-
-  <span id="progressText">
-    0%
-  </span>
-
-</div>
-
-<div class="progressBar">
-
+<div class="bar">
   <div id="menuBar"></div>
-
 </div>
 
-<div class="progressBottom">
-
-  <span id="doneText">
-    0 / 20 poziomów
-  </span>
-
-  <span id="streakText">
-    🔥 Seria: 0
-  </span>
-
-</div>
+<div id="doneText">0 / 20 poziomów</div>
 ```
 
   </div>
 
-  <!-- QUICK ACTIONS -->
-
-  <div class="quickActions">
-
-```
-<button
-  class="quick"
-  onclick="openPanel('shop')">
-
-  <span class="quickIcon">
-    🛒
-  </span>
-
-  SKLEP
-
-</button>
-
-<button
-  class="quick"
-  onclick="openPanel('skins')">
-
-  <span class="quickIcon">
-    🎨
-  </span>
-
-  SKINY
-
-</button>
-
-<button
-  class="quick"
-  onclick="openPanel('missions')">
-
-  <span class="quickIcon">
-    🎯
-  </span>
-
-  MISJE
-
-</button>
-
-<button
-  class="quick"
-  onclick="openPanel('achievements')">
-
-  <span class="quickIcon">
-    🏆
-  </span>
-
-  ACHIEVY
-
-</button>
-
-<button
-  class="quick"
-  onclick="openPanel('stats')">
-
-  <span class="quickIcon">
-    📊
-  </span>
-
-  STATY
-
-</button>
-
-<button
-  class="quick"
-  onclick="randomLevel()">
-
-  <span class="quickIcon">
-    🎲
-  </span>
-
-  RANDOM
-
-</button>
-```
-
+  <div class="quick">
+    <button id="shopBtn">🛒 SKLEP</button>
+    <button id="missionsBtn">🎯 MISJE</button>
+    <button id="statsBtn">📈 STATYSTYKI</button>
+    <button id="randomBtn">🎲 LOSOWY</button>
   </div>
 
-  <!-- LEVELS -->
-
-  <div class="levelHeader">
-
-```
-<div>
-
-  <div class="sectionTitle">
-    🎮 POZIOMY
+  <div id="dailyCard">
+    <div class="dailyTitle">📅 DAILY CHALLENGE</div>
+    <div class="dailyInfo" id="dailyInfo">
+      Ukończ dzisiejsze wyzwanie i odbierz nagrodę.
+    </div>
+    <button id="dailyBtn">▶ ZAGRAJ DAILY</button>
   </div>
 
-  <div class="sectionSub">
-    Wybierz poziom i rozpocznij run
+  <div class="searchRow">
+    <input id="search" type="text" placeholder="🔎 Szukaj poziomu...">
   </div>
-
-</div>
-
-<div class="levelControls">
-
-  <button
-    class="filterButton active"
-    id="filterAll"
-    onclick="setFilter('all')">
-    WSZYSTKIE
-  </button>
-
-  <button
-    class="filterButton"
-    id="filterDone"
-    onclick="setFilter('done')">
-    UKOŃCZONE
-  </button>
-
-  <button
-    class="filterButton"
-    id="filterTodo"
-    onclick="setFilter('todo')">
-    NIEUKOŃCZONE
-  </button>
-
-  <button
-    class="filterButton"
-    id="filterFav"
-    onclick="setFilter('fav')">
-    ⭐ ULUBIONE
-  </button>
-
-</div>
-```
-
-  </div>
-
-<input
- id="levelSearch"
- class="searchBox"
- type="text"
- placeholder="🔎 Szukaj poziomu..."
- oninput="renderLevels()">
 
   <div id="levels"></div>
 
+<button id="achBtn">🏆 ACHIEVEMENTY</button>
+
 </div>
-</div>
 
-<!-- =====================================================
-SHOP
-===================================================== -->
-
-<div
-  class="overlay"
-  id="shop">
-
+<div id="achievements" class="overlay">
   <div class="panel">
-
-```
-<h2>
-  🛒 SKLEP
-</h2>
-
-<p>
-  Masz 🪙
-  <b id="shopCoins">0</b>
-</p>
-
-<div
-  class="cardGrid"
-  id="shopList">
-</div>
-
-<button
-  class="panelClose"
-  onclick="closePanels()">
-  ZAMKNIJ
-</button>
-```
-
+    <h2>🏆 ACHIEVEMENTY</h2>
+    <div id="achList"></div>
+    <button id="closeAch">ZAMKNIJ</button>
   </div>
 </div>
 
-<!-- =====================================================
-SKINS
-===================================================== -->
-
-<div
-  class="overlay"
-  id="skins">
-
+<div id="shop" class="overlay">
   <div class="panel">
-
-```
-<h2>
-  🎨 SKINY
-</h2>
-
-<div
-  class="cardGrid"
-  id="skinList">
-</div>
-
-<button
-  class="panelClose"
-  onclick="closePanels()">
-  ZAMKNIJ
-</button>
-```
-
+    <h2>🛒 SKLEP</h2>
+    <p id="shopCoins"></p>
+    <div id="shopList"></div>
+    <button id="closeShop">ZAMKNIJ</button>
   </div>
 </div>
 
-<!-- =====================================================
-MISSIONS
-===================================================== -->
-
-<div
-  class="overlay"
-  id="missions">
-
+<div id="missions" class="overlay">
   <div class="panel">
-
-```
-<h2>
-  🎯 MISJE
-</h2>
-
-<div id="missionList"></div>
-
-<button
-  class="panelClose"
-  onclick="closePanels()">
-  ZAMKNIJ
-</button>
-```
-
+    <h2>🎯 MISJE</h2>
+    <div id="missionList"></div>
+    <button id="closeMissions">ZAMKNIJ</button>
   </div>
 </div>
 
-<!-- =====================================================
-ACHIEVEMENTS
-===================================================== -->
-
-<div
-  class="overlay"
-  id="achievements">
-
+<div id="stats" class="overlay">
   <div class="panel">
-
-```
-<h2>
-  🏆 ACHIEVEMENTY
-</h2>
-
-<div id="achList"></div>
-
-<button
-  class="panelClose"
-  onclick="closePanels()">
-  ZAMKNIJ
-</button>
-```
-
+    <h2>📈 STATYSTYKI</h2>
+    <div id="statsContent"></div>
+    <button id="closeStats">ZAMKNIJ</button>
   </div>
 </div>
-
-<!-- =====================================================
-STATS
-===================================================== -->
-
-<div
-  class="overlay"
-  id="stats">
-
-  <div class="panel">
-
-```
-<h2>
-  📊 STATYSTYKI
-</h2>
-
-<div class="statsGrid">
-
-  <div class="stat">
-    Ukończone
-    <span
-      class="statValue"
-      id="sCompleted">
-      0
-    </span>
-  </div>
-
-  <div class="stat">
-    Śmierci
-    <span
-      class="statValue"
-      id="sDeaths">
-      0
-    </span>
-  </div>
-
-  <div class="stat">
-    Monety
-    <span
-      class="statValue"
-      id="sCoins">
-      0
-    </span>
-  </div>
-
-  <div class="stat">
-    Najlepsze combo
-    <span
-      class="statValue"
-      id="sCombo">
-      0
-    </span>
-  </div>
-
-  <div class="stat">
-    XP
-    <span
-      class="statValue"
-      id="sXP">
-      0
-    </span>
-  </div>
-
-  <div class="stat">
-    Achievementy
-    <span
-      class="statValue"
-      id="sAch">
-      0
-    </span>
-  </div>
-
-</div>
-
-<button
-  class="panelClose"
-  onclick="resetGameData()">
-  🗑️ RESET PROGRESU
-</button>
-
-<button
-  class="panelClose"
-  onclick="closePanels()">
-  ZAMKNIJ
-</button>
-```
-
-  </div>
-</div>
-
-<!-- =====================================================
-GAME
-===================================================== -->
 
 <div id="game">
 
 <canvas id="canvas"></canvas>
 
   <div id="hud">
+    <div class="hudLine">
+      <span id="levelName">LEVEL</span>
+      <span id="coinsText">🪙 0/3</span>
+      <span id="percent">0%</span>
+    </div>
 
 ```
-<div class="hudLine">
-
-  <span id="levelName">
-    LEVEL
-  </span>
-
-  <span id="coinsHud">
-    🪙 0/3
-  </span>
-
-  <span id="percent">
-    0%
-  </span>
-
-</div>
-
 <div class="hudBar">
-
   <div id="gameBar"></div>
-
 </div>
 ```
 
-  </div>
-
-  <div id="combo">
-    🔥 COMBO x2
-  </div>
-
-  <div id="mode">
-    MODE
   </div>
 
   <div class="gameButtons">
-
-```
-<button onclick="pauseGame()">
-  ⏸
-</button>
-
-<button
-  id="soundButton"
-  onclick="toggleSound()">
-  🔊
-</button>
-
-<button onclick="backToMenu()">
-  ☰
-</button>
-```
-
+    <button id="pauseBtn">⏸</button>
+    <button id="soundBtn">🔊</button>
+    <button id="menuBtn">☰</button>
   </div>
 
-</div>
-
-<!-- =====================================================
-PAUSE
-===================================================== -->
-
-<div
-  class="overlay"
-  id="pause">
-
-  <div class="panel">
-
-```
-<h2>
-  ⏸ PAUZA
-</h2>
-
-<button
-  class="panelClose"
-  onclick="resumeGame()">
-  ▶ WRÓĆ DO GRY
-</button>
-
-<button
-  class="panelClose"
-  onclick="backToMenu()">
-  ☰ MENU
-</button>
-```
-
-  </div>
-</div>
-
-<!-- =====================================================
-FINISH
-===================================================== -->
-
-<div
-  class="overlay"
-  id="finish">
-
-  <div class="panel">
-
-```
-<h2 id="finishTitle">
-  🎉 UKOŃCZONO!
-</h2>
-
-<p
-  id="finishInfo"
-  style="text-align:center;opacity:.7">
-</p>
-
-<div class="statsGrid">
-
-  <div class="stat">
-    🪙 MONETY
-    <span
-      class="statValue"
-      id="finishCoins">
-      0/3
-    </span>
+  <div id="pause" class="overlay">
+    <div class="panel">
+      <h2>⏸ PAUZA</h2>
+      <button id="resume">▶ WRÓĆ DO GRY</button>
+      <button id="restartPause">🔄 RESTART</button>
+      <button id="pauseMenu">☰ MENU</button>
+    </div>
   </div>
 
-  <div class="stat">
-    ☠️ ŚMIERCI
-    <span
-      class="statValue"
-      id="finishDeaths">
-      0
-    </span>
+  <div id="finish" class="overlay">
+    <div class="panel">
+      <h2 id="finishTitle">🎉 UKOŃCZONO!</h2>
+      <div id="finishInfo" class="finishStats"></div>
+      <button id="again">🔄 ZAGRAJ PONOWNIE</button>
+      <button id="nextLevel">➡️ NASTĘPNY POZIOM</button>
+      <button id="finishMenu">☰ MENU</button>
+    </div>
   </div>
 
-  <div class="stat">
-    🔥 COMBO
-    <span
-      class="statValue"
-      id="finishCombo">
-      0
-    </span>
-  </div>
-
-  <div class="stat">
-    ⭐ XP
-    <span
-      class="statValue"
-      id="finishXP">
-      +0
-    </span>
-  </div>
-
-</div>
-
-<button
-  class="panelClose"
-  onclick="restartCurrentLevel()">
-  🔄 ZAGRAJ PONOWNIE
-</button>
-
-<button
-  class="panelClose"
-  onclick="nextLevel()">
-  ➡️ NASTĘPNY POZIOM
-</button>
-
-<button
-  class="panelClose"
-  onclick="backToMenu()">
-  ☰ MENU
-</button>
-```
-
-  </div>
 </div>
 
 <script>
 "use strict";
 
 /* =====================================================
-   DATA
+   POZIOMY
 ===================================================== */
 
 const LEVELS=[
@@ -1561,6 +665,15 @@ const SKINS=[
 ["gold","GOLD","#ffd43b",12],
 ["white","WHITE","#ffffff",15],
 ["red","RED","#ff3b4f",18]
+];
+
+const SHOP=[
+["trail_fire","🔥 FIRE TRAIL",60],
+["trail_electric","⚡ ELECTRIC TRAIL",80],
+["trail_rainbow","🌈 RAINBOW TRAIL",120],
+["trail_ghost","👻 GHOST TRAIL",150],
+["effect_burst","💥 MEGA DEATH",100],
+["effect_star","⭐ STAR DEATH",140]
 ];
 
 const ACH=[
@@ -1602,24 +715,211 @@ const ACH=[
 ["daily","📅 Codzienny","Ukończ Daily Challenge."]
 ];
 
-const SHOP=[
-["trail_fire","🔥 FIRE TRAIL",60],
-["trail_electric","⚡ ELECTRIC TRAIL",80],
-["trail_rainbow","🌈 RAINBOW TRAIL",120],
-["trail_ghost","👻 GHOST TRAIL",150],
-["effect_burst","💥 MEGA DEATH",100],
-["effect_star","⭐ STAR DEATH",140]
+const MISSIONS=[
+["levels3","Ukończ 3 poziomy",3],
+["levels10","Ukończ 10 poziomów",10],
+["coins25","Zbierz 25 monet",25],
+["coins50","Zbierz 50 monet",50],
+["deaths10","Przeżyj 10 śmierci",10]
 ];
 
 /* =====================================================
-   STATE
+   DOM
 ===================================================== */
+
+const menu=document.getElementById("menu");
+const game=document.getElementById("game");
+const canvas=document.getElementById("canvas");
+const ctx=canvas.getContext("2d");
+
+const levelsBox=document.getElementById("levels");
+const achievements=document.getElementById("achievements");
+const achList=document.getElementById("achList");
+const shop=document.getElementById("shop");
+const shopList=document.getElementById("shopList");
+const missions=document.getElementById("missions");
+const missionList=document.getElementById("missionList");
+const stats=document.getElementById("stats");
+const statsContent=document.getElementById("statsContent");
+
+const pause=document.getElementById("pause");
+const finish=document.getElementById("finish");
+
+const levelName=document.getElementById("levelName");
+const coinsText=document.getElementById("coinsText");
+const percent=document.getElementById("percent");
+const menuBar=document.getElementById("menuBar");
+const gameBar=document.getElementById("gameBar");
+const progressText=document.getElementById("progressText");
+const doneText=document.getElementById("doneText");
+const search=document.getElementById("search");
+
+/* =====================================================
+   STORAGE
+===================================================== */
+
+function get(key,def){
+  try{
+    const value=localStorage.getItem(key);
+    return value===null?def:value;
+  }catch(e){
+    return def;
+  }
+}
+
+function set(key,value){
+  try{
+    localStorage.setItem(key,String(value));
+  }catch(e){}
+}
+
+function getNum(key,def=0){
+  const n=Number(get(key,String(def)));
+  return Number.isFinite(n)?n:def;
+}
+
+function completed(i){
+  return get("nd_level_"+i,"0")==="1";
+}
+
+function completedCount(){
+  let n=0;
+  for(let i=0;i<LEVELS.length;i++){
+    if(completed(i)) n++;
+  }
+  return n;
+}
+
+function totalCoins(){
+  return getNum("nd_totalCoins",0);
+}
+
+function addCoins(n){
+  set("nd_totalCoins",totalCoins()+n);
+}
+
+function addXP(n){
+  set("nd_xp",getNum("nd_xp",0)+n);
+}
+
+function deathsTotal(){
+  return getNum("nd_totalDeaths",0);
+}
+
+function addDeath(){
+  set("nd_totalDeaths",deathsTotal()+1);
+}
+
+/* =====================================================
+   ACHIEVEMENTY
+===================================================== */
+
+function achUnlocked(id){
+  return get("nd_ach_"+id,"0")==="1";
+}
+
+function unlock(id){
+  if(achUnlocked(id)) return;
+  set("nd_ach_"+id,"1");
+}
+
+function checkAchievements(){
+
+  const n=completedCount();
+  const coins=totalCoins();
+
+  if(n>=1) unlock("first");
+  if(n>=3) unlock("three");
+  if(n>=6) unlock("six");
+  if(n>=10) unlock("ten");
+  if(n>=20) unlock("all");
+
+  if(completed(1)) unlock("level2");
+  if(completed(2)) unlock("level3");
+  if(completed(3)) unlock("level4");
+  if(completed(4)) unlock("level5");
+  if(completed(5)) unlock("level6");
+  if(completed(6)) unlock("level7");
+  if(completed(7)) unlock("level8");
+  if(completed(8)) unlock("level9");
+  if(completed(9)) unlock("level10");
+  if(completed(10)) unlock("level11");
+  if(completed(11)) unlock("final");
+  if(completed(12)) unlock("level13");
+  if(completed(13)) unlock("level14");
+  if(completed(14)) unlock("level15");
+  if(completed(15)) unlock("level16");
+  if(completed(16)) unlock("level17");
+  if(completed(17)) unlock("level18");
+  if(completed(18)) unlock("level19");
+  if(completed(19)) unlock("level20");
+
+  if(coins>=10) unlock("coins10");
+  if(coins>=25) unlock("coins25");
+  if(coins>=50) unlock("coins50");
+  if(coins>=100) unlock("rich");
+
+  if(deaths===0) unlock("perfect");
+  if(deaths>=3) unlock("survivor");
+  if(runCoins===3) unlock("allcoins");
+
+  if(bestCombo>=5) unlock("speedrunner");
+
+  if(getNum("nd_streak",0)>=3) unlock("streak3");
+  if(getNum("nd_streak",0)>=5) unlock("streak5");
+
+  if(get("nd_dailyDone","0")==="1") unlock("daily");
+
+  if(get("nd_bought","0")==="1") unlock("shop");
+}
+
+function renderAchievements(){
+
+  achList.innerHTML="";
+
+  ACH.forEach(a=>{
+    const d=document.createElement("div");
+
+    d.className=
+      "ach"+
+      (achUnlocked(a[0])?" on":"");
+
+    d.innerHTML=
+      "<b>"+a[1]+"</b><br>"+
+      "<small>"+a[2]+"</small>";
+
+    achList.appendChild(d);
+  });
+}
+
+/* =====================================================
+   GRACZ
+===================================================== */
+
+const player={
+  x:150,
+  y:0,
+  size:34,
+  vy:0,
+  rot:0,
+  grounded:false
+};
+
+/* =====================================================
+   GAME STATE
+===================================================== */
+
+let W=window.innerWidth;
+let H=window.innerHeight;
+let ground=H*.78;
 
 let current=0;
 let running=false;
 let paused=false;
 let finished=false;
 let dying=false;
+let dailyMode=false;
+let practiceMode=false;
 
 let world=0;
 let last=0;
@@ -1630,566 +930,221 @@ let runCoins=0;
 let combo=0;
 let bestCombo=0;
 
-let gravity=1;
+let collected=new Set();
 
 let obstacles=[];
-let coins=[];
+let coinObjects=[];
 let pads=[];
 let portals=[];
 let particles=[];
 let stars=[];
 let trail=[];
 
-let W=window.innerWidth;
-let H=window.innerHeight;
-let ground=H*.78;
-
 let shake=0;
 let flash=0;
 
-let filter="all";
-
-let practice=
-  localStorage.getItem(
-    "nd_practice"
-  )==="1";
-
-let dailyMode=false;
-let dailyType="";
-
-let sound=
-  localStorage.getItem(
-    "nd_sound"
-  )!=="0";
+let gravity=1;
 
 let audio=null;
 let musicTimer=null;
 let musicIndex=0;
 
-/* =====================================================
-   DOM
-===================================================== */
+let sound=get("nd_sound","1")==="1";
 
-const menu=
-  document.getElementById("menu");
-
-const game=
-  document.getElementById("game");
-
-const canvas=
-  document.getElementById("canvas");
-
-const ctx=
-  canvas.getContext("2d");
+let selectedSkin=get("nd_skin","cyan");
 
 /* =====================================================
-   STORAGE
+   CANVAS
 ===================================================== */
 
-function getNum(key,def){
+function resizeCanvas(){
 
-  if(def===undefined)
-    def=0;
+  W=Math.max(260,window.innerWidth);
+  H=Math.max(260,window.innerHeight);
 
-  const n=
-    Number(
-      localStorage.getItem(key)
-    );
-
-  return Number.isFinite(n)?
-    n:
-    def;
-}
-
-function completed(i){
-
-  return localStorage.getItem(
-    "nd_level_"+i
-  )==="1";
-}
-
-function completedCount(){
-
-  let n=0;
-
-  for(
-    let i=0;
-    i<LEVELS.length;
-    i++
-  ){
-
-    if(completed(i))
-      n++;
-  }
-
-  return n;
-}
-
-/* =====================================================
-   STREAK
-===================================================== */
-
-function getStreak(){
-
-  return getNum(
-    "nd_streak",
-    0
+  const d=Math.min(
+    Math.max(window.devicePixelRatio||1,1),
+    2
   );
-}
 
-function updateStreak(){
+  canvas.width=Math.round(W*d);
+  canvas.height=Math.round(H*d);
 
-  const today=
-    new Date();
+  canvas.style.width=W+"px";
+  canvas.style.height=H+"px";
 
-  const date=
-    today.getFullYear()+
-    "-"+
-    (today.getMonth()+1)+
-    "-"+
-    today.getDate();
+  ctx.setTransform(d,0,0,d,0,0);
 
-  const lastDate=
-    localStorage.getItem(
-      "nd_lastComplete"
-    );
+  ground=Math.max(
+    150,
+    Math.min(H-50,H*.78)
+  );
 
-  if(
-    lastDate!==date
-  ){
-
-    const old=
-      getStreak();
-
-    localStorage.setItem(
-      "nd_streak",
-      old+1
-    );
-
-    localStorage.setItem(
-      "nd_lastComplete",
-      date
-    );
+  if(!running){
+    player.y=gravity===1?
+      ground-player.size:
+      0;
   }
+
+  createStars();
 }
+
+window.addEventListener(
+  "resize",
+  resizeCanvas,
+  {passive:true}
+);
+
+window.addEventListener(
+  "orientationchange",
+  ()=>{
+    setTimeout(resizeCanvas,100);
+  },
+  {passive:true}
+);
 
 /* =====================================================
-   PROFILE
+   MENU
 ===================================================== */
 
-function updateProfile(){
+function renderMenu(){
 
-  const xp=
-    getNum(
-      "nd_xp",
-      0
+  const query=
+    search.value.trim().toLowerCase();
+
+  levelsBox.innerHTML="";
+
+  LEVELS.forEach((l,i)=>{
+
+    if(
+      query&&
+      !(
+        l[0].toLowerCase().includes(query)||
+        String(i+1).includes(query)
+      )
+    ){
+      return;
+    }
+
+    const b=document.createElement("button");
+
+    b.type="button";
+    b.className="level";
+
+    const best=
+      getNum("nd_best_"+i,0);
+
+    const fav=
+      get("nd_fav_"+i,"0")==="1";
+
+    b.innerHTML=
+      '<span class="levelStatus">'+
+      (completed(i)?"✅":"▶️")+
+      '</span>'+
+      '<div class="levelName">'+
+      (i+1)+". "+l[0]+
+      '</div>'+
+      '<div class="levelInfo">'+
+      l[1]+" • "+l[2]+" px/s"+
+      '</div>'+
+      '<div class="levelBest">'+
+      (best>0?"🏆 "+best+"%":"Brak rekordu")+
+      '</div>'+
+      '<span class="favorite">'+
+      (fav?"⭐":"☆")+
+      '</span>';
+
+    /*
+      Bezpieczny, bezpośredni start poziomu.
+    */
+    b.setAttribute(
+      "onclick",
+      "startLevel("+i+")"
     );
 
-  const level=
-    Math.floor(
-      xp/250
-    )+1;
+    b.addEventListener("contextmenu",e=>{
+      e.preventDefault();
+      set(
+        "nd_fav_"+i,
+        fav?"0":"1"
+      );
+      renderMenu();
+    });
 
-  const currentXP=
-    xp%250;
+    levelsBox.appendChild(b);
+  });
 
-  document.getElementById(
-    "playerLevel"
-  ).textContent=
-    "LVL "+level;
+  const done=completedCount();
 
-  document.getElementById(
-    "xpFill"
-  ).style.width=
-    currentXP/
-    250*
-    100+
-    "%";
+  const p=Math.round(
+    done/LEVELS.length*100
+  );
 
-  document.getElementById(
-    "xpText"
-  ).textContent=
-    currentXP+
-    " / 250 XP";
+  progressText.textContent=p+"%";
+  menuBar.style.width=p+"%";
 
-  document.getElementById(
-    "bankCoins"
-  ).textContent=
-    getNum(
-      "nd_bankCoins",
-      0
-    );
+  doneText.textContent=
+    done+" / "+LEVELS.length+" poziomów";
 
-  document.getElementById(
-    "gems"
-  ).textContent=
-    getNum(
-      "nd_gems",
-      0
-    );
+  document.getElementById("coinsUI").textContent=
+    totalCoins();
 
-  let avatar="◆";
+  document.getElementById("xpUI").textContent=
+    getNum("nd_xp",0);
 
-  if(level>=20)
-    avatar="👑";
-  else if(level>=15)
-    avatar="⚡";
-  else if(level>=10)
-    avatar="💎";
-  else if(level>=5)
-    avatar="🔥";
+  document.getElementById("streakUI").textContent=
+    getNum("nd_streak",0);
 
-  document.getElementById(
-    "avatar"
-  ).textContent=avatar;
-
-  document.getElementById(
-    "streakText"
-  ).textContent=
-    "🔥 Seria: "+
-    getStreak();
+  updateDailyUI();
 }
+
+search.addEventListener(
+  "input",
+  renderMenu
+);
 
 /* =====================================================
    DAILY
 ===================================================== */
 
-function dailyData(){
+function dailyIndex(){
 
-  const d=
-    new Date();
+  const d=new Date();
 
   const key=
-    d.getFullYear()+
-    "-"+
-    (d.getMonth()+1)+
-    "-"+
+    d.getFullYear()*10000+
+    (d.getMonth()+1)*100+
     d.getDate();
 
-  let hash=0;
-
-  for(
-    let i=0;
-    i<key.length;
-    i++
-  ){
-
-    hash=
-      (
-        hash*31+
-        key.charCodeAt(i)
-      )>>>0;
-  }
-
-  return {
-    key:key,
-    level:
-      hash%LEVELS.length,
-    type:
-      hash%2===0?
-      "coins":
-      "perfect"
-  };
+  return key%LEVELS.length;
 }
 
-function renderDaily(){
+function updateDailyUI(){
 
-  const d=
-    dailyData();
+  const i=dailyIndex();
+
+  document.getElementById("dailyInfo").textContent=
+    "Dzisiejszy poziom: "+
+    (i+1)+". "+
+    LEVELS[i][0]+
+    " • nagroda: 25 🪙 + 50 XP";
 
   const done=
-    localStorage.getItem(
-      "nd_daily_"+d.key
-    )==="1";
+    get("nd_dailyDate","")===String(i)+"_"+new Date().toDateString();
 
-  document.getElementById(
-    "dailyName"
-  ).textContent=
-    LEVELS[d.level][0];
-
-  document.getElementById(
-    "dailyInfo"
-  ).textContent=
-    d.type==="coins"?
-    "🪙 Zbierz wszystkie 3 monety.":
-    "✨ Ukończ poziom bez śmierci.";
-
-  document.getElementById(
-    "dailyBadge"
-  ).textContent=
+  document.getElementById("dailyBtn").textContent=
     done?
-    "✅ GOTOWE":
-    "DZISIAJ";
+    "✅ DAILY UKOŃCZONE":
+    "▶ ZAGRAJ DAILY";
 }
 
-/* =====================================================
-   LEVEL RENDER
-===================================================== */
-
-function isFavorite(i){
-
-  return localStorage.getItem(
-    "nd_fav_"+i
-  )==="1";
-}
-
-function toggleFavorite(i){
-
-  const key=
-    "nd_fav_"+i;
-
-  if(isFavorite(i))
-    localStorage.removeItem(key);
-  else
-    localStorage.setItem(key,"1");
-
-  renderLevels();
-}
-
-function setFilter(value){
-
-  filter=value;
-
-  document
-    .querySelectorAll(
-      ".filterButton"
-    )
-    .forEach(
-      function(b){
-        b.classList.remove(
-          "active"
-        );
-      }
-    );
-
-  if(value==="all")
-    document.getElementById(
-      "filterAll"
-    ).classList.add("active");
-
-  if(value==="done")
-    document.getElementById(
-      "filterDone"
-    ).classList.add("active");
-
-  if(value==="todo")
-    document.getElementById(
-      "filterTodo"
-    ).classList.add("active");
-
-  if(value==="fav")
-    document.getElementById(
-      "filterFav"
-    ).classList.add("active");
-
-  renderLevels();
-}
-
-function renderLevels(){
-
-  const box=
-    document.getElementById(
-      "levels"
-    );
-
-  box.innerHTML="";
-
-  const search=
-    document.getElementById(
-      "levelSearch"
-    ).value
-    .toLowerCase()
-    .trim();
-
-  for(
-    let i=0;
-    i<LEVELS.length;
-    i++
-  ){
-
-    const l=
-      LEVELS[i];
-
-    const done=
-      completed(i);
-
-    const fav=
-      isFavorite(i);
-
-    if(
-      filter==="done"&&
-      !done
-    )
-      continue;
-
-    if(
-      filter==="todo"&&
-      done
-    )
-      continue;
-
-    if(
-      filter==="fav"&&
-      !fav
-    )
-      continue;
-
-    if(
-      search&&
-      l[0]
-        .toLowerCase()
-        .indexOf(search)===-1
-    )
-      continue;
-
-    const button=
-      document.createElement(
-        "button"
-      );
-
-    button.className="level";
-    button.type="button";
-
-    button.style.setProperty(
-      "--levelColor",
-      l[3]
-    );
-
-    /*
-      Stabilny sposób startu z 2.3.
-    */
-
-    button.setAttribute(
-      "onclick",
-      "startLevel("+i+")"
-    );
-
-    const bestCoins=
-      getNum(
-        "nd_bestCoins_"+i,
-        0
-      );
-
-    const bestDeaths=
-      localStorage.getItem(
-        "nd_bestDeaths_"+i
-      );
-
-    button.innerHTML=
-      '<span class="levelStatus">'+
-      (
-        done?
-        "✅":
-        "▶️"
-      )+
-      "</span>"+
-      '<div class="levelNumber">'+
-      "LEVEL "+
-      (i+1)+
-      "</div>"+
-      '<div class="levelName">'+
-      l[0]+
-      "</div>"+
-      '<div class="levelInfo">'+
-      l[1]+
-      " • "+
-      l[2]+
-      " px/s"+
-      "</div>"+
-      '<div class="levelRecord">'+
-      "🪙 "+
-      bestCoins+
-      "/3"+
-      " • ☠️ "+
-      (
-        bestDeaths===null?
-        "--":
-        bestDeaths
-      )+
-      "</div>";
-
-    const favorite=
-      document.createElement(
-        "button"
-      );
-
-    favorite.type="button";
-
-    favorite.className=
-      "levelFavorite";
-
-    favorite.textContent=
-      fav?
-      "⭐":
-      "☆";
-
-    favorite.onclick=
-      function(e){
-
-        e.preventDefault();
-        e.stopPropagation();
-
-        toggleFavorite(i);
-      };
-
-    button.appendChild(
-      favorite
-    );
-
-    box.appendChild(
-      button
-    );
-  }
-
-  if(
-    box.children.length===0
-  ){
-
-    box.innerHTML=
-      '<div class="card" style="grid-column:1/-1;text-align:center;opacity:.7">'+
-      "Nie znaleziono poziomów."+
-      "</div>";
-  }
-}
-
-/* =====================================================
-   MAIN MENU
-===================================================== */
-
-function renderMenu(){
-
-  const done=
-    completedCount();
-
-  const percent=
-    Math.round(
-      done/
-      LEVELS.length*
-      100
-    );
-
-  document.getElementById(
-    "progressText"
-  ).textContent=
-    percent+"%";
-
-  document.getElementById(
-    "menuBar"
-  ).style.width=
-    percent+"%";
-
-  document.getElementById(
-    "doneText"
-  ).textContent=
-    done+
-    " / "+
-    LEVELS.length+
-    " poziomów";
-
-  updateProfile();
-  renderDaily();
-  renderLevels();
-}
+document.getElementById("dailyBtn")
+.addEventListener("click",()=>{
+  const i=dailyIndex();
+  dailyMode=true;
+  practiceMode=false;
+  startLevel(i);
+});
 
 /* =====================================================
    START LEVEL
@@ -2197,21 +1152,16 @@ function renderMenu(){
 
 function startLevel(index){
 
-  if(
-    typeof index!=="number"
-  )
+  if(typeof index!=="number"){
     index=Number(index);
+  }
 
   if(
     !Number.isInteger(index)||
     index<0||
     index>=LEVELS.length
   ){
-
-    alert(
-      "Nieprawidłowy poziom."
-    );
-
+    alert("Nieprawidłowy poziom.");
     return;
   }
 
@@ -2225,11 +1175,7 @@ function startLevel(index){
     dying=false;
 
     if(raf){
-
-      cancelAnimationFrame(
-        raf
-      );
-
+      cancelAnimationFrame(raf);
       raf=0;
     }
 
@@ -2239,6 +1185,8 @@ function startLevel(index){
     runCoins=0;
     combo=0;
     bestCombo=0;
+
+    collected=new Set();
 
     world=0;
     shake=0;
@@ -2250,37 +1198,37 @@ function startLevel(index){
       1;
 
     obstacles=[];
-    coins=[];
+    coinObjects=[];
     pads=[];
     portals=[];
     particles=[];
     trail=[];
+    stars=[];
 
     menu.style.display="none";
     game.style.display="block";
 
+    pause.style.display="none";
+    finish.style.display="none";
+
     resizeCanvas();
 
     generateLevel();
-
     resetPlayer();
 
     updateHUD();
 
     running=true;
 
-    last=
-      performance.now();
+    last=performance.now();
 
     draw();
 
-    raf=
-      requestAnimationFrame(
-        loop
-      );
+    raf=requestAnimationFrame(loop);
 
-    if(sound)
+    if(sound){
       startMusic();
+    }
 
   }catch(error){
 
@@ -2296,209 +1244,154 @@ function startLevel(index){
 }
 
 /* =====================================================
-   CANVAS
-===================================================== */
-
-function resizeCanvas(){
-
-  W=
-    Math.max(
-      320,
-      window.innerWidth
-    );
-
-  H=
-    Math.max(
-      240,
-      window.innerHeight
-    );
-
-  const ratio=
-    Math.min(
-      Math.max(
-        window.devicePixelRatio||1,
-        1
-      ),
-      2
-    );
-
-  canvas.width=
-    Math.floor(
-      W*ratio
-    );
-
-  canvas.height=
-    Math.floor(
-      H*ratio
-    );
-
-  canvas.style.width=
-    W+"px";
-
-  canvas.style.height=
-    H+"px";
-
-  ctx.setTransform(
-    ratio,
-    0,
-    0,
-    ratio,
-    0,
-    0
-  );
-
-  ground=
-    Math.max(
-      160,
-      Math.min(
-        H-55,
-        H*.78
-      )
-    );
-
-  createStars();
-}
-
-window.addEventListener(
-  "resize",
-  resizeCanvas
-);
-
-/* =====================================================
-   PLAYER
-===================================================== */
-
-const player={
-  x:150,
-  y:0,
-  size:34,
-  vy:0,
-  rotation:0,
-  grounded:false
-};
-
-function resetPlayer(){
-
-  player.x=
-    Math.max(
-      80,
-      Math.min(
-        180,
-        W*.22
-      )
-    );
-
-  player.y=
-    gravity===1?
-    ground-player.size:
-    0;
-
-  player.vy=0;
-  player.rotation=0;
-  player.grounded=true;
-}
-
-/* =====================================================
-   LEVEL GENERATION
+   GENEROWANIE POZIOMU
 ===================================================== */
 
 function generateLevel(){
 
+  obstacles=[];
+  coinObjects=[];
+  pads=[];
+  portals=[];
+
+  /*
+    Poziomy stają się stopniowo dłuższe.
+  */
   const length=
-    11500+
-    current*600;
+    10000+
+    current*430;
 
-  let x=650;
-  let p=0;
+  let x=620;
 
-  const patterns=[
-    "spike",
-    "double",
-    "saw",
-    "gap",
-    "pad",
-    "speed",
-    "spike",
-    "saw",
-    "double",
-    "gravity",
-    "gap",
-    "pad"
+  /*
+    Każdy poziom ma własny zestaw wzorów.
+    Brak Triple Spike.
+  */
+  const patternSets=[
+    ["spike","spike","saw","gap","spike","pad"],
+    ["spike","double","saw","gap","pad","spike"],
+    ["saw","spike","gap","double","speed","saw"],
+    ["spike","pad","saw","gap","spike","speed"],
+    ["double","saw","spike","gap","pad","speed"],
+    ["saw","double","gap","spike","gravity","saw"],
+    ["speed","spike","saw","double","gap","pad"],
+    ["saw","gravity","spike","speed","double","gap"]
   ];
 
-  while(x<length){
+  const setIndex=
+    current%patternSets.length;
+
+  const patterns=
+    patternSets[setIndex];
+
+  let p=0;
+
+  while(x<length-500){
 
     const type=
-      patterns[
-        p%patterns.length
-      ];
+      patterns[p%patterns.length];
 
     if(type==="spike"){
-
       spike(x);
-      x+=430;
+      x+=390;
+    }
 
-    }else if(type==="double"){
-
+    else if(type==="double"){
       spike(x);
-      spike(x+48);
+      spike(x+62);
       x+=540;
+    }
 
-    }else if(type==="saw"){
-
+    else if(type==="saw"){
       saw(x);
-      x+=520;
+      x+=500;
+    }
 
-    }else if(type==="gap"){
+    else if(type==="gap"){
+      gap(x,135);
+      x+=590;
+    }
 
-      gap(x,150);
-      x+=630;
-
-    }else if(type==="pad"){
-
+    else if(type==="pad"){
       pad(x);
-      spike(x+190);
-      x+=600;
+      spike(x+210);
+      x+=620;
+    }
 
-    }else if(type==="speed"){
-
+    else if(type==="speed"){
       speedPortal(x);
-      spike(x+250);
-      saw(x+480);
+      spike(x+230);
+      saw(x+470);
       x+=760;
+    }
 
-    }else if(type==="gravity"){
-
+    else if(type==="gravity"){
       gravityPortal(x);
       spike(x+280);
-      spike(x+330);
-      x+=720;
+      x+=730;
     }
 
     p++;
   }
 
-  coins=[
-    {
-      id:0,
-      x:length*.25,
-      collected:false
-    },
-    {
-      id:1,
-      x:length*.52,
-      collected:false
-    },
-    {
-      id:2,
-      x:length*.79,
-      collected:false
-    }
+  /*
+    Dokładnie 3 monety na każdy poziom.
+    Ich pozycje są sprawdzane względem przeszkód.
+  */
+  const targets=[
+    length*.25,
+    length*.52,
+    length*.79
   ];
+
+  targets.forEach((target,i)=>{
+
+    let finalX=target;
+
+    for(let attempt=0;attempt<60;attempt++){
+
+      let bad=false;
+
+      for(const o of obstacles){
+
+        const distance=
+          Math.abs(finalX-o.x);
+
+        if(o.type==="gap"){
+
+          if(
+            finalX>o.x-80&&
+            finalX<o.x+o.w+80
+          ){
+            bad=true;
+            break;
+          }
+
+        }else if(distance<100){
+
+          bad=true;
+          break;
+        }
+      }
+
+      if(!bad) break;
+
+      finalX+=95;
+    }
+
+    coinObjects.push({
+      id:i,
+      x:finalX,
+      collected:false
+    });
+  });
 }
 
-function spike(x){
+/* =====================================================
+   OBIEKTY
+===================================================== */
 
+function spike(x){
   obstacles.push({
     type:"spike",
     x:x
@@ -2506,16 +1399,14 @@ function spike(x){
 }
 
 function saw(x){
-
   obstacles.push({
     type:"saw",
     x:x,
-    r:28
+    r:27
   });
 }
 
 function gap(x,w){
-
   obstacles.push({
     type:"gap",
     x:x,
@@ -2524,7 +1415,6 @@ function gap(x,w){
 }
 
 function pad(x){
-
   pads.push({
     x:x,
     used:false
@@ -2532,7 +1422,6 @@ function pad(x){
 }
 
 function speedPortal(x){
-
   portals.push({
     type:"speed",
     x:x,
@@ -2541,7 +1430,6 @@ function speedPortal(x){
 }
 
 function gravityPortal(x){
-
   portals.push({
     type:"gravity",
     x:x,
@@ -2550,56 +1438,96 @@ function gravityPortal(x){
 }
 
 /* =====================================================
-   LOOP
+   RESET GRACZA
 ===================================================== */
 
-function loop(time){
+function resetPlayer(){
 
-  if(!running)
-    return;
+  player.x=Math.max(
+    80,
+    Math.min(180,W*.22)
+  );
 
-  if(paused){
+  player.y=
+    gravity===1?
+    ground-player.size:
+    0;
 
-    last=time;
+  player.vy=0;
+  player.rot=0;
+  player.grounded=true;
+}
 
-    raf=
-      requestAnimationFrame(
-        loop
-      );
+/* =====================================================
+   STEROWANIE
+===================================================== */
 
-    return;
-  }
-
-  let dt=
-    (time-last)/
-    1000;
+function jump(){
 
   if(
-    !Number.isFinite(dt)||
-    dt<0
-  )
-    dt=0;
+    !running||
+    paused||
+    dying||
+    finished
+  ){
+    return;
+  }
 
-  dt=
-    Math.min(
-      .05,
-      dt
-    );
+  if(player.grounded){
 
-  last=time;
+    player.vy=
+      -720*gravity;
 
-  update(dt);
-  draw();
-  checkFinish();
+    player.grounded=false;
 
-  if(running){
+    createJumpParticles();
 
-    raf=
-      requestAnimationFrame(
-        loop
-      );
+    shake=3;
   }
 }
+
+game.addEventListener(
+  "pointerdown",
+  e=>{
+
+    if(
+      e.target.closest(".gameButtons")||
+      e.target.closest("#pause")||
+      e.target.closest("#finish")
+    ){
+      return;
+    }
+
+    jump();
+  },
+  {passive:true}
+);
+
+window.addEventListener(
+  "keydown",
+  e=>{
+
+    if(
+      e.code==="Space"||
+      e.code==="ArrowUp"||
+      e.code==="KeyW"
+    ){
+
+      e.preventDefault();
+      jump();
+    }
+
+    if(
+      e.code==="Escape"||
+      e.code==="KeyP"
+    ){
+
+      if(running){
+        togglePause();
+      }
+    }
+  }
+);
 
 /* =====================================================
    UPDATE
@@ -2607,20 +1535,30 @@ function loop(time){
 
 function update(dt){
 
-  let speed=
-    LEVELS[current][2];
+  const level=LEVELS[current];
 
-  world+=
-    speed*dt;
+  let speed=level[2];
 
-  player.vy+=
-    2100*
-    gravity*
-    dt;
+  for(const p of portals){
 
-  player.y+=
-    player.vy*
-    dt;
+    if(
+      p.type==="speed"&&
+      world+player.x>
+        p.x-20&&
+      world+player.x<
+        p.x+180
+    ){
+      speed*=1.16;
+    }
+  }
+
+  world+=speed*dt;
+
+  const g=
+    2050*gravity;
+
+  player.vy+=g*dt;
+  player.y+=player.vy*dt;
 
   if(gravity===1){
 
@@ -2629,24 +1567,29 @@ function update(dt){
 
     if(
       player.y>=floor&&
-      !insideGap()
+      !gapUnder()
     ){
 
       player.y=floor;
       player.vy=0;
       player.grounded=true;
 
+      player.rot=
+        Math.round(
+          player.rot/(Math.PI/2)
+        )*(Math.PI/2);
+
     }else{
 
       player.grounded=false;
-      player.rotation+=dt*8;
+      player.rot+=dt*8;
     }
 
   }else{
 
     if(
       player.y<=0&&
-      !insideGap()
+      !gapUnder()
     ){
 
       player.y=0;
@@ -2656,7 +1599,7 @@ function update(dt){
     }else{
 
       player.grounded=false;
-      player.rotation-=dt*8;
+      player.rot-=dt*8;
     }
   }
 
@@ -2665,112 +1608,115 @@ function update(dt){
   checkCoins();
   collisions();
 
-  trail.push({
-    x:player.x+17,
-    y:player.y+17,
-    life:.3
-  });
+  if(Math.random()<.9){
+
+    trail.push({
+      x:player.x+17,
+      y:player.y+17,
+      life:.32,
+      size:18
+    });
+  }
 
   updateTrail(dt);
   updateParticles(dt);
 
-  shake=
-    Math.max(
-      0,
-      shake-dt*12
-    );
+  if(shake>0){
+    shake=Math.max(0,shake-dt*13);
+  }
 
-  flash=
-    Math.max(
-      0,
-      flash-dt*3
-    );
+  if(flash>0){
+    flash=Math.max(0,flash-dt*3);
+  }
 }
 
-function insideGap(){
+function gapUnder(){
 
   const center=
     world+
     player.x+
     player.size/2;
 
-  for(
-    const o of obstacles
-  ){
+  for(const o of obstacles){
 
     if(
       o.type==="gap"&&
       center>o.x&&
       center<o.x+o.w
-    )
+    ){
       return true;
+    }
   }
 
   return false;
 }
 
 /* =====================================================
-   MECHANICS
+   MECHANIKI
 ===================================================== */
 
 function checkPads(){
 
-  for(
-    const p of pads
-  ){
+  for(const p of pads){
 
-    if(p.used)
-      continue;
+    if(p.used) continue;
 
-    const x=
+    const px=
       world+
       player.x+
       17;
 
     if(
-      x>p.x&&
-      x<p.x+55&&
-      player.grounded
+      px>p.x&&
+      px<p.x+55&&
+      player.grounded&&
+      gravity===1
     ){
 
       p.used=true;
 
-      player.vy=
-        -1000*
-        gravity;
-
+      player.vy=-980;
       player.grounded=false;
+
+      createPadParticles(
+        p.x-world
+      );
+
+      shake=5;
     }
   }
 }
 
 function checkPortals(){
 
-  for(
-    const p of portals
-  ){
+  for(const p of portals){
 
-    if(p.used)
-      continue;
+    if(p.used) continue;
 
-    const x=
+    const px=
       world+
       player.x+
       17;
 
     if(
-      x>p.x&&
-      x<p.x+60
+      px>p.x&&
+      px<p.x+60
     ){
 
       p.used=true;
 
-      if(
-        p.type==="gravity"
-      ){
+      if(p.type==="gravity"){
 
         gravity*=-1;
+
         player.vy=0;
+        player.grounded=false;
+
+        createPortalParticles(
+          p.x-world
+        );
+
+        shake=7;
       }
     }
   }
@@ -2778,120 +1724,96 @@ function checkPortals(){
 
 function checkCoins(){
 
-  for(
-    const c of coins
-  ){
+  for(const c of coinObjects){
 
-    if(c.collected)
-      continue;
+    if(c.collected) continue;
 
-    const x=
+    const cx=
       c.x-world;
 
-    const y=
+    const cy=
       gravity===1?
       ground-125:
       125;
 
+    const px=
+      player.x+17;
+
+    const py=
+      player.y+17;
+
     if(
       Math.hypot(
-        player.x+17-x,
-        player.y+17-y
-      )<35
+        px-cx,
+        py-cy
+      )<38
     ){
 
       c.collected=true;
 
-      runCoins++;
+      collected.add(c.id);
+
+      runCoins=collected.size;
 
       combo++;
 
-      bestCombo=
-        Math.max(
-          bestCombo,
-          combo
-        );
+      if(combo>bestCombo){
+        bestCombo=combo;
+      }
 
-      localStorage.setItem(
-        "nd_bestCombo",
-        Math.max(
-          getNum(
-            "nd_bestCombo",
-            0
-          ),
-          bestCombo
-        )
-      );
+      coinsText.textContent=
+        "🪙 "+runCoins+"/3";
 
-      createParticles(
-        x,
-        y,
-        "#ffd43b",
-        20
-      );
+      createCoinParticles(cx,cy);
+
+      shake=3;
     }
   }
 }
 
 /* =====================================================
-   COLLISIONS
+   KOLIZJE
 ===================================================== */
 
 function collisions(){
 
-  const left=
+  const px=
     world+
-    player.x+
-    6;
+    player.x;
 
-  const right=
-    world+
-    player.x+
-    player.size-
-    6;
+  const s=player.size;
 
-  const top=
-    player.y+6;
+  const left=px+7;
+  const right=px+s-7;
+  const top=player.y+7;
+  const bottom=player.y+s-5;
 
-  const bottom=
-    player.y+
-    player.size-
-    5;
+  for(const o of obstacles){
 
-  for(
-    const o of obstacles
-  ){
-
-    if(
-      o.type==="spike"
-    ){
+    if(o.type==="spike"){
 
       if(
         gravity===1&&
-        right>o.x+7&&
-        left<o.x+42&&
-        bottom>ground-48
+        right>o.x+6&&
+        left<o.x+46&&
+        bottom>ground-45
       ){
-
         die();
         return;
       }
 
       if(
         gravity===-1&&
-        right>o.x+7&&
-        left<o.x+42&&
-        top<48
+        right>o.x+6&&
+        left<o.x+46&&
+        top<46
       ){
-
         die();
         return;
       }
     }
 
-    if(
-      o.type==="saw"
-    ){
+    if(o.type==="saw"){
 
       const cx=o.x;
 
@@ -2903,55 +1825,41 @@ function collisions(){
       const nx=
         Math.max(
           left,
-          Math.min(
-            cx,
-            right
-          )
+          Math.min(cx,right)
         );
 
       const ny=
         Math.max(
           top,
-          Math.min(
-            cy,
-            bottom
-          )
+          Math.min(cy,bottom)
         );
 
-      const dx=
-        cx-nx;
-
-      const dy=
-        cy-ny;
+      const dx=cx-nx;
+      const dy=cy-ny;
 
       if(
         dx*dx+
         dy*dy<
-        (o.r-5)*
-        (o.r-5)
+        (o.r-6)*(o.r-6)
       ){
-
         die();
         return;
       }
     }
 
-    if(
-      o.type==="gap"
-    ){
+    if(o.type==="gap"){
 
       const center=
         world+
         player.x+
-        player.size/2;
+        s/2;
 
       if(
         gravity===1&&
         center>o.x&&
         center<o.x+o.w&&
-        bottom>=ground-8
+        bottom>=ground-7
       ){
-
         die();
         return;
       }
@@ -2960,7 +1868,7 @@ function collisions(){
 }
 
 /* =====================================================
-   DEATH
+   ŚMIERĆ
 ===================================================== */
 
 function die(){
@@ -2969,299 +1877,237 @@ function die(){
     dying||
     finished||
     !running
-  )
+  ){
     return;
+  }
 
   dying=true;
   running=false;
 
   deaths++;
+  addDeath();
 
   combo=0;
-
-  localStorage.setItem(
-    "nd_totalDeaths",
-    getNum(
-      "nd_totalDeaths",
-      0
-    )+1
-  );
 
   shake=14;
   flash=1;
 
-  createParticles(
-    player.x+17,
-    player.y+17,
-    LEVELS[current][3],
-    45
-  );
+  createDeathParticles();
 
-  if(practice){
+  setTimeout(()=>{
 
-    setTimeout(
-      function(){
+    if(finished) return;
 
-        const saved=
-          deaths;
+    dying=false;
 
-        startLevel(current);
+    /*
+      Restart jest całkowity.
+      To usuwa problemy z uszkodzonym stanem obiektów.
+    */
+    startLevel(current);
 
-        deaths=saved;
-
-      },
-      400
-    );
-
-    return;
-  }
-
-  setTimeout(
-    function(){
-
-      if(!dying)
-        return;
-
-      const saved=
-        deaths;
-
-      startLevel(current);
-
-      deaths=saved;
-
-    },
-    550
-  );
+  },550);
 }
 
 /* =====================================================
-   FINISH
+   KONIEC
 ===================================================== */
 
-function checkFinish(){
+function checkWin(){
 
   const length=
-    11500+
-    current*600;
+    10000+
+    current*430;
 
-  if(
-    world>=length
-  )
+  if(world>=length){
     finishLevel();
+  }
 }
 
 function finishLevel(){
 
-  if(finished)
-    return;
+  if(finished) return;
 
   finished=true;
   running=false;
 
   stopMusic();
 
-  localStorage.setItem(
+  set(
     "nd_level_"+current,
     "1"
   );
 
-  const bestCoins=
-    getNum(
-      "nd_bestCoins_"+current,
-      0
-    );
+  const previousBest=
+    getNum("nd_best_"+current,0);
 
-  localStorage.setItem(
-    "nd_bestCoins_"+current,
-    Math.max(
-      bestCoins,
-      runCoins
-    )
-  );
+  const finalPercent=100;
 
-  const oldDeaths=
-    localStorage.getItem(
-      "nd_bestDeaths_"+current
-    );
-
-  if(
-    oldDeaths===null||
-    deaths<Number(oldDeaths)
-  ){
-
-    localStorage.setItem(
-      "nd_bestDeaths_"+current,
-      deaths
+  if(finalPercent>previousBest){
+    set(
+      "nd_best_"+current,
+      finalPercent
     );
   }
 
-  const totalCoins=
-    getNum(
-      "nd_totalCoins",
-      0
-    );
+  addCoins(runCoins);
 
-  const bankCoins=
-    getNum(
-      "nd_bankCoins",
-      0
-    );
+  const xpGain=
+    40+
+    current*5+
+    runCoins*10;
 
-  localStorage.setItem(
-    "nd_totalCoins",
-    totalCoins+runCoins
-  );
-
-  localStorage.setItem(
-    "nd_bankCoins",
-    bankCoins+runCoins
-  );
-
-  if(
-    runCoins===3
-  ){
-
-    localStorage.setItem(
-      "nd_gems",
-      getNum(
-        "nd_gems",
-        0
-      )+1
-    );
-  }
-
-  let xp=
-    50+
-    runCoins*15;
-
-  if(deaths===0)
-    xp+=30;
-
-  if(bestCombo>=3)
-    xp+=20;
-
-  addXP(xp);
-
-  if(dailyMode){
-
-    const d=
-      dailyData();
-
-    let dailyOK=false;
-
-    if(
-      dailyType==="coins"&&
-      runCoins===3
-    )
-      dailyOK=true;
-
-    if(
-      dailyType==="perfect"&&
-      deaths===0
-    )
-      dailyOK=true;
-
-    if(dailyOK){
-
-      localStorage.setItem(
-        "nd_daily_"+d.key,
-        "1"
-      );
-
-      localStorage.setItem(
-        "nd_bankCoins",
-        getNum(
-          "nd_bankCoins",
-          0
-        )+50
-      );
-
-      addXP(100);
-
-      unlock("daily");
-    }
-  }
+  addXP(xpGain);
 
   updateStreak();
 
+  if(dailyMode){
+
+    const i=dailyIndex();
+
+    if(i===current){
+
+      set(
+        "nd_dailyDate",
+        String(i)+"_"+new Date().toDateString()
+      );
+
+      set(
+        "nd_dailyDone",
+        "1"
+      );
+
+      addCoins(25);
+      addXP(50);
+    }
+
+    dailyMode=false;
+  }
+
   checkAchievements();
+
+  createWinParticles();
 
   document.getElementById(
     "finishTitle"
   ).textContent=
-    deaths===0?
-    "✨ PERFEKCYJNY RUN!":
-    "🎉 UKOŃCZONO!";
+    "🎉 POZIOM UKOŃCZONY!";
 
   document.getElementById(
     "finishInfo"
-  ).textContent=
-    LEVELS[current][0];
+  ).innerHTML=
+    "<b>"+LEVELS[current][0]+"</b><br>"+
+    "🪙 Monety: "+runCoins+"/3<br>"+
+    "☠️ Śmierci: "+deaths+"<br>"+
+    "🔥 Combo: "+bestCombo+"<br>"+
+    "⭐ XP: +"+xpGain;
 
-  document.getElementById(
-    "finishCoins"
-  ).textContent=
-    runCoins+
-    "/3";
-
-  document.getElementById(
-    "finishDeaths"
-  ).textContent=
-    deaths;
-
-  document.getElementById(
-    "finishCombo"
-  ).textContent=
-    bestCombo;
-
-  document.getElementById(
-    "finishXP"
-  ).textContent=
-    "+"+
-    xp;
-
-  document.getElementById(
-    "finish"
-  ).style.display=
-    "flex";
-
-  createParticles(
-    W/2,
-    H*.35,
-    "#00eaff",
-    100
-  );
+  finish.style.display="flex";
 
   renderMenu();
+
+  victoryAnimation();
 }
 
 /* =====================================================
-   XP
+   STREAK
 ===================================================== */
 
-function addXP(value){
+function updateStreak(){
 
-  localStorage.setItem(
-    "nd_xp",
-    getNum(
-      "nd_xp",
-      0
-    )+
-    value
+  const today=
+    new Date().toDateString();
+
+  const lastDay=
+    get("nd_lastFinish","");
+
+  if(lastDay===today){
+    return;
+  }
+
+  const previous=
+    getNum("nd_streak",0);
+
+  set(
+    "nd_streak",
+    previous+1
+  );
+
+  set(
+    "nd_lastFinish",
+    today
   );
 }
 
 /* =====================================================
-   DRAW
+   LOOP
+===================================================== */
+
+function loop(time){
+
+  if(!running){
+    return;
+  }
+
+  if(paused){
+
+    last=time;
+
+    raf=requestAnimationFrame(loop);
+
+    return;
+  }
+
+  let dt=
+    (time-last)/1000;
+
+  if(
+    !Number.isFinite(dt)||
+    dt<0
+  ){
+    dt=0;
+  }
+
+  dt=Math.min(dt,.045);
+
+  last=time;
+
+  update(dt);
+  draw();
+  checkWin();
+
+  if(running){
+    raf=requestAnimationFrame(loop);
+  }
+}
+
+/* =====================================================
+   HUD
+===================================================== */
+
+function updateHUD(){
+
+  levelName.textContent=
+    (current+1)+" • "+LEVELS[current][0];
+
+  coinsText.textContent=
+    "🪙 "+runCoins+"/3";
+
+  percent.textContent="0%";
+  gameBar.style.width="0%";
+}
+
+/* =====================================================
+   RYSOWANIE
 ===================================================== */
 
 function draw(){
 
+  const color=
+    LEVELS[current][3];
+
   ctx.clearRect(
-    0,
-    0,
-    W,
-    H
+    0,0,W,H
   );
 
   ctx.save();
@@ -3276,33 +2122,21 @@ function draw(){
 
   const bg=
     ctx.createLinearGradient(
-      0,
-      0,
-      0,
-      H
+      0,0,0,H
     );
 
-  bg.addColorStop(
-    0,
-    "#080b20"
-  );
-
-  bg.addColorStop(
-    1,
-    "#020207"
-  );
+  bg.addColorStop(0,"#080b20");
+  bg.addColorStop(1,"#020207");
 
   ctx.fillStyle=bg;
 
   ctx.fillRect(
-    0,
-    0,
-    W,
-    H
+    0,0,W,H
   );
 
   drawStars();
   drawGrid();
+  drawSpeedLines();
 
   ctx.fillStyle="#0b0d18";
 
@@ -3313,9 +2147,6 @@ function draw(){
     H-ground
   );
 
-  const color=
-    LEVELS[current][3];
-
   ctx.strokeStyle=color;
   ctx.lineWidth=3;
   ctx.shadowColor=color;
@@ -3323,49 +2154,33 @@ function draw(){
 
   ctx.beginPath();
 
-  ctx.moveTo(
-    0,
-    ground
-  );
-
-  ctx.lineTo(
-    W,
-    ground
-  );
+  ctx.moveTo(0,ground);
+  ctx.lineTo(W,ground);
 
   ctx.stroke();
 
   ctx.shadowBlur=0;
 
-  for(
-    const o of obstacles
-  ){
+  for(const o of obstacles){
 
-    const x=
-      o.x-world;
+    const x=o.x-world;
 
     if(
       x<-150||
       x>W+150
-    )
-      continue;
-
-    if(
-      o.type==="spike"
-    )
-      drawSpike(x);
-
-    if(
-      o.type==="saw"
-    )
-      drawSaw(
-        x,
-        o.r
-      );
-
-    if(
-      o.type==="gap"
     ){
+      continue;
+    }
+
+    if(o.type==="spike"){
+      drawSpike(x);
+    }
+
+    else if(o.type==="saw"){
+      drawSaw(x,o.r);
+    }
+
+    else if(o.type==="gap"){
 
       ctx.fillStyle="#020207";
 
@@ -3378,50 +2193,40 @@ function draw(){
     }
   }
 
-  for(
-    const p of pads
-  ){
+  for(const p of pads){
 
-    const x=
-      p.x-world;
+    const x=p.x-world;
 
     if(
       x>-80&&
       x<W+80
-    )
+    ){
       drawPad(x);
+    }
   }
 
-  for(
-    const p of portals
-  ){
+  for(const p of portals){
 
-    const x=
-      p.x-world;
+    const x=p.x-world;
 
     if(
       x>-100&&
       x<W+100
     ){
 
-      if(
-        p.type==="speed"
-      )
+      if(p.type==="speed"){
         drawSpeedPortal(x);
-      else
+      }else{
         drawGravityPortal(x);
+      }
     }
   }
 
-  for(
-    const c of coins
-  ){
+  for(const c of coinObjects){
 
-    if(c.collected)
-      continue;
+    if(c.collected) continue;
 
-    const x=
-      c.x-world;
+    const x=c.x-world;
 
     if(
       x>-50&&
@@ -3439,11 +2244,9 @@ function draw(){
 
   drawTrail();
 
-  if(
-    !dying&&
-    !finished
-  )
+  if(!dying&&!finished){
     drawPlayer();
+  }
 
   drawParticles();
 
@@ -3451,54 +2254,51 @@ function draw(){
 
     ctx.fillStyle=
       "rgba(255,255,255,"+
-      Math.min(
-        .5,
-        flash*.5
-      )+
+      Math.min(.5,flash*.5)+
       ")";
 
     ctx.fillRect(
-      0,
-      0,
-      W,
-      H
+      0,0,W,H
     );
   }
 
   ctx.restore();
 
-  updateHUD();
+  const length=
+    10000+
+    current*430;
+
+  const p=Math.min(
+    100,
+    Math.floor(
+      world/length*100
+    )
+  );
+
+  percent.textContent=p+"%";
+  gameBar.style.width=p+"%";
 }
 
 /* =====================================================
-   PLAYER
+   GRACZ
 ===================================================== */
 
-function skinColor(){
+function currentSkinColor(){
 
-  const id=
-    localStorage.getItem(
-      "nd_skin"
-    )||
-    "cyan";
+  for(const s of SKINS){
 
-  for(
-    const skin of SKINS
-  ){
-
-    if(
-      skin[0]===id
-    )
-      return skin[2];
+    if(s[0]===selectedSkin){
+      return s[2];
+    }
   }
 
-  return "#00eaff";
+  return LEVELS[current][3];
 }
 
 function drawPlayer(){
 
   const color=
-    skinColor();
+    currentSkinColor();
 
   ctx.save();
 
@@ -3507,13 +2307,12 @@ function drawPlayer(){
     player.y+17
   );
 
-  ctx.rotate(
-    player.rotation
-  );
+  ctx.rotate(player.rot);
 
-  ctx.fillStyle=color;
   ctx.shadowColor=color;
   ctx.shadowBlur=20;
+
+  ctx.fillStyle=color;
 
   ctx.fillRect(
     -17,
@@ -3534,27 +2333,19 @@ function drawPlayer(){
     34
   );
 
+  /*
+    Małe oczy.
+  */
   ctx.fillStyle="#05050c";
 
-  ctx.fillRect(
-    -9,
-    -5,
-    4,
-    5
-  );
-
-  ctx.fillRect(
-    5,
-    -5,
-    4,
-    5
-  );
+  ctx.fillRect(-9,-7,5,5);
+  ctx.fillRect(4,-7,5,5);
 
   ctx.restore();
 }
 
 /* =====================================================
-   OBJECTS
+   PRZESZKODY
 ===================================================== */
 
 function drawSpike(x){
@@ -3566,50 +2357,27 @@ function drawSpike(x){
 
   ctx.fillStyle=color;
   ctx.shadowColor=color;
-  ctx.shadowBlur=15;
+  ctx.shadowBlur=16;
 
   ctx.beginPath();
 
   if(gravity===1){
 
-    ctx.moveTo(
-      x,
-      ground
-    );
-
-    ctx.lineTo(
-      x+23,
-      ground-47
-    );
-
-    ctx.lineTo(
-      x+46,
-      ground
-    );
+    ctx.moveTo(x,ground);
+    ctx.lineTo(x+23,ground-47);
+    ctx.lineTo(x+46,ground);
 
   }else{
 
-    ctx.moveTo(
-      x,
-      0
-    );
-
-    ctx.lineTo(
-      x+23,
-      47
-    );
-
-    ctx.lineTo(
-      x+46,
-      0
-    );
+    ctx.moveTo(x,0);
+    ctx.lineTo(x+23,47);
+    ctx.lineTo(x+46,0);
   }
 
   ctx.closePath();
   ctx.fill();
 
   ctx.shadowBlur=0;
-
   ctx.strokeStyle="#fff";
   ctx.stroke();
 
@@ -3621,17 +2389,14 @@ function drawSaw(x,r){
   const color=
     LEVELS[current][3];
 
-  const y=
+  const cy=
     gravity===1?
     ground-r:
     r;
 
   ctx.save();
 
-  ctx.translate(
-    x,
-    y
-  );
+  ctx.translate(x,cy);
 
   ctx.rotate(
     performance.now()/280
@@ -3645,53 +2410,83 @@ function drawSaw(x,r){
 
   ctx.beginPath();
 
-  for(
-    let i=0;
-    i<teeth*2;
-    i++
-  ){
+  for(let i=0;i<teeth*2;i++){
 
-    const a=
-      i*Math.PI/teeth;
+    const a=i*Math.PI/teeth;
+    const rr=i%2===0?r:r*.7;
 
-    const rr=
-      i%2===0?
-      r:
-      r*.7;
+    const xx=Math.cos(a)*rr;
+    const yy=Math.sin(a)*rr;
 
-    const px=
-      Math.cos(a)*rr;
-
-    const py=
-      Math.sin(a)*rr;
-
-    if(i===0)
-      ctx.moveTo(px,py);
-    else
-      ctx.lineTo(px,py);
+    if(i===0){
+      ctx.moveTo(xx,yy);
+    }else{
+      ctx.lineTo(xx,yy);
+    }
   }
 
   ctx.closePath();
   ctx.fill();
 
   ctx.shadowBlur=0;
-
   ctx.fillStyle="#05050c";
 
   ctx.beginPath();
 
   ctx.arc(
-    0,
-    0,
-    r*.28,
-    0,
-    Math.PI*2
+    0,0,r*.28,
+    0,Math.PI*2
   );
 
   ctx.fill();
 
   ctx.restore();
 }
+
+function drawCoin(x,y){
+
+  const s=
+    1+
+    Math.sin(
+      performance.now()/130
+    )*.1;
+
+  ctx.save();
+
+  ctx.translate(x,y);
+  ctx.scale(s,s);
+
+  ctx.shadowColor="#ffd43b";
+  ctx.shadowBlur=22;
+
+  ctx.fillStyle="#ffd43b";
+
+  ctx.beginPath();
+
+  ctx.arc(
+    0,0,14,
+    0,Math.PI*2
+  );
+
+  ctx.fill();
+
+  ctx.shadowBlur=0;
+
+  ctx.strokeStyle="#fff";
+  ctx.lineWidth=2;
+  ctx.stroke();
+
+  ctx.fillStyle="#7c5b00";
+  ctx.font="bold 13px Arial";
+  ctx.textAlign="center";
+  ctx.fillText("★",0,5);
+
+  ctx.restore();
+}
+
+/* =====================================================
+   PADY I PORTALE
+===================================================== */
 
 function drawPad(x){
 
@@ -3713,6 +2508,11 @@ function drawPad(x){
 
   ctx.fill();
 
+  ctx.shadowBlur=0;
+
+  ctx.strokeStyle="#fff";
+  ctx.stroke();
+
   ctx.restore();
 }
 
@@ -3733,11 +2533,12 @@ function drawSpeedPortal(x){
   ctx.beginPath();
 
   ctx.arc(
-    0,
-    0,
-    30,
-    0,
-    Math.PI*2
+    0,0,
+    28+
+    Math.sin(
+      performance.now()/120
+    )*4,
+    0,Math.PI*2
   );
 
   ctx.stroke();
@@ -3748,11 +2549,7 @@ function drawSpeedPortal(x){
   ctx.font="bold 18px Arial";
   ctx.textAlign="center";
 
-  ctx.fillText(
-    ">>",
-    0,
-    7
-  );
+  ctx.fillText(">>",0,7);
 
   ctx.restore();
 }
@@ -3768,17 +2565,18 @@ function drawGravityPortal(x){
 
   ctx.strokeStyle="#ff4be8";
   ctx.shadowColor="#ff4be8";
-  ctx.shadowBlur=20;
+  ctx.shadowBlur=22;
   ctx.lineWidth=5;
 
   ctx.beginPath();
 
   ctx.arc(
-    0,
-    0,
-    30,
-    0,
-    Math.PI*2
+    0,0,
+    29+
+    Math.sin(
+      performance.now()/140
+    )*4,
+    0,Math.PI*2
   );
 
   ctx.stroke();
@@ -3789,78 +2587,27 @@ function drawGravityPortal(x){
   ctx.font="bold 22px Arial";
   ctx.textAlign="center";
 
-  ctx.fillText(
-    "↕",
-    0,
-    8
-  );
-
-  ctx.restore();
-}
-
-function drawCoin(x,y){
-
-  const scale=
-    1+
-    Math.sin(
-      performance.now()/130
-    )*.1;
-
-  ctx.save();
-
-  ctx.translate(
-    x,
-    y
-  );
-
-  ctx.scale(
-    scale,
-    scale
-  );
-
-  ctx.fillStyle="#ffd43b";
-  ctx.shadowColor="#ffd43b";
-  ctx.shadowBlur=20;
-
-  ctx.beginPath();
-
-  ctx.arc(
-    0,
-    0,
-    14,
-    0,
-    Math.PI*2
-  );
-
-  ctx.fill();
-
-  ctx.shadowBlur=0;
-
-  ctx.strokeStyle="#fff";
-  ctx.stroke();
+  ctx.fillText("↕",0,8);
 
   ctx.restore();
 }
 
 /* =====================================================
-   BACKGROUND
+   TŁO
 ===================================================== */
 
 function createStars(){
 
   stars=[];
 
-  for(
-    let i=0;
-    i<70;
-    i++
-  ){
+  for(let i=0;i<75;i++){
 
     stars.push({
       x:Math.random()*W,
-      y:Math.random()*Math.max(100,ground*.9),
+      y:Math.random()*
+        Math.max(100,ground*.9),
       r:Math.random()*2+.5,
-      speed:Math.random()*.8+.2
+      v:Math.random()*.8+.2
     });
   }
 }
@@ -3869,18 +2616,16 @@ function drawStars(){
 
   ctx.fillStyle="#fff";
 
-  for(
-    const s of stars
-  ){
+  for(const s of stars){
 
-    s.x-=s.speed;
+    s.x-=s.v;
 
-    if(s.x<0)
+    if(s.x<0){
       s.x=W;
+    }
 
     ctx.globalAlpha=
-      .3+
-      s.r*.2;
+      .3+s.r*.2;
 
     ctx.beginPath();
 
@@ -3888,8 +2633,7 @@ function drawStars(){
       s.x,
       s.y,
       s.r,
-      0,
-      Math.PI*2
+      0,Math.PI*2
     );
 
     ctx.fill();
@@ -3908,20 +2652,18 @@ function drawGrid(){
 
   const size=70;
 
-  const offset=
+  const off=
     -(world*.25)%size;
 
   for(
-    let x=offset;
+    let x=off;
     x<W;
     x+=size
   ){
 
     ctx.beginPath();
-
     ctx.moveTo(x,0);
     ctx.lineTo(x,ground);
-
     ctx.stroke();
   }
 
@@ -3932,9 +2674,41 @@ function drawGrid(){
   ){
 
     ctx.beginPath();
-
     ctx.moveTo(0,y);
     ctx.lineTo(W,y);
+    ctx.stroke();
+  }
+
+  ctx.globalAlpha=1;
+}
+
+function drawSpeedLines(){
+
+  const color=
+    LEVELS[current][3];
+
+  ctx.strokeStyle=color;
+  ctx.globalAlpha=.12;
+  ctx.lineWidth=2;
+
+  const off=
+    -(world*.8)%190;
+
+  for(
+    let x=off-190;
+    x<W+190;
+    x+=190
+  ){
+
+    const y=
+      100+
+      Math.abs(x*7)%
+      Math.max(100,ground-150);
+
+    ctx.beginPath();
+
+    ctx.moveTo(x,y);
+    ctx.lineTo(x+80,y);
 
     ctx.stroke();
   }
@@ -3956,86 +2730,167 @@ function updateTrail(dt){
 
     trail[i].life-=dt;
 
-    if(
-      trail[i].life<=0
-    )
-      trail.splice(
-        i,
-        1
-      );
+    if(trail[i].life<=0){
+      trail.splice(i,1);
+    }
   }
 
-  if(
-    trail.length>35
-  )
+  if(trail.length>35){
     trail.splice(
       0,
       trail.length-35
     );
+  }
 }
 
 function drawTrail(){
 
   const color=
-    skinColor();
+    currentSkinColor();
 
-  for(
-    const t of trail
-  ){
+  for(const t of trail){
 
     ctx.globalAlpha=
       Math.max(
         0,
-        t.life/.3
-      )*.35;
+        t.life/.32
+      )*.32;
 
     ctx.fillStyle=color;
 
+    ctx.shadowColor=color;
+    ctx.shadowBlur=15;
+
     ctx.fillRect(
-      t.x-8,
-      t.y-8,
-      16,
-      16
+      t.x-t.size/2,
+      t.y-t.size/2,
+      t.size,
+      t.size
     );
   }
 
   ctx.globalAlpha=1;
+  ctx.shadowBlur=0;
 }
 
 /* =====================================================
-   PARTICLES
+   PARTICLE
 ===================================================== */
 
-function createParticles(
-  x,
-  y,
-  color,
-  amount
+function particle(
+  x,y,vx,vy,life,size,type
 ){
 
-  for(
-    let i=0;
-    i<amount;
-    i++
-  ){
+  if(particles.length>280){
+    return;
+  }
 
-    if(
-      particles.length>300
-    )
-      break;
+  particles.push({
+    x:x,
+    y:y,
+    vx:vx,
+    vy:vy,
+    life:life,
+    max:life,
+    size:size,
+    type:type,
+    rot:Math.random()*6,
+    spin:(Math.random()-.5)*10
+  });
+}
 
-    particles.push({
-      x:x,
-      y:y,
-      vx:(Math.random()-.5)*500,
-      vy:(Math.random()-.6)*500,
-      life:.8+
-        Math.random()*.5,
-      max:1.3,
-      size:Math.random()*6+2,
-      color:color,
-      rotation:Math.random()*6
-    });
+function createJumpParticles(){
+
+  for(let i=0;i<10;i++){
+
+    particle(
+      player.x+17,
+      player.y+17,
+      (Math.random()-.5)*150,
+      Math.random()*80,
+      .4,
+      3,
+      "jump"
+    );
+  }
+}
+
+function createDeathParticles(){
+
+  for(let i=0;i<45;i++){
+
+    particle(
+      player.x+17,
+      player.y+17,
+      (Math.random()-.5)*500,
+      (Math.random()-.6)*500,
+      .9,
+      Math.random()*7+2,
+      "death"
+    );
+  }
+}
+
+function createCoinParticles(x,y){
+
+  for(let i=0;i<20;i++){
+
+    particle(
+      x,y,
+      (Math.random()-.5)*250,
+      (Math.random()-.7)*250,
+      .7,
+      Math.random()*5+2,
+      "coin"
+    );
+  }
+}
+
+function createPadParticles(x){
+
+  for(let i=0;i<18;i++){
+
+    particle(
+      x,
+      ground-15,
+      (Math.random()-.5)*220,
+      -Math.random()*220,
+      .7,
+      4,
+      "pad"
+    );
+  }
+}
+
+function createPortalParticles(x){
+
+  for(let i=0;i<30;i++){
+
+    particle(
+      x,
+      H*.48,
+      (Math.random()-.5)*300,
+      (Math.random()-.5)*300,
+      .8,
+      4,
+      "portal"
+    );
+  }
+}
+
+function createWinParticles(){
+
+  for(let i=0;i<130;i++){
+
+    particle(
+      W/2,
+      H*.35,
+      (Math.random()-.5)*700,
+      (Math.random()-.8)*700,
+      1.5+Math.random(),
+      Math.random()*8+3,
+      "win"
+    );
   }
 }
 
@@ -4047,38 +2902,25 @@ function updateParticles(dt){
     i--
   ){
 
-    const p=
-      particles[i];
+    const p=particles[i];
 
     p.life-=dt;
 
-    p.x+=
-      p.vx*dt;
+    p.x+=p.vx*dt;
+    p.y+=p.vy*dt;
 
-    p.y+=
-      p.vy*dt;
+    p.vy+=500*dt;
+    p.rot+=p.spin*dt;
 
-    p.vy+=
-      500*dt;
-
-    p.rotation+=
-      dt*5;
-
-    if(
-      p.life<=0
-    )
-      particles.splice(
-        i,
-        1
-      );
+    if(p.life<=0){
+      particles.splice(i,1);
+    }
   }
 }
 
 function drawParticles(){
 
-  for(
-    const p of particles
-  ){
+  for(const p of particles){
 
     ctx.globalAlpha=
       Math.max(
@@ -4086,8 +2928,40 @@ function drawParticles(){
         p.life/p.max
       );
 
-    ctx.fillStyle=
-      p.color;
+    let color=
+      LEVELS[current][3];
+
+    if(p.type==="coin"){
+      color="#ffd43b";
+    }
+
+    if(p.type==="pad"){
+      color="#49ff9a";
+    }
+
+    if(p.type==="portal"){
+      color="#ff4be8";
+    }
+
+    if(p.type==="win"){
+
+      const colors=[
+        "#00eaff",
+        "#ff36d1",
+        "#ffe14a",
+        "#49ff9a",
+        "#9c7bff"
+      ];
+
+      color=
+        colors[
+          Math.floor(
+            Math.random()*colors.length
+          )
+        ];
+    }
+
+    ctx.fillStyle=color;
 
     ctx.save();
 
@@ -4096,9 +2970,10 @@ function drawParticles(){
       p.y
     );
 
-    ctx.rotate(
-      p.rotation
-    );
+    ctx.rotate(p.rot);
+
+    ctx.shadowColor=color;
+    ctx.shadowBlur=10;
 
     ctx.fillRect(
       -p.size/2,
@@ -4111,334 +2986,12 @@ function drawParticles(){
   }
 
   ctx.globalAlpha=1;
+  ctx.shadowBlur=0;
 }
 
 /* =====================================================
-   HUD
+   MUZYKA
 ===================================================== */
-
-function updateHUD(){
-
-  const length=
-    11500+
-    current*600;
-
-  const p=
-    Math.min(
-      100,
-      Math.floor(
-        world/
-        length*
-        100
-      )
-    );
-
-  document.getElementById(
-    "levelName"
-  ).textContent=
-    (current+1)+
-    " • "+
-    LEVELS[current][0];
-
-  document.getElementById(
-    "percent"
-  ).textContent=
-    p+"%";
-
-  document.getElementById(
-    "gameBar"
-  ).style.width=
-    p+"%";
-
-  document.getElementById(
-    "coinsHud"
-  ).textContent=
-    "🪙 "+
-    runCoins+
-    "/3";
-
-  const mode=
-    document.getElementById(
-      "mode"
-    );
-
-  if(
-    dailyMode||
-    practice
-  ){
-
-    mode.style.display="block";
-
-    mode.textContent=
-      dailyMode?
-      "📅 DAILY":
-      "🧪 PRACTICE";
-
-  }else{
-
-    mode.style.display="none";
-  }
-}
-
-/* =====================================================
-   INPUT
-===================================================== */
-
-function jump(){
-
-  if(
-    !running||
-    paused||
-    finished||
-    dying
-  )
-    return;
-
-  if(
-    player.grounded
-  ){
-
-    player.vy=
-      -730*
-      gravity;
-
-    player.grounded=false;
-
-    createParticles(
-      player.x+17,
-      player.y+17,
-      LEVELS[current][3],
-      8
-    );
-  }
-}
-
-document.addEventListener(
-  "keydown",
-  function(e){
-
-    if(
-      e.code==="Space"||
-      e.code==="ArrowUp"||
-      e.code==="KeyW"
-    ){
-
-      if(
-        game.style.display!=="none"
-      ){
-
-        e.preventDefault();
-
-        jump();
-      }
-    }
-
-    if(
-      e.code==="Escape"||
-      e.code==="KeyP"
-    ){
-
-      if(running)
-        pauseGame();
-    }
-  }
-);
-
-game.addEventListener(
-  "pointerdown",
-  function(e){
-
-    if(
-      e.target.closest(
-        ".gameButtons"
-      )
-    )
-      return;
-
-    jump();
-  }
-);
-
-/* =====================================================
-   PAUSE
-===================================================== */
-
-function pauseGame(){
-
-  if(
-    !running||
-    finished
-  )
-    return;
-
-  paused=true;
-
-  stopMusic();
-
-  document.getElementById(
-    "pause"
-  ).style.display="flex";
-}
-
-function resumeGame(){
-
-  paused=false;
-
-  document.getElementById(
-    "pause"
-  ).style.display="none";
-
-  last=
-    performance.now();
-
-  if(sound)
-    startMusic();
-}
-
-/* =====================================================
-   MENU
-===================================================== */
-
-function backToMenu(){
-
-  running=false;
-  paused=false;
-  finished=false;
-  dying=false;
-
-  if(raf){
-
-    cancelAnimationFrame(
-      raf
-    );
-
-    raf=0;
-  }
-
-  stopMusic();
-
-  document.getElementById(
-    "pause"
-  ).style.display="none";
-
-  document.getElementById(
-    "finish"
-  ).style.display="none";
-
-  game.style.display="none";
-  menu.style.display="block";
-
-  dailyMode=false;
-
-  renderMenu();
-}
-
-function restartCurrentLevel(){
-
-  document.getElementById(
-    "finish"
-  ).style.display="none";
-
-  startLevel(
-    current
-  );
-}
-
-function nextLevel(){
-
-  document.getElementById(
-    "finish"
-  ).style.display="none";
-
-  if(
-    current<
-    LEVELS.length-1
-  ){
-
-    startLevel(
-      current+1
-    );
-
-  }else{
-
-    backToMenu();
-  }
-}
-
-/* =====================================================
-   RANDOM
-===================================================== */
-
-function randomLevel(){
-
-  dailyMode=false;
-
-  const index=
-    Math.floor(
-      Math.random()*
-      LEVELS.length
-    );
-
-  startLevel(
-    index
-  );
-}
-
-/* =====================================================
-   PRACTICE
-===================================================== */
-
-function togglePractice(){
-
-  practice=!practice;
-
-  localStorage.setItem(
-    "nd_practice",
-    practice?
-    "1":
-    "0"
-  );
-
-  alert(
-    practice?
-    "🧪 PRACTICE MODE WŁĄCZONY":
-    "🧪 PRACTICE MODE WYŁĄCZONY"
-  );
-
-  updateHUD();
-}
-
-/* =====================================================
-   SOUND
-===================================================== */
-
-function toggleSound(){
-
-  sound=!sound;
-
-  localStorage.setItem(
-    "nd_sound",
-    sound?
-    "1":
-    "0"
-  );
-
-  document.getElementById(
-    "soundButton"
-  ).textContent=
-    sound?
-    "🔊":
-    "🔇";
-
-  if(
-    sound&&
-    running&&
-    !paused
-  )
-    startMusic();
-  else
-    stopMusic();
-}
 
 function startMusic(){
 
@@ -4448,25 +3001,27 @@ function startMusic(){
 
     if(!audio){
 
-      audio=
-        new(
-          window.AudioContext||
-          window.webkitAudioContext
-        )();
+      audio=new(
+        window.AudioContext||
+        window.webkitAudioContext
+      )();
     }
 
-    if(
-      audio.state==="suspended"
-    )
+    if(audio.state==="suspended"){
       audio.resume();
+    }
+
+    const level=LEVELS[current];
 
     const notes=[
-      262,
+      220,
+      277,
       330,
-      392,
+      440,
       523,
-      392,
-      330
+      440,
+      330,
+      277
     ];
 
     musicIndex=0;
@@ -4477,8 +3032,9 @@ function startMusic(){
         !sound||
         !running||
         paused
-      )
+      ){
         return;
+      }
 
       const osc=
         audio.createOscillator();
@@ -4486,37 +3042,39 @@ function startMusic(){
       const gain=
         audio.createGain();
 
-      osc.type=
-        current%2===0?
-        "square":
-        "triangle";
-
-      osc.frequency.value=
+      const base=
         notes[
-          musicIndex%
-          notes.length
+          musicIndex%notes.length
         ];
 
+      osc.type=
+        current%3===0?
+        "square":
+        current%3===1?
+        "triangle":
+        "sine";
+
+      osc.frequency.value=
+        base+
+        current*2;
+
       gain.gain.setValueAtTime(
-        .03,
+        .025,
         audio.currentTime
       );
 
       gain.gain.exponentialRampToValueAtTime(
         .001,
-        audio.currentTime+.15
+        audio.currentTime+.16
       );
 
       osc.connect(gain);
-
-      gain.connect(
-        audio.destination
-      );
+      gain.connect(audio.destination);
 
       osc.start();
 
       osc.stop(
-        audio.currentTime+.16
+        audio.currentTime+.17
       );
 
       musicIndex++;
@@ -4527,11 +3085,12 @@ function startMusic(){
     musicTimer=
       setInterval(
         note,
-        60000/
-        LEVELS[current][4]
+        60000/level[4]
       );
 
-  }catch(e){}
+  }catch(e){
+    console.warn("Audio unavailable",e);
+  }
 }
 
 function stopMusic(){
@@ -4547,657 +3106,566 @@ function stopMusic(){
 }
 
 /* =====================================================
-   PANELS
+   PAUZA
 ===================================================== */
 
-function closePanels(){
+function togglePause(){
 
-  const overlays=
-    document.querySelectorAll(
-      ".overlay"
-    );
+  if(!running){
+    return;
+  }
 
-  overlays.forEach(
-    function(el){
+  paused=!paused;
 
-      if(
-        el.id!=="pause"&&
-        el.id!=="finish"
-      )
-        el.style.display="none";
+  pause.style.display=
+    paused?
+    "flex":
+    "none";
+
+  if(paused){
+
+    stopMusic();
+
+  }else{
+
+    last=performance.now();
+
+    if(sound){
+      startMusic();
     }
-  );
+  }
 }
 
-function openPanel(id){
+document.getElementById("pauseBtn")
+.addEventListener(
+  "click",
+  e=>{
+    e.stopPropagation();
+    togglePause();
+  }
+);
 
-  closePanels();
+document.getElementById("resume")
+.addEventListener(
+  "click",
+  ()=>{
+    paused=false;
+    pause.style.display="none";
+    last=performance.now();
 
-  if(id==="shop")
-    renderShop();
+    if(sound){
+      startMusic();
+    }
+  }
+);
 
-  if(id==="skins")
-    renderSkins();
-
-  if(id==="missions")
-    renderMissions();
-
-  if(id==="achievements")
-    renderAchievements();
-
-  if(id==="stats")
-    renderStats();
-
-  document.getElementById(
-    id
-  ).style.display="flex";
-}
+document.getElementById("restartPause")
+.addEventListener(
+  "click",
+  ()=>{
+    pause.style.display="none";
+    startLevel(current);
+  }
+);
 
 /* =====================================================
-   SHOP
+   MENU
 ===================================================== */
+
+function backToMenu(){
+
+  running=false;
+  paused=false;
+  finished=false;
+  dying=false;
+  dailyMode=false;
+
+  if(raf){
+    cancelAnimationFrame(raf);
+    raf=0;
+  }
+
+  stopMusic();
+
+  game.style.display="none";
+  menu.style.display="flex";
+
+  pause.style.display="none";
+  finish.style.display="none";
+
+  checkAchievements();
+  renderMenu();
+  renderAchievements();
+}
+
+document.getElementById("menuBtn")
+.addEventListener(
+  "click",
+  e=>{
+    e.stopPropagation();
+    backToMenu();
+  }
+);
+
+document.getElementById("pauseMenu")
+.addEventListener(
+  "click",
+  backToMenu
+);
+
+document.getElementById("finishMenu")
+.addEventListener(
+  "click",
+  backToMenu
+);
+
+document.getElementById("again")
+.addEventListener(
+  "click",
+  ()=>{
+    startLevel(current);
+  }
+);
+
+document.getElementById("nextLevel")
+.addEventListener(
+  "click",
+  ()=>{
+    if(current<LEVELS.length-1){
+      startLevel(current+1);
+    }else{
+      backToMenu();
+    }
+  }
+);
+
+/* =====================================================
+   ACHIEVEMENTY
+===================================================== */
+
+document.getElementById("achBtn")
+.addEventListener(
+  "click",
+  ()=>{
+    achievements.style.display="flex";
+    renderAchievements();
+  }
+);
+
+document.getElementById("closeAch")
+.addEventListener(
+  "click",
+  ()=>{
+    achievements.style.display="none";
+  }
+);
+
+/* =====================================================
+   SKLEP
+===================================================== */
+
+function owned(item){
+  return get(
+    "nd_owned_"+item,
+    "0"
+  )==="1";
+}
 
 function renderShop(){
 
-  const list=
-    document.getElementById(
-      "shopList"
-    );
+  shopList.innerHTML="";
 
-  list.innerHTML="";
+  const coins=totalCoins();
 
   document.getElementById(
     "shopCoins"
   ).textContent=
-    getNum(
-      "nd_bankCoins",
-      0
-    );
+    "Masz "+coins+" 🪙";
 
-  for(
-    const item of SHOP
-  ){
+  SKINS.forEach(s=>{
+
+    const unlocked=
+      completedCount()>=s[3];
 
     const div=
-      document.createElement(
-        "div"
-      );
+      document.createElement("div");
 
-    div.className="card";
-
-    const owned=
-      localStorage.getItem(
-        "nd_item_"+item[0]
-      )==="1";
+    div.className="shopItem";
 
     div.innerHTML=
-      "<b>"+
-      item[1]+
-      "</b><br><small>"+
+      "<b style=\"color:"+s[2]+"\">⬛ "+s[1]+"</b><br>"+
+      "<small>"+
       (
-        owned?
-        "✅ POSIADASZ":
-        "🪙 Cena: "+item[2]
+        unlocked?
+        "Odblokowany":
+        "Odblokuj po ukończeniu "+s[3]+" poziomów"
       )+
       "</small>";
 
-    const button=
-      document.createElement(
-        "button"
-      );
+    const btn=
+      document.createElement("button");
 
-    button.className=
-      "panelClose";
-
-    button.textContent=
-      owned?
+    btn.textContent=
+      selectedSkin===s[0]?
+      "✅ WYBRANY":
+      unlocked?
       "UŻYJ":
+      "🔒 ZABLOKOWANY";
+
+    btn.disabled=!unlocked;
+
+    btn.addEventListener(
+      "click",
+      ()=>{
+        selectedSkin=s[0];
+        set("nd_skin",selectedSkin);
+        renderShop();
+      }
+    );
+
+    div.appendChild(btn);
+    shopList.appendChild(div);
+  });
+
+  SHOP.forEach(item=>{
+
+    const div=
+      document.createElement("div");
+
+    div.className="shopItem";
+
+    const have=
+      owned(item[0]);
+
+    div.innerHTML=
+      "<b>"+item[1]+"</b><br>"+
+      "<small>"+item[2]+" 🪙</small>";
+
+    const btn=
+      document.createElement("button");
+
+    btn.textContent=
+      have?
+      "✅ KUPIONO":
       "KUP";
 
-    button.onclick=
-      function(){
+    btn.disabled=
+      have||
+      coins<item[2];
 
-        if(owned){
-
-          localStorage.setItem(
-            "nd_trail",
-            item[0]
-          );
-
-          alert(
-            "Wybrano "+
-            item[1]
-          );
-
+    btn.addEventListener(
+      "click",
+      ()=>{
+        if(totalCoins()<item[2]){
           return;
         }
 
-        const money=
-          getNum(
-            "nd_bankCoins",
-            0
-          );
-
-        if(
-          money<item[2]
-        ){
-
-          alert(
-            "Masz za mało monet."
-          );
-
-          return;
-        }
-
-        localStorage.setItem(
-          "nd_bankCoins",
-          money-item[2]
+        set(
+          "nd_totalCoins",
+          totalCoins()-item[2]
         );
 
-        localStorage.setItem(
-          "nd_item_"+item[0],
+        set(
+          "nd_owned_"+item[0],
           "1"
         );
 
-        unlock("shop");
+        set("nd_bought","1");
 
+        checkAchievements();
         renderShop();
-        updateProfile();
-      };
-
-    div.appendChild(
-      button
+        renderMenu();
+      }
     );
 
-    list.appendChild(
-      div
-    );
-  }
+    div.appendChild(btn);
+    shopList.appendChild(div);
+  });
 }
 
-/* =====================================================
-   SKINS
-===================================================== */
-
-function renderSkins(){
-
-  const list=
-    document.getElementById(
-      "skinList"
-    );
-
-  list.innerHTML="";
-
-  const lvl=
-    Math.floor(
-      getNum(
-        "nd_xp",
-        0
-      )/
-      250
-    )+1;
-
-  for(
-    const s of SKINS
-  ){
-
-    const div=
-      document.createElement(
-        "div"
-      );
-
-    div.className="card";
-
-    div.innerHTML=
-      '<div style="width:45px;height:45px;border-radius:10px;background:'+
-      s[2]+
-      ';box-shadow:0 0 18px '+
-      s[2]+
-      ';margin-bottom:8px"></div>'+
-      "<b>"+
-      s[1]+
-      "</b><br>"+
-      "<small>Od LVL "+
-      s[3]+
-      "</small>";
-
-    const button=
-      document.createElement(
-        "button"
-      );
-
-    button.className=
-      "panelClose";
-
-    const selected=
-      (
-        localStorage.getItem(
-          "nd_skin"
-        )||
-        "cyan"
-      )===s[0];
-
-    const available=
-      lvl>=s[3];
-
-    button.textContent=
-      selected?
-      "✅ WYBRANY":
-      available?
-      "🎨 WYBIERZ":
-      "🔒 ZABLOKOWANY";
-
-    button.onclick=
-      function(){
-
-        if(!available){
-
-          alert(
-            "Ten skin odblokuje się na LVL "+
-            s[3]+"."
-          );
-
-          return;
-        }
-
-        localStorage.setItem(
-          "nd_skin",
-          s[0]
-        );
-
-        renderSkins();
-      };
-
-    div.appendChild(
-      button
-    );
-
-    list.appendChild(
-      div
-    );
+document.getElementById("shopBtn")
+.addEventListener(
+  "click",
+  ()=>{
+    shop.style.display="flex";
+    renderShop();
   }
-}
+);
+
+document.getElementById("closeShop")
+.addEventListener(
+  "click",
+  ()=>{
+    shop.style.display="none";
+  }
+);
 
 /* =====================================================
-   MISSIONS
+   MISJE
 ===================================================== */
+
+function missionDone(id){
+
+  if(id==="levels3"){
+    return completedCount()>=3;
+  }
+
+  if(id==="levels10"){
+    return completedCount()>=10;
+  }
+
+  if(id==="coins25"){
+    return totalCoins()>=25;
+  }
+
+  if(id==="coins50"){
+    return totalCoins()>=50;
+  }
+
+  if(id==="deaths10"){
+    return deathsTotal()>=10;
+  }
+
+  return false;
+}
 
 function renderMissions(){
 
-  const list=
-    document.getElementById(
-      "missionList"
-    );
+  missionList.innerHTML="";
 
-  list.innerHTML="";
+  MISSIONS.forEach(m=>{
 
-  const missions=[
-    [
-      "Ukończ 3 poziomy",
-      3,
-      completedCount()
-    ],
-    [
-      "Ukończ 10 poziomów",
-      10,
-      completedCount()
-    ],
-    [
-      "Ukończ wszystkie 20 poziomów",
-      20,
-      completedCount()
-    ],
-    [
-      "Zbierz 10 monet",
-      10,
-      getNum(
-        "nd_totalCoins",
-        0
-      )
-    ],
-    [
-      "Zbierz 25 monet",
-      25,
-      getNum(
-        "nd_totalCoins",
-        0
-      )
-    ],
-    [
-      "Zbierz 50 monet",
-      50,
-      getNum(
-        "nd_totalCoins",
-        0
-      )
-    ],
-    [
-      "Zbierz 100 monet",
-      100,
-      getNum(
-        "nd_totalCoins",
-        0
-      )
-    ]
-  ];
+    const done=missionDone(m[0]);
 
-  for(
-    const m of missions
-  ){
+    const d=document.createElement("div");
 
-    const value=
-      Math.min(
-        m[2],
-        m[1]
-      );
+    d.className=
+      "mission"+
+      (done?" done":"");
 
-    const div=
-      document.createElement(
-        "div"
-      );
-
-    div.className="mission";
-
-    div.innerHTML=
-      "<b>"+
-      m[0]+
-      "</b><br>"+
-      value+
-      " / "+
-      m[1]+
-      '<div class="missionBar">'+
-      '<div class="missionFill" style="width:'+
-      value/m[1]*100+
-      '%"></div>'+
-      "</div>";
-
-    list.appendChild(
-      div
-    );
-  }
-}
-
-/* =====================================================
-   ACHIEVEMENTS
-===================================================== */
-
-function unlocked(id){
-
-  return localStorage.getItem(
-    "nd_ach_"+id
-  )==="1";
-}
-
-function unlock(id){
-
-  localStorage.setItem(
-    "nd_ach_"+id,
-    "1"
-  );
-}
-
-function checkAchievements(){
-
-  const done=
-    completedCount();
-
-  const coins=
-    getNum(
-      "nd_totalCoins",
-      0
-    );
-
-  if(done>=3)
-    unlock("three");
-
-  if(done>=6)
-    unlock("six");
-
-  if(done>=10)
-    unlock("ten");
-
-  if(done>=20)
-    unlock("all");
-
-  if(coins>=10)
-    unlock("coins10");
-
-  if(coins>=25)
-    unlock("coins25");
-
-  if(coins>=50)
-    unlock("coins50");
-
-  if(coins>=100)
-    unlock("rich");
-
-  if(deaths===0)
-    unlock("perfect");
-
-  if(deaths>=3)
-    unlock("survivor");
-
-  if(runCoins===3)
-    unlock("allcoins");
-
-  if(
-    deaths===0&&
-    runCoins===3
-  )
-    unlock("speedrunner");
-
-  const streak=
-    getStreak();
-
-  if(streak>=3)
-    unlock("streak3");
-
-  if(streak>=5)
-    unlock("streak5");
-
-  if(current===0)
-    unlock("first");
-
-  if(current===11)
-    unlock("final");
-
-  if(current!==0&&current!==11)
-    unlock(
-      "level"+
-      (current+1)
-    );
-}
-
-function renderAchievements(){
-
-  const list=
-    document.getElementById(
-      "achList"
-    );
-
-  if(!list)
-    return;
-
-  list.innerHTML="";
-
-  for(
-    const a of ACH
-  ){
-
-    const div=
-      document.createElement(
-        "div"
-      );
-
-    div.className=
-      "achievement"+
-      (
-        unlocked(a[0])?
-        " unlocked":
-        ""
-      );
-
-    div.innerHTML=
-      "<b>"+
-      a[1]+
-      "</b><br><small>"+
-      a[2]+
+    d.innerHTML=
+      "<b>"+(done?"✅ ":"🎯 ")+m[1]+"</b><br>"+
+      "<small>"+
+      (done?"MISJA UKOŃCZONA":"Postęp zapisuje się automatycznie.")+
       "</small>";
 
-    list.appendChild(
-      div
-    );
-  }
+    missionList.appendChild(d);
+  });
 }
 
+document.getElementById("missionsBtn")
+.addEventListener(
+  "click",
+  ()=>{
+    missions.style.display="flex";
+    renderMissions();
+  }
+);
+
+document.getElementById("closeMissions")
+.addEventListener(
+  "click",
+  ()=>{
+    missions.style.display="none";
+  }
+);
+
 /* =====================================================
-   STATS
+   STATYSTYKI
 ===================================================== */
 
 function renderStats(){
 
-  let ach=0;
+  const bestLevels=completedCount();
+  const coins=totalCoins();
+  const xp=getNum("nd_xp",0);
+  const deathsAll=deathsTotal();
+  const streak=getNum("nd_streak",0);
 
-  for(
-    const a of ACH
-  ){
+  statsContent.innerHTML=
+    '<div class="statGrid">'+
+      '<div class="stat"><b>🏁 Poziomy</b><br>'+bestLevels+"/20</div>"+
+      '<div class="stat"><b>🪙 Monety</b><br>'+coins+"</div>"+
+      '<div class="stat"><b>⭐ XP</b><br>'+xp+"</div>"+
+      '<div class="stat"><b>☠️ Śmierci</b><br>'+deathsAll+"</div>"+
+      '<div class="stat"><b>🔥 Seria</b><br>'+streak+"</div>"+
+      '<div class="stat"><b>🏆 Achievements</b><br>'+
+      ACH.filter(a=>achUnlocked(a[0])).length+
+      "/"+ACH.length+"</div>"+
+    "</div>";
+}
+
+document.getElementById("statsBtn")
+.addEventListener(
+  "click",
+  ()=>{
+    stats.style.display="flex";
+    renderStats();
+  }
+);
+
+document.getElementById("closeStats")
+.addEventListener(
+  "click",
+  ()=>{
+    stats.style.display="none";
+  }
+);
+
+/* =====================================================
+   LOSOWY POZIOM
+===================================================== */
+
+document.getElementById("randomBtn")
+.addEventListener(
+  "click",
+  ()=>{
+    const index=
+      Math.floor(
+        Math.random()*LEVELS.length
+      );
+
+    dailyMode=false;
+    startLevel(index);
+  }
+);
+
+/* =====================================================
+   DŹWIĘK
+===================================================== */
+
+function updateSound(){
+
+  document.getElementById(
+    "soundBtn"
+  ).textContent=
+    sound?"🔊":"🔇";
+}
+
+document.getElementById("soundBtn")
+.addEventListener(
+  "click",
+  e=>{
+    e.stopPropagation();
+
+    sound=!sound;
+
+    set(
+      "nd_sound",
+      sound?"1":"0"
+    );
+
+    updateSound();
 
     if(
-      unlocked(a[0])
-    )
-      ach++;
+      sound&&
+      running&&
+      !paused
+    ){
+      startMusic();
+    }else{
+      stopMusic();
+    }
   }
-
-  document.getElementById(
-    "sCompleted"
-  ).textContent=
-    completedCount();
-
-  document.getElementById(
-    "sDeaths"
-  ).textContent=
-    getNum(
-      "nd_totalDeaths",
-      0
-    );
-
-  document.getElementById(
-    "sCoins"
-  ).textContent=
-    getNum(
-      "nd_totalCoins",
-      0
-    );
-
-  document.getElementById(
-    "sCombo"
-  ).textContent=
-    getNum(
-      "nd_bestCombo",
-      0
-    );
-
-  document.getElementById(
-    "sXP"
-  ).textContent=
-    getNum(
-      "nd_xp",
-      0
-    );
-
-  document.getElementById(
-    "sAch"
-  ).textContent=
-    ach+
-    "/"+
-    ACH.length;
-}
+);
 
 /* =====================================================
-   DAILY START
-===================================================== */
-
-function startDaily(){
-
-  const d=
-    dailyData();
-
-  dailyMode=true;
-  dailyType=d.type;
-
-  startLevel(
-    d.level
-  );
-}
-
-/* =====================================================
-   RESET
-===================================================== */
-
-function resetGameData(){
-
-  const yes=
-    confirm(
-      "Na pewno usunąć cały zapis Neon Dash?"
-    );
-
-  if(!yes)
-    return;
-
-  localStorage.clear();
-
-  location.reload();
-}
-
-/* =====================================================
-   AUTO PAUSE
+   AUTO PAUZA
 ===================================================== */
 
 document.addEventListener(
   "visibilitychange",
-  function(){
-
+  ()=>{
     if(
       document.hidden&&
       running&&
       !paused
     ){
 
-      pauseGame();
+      paused=true;
+      pause.style.display="flex";
+
+      stopMusic();
     }
   }
 );
 
 window.addEventListener(
   "blur",
-  function(){
-
+  ()=>{
     if(
       running&&
       !paused
     ){
 
-      pauseGame();
+      paused=true;
+      pause.style.display="flex";
+
+      stopMusic();
     }
   }
 );
 
 /* =====================================================
-   INITIALIZATION
+   VICTORY
+===================================================== */
+
+function victoryAnimation(){
+
+  let frames=0;
+
+  function anim(){
+
+    if(!finished){
+      return;
+    }
+
+    updateParticles(.016);
+    draw();
+
+    frames++;
+
+    if(frames<100){
+      requestAnimationFrame(anim);
+    }
+  }
+
+  requestAnimationFrame(anim);
+}
+
+/* =====================================================
+   GLOBAL ERROR LOG
+===================================================== */
+
+window.addEventListener(
+  "error",
+  e=>{
+    console.error(
+      "Neon Dash error:",
+      e.error||e.message
+    );
+  }
+);
+
+window.addEventListener(
+  "unhandledrejection",
+  e=>{
+    console.error(
+      "Neon Dash promise error:",
+      e.reason
+    );
+  }
+);
+
+/* =====================================================
+   START
 ===================================================== */
 
 resizeCanvas();
-
-document.getElementById(
-  "soundButton"
-).textContent=
-  sound?
-  "🔊":
-  "🔇";
-
 renderMenu();
-
 renderAchievements();
+renderMissions();
+updateSound();
 
 </script>
 
