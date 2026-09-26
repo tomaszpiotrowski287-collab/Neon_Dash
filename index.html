@@ -116,6 +116,7 @@ canvas{
  right:12px;
  display:flex;
  justify-content:space-between;
+ align-items:flex-start;
  pointer-events:none;
  font-weight:bold;
  text-shadow:0 2px 5px black;
@@ -126,6 +127,30 @@ canvas{
  padding:9px 12px;
  border-radius:10px;
  background:#0008;
+ min-width:70px;
+ text-align:center;
+}
+
+#progressContainer{
+ position:absolute;
+ top:58px;
+ left:50%;
+ transform:translateX(-50%);
+ width:min(600px,70%);
+ height:10px;
+ background:#ffffff18;
+ border:1px solid #ffffff20;
+ border-radius:20px;
+ overflow:hidden;
+ pointer-events:none;
+}
+
+#levelProgressBar{
+ width:0%;
+ height:100%;
+ background:linear-gradient(90deg,#00ffff,#0088ff);
+ box-shadow:0 0 12px #00ffff;
+ transition:width:.05s linear;
 }
 
 #mobileJump{
@@ -139,6 +164,8 @@ canvas{
  background:#00ffffaa;
  box-shadow:0 0 25px #00ffff;
  color:#001;
+ touch-action:none;
+ user-select:none;
 }
 
 #pauseButton{
@@ -306,22 +333,6 @@ canvas{
  opacity:1;
 }
 
-.progressBar{
- width:min(600px,90%);
- height:12px;
- background:#ffffff15;
- border-radius:20px;
- margin:10px auto 20px;
- overflow:hidden;
-}
-
-#levelProgressBar{
- width:0%;
- height:100%;
- background:linear-gradient(90deg,#00ffff,#0088ff);
- box-shadow:0 0 12px #00ffff;
-}
-
 .shopCoinBox{
  display:inline-block;
  padding:10px 18px;
@@ -347,6 +358,7 @@ canvas{
  justify-content:center;
  pointer-events:none;
  z-index:15;
+ background:#00000022;
 }
 
 .winText{
@@ -358,6 +370,7 @@ canvas{
  0 0 30px #00ffff,
  0 0 60px #0088ff;
  animation:winPulse .6s infinite alternate;
+ text-align:center;
 }
 
 @keyframes winPulse{
@@ -366,6 +379,7 @@ canvas{
 }
 
 @media(max-width:700px){
+
  #mobileJump{
   display:block;
  }
@@ -382,9 +396,34 @@ canvas{
   font-size:13px;
  }
 
+ #progressContainer{
+  top:58px;
+  width:55%;
+ }
+
  .winText{
   font-size:35px;
  }
+
+}
+
+@media(max-width:450px){
+
+ #hud{
+  left:6px;
+  right:6px;
+  gap:4px;
+ }
+
+ .hudBox{
+  padding:7px 8px;
+  min-width:58px;
+ }
+
+ #progressContainer{
+  width:48%;
+ }
+
 }
 </style>
 </head>
@@ -392,8 +431,6 @@ canvas{
 <body>
 
 <div id="toast"></div>
-
-<!-- ================= HOME ================= -->
 
 <div id="home">
 
@@ -442,8 +479,6 @@ canvas{
 </div>
 
 
-<!-- ================= GAME ================= -->
-
 <div id="game">
 
  <canvas id="canvas"></canvas>
@@ -466,6 +501,10 @@ canvas{
 
  </div>
 
+ <div id="progressContainer">
+  <div id="levelProgressBar"></div>
+ </div>
+
  <button id="pauseButton" onclick="togglePause()">
   II
  </button>
@@ -482,8 +521,6 @@ canvas{
 
 </div>
 
-
-<!-- ================= PAUSE ================= -->
 
 <div id="pausePanel">
 
@@ -508,8 +545,6 @@ canvas{
 </div>
 
 
-<!-- ================= LEVELS ================= -->
-
 <div id="levelsPanel" class="panel" style="display:none">
 
  <h2>📋 POZIOMY</h2>
@@ -526,8 +561,6 @@ canvas{
 
 </div>
 
-
-<!-- ================= SHOP ================= -->
 
 <div id="shopPanel" class="panel" style="display:none">
 
@@ -550,8 +583,6 @@ canvas{
 </div>
 
 
-<!-- ================= ACHIEVEMENTS ================= -->
-
 <div id="achievementsPanel" class="panel" style="display:none">
 
  <h2>🏆 OSIĄGNIĘCIA</h2>
@@ -564,8 +595,6 @@ canvas{
 
 </div>
 
-
-<!-- ================= SETTINGS ================= -->
 
 <div id="settingsPanel" class="panel" style="display:none">
 
@@ -633,7 +662,7 @@ canvas{
    POZIOMY
 ========================================================= */
 
-const levels = [
+const levels=[
 
  ["NEON RUSH","#00ffff",5.8,7000],
  ["CRYSTAL DRIVE","#6fa8ff",6.0,7300],
@@ -647,7 +676,6 @@ const levels = [
  ["GRAVITY BREAK","#ff35bb",7.6,9400],
  ["OVERDRIVE","#00ff88",7.8,9600],
  ["FINAL CHAOS","#ffffff",8.0,10000],
-
  ["NEON HORIZON","#ff00ff",8.2,10300],
  ["CYBER JUNGLE","#55ff55",8.4,10600],
  ["LASER CITY","#00ddff",8.6,10900],
@@ -658,11 +686,7 @@ const levels = [
 ];
 
 
-/* =========================================================
-   SKINY
-========================================================= */
-
-const skins = [
+const skins=[
 
  {
   name:"Classic",
@@ -723,26 +747,15 @@ const skins = [
 ];
 
 
-/* =========================================================
-   OSIĄGNIĘCIA
-========================================================= */
-
-const achievements = [
+const achievements=[
 
  ["first","Pierwszy krok","Ukończ pierwszy poziom"],
-
  ["five","Szybki gracz","Ukończ 5 poziomów"],
-
  ["ten","Dash Master","Ukończ 10 poziomów"],
-
  ["all","Neon Legend","Ukończ wszystkie 18 poziomów"],
-
  ["collector","Kolekcjoner","Zbierz 50 monet"],
-
  ["shopper","Stylista","Odblokuj 3 dodatkowe skiny"],
-
  ["rich","Bogacz","Zdobądź 150 monet"],
-
  ["perfect","Perfekcyjny Dash","Zdobądź wszystkie monety w poziomie"]
 
 ];
@@ -752,13 +765,25 @@ const achievements = [
    ZAPIS
 ========================================================= */
 
-let saveData;
+const defaultSettings={
+ sound:true,
+ music:true,
+ effects:true,
+ vibration:true,
+ theme:"dark"
+};
+
+let saveData={};
 
 try{
 
  saveData=JSON.parse(
-  localStorage.getItem("neonDashSave") || "{}"
+  localStorage.getItem("neonDashSave")||"{}"
  );
+
+ if(!saveData || typeof saveData!=="object"){
+  saveData={};
+ }
 
 }catch(e){
 
@@ -767,44 +792,79 @@ try{
 }
 
 
-saveData.coins ??=0;
-saveData.completed ??=[];
-saveData.ownedSkins ??=[0];
-saveData.selectedSkin ??=0;
-saveData.achievements ??=[];
-saveData.settings ??={
- sound:true,
- music:true,
- effects:true,
- vibration:true,
- theme:"dark"
-};
+saveData.coins=
+ Number.isFinite(Number(saveData.coins))
+ ?Math.max(0,Math.floor(Number(saveData.coins)))
+ :0;
+
+saveData.completed=
+ Array.isArray(saveData.completed)
+ ?saveData.completed.filter(
+   n=>Number.isInteger(n)&&n>=0&&n<levels.length
+  )
+ :[];
+
+saveData.completed=[
+ ...new Set(saveData.completed)
+].sort((a,b)=>a-b);
 
 
-/* zabezpieczenie starego zapisu */
+saveData.ownedSkins=
+ Array.isArray(saveData.ownedSkins)
+ ?saveData.ownedSkins.filter(
+   n=>Number.isInteger(n)&&n>=0&&n<skins.length
+  )
+ :[0];
 
-if(!Array.isArray(saveData.completed))
- saveData.completed=[];
+saveData.ownedSkins=[
+ ...new Set(saveData.ownedSkins)
+];
 
-if(!Array.isArray(saveData.ownedSkins))
- saveData.ownedSkins=[0];
 
-if(!Array.isArray(saveData.achievements))
- saveData.achievements=[];
-
-if(!saveData.ownedSkins.includes(0))
+if(!saveData.ownedSkins.includes(0)){
  saveData.ownedSkins.unshift(0);
+}
 
-if(!skins[saveData.selectedSkin])
+
+saveData.selectedSkin=
+ Number.isInteger(saveData.selectedSkin)&&
+ saveData.selectedSkin>=0&&
+ saveData.selectedSkin<skins.length
+ ?saveData.selectedSkin
+ :0;
+
+
+if(!saveData.ownedSkins.includes(saveData.selectedSkin)){
  saveData.selectedSkin=0;
+}
+
+
+saveData.achievements=
+ Array.isArray(saveData.achievements)
+ ?saveData.achievements
+ :[];
+
+
+saveData.settings={
+ ...defaultSettings,
+ ...(saveData.settings||{})
+};
 
 
 function save(){
 
- localStorage.setItem(
-  "neonDashSave",
-  JSON.stringify(saveData)
- );
+ try{
+
+  localStorage.setItem(
+   "neonDashSave",
+   JSON.stringify(saveData)
+  );
+
+ }catch(e){
+
+  console.warn("Nie udało się zapisać postępu.");
+
+ }
 
  updateHome();
 
@@ -829,35 +889,34 @@ function updateHome(){
 }
 
 
-updateHome();
-
-
 /* =========================================================
    CANVAS
 ========================================================= */
 
-const canvas=
- document.getElementById("canvas");
-
-const ctx=
- canvas.getContext("2d");
+const canvas=document.getElementById("canvas");
+const ctx=canvas.getContext("2d");
 
 
 let W=0;
 let H=0;
 
+
 function resize(){
 
- W=Math.max(320,innerWidth);
- H=Math.max(320,innerHeight);
+ W=Math.max(320,window.innerWidth);
+ H=Math.max(320,window.innerHeight);
 
  canvas.width=W;
  canvas.height=H;
 
+ if(!running){
+  draw();
+ }
+
 }
 
 
-addEventListener("resize",resize);
+window.addEventListener("resize",resize);
 
 resize();
 
@@ -874,42 +933,30 @@ function groundY(){
 ========================================================= */
 
 let running=false;
-
 let paused=false;
-
 let levelIndex=0;
-
 let levelTime=0;
-
 let levelCoins=0;
-
 let currentSpeed=1;
-
 let cameraX=0;
-
 let lastTime=0;
 
 let obstacles=[];
-
 let coins=[];
-
 let pads=[];
-
 let portals=[];
-
 let particles=[];
-
 let confetti=[];
 
-let shake=0;
-
 let musicTimer=null;
-
 let musicStep=0;
-
 let audioCtx=null;
 
 let levelStartCoins=0;
+
+let deathTimer=null;
+let winTimer=null;
+let winAnimating=false;
 
 
 /* =========================================================
@@ -919,11 +966,8 @@ let levelStartCoins=0;
 let player={
 
  x:130,
-
  y:0,
-
  w:38,
-
  h:38,
 
  vy:0,
@@ -932,7 +976,11 @@ let player={
 
  blink:0,
 
- walkTime:0
+ walkTime:0,
+
+ rotation:0,
+
+ jumpTime:0
 
 };
 
@@ -944,244 +992,268 @@ let player={
 function createLevel(){
 
  obstacles=[];
-
  coins=[];
-
  pads=[];
-
  portals=[];
-
  particles=[];
-
  confetti=[];
 
  levelTime=0;
-
  levelCoins=0;
-
  currentSpeed=1;
-
  cameraX=0;
 
  levelStartCoins=saveData.coins;
 
+
  player.x=130;
-
  player.y=groundY()-player.h;
-
  player.vy=0;
-
  player.grounded=true;
-
  player.blink=0;
-
  player.walkTime=0;
+ player.rotation=0;
+ player.jumpTime=0;
 
 
- let spacing=360;
+ const total=levels[levelIndex][3];
 
- let total=levels[levelIndex][3];
+ /*
+  Każdy poziom korzysta z tego samego bezpiecznego
+  generatora. Dzięki temu poziomy są trudniejsze,
+  ale nie tworzą przypadkowych, niemożliwych układów.
+ */
 
+ const spacing=340;
 
  for(
-  let x=600,i=0;
-  x<total;
-  x+=spacing,i++
+  let i=0,x=650;
+  x<total-300;
+  i++,x+=spacing
  ){
 
-  let type=(i+levelIndex)%8;
+  const type=(i+levelIndex)%8;
 
-
-  /* zwykły blok */
+  /*
+   Nie ustawiamy przeszkód zbyt blisko końca.
+   Nie nakładamy kilku elementów na siebie.
+  */
 
   if(type===0){
 
-   obstacles.push({
-    x:x,
-    y:groundY()-55,
-    w:55,
-    h:55
-   });
+   addObstacle(
+    x,
+    groundY()-55,
+    55,
+    55
+   );
 
   }
 
 
-  /* duży blok */
+  else if(type===1){
 
-  if(type===1){
-
-   obstacles.push({
-    x:x,
-    y:groundY()-75,
-    w:75,
-    h:75
-   });
+   addObstacle(
+    x,
+    groundY()-70,
+    65,
+    70
+   );
 
   }
 
 
-  /* długi blok */
+  else if(type===2){
 
-  if(type===2){
-
-   obstacles.push({
-    x:x,
-    y:groundY()-45,
-    w:120,
-    h:45
-   });
+   addObstacle(
+    x,
+    groundY()-45,
+    110,
+    45
+   );
 
   }
 
 
-  /* pad */
+  else if(type===3){
 
-  if(type===3){
-
-   pads.push({
-    x:x,
-    y:groundY()-18,
-    w:55,
-    h:18,
-    used:false
-   });
+   addPad(
+    x,
+    groundY()-18,
+    60,
+    18
+   );
 
   }
 
 
-  /* speed portal */
+  else if(type===4){
 
-  if(type===4){
-
-   portals.push({
-    x:x,
-    y:groundY()-100,
-    w:30,
-    h:100,
-    mult:1.18,
-    used:false
-   });
+   addPortal(
+    x,
+    groundY()-100,
+    30,
+    100,
+    1.12
+   );
 
   }
 
 
-  /* dwa bloki */
+  else if(type===5){
 
-  if(type===5){
+   addObstacle(
+    x,
+    groundY()-45,
+    45,
+    45
+   );
 
-   obstacles.push({
-    x:x,
-    y:groundY()-45,
-    w:45,
-    h:45
-   });
-
-   obstacles.push({
-    x:x+75,
-    y:groundY()-70,
-    w:45,
-    h:70
-   });
+   addObstacle(
+    x+90,
+    groundY()-65,
+    45,
+    65
+   );
 
   }
 
 
-  /* wysoki blok */
+  else if(type===6){
 
-  if(type===6){
-
-   obstacles.push({
-    x:x,
-    y:groundY()-90,
-    w:45,
-    h:90
-   });
+   addObstacle(
+    x,
+    groundY()-82,
+    45,
+    82
+   );
 
   }
 
 
-  /* potrójna przeszkoda */
+  else if(type===7){
 
-  if(type===7){
+   addObstacle(
+    x,
+    groundY()-40,
+    40,
+    40
+   );
 
-   obstacles.push({
-    x:x,
-    y:groundY()-40,
-    w:40,
-    h:40
-   });
+   addObstacle(
+    x+70,
+    groundY()-60,
+    40,
+    60
+   );
 
-   obstacles.push({
-    x:x+60,
-    y:groundY()-65,
-    w:40,
-    h:65
-   });
-
-   obstacles.push({
-    x:x+120,
-    y:groundY()-40,
-    w:40,
-    h:40
-   });
+   addObstacle(
+    x+140,
+    groundY()-40,
+    40,
+    40
+   );
 
   }
 
 
-  /* monety */
+  /*
+   Moneta przed przeszkodą.
+  */
 
   if(i%2===0){
 
-   coins.push({
-
-    x:x+150,
-
-    y:groundY()-125,
-
-    r:10,
-
-    collected:false
-
-   });
+   addCoin(
+    x+135,
+    groundY()-120
+   );
 
   }
 
 
+  /*
+   Dodatkowa wyżej położona moneta.
+   Wysokość jest nadal osiągalna zwykłym skokiem.
+  */
+
   if(i%5===0){
 
-   coins.push({
-
-    x:x+220,
-
-    y:groundY()-190,
-
-    r:10,
-
-    collected:false
-
-   });
+   addCoin(
+    x+210,
+    groundY()-165
+   );
 
   }
 
  }
 
 
- /* końcowa moneta */
+ /*
+  Bezpieczna moneta końcowa.
+ */
 
- coins.push({
-
-  x:total-180,
-
-  y:groundY()-150,
-
-  r:10,
-
-  collected:false
-
- });
+ addCoin(
+  total-170,
+  groundY()-130
+ );
 
 
  updateLevelUI();
+
+}
+
+
+/* =========================================================
+   LEVEL ELEMENT HELPERS
+========================================================= */
+
+function addObstacle(x,y,w,h){
+
+ obstacles.push({
+  x,
+  y,
+  w,
+  h
+ });
+
+}
+
+
+function addPad(x,y,w,h){
+
+ pads.push({
+  x,
+  y,
+  w,
+  h,
+  used:false
+ });
+
+}
+
+
+function addPortal(x,y,w,h,mult){
+
+ portals.push({
+  x,
+  y,
+  w,
+  h,
+  mult,
+  used:false
+ });
+
+}
+
+
+function addCoin(x,y){
+
+ coins.push({
+  x,
+  y,
+  r:10,
+  collected:false
+ });
 
 }
 
@@ -1201,8 +1273,12 @@ function updateLevelUI(){
  document.getElementById("progressText").textContent=
   "0%";
 
- document.getElementById("levelProgressBar").style.width=
-  "0%";
+ const bar=
+  document.getElementById("levelProgressBar");
+
+ if(bar){
+  bar.style.width="0%";
+ }
 
 }
 
@@ -1213,50 +1289,70 @@ function updateLevelUI(){
 
 function startGame(index=null){
 
- /* zamknij wszystkie panele */
+ clearTimeout(deathTimer);
+ clearTimeout(winTimer);
+
+ winAnimating=false;
 
  document.getElementById("home").style.display="none";
-
  document.getElementById("levelsPanel").style.display="none";
-
  document.getElementById("shopPanel").style.display="none";
-
  document.getElementById("achievementsPanel").style.display="none";
-
  document.getElementById("settingsPanel").style.display="none";
-
  document.getElementById("pausePanel").style.display="none";
-
  document.getElementById("game").style.display="block";
 
 
  if(index!==null){
 
+  index=Math.floor(Number(index));
+
+  if(
+   !Number.isInteger(index)||
+   index<0||
+   index>=levels.length
+  ){
+
+   index=0;
+
+  }
+
   levelIndex=index;
 
  }else{
 
-  levelIndex=saveData.completed.length;
+  levelIndex=0;
 
-  if(levelIndex>=levels.length)
+  while(
+   levelIndex<levels.length &&
+   saveData.completed.includes(levelIndex)
+  ){
+
+   levelIndex++;
+
+  }
+
+  if(levelIndex>=levels.length){
    levelIndex=levels.length-1;
+  }
 
  }
 
 
- /* nie pozwól ominąć poziomu */
+ /*
+  Nie pozwalamy wejść do zablokowanego poziomu.
+ */
 
  if(levelIndex>0){
 
-  for(
-   let i=0;
-   i<levelIndex;
-   i++
-  ){
+  let allowed=true;
+
+  for(let i=0;i<levelIndex;i++){
 
    if(!saveData.completed.includes(i)){
 
     levelIndex=i;
+    allowed=false;
     break;
 
    }
@@ -1269,7 +1365,6 @@ function startGame(index=null){
  createLevel();
 
  running=true;
-
  paused=false;
 
  lastTime=performance.now();
@@ -1289,16 +1384,13 @@ function startGame(index=null){
 
 function restartLevel(){
 
- if(!running && !paused){
-
-  startGame(levelIndex);
-  return;
-
- }
+ clearTimeout(deathTimer);
+ clearTimeout(winTimer);
 
  document.getElementById("pausePanel").style.display="none";
 
  paused=false;
+ winAnimating=false;
 
  createLevel();
 
@@ -1322,10 +1414,13 @@ function togglePause(){
  if(!running && !paused)
   return;
 
+
  paused=!paused;
+
 
  document.getElementById("pausePanel").style.display=
   paused?"flex":"none";
+
 
  if(paused){
 
@@ -1350,14 +1445,17 @@ function togglePause(){
 
 function jump(){
 
- if(!running || paused)
+ if(!running||paused||winAnimating)
   return;
+
 
  if(player.grounded){
 
   player.vy=-12;
 
   player.grounded=false;
+
+  player.jumpTime=0;
 
   soundJump();
 
@@ -1375,21 +1473,28 @@ function jump(){
 document.addEventListener("keydown",e=>{
 
  if(
-  e.code==="Space" ||
-  e.code==="ArrowUp" ||
+  e.code==="Space"||
+  e.code==="ArrowUp"||
   e.code==="KeyW"
  ){
 
   e.preventDefault();
-
   jump();
 
  }
 
- if(e.code==="Escape"){
 
-  if(running)
+ if(
+  e.code==="Escape"||
+  e.code==="KeyP"
+ ){
+
+  if(running||paused){
+
+   e.preventDefault();
    togglePause();
+
+  }
 
  }
 
@@ -1401,7 +1506,6 @@ canvas.addEventListener(
  e=>{
 
   e.preventDefault();
-
   jump();
 
  },
@@ -1413,8 +1517,9 @@ canvas.addEventListener(
  "pointerdown",
  e=>{
 
-  if(e.pointerType==="mouse")
+  if(e.pointerType==="mouse"){
    jump();
+  }
 
  }
 );
@@ -1427,7 +1532,6 @@ document
   e=>{
 
    e.preventDefault();
-
    e.stopPropagation();
 
    jump();
@@ -1442,18 +1546,18 @@ document
 
 function updatePhysics(dt){
 
- if(!running || paused)
+ if(!running||paused||winAnimating)
   return;
 
 
- let level=levels[levelIndex];
+ const level=levels[levelIndex];
 
 
  currentSpeed=
   Math.min(1.8,currentSpeed);
 
 
- let move=
+ const move=
   level[2]*currentSpeed*dt;
 
 
@@ -1463,8 +1567,12 @@ function updatePhysics(dt){
 
  player.walkTime+=move*.08;
 
+ player.jumpTime+=dt;
 
- /* grawitacja zawsze w dół */
+
+ /*
+  Grawitacja.
+ */
 
  player.vy+=.72*dt;
 
@@ -1473,22 +1581,41 @@ function updatePhysics(dt){
  player.grounded=false;
 
 
- let gy=
-  groundY()-player.h;
+ const gy=groundY()-player.h;
 
 
  if(player.y>=gy){
 
   player.y=gy;
-
   player.vy=0;
-
   player.grounded=true;
 
  }
 
 
- /* pady */
+ /*
+  Animacja obrotu.
+ */
+
+ if(!player.grounded){
+
+  player.rotation+=0.14*dt;
+
+ }else{
+
+  const target=
+   Math.round(player.rotation/(Math.PI/2))*
+   (Math.PI/2);
+
+  player.rotation+=
+   (target-player.rotation)*.2;
+
+ }
+
+
+ /*
+  Pady.
+ */
 
  for(const pad of pads){
 
@@ -1498,19 +1625,17 @@ function updatePhysics(dt){
 
   if(
 
-   player.x+player.w>pad.x &&
-
-   player.x<pad.x+pad.w &&
-
-   player.y+player.h>=pad.y &&
-
-   player.y+player.h<=pad.y+25 &&
-
+   player.x+player.w>pad.x&&
+   player.x<pad.x+pad.w&&
+   player.y+player.h>=pad.y&&
+   player.y+player.h<=pad.y+25&&
    player.vy>=0
 
   ){
 
    player.vy=-15;
+
+   player.grounded=false;
 
    pad.used=true;
 
@@ -1523,7 +1648,9 @@ function updatePhysics(dt){
  }
 
 
- /* speed portale */
+ /*
+  Portale prędkości.
+ */
 
  for(const portal of portals){
 
@@ -1533,11 +1660,10 @@ function updatePhysics(dt){
 
   if(
 
-   player.x+player.w>portal.x &&
-
-   player.x<portal.x+portal.w &&
-
-   player.y+player.h>portal.y
+   player.x+player.w>portal.x&&
+   player.x<portal.x+portal.w&&
+   player.y+player.h>portal.y&&
+   player.y<portal.y+portal.h
 
   ){
 
@@ -1556,14 +1682,15 @@ function updatePhysics(dt){
  }
 
 
- /* przeszkody */
+ /*
+  Kolizje.
+ */
 
  for(const ob of obstacles){
 
   if(rectHit(player,ob)){
 
    die();
-
    return;
 
   }
@@ -1571,7 +1698,9 @@ function updatePhysics(dt){
  }
 
 
- /* monety */
+ /*
+  Monety.
+ */
 
  for(const c of coins){
 
@@ -1579,15 +1708,16 @@ function updatePhysics(dt){
    continue;
 
 
-  let dx=
-   (player.x+player.w/2)-c.x;
+  const dx=
+   player.x+player.w/2-c.x;
 
-  let dy=
-   (player.y+player.h/2)-c.y;
+  const dy=
+   player.y+player.h/2-c.y;
 
 
   if(
-   Math.sqrt(dx*dx+dy*dy)<32
+   Math.sqrt(dx*dx+dy*dy)<
+   30+c.r
   ){
 
    c.collected=true;
@@ -1595,8 +1725,6 @@ function updatePhysics(dt){
    levelCoins++;
 
    saveData.coins++;
-
-   save();
 
    soundCoin();
 
@@ -1607,17 +1735,24 @@ function updatePhysics(dt){
     c.y
    );
 
+   updateHome();
+
+   document.getElementById(
+    "runCoins"
+   ).textContent=levelCoins;
+
   }
 
  }
 
 
- /* poza ekranem */
+ /*
+  Sprawdzenie wypadnięcia poza ekran.
+ */
 
- if(player.y>H+100){
+ if(player.y>H+120){
 
   die();
-
   return;
 
  }
@@ -1626,11 +1761,11 @@ function updatePhysics(dt){
  levelTime+=dt;
 
 
- let percent=
+ const percent=
   Math.min(
    100,
    Math.floor(
-    (cameraX/level[3])*100
+    cameraX/level[3]*100
    )
   );
 
@@ -1647,28 +1782,37 @@ function updatePhysics(dt){
   levelCoins;
 
 
- document.getElementById(
-  "levelProgressBar"
- ).style.width=
-  percent+"%";
+ const bar=
+  document.getElementById("levelProgressBar");
 
 
- if(cameraX>=level[3]){
+ if(bar){
+  bar.style.width=percent+"%";
+ }
 
-  winLevel();
 
-  return;
+ /*
+  Mruganie.
+ */
+
+ player.blink+=dt;
+
+
+ if(player.blink>210){
+
+  player.blink=0;
 
  }
 
 
- /* mruganie */
+ /*
+  Koniec poziomu.
+ */
 
- player.blink+=dt;
+ if(cameraX>=level[3]){
 
- if(player.blink>190){
-
-  player.blink=0;
+  winLevel();
+  return;
 
  }
 
@@ -1681,16 +1825,11 @@ function updatePhysics(dt){
 
 function rectHit(a,b){
 
- return (
-
+ return(
   a.x < b.x+b.w &&
-
   a.x+a.w > b.x &&
-
   a.y < b.y+b.h &&
-
   a.y+a.h > b.y
-
  );
 
 }
@@ -1702,7 +1841,7 @@ function rectHit(a,b){
 
 function die(){
 
- if(!running)
+ if(!running||winAnimating)
   return;
 
 
@@ -1714,16 +1853,24 @@ function die(){
 
  vibrate([80,50,120]);
 
+
  showToast(
   "💥 Próba nieudana!"
  );
 
 
- setTimeout(()=>{
+ clearTimeout(deathTimer);
 
-  if(confirm(
-   "Poziom nieukończony.\n\nSpróbować ponownie?"
-  )){
+
+ deathTimer=setTimeout(()=>{
+
+  const retry=
+   confirm(
+    "Poziom nieukończony.\n\nSpróbować ponownie?"
+   );
+
+
+  if(retry){
 
    startGame(levelIndex);
 
@@ -1733,7 +1880,7 @@ function die(){
 
   }
 
- },300);
+ },350);
 
 }
 
@@ -1744,31 +1891,44 @@ function die(){
 
 function winLevel(){
 
- if(!running)
+ if(!running||winAnimating)
   return;
 
 
  running=false;
 
+ winAnimating=true;
+
  stopMusic();
 
 
- if(!saveData.completed.includes(levelIndex)){
+ if(
+  !saveData.completed.includes(levelIndex)
+ ){
 
   saveData.completed.push(levelIndex);
+
+  saveData.completed.sort(
+   (a,b)=>a-b
+  );
 
  }
 
 
- /* idealny poziom */
+ /*
+  Perfekcyjny poziom.
+ */
 
- let allCollected=
-  coins.length>0 &&
+ const allCollected=
+  coins.length>0&&
   coins.every(c=>c.collected);
 
 
- if(allCollected)
+ if(allCollected){
+
   unlockAchievement("perfect");
+
+ }
 
 
  checkAchievements();
@@ -1787,28 +1947,67 @@ function winLevel(){
 
  makeConfetti();
 
- draw();
+
+ /*
+  Osobna animacja wygranej.
+  Dzięki temu konfetti naprawdę się porusza.
+ */
+
+ const start=
+  performance.now();
 
 
- setTimeout(()=>{
+ function winAnimationFrame(now){
+
+  if(!winAnimating)
+   return;
+
+
+  draw();
+
+  if(now-start<1200){
+
+   requestAnimationFrame(
+    winAnimationFrame
+   );
+
+  }
+
+ }
+
+
+ requestAnimationFrame(
+  winAnimationFrame
+ );
+
+
+ clearTimeout(winTimer);
+
+
+ winTimer=setTimeout(()=>{
+
+  winAnimating=false;
 
   document.getElementById(
    "winOverlay"
   ).style.display="none";
 
 
-  let next=
-   levelIndex+1;
+  const next=levelIndex+1;
 
 
   if(next<levels.length){
 
-   if(confirm(
-    "🎉 Poziom ukończony!\n\n" +
-    "🪙 Monety z poziomu: "+
-    levelCoins+
-    "\n\nPrzejść do następnego poziomu?"
-   )){
+   const goNext=
+    confirm(
+     "🎉 Poziom ukończony!\n\n"+
+     "🪙 Monety z poziomu: "+
+     levelCoins+
+     "\n\nPrzejść do następnego poziomu?"
+    );
+
+
+   if(goNext){
 
     startGame(next);
 
@@ -1821,7 +2020,7 @@ function winLevel(){
   }else{
 
    alert(
-    "🏆 GRATULACJE!\n\n" +
+    "🏆 GRATULACJE!\n\n"+
     "Ukończyłeś wszystkie 18 poziomów!"
    );
 
@@ -1829,7 +2028,7 @@ function winLevel(){
 
   }
 
- },1000);
+ },1200);
 
 }
 
@@ -1840,15 +2039,20 @@ function winLevel(){
 
 function loop(t){
 
- if(!running || paused)
+ if(!running||paused)
   return;
 
 
  let dt=
   Math.min(
-   2,
+   2.5,
    (t-lastTime)/16.67
   );
+
+
+ if(!Number.isFinite(dt)||dt<0){
+  dt=1;
+ }
 
 
  lastTime=t;
@@ -1859,8 +2063,11 @@ function loop(t){
  draw();
 
 
- if(running && !paused)
+ if(running&&!paused){
+
   requestAnimationFrame(loop);
+
+ }
 
 }
 
@@ -1883,18 +2090,6 @@ function draw(){
 
 
  ctx.save();
-
-
- if(shake>0){
-
-  ctx.translate(
-   (Math.random()-.5)*shake,
-   (Math.random()-.5)*shake
-  );
-
-  shake*=.88;
-
- }
 
 
  let offset=cameraX;
@@ -1935,7 +2130,8 @@ function draw(){
    pad.x-offset,
    pad.y,
    pad.w,
-   pad.h
+   pad.h,
+   pad.used
   );
 
  }
@@ -1976,16 +2172,13 @@ function draw(){
 
 function drawBackground(){
 
- let levelColor=
+ const levelColor=
   levels[levelIndex][1];
 
 
- let g=
+ const g=
   ctx.createLinearGradient(
-   0,
-   0,
-   0,
-   H
+   0,0,0,H
   );
 
 
@@ -2010,10 +2203,39 @@ function drawBackground(){
  );
 
 
- /* gwiazdy */
+ /*
+  Odległe budynki.
+ */
+
+ ctx.globalAlpha=.14;
+
+ for(
+  let x=0;
+  x<W+80;
+  x+=80
+ ){
+
+  const height=
+   40+
+   ((x*17)%100);
+
+  ctx.fillStyle=levelColor;
+
+  ctx.fillRect(
+   x,
+   groundY()-height,
+   55,
+   height
+  );
+
+ }
+
+
+ /*
+  Gwiazdy.
+ */
 
  ctx.globalAlpha=.2;
-
 
  for(
   let x=0;
@@ -2023,7 +2245,7 @@ function drawBackground(){
 
   ctx.fillStyle=levelColor;
 
-  let y=
+  const y=
    ((x*3-cameraX*.08)%H+H)%H;
 
   ctx.fillRect(
@@ -2036,10 +2258,9 @@ function drawBackground(){
  }
 
 
- ctx.globalAlpha=1;
-
-
- /* neonowe linie */
+ /*
+  Linie neonowe.
+ */
 
  ctx.globalAlpha=.08;
 
@@ -2054,7 +2275,6 @@ function drawBackground(){
   ctx.beginPath();
 
   ctx.moveTo(0,y);
-
   ctx.lineTo(W,y);
 
   ctx.stroke();
@@ -2073,9 +2293,9 @@ function drawBackground(){
 
 function drawGround(offset){
 
- let gy=groundY();
+ const gy=groundY();
 
- let levelColor=
+ const levelColor=
   levels[levelIndex][1];
 
 
@@ -2089,28 +2309,19 @@ function drawGround(offset){
  );
 
 
- ctx.strokeStyle=
-  levelColor;
+ ctx.strokeStyle=levelColor;
 
  ctx.shadowBlur=12;
 
- ctx.shadowColor=
-  levelColor;
+ ctx.shadowColor=levelColor;
 
  ctx.lineWidth=3;
 
 
  ctx.beginPath();
 
- ctx.moveTo(
-  0,
-  gy
- );
-
- ctx.lineTo(
-  W,
-  gy
- );
+ ctx.moveTo(0,gy);
+ ctx.lineTo(W,gy);
 
  ctx.stroke();
 
@@ -2118,7 +2329,7 @@ function drawGround(offset){
  ctx.shadowBlur=0;
 
 
- let start=
+ const start=
   -(offset%50);
 
 
@@ -2148,32 +2359,39 @@ function drawGround(offset){
 
 function drawPlayer(){
 
- let s=
+ const s=
   skins[saveData.selectedSkin];
 
 
- let x=
+ const x=
   player.x-cameraX;
 
- let y=
+ const y=
   player.y;
 
 
- let walking=
-  player.grounded &&
-  Math.abs(player.vy)<.1;
+ const walking=
+  player.grounded;
 
 
- let legSwing=
-  walking?
-   Math.sin(player.walkTime)*5:
-   0;
+ const legSwing=
+  walking
+  ?Math.sin(player.walkTime)*5
+  :0;
+
+
+ const armSwing=
+  walking
+  ?Math.sin(player.walkTime)*7
+  :0;
 
 
  ctx.save();
 
 
- /* cień */
+ /*
+  Cień.
+ */
 
  ctx.globalAlpha=.25;
 
@@ -2197,20 +2415,31 @@ function drawPlayer(){
  ctx.globalAlpha=1;
 
 
- /* glow */
+ /*
+  Obrót postaci.
+ */
+
+ ctx.translate(
+  x+player.w/2,
+  y+player.h/2
+ );
+
+ ctx.rotate(player.rotation);
+
+
+ /*
+  Glow.
+ */
 
  ctx.shadowBlur=20;
 
- ctx.shadowColor=
-  s.color;
+ ctx.shadowColor=s.color;
 
- ctx.fillStyle=
-  s.color;
-
+ ctx.fillStyle=s.color;
 
  ctx.fillRect(
-  x,
-  y,
+  -player.w/2,
+  -player.h/2,
   player.w,
   player.h
  );
@@ -2219,38 +2448,41 @@ function drawPlayer(){
  ctx.shadowBlur=0;
 
 
- /* oczy */
+ /*
+  Oczy.
+ */
 
  ctx.fillStyle="#111";
 
- if(player.blink>150){
+
+ if(player.blink>175){
 
   ctx.fillRect(
-   x+7,
-   y+11,
-   10,
+   -12,
+   -8,
+   9,
    3
   );
 
   ctx.fillRect(
-   x+23,
-   y+11,
-   10,
+   4,
+   -8,
+   9,
    3
   );
 
  }else{
 
   ctx.fillRect(
-   x+8,
-   y+9,
+   -12,
+   -10,
    7,
    7
   );
 
   ctx.fillRect(
-   x+24,
-   y+9,
+   5,
+   -10,
    7,
    7
   );
@@ -2258,51 +2490,54 @@ function drawPlayer(){
  }
 
 
- /* usta */
-
- ctx.fillStyle="#111";
+ /*
+  Usta.
+ */
 
  ctx.fillRect(
-  x+11,
-  y+27,
-  17,
+  -8,
+  8,
+  16,
   4
  );
 
 
- /* ręce */
+ /*
+  Ręce.
+ */
 
- ctx.strokeStyle=
-  s.secondary;
+ ctx.strokeStyle=s.secondary;
 
  ctx.lineWidth=4;
 
  ctx.beginPath();
 
  ctx.moveTo(
-  x+2,
-  y+18
+  -18,
+  0
  );
 
  ctx.lineTo(
-  x-6,
-  y+22+legSwing*.4
+  -25,
+  5+armSwing*.35
  );
 
  ctx.moveTo(
-  x+36,
-  y+18
+  18,
+  0
  );
 
  ctx.lineTo(
-  x+44,
-  y+22-legSwing*.4
+  25,
+  5-armSwing*.35
  );
 
  ctx.stroke();
 
 
- /* nogi */
+ /*
+  Nogi.
+ */
 
  ctx.strokeStyle="#fff";
 
@@ -2311,23 +2546,23 @@ function drawPlayer(){
  ctx.beginPath();
 
  ctx.moveTo(
-  x+8,
-  y+38
+  -10,
+  19
  );
 
  ctx.lineTo(
-  x+4+legSwing,
-  y+46
+  -14+legSwing,
+  27
  );
 
  ctx.moveTo(
-  x+30,
-  y+38
+  10,
+  19
  );
 
  ctx.lineTo(
-  x+34-legSwing,
-  y+46
+  14-legSwing,
+  27
  );
 
  ctx.stroke();
@@ -2342,14 +2577,9 @@ function drawPlayer(){
    OBSTACLE
 ========================================================= */
 
-function drawObstacle(
- x,
- y,
- w,
- h
-){
+function drawObstacle(x,y,w,h){
 
- let levelColor=
+ const levelColor=
   levels[levelIndex][1];
 
 
@@ -2362,10 +2592,7 @@ function drawObstacle(
  ctx.shadowColor="#ff1744";
 
  ctx.fillRect(
-  x,
-  y,
-  w,
-  h
+  x,y,w,h
  );
 
 
@@ -2379,8 +2606,7 @@ function drawObstacle(
  );
 
 
- ctx.strokeStyle=
-  levelColor;
+ ctx.strokeStyle=levelColor;
 
  ctx.lineWidth=2;
 
@@ -2389,6 +2615,29 @@ function drawObstacle(
   y+2,
   Math.max(0,w-4),
   Math.max(0,h-4)
+ );
+
+
+ /*
+  Małe świecące punkty.
+ */
+
+ ctx.fillStyle="#fff";
+
+ ctx.globalAlpha=.6;
+
+ ctx.fillRect(
+  x+w*.25,
+  y+h*.65,
+  4,
+  4
+ );
+
+ ctx.fillRect(
+  x+w*.65,
+  y+h*.35,
+  4,
+  4
  );
 
 
@@ -2401,14 +2650,12 @@ function drawObstacle(
    PAD
 ========================================================= */
 
-function drawPad(
- x,
- y,
- w,
- h
-){
+function drawPad(x,y,w,h,used=false){
 
  ctx.save();
+
+ ctx.globalAlpha=
+  used?.35:1;
 
  ctx.fillStyle="#ffe600";
 
@@ -2417,10 +2664,7 @@ function drawPad(
  ctx.shadowColor="#ffe600";
 
  ctx.fillRect(
-  x,
-  y,
-  w,
-  h
+  x,y,w,h
  );
 
 
@@ -2457,14 +2701,13 @@ function drawPad(
    PORTAL
 ========================================================= */
 
-function drawPortal(
- x,
- y,
- w,
- h
-){
+function drawPortal(x,y,w,h){
 
  ctx.save();
+
+ const pulse=
+  Math.sin(performance.now()*.006)*3;
+
 
  ctx.strokeStyle="#00ff88";
 
@@ -2480,7 +2723,7 @@ function drawPortal(
  ctx.arc(
   x+w/2,
   y+h/2,
-  25,
+  25+pulse,
   0,
   Math.PI*2
  );
@@ -2505,7 +2748,7 @@ function drawPortal(
 
  ctx.fillStyle="#00ff88";
 
- ctx.globalAlpha=.25;
+ ctx.globalAlpha=.2;
 
  ctx.fillRect(
   x,
@@ -2524,12 +2767,9 @@ function drawPortal(
    COIN
 ========================================================= */
 
-function drawCoin(
- x,
- y
-){
+function drawCoin(x,y){
 
- let pulse=
+ const pulse=
   Math.sin(
    performance.now()*.008
   )*2;
@@ -2587,23 +2827,20 @@ function burst(x,y){
   return;
 
 
- for(
-  let i=0;
-  i<14;
-  i++
- ){
+ for(let i=0;i<14;i++){
 
   particles.push({
 
-   x:x,
-
-   y:y,
+   x,
+   y,
 
    vx:(Math.random()-.5)*6,
 
    vy:(Math.random()-.5)*6,
 
-   life:30
+   life:30,
+
+   size:3+Math.random()*3
 
   });
 
@@ -2620,12 +2857,9 @@ function drawParticles(){
   i--
  ){
 
-  let p=
-   particles[i];
-
+  const p=particles[i];
 
   p.x+=p.vx;
-
   p.y+=p.vy;
 
   p.vy+=.15;
@@ -2634,28 +2868,21 @@ function drawParticles(){
 
 
   ctx.globalAlpha=
-   Math.max(
-    0,
-    p.life/30
-   );
-
+   Math.max(0,p.life/30);
 
   ctx.fillStyle="#00ffff";
 
   ctx.fillRect(
    p.x,
    p.y,
-   4,
-   4
+   p.size,
+   p.size
   );
 
 
   if(p.life<=0){
 
-   particles.splice(
-    i,
-    1
-   );
+   particles.splice(i,1);
 
   }
 
@@ -2680,11 +2907,16 @@ function makeConfetti(){
  confetti=[];
 
 
- for(
-  let i=0;
-  i<80;
-  i++
- ){
+ const colors=[
+  "#00ffff",
+  "#ff00ff",
+  "#ffff00",
+  "#55ff55",
+  "#ff5555"
+ ];
+
+
+ for(let i=0;i<100;i++){
 
   confetti.push({
 
@@ -2698,15 +2930,12 @@ function makeConfetti(){
 
    r:Math.random()*Math.PI,
 
-   color:[
-    "#00ffff",
-    "#ff00ff",
-    "#ffff00",
-    "#55ff55",
-    "#ff5555"
-   ][
-    Math.floor(Math.random()*5)
-   ]
+   color:
+    colors[
+     Math.floor(
+      Math.random()*colors.length
+     )
+    ]
 
   });
 
@@ -2717,7 +2946,17 @@ function makeConfetti(){
 
 function drawConfetti(){
 
- for(const c of confetti){
+ if(!confetti.length)
+  return;
+
+
+ for(
+  let i=confetti.length-1;
+  i>=0;
+  i--
+ ){
+
+  const c=confetti[i];
 
   c.y+=c.v;
 
@@ -2733,8 +2972,7 @@ function drawConfetti(){
 
   ctx.rotate(c.r);
 
-  ctx.fillStyle=
-   c.color;
+  ctx.fillStyle=c.color;
 
   ctx.fillRect(
    0,
@@ -2744,6 +2982,13 @@ function drawConfetti(){
   );
 
   ctx.restore();
+
+
+  if(c.y>H+20){
+
+   confetti.splice(i,1);
+
+  }
 
  }
 
@@ -2756,39 +3001,38 @@ function drawConfetti(){
 
 function openLevels(){
 
- document.getElementById("home")
-  .style.display="none";
+ document.getElementById("home").style.display="none";
 
- document.getElementById("levelsPanel")
-  .style.display="block";
+ document.getElementById("levelsPanel").style.display="block";
 
+ renderLevels();
+
+}
+
+
+function renderLevels(){
 
  let html="";
 
 
- levels.forEach(
-  (l,i)=>{
+ levels.forEach((l,i)=>{
 
-   let unlocked=
-    i===0 ||
-    saveData.completed.includes(i-1);
-
-
-   let done=
-    saveData.completed.includes(i);
+  const unlocked=
+   i===0||
+   saveData.completed.includes(i-1);
 
 
-   html+=`
+  const done=
+   saveData.completed.includes(i);
+
+
+  html+=`
 
    <div
     class="levelCard
     ${unlocked?"":"levelLocked"}
     ${done?"levelDone":""}"
-
-    ${unlocked?
-     `onclick="startGame(${i})"`:
-     ""
-    }
+    ${unlocked?`onclick="startGame(${i})"`:""}
    >
 
     <h3>
@@ -2811,10 +3055,9 @@ function openLevels(){
 
    </div>
 
-   `;
+  `;
 
-  }
- );
+ });
 
 
  document.getElementById(
@@ -2830,11 +3073,9 @@ function openLevels(){
 
 function openShop(){
 
- document.getElementById("home")
-  .style.display="none";
+ document.getElementById("home").style.display="none";
 
- document.getElementById("shopPanel")
-  .style.display="block";
+ document.getElementById("shopPanel").style.display="block";
 
  renderShop();
 
@@ -2843,41 +3084,35 @@ function openShop(){
 
 function renderShop(){
 
- document.getElementById(
-  "shopCoins"
- ).textContent=
+ document.getElementById("shopCoins").textContent=
   saveData.coins;
 
 
  let html="";
 
 
- skins.forEach(
-  (s,i)=>{
+ skins.forEach((s,i)=>{
 
-   let owned=
-    saveData.ownedSkins.includes(i);
-
-
-   let selected=
-    saveData.selectedSkin===i;
+  const owned=
+   saveData.ownedSkins.includes(i);
 
 
-   html+=`
+  const selected=
+   saveData.selectedSkin===i;
+
+
+  html+=`
 
    <div class="card">
 
-    <h3>
-     ${s.name}
-    </h3>
+    <h3>${s.name}</h3>
 
     <div
      class="skinPreview"
      style="
       background:${s.color};
       color:${s.color};
-      box-shadow:
-      0 0 20px ${s.color};
+      box-shadow:0 0 20px ${s.color};
      "
     ></div>
 
@@ -2905,10 +3140,9 @@ function renderShop(){
 
    </div>
 
-   `;
+  `;
 
-  }
- );
+ });
 
 
  document.getElementById(
@@ -2920,12 +3154,14 @@ function renderShop(){
 
 function buySkin(i){
 
- let s=skins[i];
+ if(!skins[i])
+  return;
 
 
- if(
-  saveData.ownedSkins.includes(i)
- ){
+ const s=skins[i];
+
+
+ if(saveData.ownedSkins.includes(i)){
 
   saveData.selectedSkin=i;
 
@@ -2934,8 +3170,7 @@ function buySkin(i){
   renderShop();
 
   showToast(
-   "🎨 Wybrano skin: "+
-   s.name
+   "🎨 Wybrano skin: "+s.name
   );
 
   return;
@@ -2943,9 +3178,7 @@ function buySkin(i){
  }
 
 
- if(
-  saveData.coins<s.price
- ){
+ if(saveData.coins<s.price){
 
   showToast(
    "❌ Za mało monet!"
@@ -2984,8 +3217,12 @@ function buySkin(i){
 function unlockAchievement(id){
 
  if(
-  !saveData.achievements.includes(id)
- ){
+  !achievements.some(a=>a[0]===id)
+ )
+  return;
+
+
+ if(!saveData.achievements.includes(id)){
 
   saveData.achievements.push(id);
 
@@ -3000,7 +3237,7 @@ function unlockAchievement(id){
 
 function checkAchievements(){
 
- let completed=
+ const completed=
   saveData.completed.length;
 
 
@@ -3024,9 +3261,7 @@ function checkAchievements(){
   unlockAchievement("collector");
 
 
- if(
-  saveData.ownedSkins.length>=4
- )
+ if(saveData.ownedSkins.length>=4)
   unlockAchievement("shopper");
 
 
@@ -3038,26 +3273,23 @@ function checkAchievements(){
 
 function openAchievements(){
 
- document.getElementById("home")
-  .style.display="none";
+ document.getElementById("home").style.display="none";
 
- document.getElementById("achievementsPanel")
-  .style.display="block";
+ document.getElementById(
+  "achievementsPanel"
+ ).style.display="block";
 
 
  let html="";
 
 
- achievements.forEach(
-  a=>{
+ achievements.forEach(a=>{
 
-   let unlocked=
-    saveData.achievements.includes(
-     a[0]
-    );
+  const unlocked=
+   saveData.achievements.includes(a[0]);
 
 
-   html+=`
+  html+=`
 
    <div
     class="card"
@@ -3073,16 +3305,13 @@ function openAchievements(){
      ${a[1]}
     </h3>
 
-    <p>
-     ${a[2]}
-    </p>
+    <p>${a[2]}</p>
 
    </div>
 
-   `;
+  `;
 
-  }
- );
+ });
 
 
  document.getElementById(
@@ -3098,11 +3327,12 @@ function openAchievements(){
 
 function openSettings(){
 
- document.getElementById("home")
-  .style.display="none";
+ document.getElementById("home").style.display="none";
 
- document.getElementById("settingsPanel")
-  .style.display="block";
+ document.getElementById(
+  "settingsPanel"
+ ).style.display="block";
+
 
  updateSettingsUI();
 
@@ -3111,58 +3341,52 @@ function openSettings(){
 
 function updateSettingsUI(){
 
- document.getElementById(
-  "soundBtn"
- ).textContent=
-  saveData.settings.sound
-  ?"ON"
-  :"OFF";
+ document.getElementById("soundBtn").textContent=
+  saveData.settings.sound?"ON":"OFF";
 
 
- document.getElementById(
-  "musicBtn"
- ).textContent=
-  saveData.settings.music
-  ?"ON"
-  :"OFF";
+ document.getElementById("musicBtn").textContent=
+  saveData.settings.music?"ON":"OFF";
 
 
- document.getElementById(
-  "effectsBtn"
- ).textContent=
-  saveData.settings.effects
-  ?"ON"
-  :"OFF";
+ document.getElementById("effectsBtn").textContent=
+  saveData.settings.effects?"ON":"OFF";
 
 
- document.getElementById(
-  "vibrationBtn"
- ).textContent=
-  saveData.settings.vibration
-  ?"ON"
-  :"OFF";
+ document.getElementById("vibrationBtn").textContent=
+  saveData.settings.vibration?"ON":"OFF";
 
 }
 
 
 function toggleSetting(name){
 
+ if(!(name in saveData.settings))
+  saveData.settings[name]=true;
+
+
  saveData.settings[name]=
   !saveData.settings[name];
 
 
- save();
-
-
  if(name==="music"){
 
-  if(saveData.settings.music)
-   startMusic();
-  else
+  if(saveData.settings.music){
+
+   if(running&&!paused){
+    startMusic();
+   }
+
+  }else{
+
    stopMusic();
+
+  }
 
  }
 
+
+ save();
 
  updateSettingsUI();
 
@@ -3188,13 +3412,10 @@ function toggleTheme(){
 }
 
 
-if(
+document.body.classList.toggle(
+ "light",
  saveData.settings.theme==="light"
-){
-
- document.body.classList.add("light");
-
-}
+);
 
 
 /* =========================================================
@@ -3225,8 +3446,9 @@ function toggleFullscreen(){
 
  }else{
 
-  if(document.exitFullscreen)
+  if(document.exitFullscreen){
    document.exitFullscreen();
+  }
 
  }
 
@@ -3262,9 +3484,12 @@ function resetProgress(){
 
 function backHome(){
 
- running=false;
+ clearTimeout(deathTimer);
+ clearTimeout(winTimer);
 
+ running=false;
  paused=false;
+ winAnimating=false;
 
  stopMusic();
 
@@ -3320,10 +3545,8 @@ function backHome(){
 
 function showToast(text){
 
- let t=
-  document.getElementById(
-   "toast"
-  );
+ const t=
+  document.getElementById("toast");
 
 
  t.textContent=text;
@@ -3351,7 +3574,7 @@ function showToast(text){
 function vibrate(pattern){
 
  if(
-  saveData.settings.vibration &&
+  saveData.settings.vibration&&
   navigator.vibrate
  ){
 
@@ -3375,7 +3598,7 @@ function getAudio(){
  if(!audioCtx){
 
   const AudioContext=
-   window.AudioContext ||
+   window.AudioContext||
    window.webkitAudioContext;
 
 
@@ -3389,11 +3612,9 @@ function getAudio(){
  }
 
 
- if(
-  audioCtx.state==="suspended"
- ){
+ if(audioCtx.state==="suspended"){
 
-  audioCtx.resume();
+  audioCtx.resume().catch(()=>{});
 
  }
 
@@ -3402,10 +3623,6 @@ function getAudio(){
 
 }
 
-
-/* =========================================================
-   SOUND
-========================================================= */
 
 function tone(
  freq,
@@ -3418,16 +3635,17 @@ function tone(
   return;
 
 
- let a=getAudio();
+ const a=getAudio();
+
 
  if(!a)
   return;
 
 
- let o=
+ const o=
   a.createOscillator();
 
- let g=
+ const g=
   a.createGain();
 
 
@@ -3444,8 +3662,7 @@ function tone(
  g.connect(a.destination);
 
 
- let now=
-  a.currentTime;
+ const now=a.currentTime;
 
 
  g.gain.setValueAtTime(
@@ -3584,101 +3801,26 @@ function soundWin(){
    MUZYKA
 ========================================================= */
 
-/*
- Każdy poziom ma własny motyw.
-*/
-
 const melodies=[
 
- [
-  261.63,329.63,392,329.63,
-  261.63,392,440,392
- ],
-
- [
-  293.66,349.23,440,349.23,
-  293.66,440,493.88,440
- ],
-
- [
-  220,277.18,329.63,277.18,
-  220,329.63,369.99,329.63
- ],
-
- [
-  261.63,329.63,523.25,392,
-  329.63,261.63,392,523.25
- ],
-
- [
-  329.63,392,493.88,392,
-  329.63,493.88,587.33,493.88
- ],
-
- [
-  196,246.94,293.66,246.94,
-  196,293.66,329.63,293.66
- ],
-
- [
-  246.94,329.63,369.99,493.88,
-  369.99,329.63,246.94,220
- ],
-
- [
-  220,277.18,329.63,415.30,
-  329.63,277.18,220,196
- ],
-
- [
-  329.63,415.30,493.88,659.25,
-  493.88,415.30,329.63,293.66
- ],
-
- [
-  261.63,311.13,392,466.16,
-  392,311.13,261.63,233.08
- ],
-
- [
-  293.66,369.99,440,554.37,
-  440,369.99,293.66,246.94
- ],
-
- [
-  220,329.63,440,659.25,
-  440,329.63,220,164.81
- ],
-
- [
-  329.63,440,554.37,659.25,
-  554.37,440,329.63,293.66
- ],
-
- [
-  246.94,329.63,493.88,659.25,
-  493.88,329.63,246.94,196
- ],
-
- [
-  261.63,392,523.25,783.99,
-  523.25,392,261.63,329.63
- ],
-
- [
-  196,293.66,392,493.88,
-  392,293.66,196,146.83
- ],
-
- [
-  329.63,493.88,659.25,783.99,
-  659.25,493.88,329.63,261.63
- ],
-
- [
-  261.63,329.63,392,523.25,
-  659.25,523.25,392,261.63
- ]
+ [261.63,329.63,392,329.63,261.63,392,440,392],
+ [293.66,349.23,440,349.23,293.66,440,493.88,440],
+ [220,277.18,329.63,277.18,220,329.63,369.99,329.63],
+ [261.63,329.63,523.25,392,329.63,261.63,392,523.25],
+ [329.63,392,493.88,392,329.63,493.88,587.33,493.88],
+ [196,246.94,293.66,246.94,196,293.66,329.63,293.66],
+ [246.94,329.63,369.99,493.88,369.99,329.63,246.94,220],
+ [220,277.18,329.63,415.30,329.63,277.18,220,196],
+ [329.63,415.30,493.88,659.25,493.88,415.30,329.63,293.66],
+ [261.63,311.13,392,466.16,392,311.13,261.63,233.08],
+ [293.66,369.99,440,554.37,440,369.99,293.66,246.94],
+ [220,329.63,440,659.25,440,329.63,220,164.81],
+ [329.63,440,554.37,659.25,554.37,440,329.63,293.66],
+ [246.94,329.63,493.88,659.25,493.88,329.63,246.94,196],
+ [261.63,392,523.25,783.99,523.25,392,261.63,329.63],
+ [196,293.66,392,493.88,392,293.66,196,146.83],
+ [329.63,493.88,659.25,783.99,659.25,493.88,329.63,261.63],
+ [261.63,329.63,392,523.25,659.25,523.25,392,261.63]
 
 ];
 
@@ -3686,26 +3828,26 @@ const melodies=[
 function playMusicNote(){
 
  if(
-  !saveData.settings.music ||
-  !running ||
-  paused
+  !saveData.settings.music||
+  !running||
+  paused||
+  winAnimating
  )
   return;
 
 
- let a=getAudio();
+ const a=getAudio();
+
 
  if(!a)
   return;
 
 
- let melody=
-  melodies[
-   levelIndex%melodies.length
-  ];
+ const melody=
+  melodies[levelIndex%melodies.length];
 
 
- let freq=
+ const freq=
   melody[
    musicStep%melody.length
   ];
@@ -3714,11 +3856,10 @@ function playMusicNote(){
  musicStep++;
 
 
- let o=
+ const o=
   a.createOscillator();
 
-
- let g=
+ const g=
   a.createGain();
 
 
@@ -3756,9 +3897,10 @@ function playMusicNote(){
 function startMusic(){
 
  if(
-  !saveData.settings.music ||
-  !running ||
-  paused
+  !saveData.settings.music||
+  !running||
+  paused||
+  winAnimating
  )
   return;
 
@@ -3771,7 +3913,6 @@ function startMusic(){
 
 
  musicStep=0;
-
 
  playMusicNote();
 
@@ -3811,8 +3952,8 @@ document.addEventListener(
  ()=>{
 
   if(
-   running &&
-   !paused &&
+   running&&
+   !paused&&
    saveData.settings.music
   ){
 
@@ -3833,8 +3974,8 @@ document.addEventListener(
  ()=>{
 
   if(
-   document.hidden &&
-   running &&
+   document.hidden&&
+   running&&
    !paused
   ){
 
@@ -3842,8 +3983,7 @@ document.addEventListener(
 
   }
 
- }
-);
+ });
 
 
 /* =========================================================
@@ -3853,6 +3993,10 @@ document.addEventListener(
 updateHome();
 
 updateSettingsUI();
+
+checkAchievements();
+
+save();
 
 </script>
 
