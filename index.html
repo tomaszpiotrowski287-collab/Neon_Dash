@@ -61,21 +61,15 @@ canvas {
 <body>
 
 <div id="menu">
-
-<h1>NEON DASH</h1>
-
-<button onclick="startGame()">GRAJ</button>
-
+    <h1>NEON DASH</h1>
+    <button onclick="startGame()">GRAJ</button>
 </div>
 
 <div id="game">
-
-<canvas id="canvas"></canvas>
-
+    <canvas id="canvas"></canvas>
 </div>
 
 <script>
-
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 
@@ -93,9 +87,9 @@ var player = {
 
 var ground;
 var gameRunning = false;
+var animationFrame = null;
 
 function resize() {
-
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
@@ -107,11 +101,15 @@ function resize() {
 }
 
 window.addEventListener("resize", resize);
-
 resize();
 
-
 function startGame() {
+
+    // Zatrzymaj poprzednią pętlę
+    if (animationFrame !== null) {
+        cancelAnimationFrame(animationFrame);
+        animationFrame = null;
+    }
 
     menu.style.display = "none";
     game.style.display = "block";
@@ -123,24 +121,20 @@ function startGame() {
     player.vy = 0;
     player.jumping = false;
 
-    requestAnimationFrame(loop);
+    // Uruchom tylko jedną pętlę
+    animationFrame = requestAnimationFrame(loop);
 }
 
-
 function jump() {
-
     if (!gameRunning) return;
 
     if (!player.jumping) {
-
         player.vy = -12;
         player.jumping = true;
     }
 }
 
-
 document.addEventListener("keydown", function(e) {
-
     if (
         e.key === " " ||
         e.key === "ArrowUp" ||
@@ -148,34 +142,25 @@ document.addEventListener("keydown", function(e) {
     ) {
         jump();
     }
-
 });
-
 
 function update() {
 
     if (!gameRunning) return;
 
     player.vy += 0.6;
-
     player.y += player.vy;
 
     if (player.y + player.size >= ground) {
-
         player.y = ground - player.size;
-
         player.vy = 0;
-
         player.jumping = false;
     }
-
 }
-
 
 function draw() {
 
     ctx.fillStyle = "#11112b";
-
     ctx.fillRect(
         0,
         0,
@@ -183,11 +168,8 @@ function draw() {
         canvas.height
     );
 
-
-    /* PODŁOŻE */
-
+    // Ziemia
     ctx.fillStyle = "#222244";
-
     ctx.fillRect(
         0,
         ground,
@@ -195,11 +177,8 @@ function draw() {
         canvas.height - ground
     );
 
-
-    /* NEONOWA LINIA */
-
+    // Linia ziemi
     ctx.fillStyle = "#00ffff";
-
     ctx.fillRect(
         0,
         ground,
@@ -207,11 +186,8 @@ function draw() {
         5
     );
 
-
-    /* GRACZ */
-
+    // Kwadrat
     ctx.fillStyle = "#00ffff";
-
     ctx.shadowColor = "#00ffff";
     ctx.shadowBlur = 20;
 
@@ -224,9 +200,7 @@ function draw() {
 
     ctx.shadowBlur = 0;
 
-
-    /* OCZY */
-
+    // Oczy
     ctx.fillStyle = "#111122";
 
     ctx.fillRect(
@@ -243,31 +217,26 @@ function draw() {
         9
     );
 
-
-    /* BUZIA */
-
+    // Buźka
     ctx.fillRect(
         player.x + 10,
         player.y + 28,
         20,
         3
     );
-
 }
-
 
 function loop() {
 
     update();
-
     draw();
 
     if (gameRunning) {
-        requestAnimationFrame(loop);
+        animationFrame = requestAnimationFrame(loop);
+    } else {
+        animationFrame = null;
     }
-
 }
-
 </script>
 
 </body>
