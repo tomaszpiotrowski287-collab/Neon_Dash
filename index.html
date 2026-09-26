@@ -33,7 +33,7 @@ button:active{
 }
 
 /* =========================
-   GŁÓWNE MENU
+   MENU
 ========================= */
 
 #home{
@@ -42,42 +42,10 @@ button:active{
   overflow:auto;
   text-align:center;
   background:
-    radial-gradient(circle at 50% 15%,#24245c,#09091c 48%,#020207 100%);
-}
-
-.menuStars{
-  position:absolute;
-  inset:0;
-  overflow:hidden;
-  pointer-events:none;
-}
-
-.menuStar{
-  position:absolute;
-  width:3px;
-  height:3px;
-  border-radius:50%;
-  background:#fff;
-  box-shadow:0 0 8px #fff;
-  animation:starMove linear infinite;
-}
-
-@keyframes starMove{
-  from{
-    transform:translateY(-20px);
-    opacity:.2;
-  }
-  50%{
-    opacity:1;
-  }
-  to{
-    transform:translateY(110vh);
-    opacity:.1;
-  }
+    radial-gradient(circle at 50% 15%,#25255e,#09091c 50%,#020207);
 }
 
 .logo{
-  position:relative;
   margin:0;
   padding-top:55px;
   font-size:clamp(48px,11vw,100px);
@@ -91,20 +59,18 @@ button:active{
 }
 
 @keyframes logoPulse{
-  from{filter:brightness(1)}
-  to{filter:brightness(1.35)}
+  from{transform:scale(1)}
+  to{transform:scale(1.025)}
 }
 
 .subtitle{
-  position:relative;
-  margin:8px 15px 25px;
   color:#aaa;
+  margin:8px 15px 28px;
   letter-spacing:3px;
 }
 
 .mainButtons{
-  position:relative;
-  width:min(420px,90%);
+  width:min(430px,90%);
   margin:auto;
   display:flex;
   flex-direction:column;
@@ -115,26 +81,20 @@ button:active{
   width:100%;
   padding:16px;
   border-radius:14px;
-  color:#fff;
   background:#101027;
+  color:white;
   border:1px solid #33335a;
   font-size:19px;
   font-weight:900;
 }
 
-.mainButton:hover{
-  border-color:#00ffff;
-  box-shadow:0 0 20px #00ffff44;
-}
-
 .mainButton.primary{
-  color:#020207;
   background:#00ffff;
+  color:#020207;
   box-shadow:0 0 25px #00ffff;
 }
 
 .homeStats{
-  position:relative;
   width:min(800px,94%);
   margin:30px auto;
   display:flex;
@@ -159,14 +119,12 @@ button:active{
 }
 
 .levelTitle{
-  position:relative;
-  margin:25px 0 12px;
   color:#aaa;
+  margin:25px 0 12px;
   letter-spacing:2px;
 }
 
 .levelList{
-  position:relative;
   width:min(1000px,94%);
   margin:15px auto 60px;
   display:grid;
@@ -231,7 +189,7 @@ canvas{
   width:45px;
   height:42px;
   border-radius:10px;
-  color:#fff;
+  color:white;
   background:#10101dcc;
   border:1px solid #444;
   font-size:18px;
@@ -241,9 +199,9 @@ canvas{
   flex:1;
   height:10px;
   margin:auto 0;
-  overflow:hidden;
   border-radius:20px;
   background:#222238;
+  overflow:hidden;
 }
 
 #barFill{
@@ -259,24 +217,23 @@ canvas{
   left:15px;
   z-index:5;
   font-weight:bold;
-  text-shadow:0 0 10px currentColor;
 }
 
 #mobileJump{
   position:absolute;
   bottom:25px;
   left:50%;
-  z-index:5;
-  display:none;
+  transform:translateX(-50%);
   width:115px;
   height:70px;
-  transform:translateX(-50%);
   border-radius:18px;
   background:#00ffff22;
   border:2px solid #00ffff88;
-  color:#fff;
-  font-size:18px;
+  color:white;
   font-weight:bold;
+  font-size:18px;
+  z-index:5;
+  display:none;
 }
 
 /* =========================
@@ -286,12 +243,12 @@ canvas{
 .panel{
   position:absolute;
   inset:0;
-  z-index:20;
   display:none;
   align-items:center;
   justify-content:center;
   padding:15px;
   background:#000b;
+  z-index:30;
 }
 
 .box{
@@ -303,20 +260,15 @@ canvas{
   background:#0c0c20;
   border:1px solid #44446a;
   text-align:center;
-  box-shadow:0 0 50px #000;
-}
-
-.box h2{
-  margin-top:0;
 }
 
 .actionButton{
   width:100%;
-  margin-top:9px;
   padding:13px;
+  margin-top:9px;
   border-radius:10px;
   background:#17172d;
-  color:#fff;
+  color:white;
   border:1px solid #33334e;
   font-weight:bold;
 }
@@ -336,7 +288,7 @@ canvas{
   padding:13px 6px;
   border-radius:10px;
   background:#17172d;
-  color:#fff;
+  color:white;
   border:1px solid #33334e;
 }
 
@@ -359,11 +311,162 @@ canvas{
 
 .achievement.done{
   border-color:#00ffff;
-  box-shadow:0 0 15px #00ffff22;
+  box-shadow:0 0 15px #00ffff33;
 }
 
-.achievement small{
-  color:#999;
+/* =========================
+   USTAWIENIA
+========================= */
+
+.settingRow{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  padding:15px;
+  margin:8px 0;
+  border-radius:12px;
+  background:#14142a;
+  border:1px solid #30304c;
+  text-align:left;
+}
+
+.settingText b{
+  display:block;
+  margin-bottom:4px;
+}
+
+.settingText small{
+  color:#888;
+}
+
+.toggle{
+  min-width:75px;
+  padding:9px 12px;
+  border-radius:20px;
+  background:#292940;
+  color:#aaa;
+  font-weight:bold;
+}
+
+.toggle.on{
+  background:#00ffff;
+  color:#020207;
+  box-shadow:0 0 15px #00ffff66;
+}
+
+/* =========================
+   ANIMACJA WYGRANEJ
+========================= */
+
+#winPanel{
+  background:
+    radial-gradient(
+      circle,
+      #00ffff22,
+      #000d 55%
+    );
+}
+
+.winBox{
+  position:relative;
+  overflow:hidden;
+  animation:
+    winBoxIn .55s cubic-bezier(.2,1.5,.4,1);
+  border-color:#00ffff;
+  box-shadow:
+    0 0 25px #00ffff66,
+    0 0 80px #8a2cff44;
+}
+
+@keyframes winBoxIn{
+  0%{
+    transform:scale(.2) rotate(-8deg);
+    opacity:0;
+  }
+  70%{
+    transform:scale(1.08) rotate(2deg);
+  }
+  100%{
+    transform:scale(1) rotate(0);
+    opacity:1;
+  }
+}
+
+.winTitle{
+  font-size:clamp(28px,7vw,44px);
+  font-weight:900;
+  color:#fff;
+  text-shadow:
+    0 0 10px #00ffff,
+    0 0 30px #00ffff,
+    0 0 50px #8a2cff;
+  animation:
+    winTitle .8s infinite alternate;
+}
+
+@keyframes winTitle{
+  from{
+    transform:scale(1);
+  }
+  to{
+    transform:scale(1.06);
+  }
+}
+
+.winIcon{
+  font-size:70px;
+  animation:
+    trophySpin 1s ease;
+}
+
+@keyframes trophySpin{
+  0%{
+    transform:rotateY(0) scale(.2);
+  }
+  100%{
+    transform:rotateY(720deg) scale(1);
+  }
+}
+
+.winStats{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  margin:15px 0;
+}
+
+.winStat{
+  flex:1;
+  padding:12px;
+  border-radius:12px;
+  background:#15152d;
+  border:1px solid #333;
+}
+
+.winStat b{
+  display:block;
+  font-size:25px;
+  color:#00ffff;
+}
+
+.confetti{
+  position:absolute;
+  width:8px;
+  height:14px;
+  top:-30px;
+  animation:confettiFall linear forwards;
+}
+
+@keyframes confettiFall{
+  0%{
+    transform:translateY(-20px) rotate(0);
+    opacity:1;
+  }
+  100%{
+    transform:translateY(600px) rotate(900deg);
+    opacity:0;
+  }
 }
 
 /* =========================
@@ -391,32 +494,14 @@ canvas{
 }
 
 @media(max-width:700px){
-
   #mobileJump{
     display:block;
-  }
-
-  .logo{
-    padding-top:35px;
-  }
-
-  .levelList{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .levelCard{
-    padding:13px;
   }
 }
 
 @media(max-width:430px){
-
   .levelList{
     grid-template-columns:1fr;
-  }
-
-  .stat{
-    min-width:100px;
   }
 }
 </style>
@@ -427,13 +512,11 @@ canvas{
 
 <div id="toast"></div>
 
-<!-- =================================================
-     GŁÓWNE MENU
-================================================= -->
+<!-- =========================
+     MENU GŁÓWNE
+========================= -->
 
 <div id="home">
-
-  <div class="menuStars" id="menuStars"></div>
 
   <h1 class="logo">NEON DASH</h1>
 
@@ -492,13 +575,14 @@ canvas{
     POZIOMY
   </div>
 
-  <div class="levelList" id="levelList"></div>
+  <div class="levelList"
+       id="levelList"></div>
 
 </div>
 
-<!-- =================================================
+<!-- =========================
      GRA
-================================================= -->
+========================= -->
 
 <div id="game">
 
@@ -538,7 +622,8 @@ canvas{
 
   <!-- PAUZA -->
 
-  <div class="panel" id="pausePanel">
+  <div class="panel"
+       id="pausePanel">
 
 ```
 <div class="box">
@@ -572,7 +657,8 @@ canvas{
 
   <!-- POZIOMY -->
 
-  <div class="panel" id="levelsPanel">
+  <div class="panel"
+       id="levelsPanel">
 
 ```
 <div class="box">
@@ -594,7 +680,8 @@ canvas{
 
   <!-- OSIĄGNIĘCIA -->
 
-  <div class="panel" id="achievementsPanel">
+  <div class="panel"
+       id="achievementsPanel">
 
 ```
 <div class="box">
@@ -604,7 +691,7 @@ canvas{
   <div id="achievementList"></div>
 
   <button class="actionButton"
-          onclick="closeExtraPanel()">
+          onclick="backHome()">
     WRÓĆ
   </button>
 
@@ -615,18 +702,64 @@ canvas{
 
   <!-- USTAWIENIA -->
 
-  <div class="panel" id="settingsPanel">
+  <div class="panel"
+       id="settingsPanel">
 
 ```
 <div class="box">
 
   <h2>⚙️ USTAWIENIA</h2>
 
-  <button class="actionButton primary"
-          id="settingsSoundButton"
-          onclick="toggleSound()">
-    🔊 DŹWIĘK
-  </button>
+  <div class="settingRow">
+
+    <div class="settingText">
+      <b>🔊 Dźwięk</b>
+      <small>Efekty dźwiękowe gry</small>
+    </div>
+
+    <button
+      class="toggle"
+      id="soundToggle"
+      onclick="toggleSound()">
+      OFF
+    </button>
+
+  </div>
+
+
+  <div class="settingRow">
+
+    <div class="settingText">
+      <b>✨ Efekty</b>
+      <small>Neon, cząsteczki i animacje</small>
+    </div>
+
+    <button
+      class="toggle"
+      id="effectsToggle"
+      onclick="toggleEffects()">
+      ON
+    </button>
+
+  </div>
+
+
+  <div class="settingRow">
+
+    <div class="settingText">
+      <b>📳 Wibracje</b>
+      <small>Wibracja telefonu przy akcjach</small>
+    </div>
+
+    <button
+      class="toggle"
+      id="vibrationToggle"
+      onclick="toggleVibration()">
+      ON
+    </button>
+
+  </div>
+
 
   <button class="actionButton"
           onclick="resetProgress()">
@@ -634,8 +767,8 @@ canvas{
   </button>
 
   <button class="actionButton"
-          onclick="closeExtraPanel()">
-    WRÓĆ
+          onclick="backHome()">
+    WRÓĆ DO MENU
   </button>
 
 </div>
@@ -645,7 +778,8 @@ canvas{
 
   <!-- ŚMIERĆ -->
 
-  <div class="panel" id="deadPanel">
+  <div class="panel"
+       id="deadPanel">
 
 ```
 <div class="box">
@@ -678,29 +812,45 @@ canvas{
 
   <!-- WYGRANA -->
 
-  <div class="panel" id="winPanel">
+  <div class="panel"
+       id="winPanel">
 
 ```
-<div class="box">
+<div class="box winBox">
 
-  <h2>🎉 POZIOM UKOŃCZONY!</h2>
+  <div class="winIcon">
+    🏆
+  </div>
+
+  <div class="winTitle">
+    LEVEL UKOŃCZONY!
+  </div>
 
   <p id="winInfo"></p>
+
+  <div class="winStats">
+
+    <div class="winStat">
+      <b id="winCoins">0/3</b>
+      MONETY
+    </div>
+
+    <div class="winStat">
+      <b id="winPercent">100%</b>
+      POSTĘP
+    </div>
+
+  </div>
 
   <button class="actionButton primary"
           id="nextLevelButton"
           onclick="nextLevel()">
-    NASTĘPNY POZIOM
+    ▶ NASTĘPNY POZIOM
   </button>
 
   <button class="actionButton"
           onclick="restartLevel()">
     ↻ ZAGRAJ PONOWNIE
-  </button>
-
-  <button class="actionButton"
-          onclick="showLevels()">
-    🎮 POZIOMY
   </button>
 
   <button class="actionButton"
@@ -717,9 +867,9 @@ canvas{
 
 <script>
 
-/* =====================================================
-   POZIOMY
-===================================================== */
+/* =========================
+   DANE
+========================= */
 
 const levels=[
   ["NEON RUSH","#00ffff",5.8,7000],
@@ -737,9 +887,9 @@ const levels=[
 ];
 
 
-/* =====================================================
+/* =========================
    ZAPIS
-===================================================== */
+========================= */
 
 let completed=
   JSON.parse(
@@ -758,6 +908,12 @@ let achievements=
 
 let sound=
   localStorage.getItem("nd_sound")!=="off";
+
+let effects=
+  localStorage.getItem("nd_effects")!=="off";
+
+let vibration=
+  localStorage.getItem("nd_vibration")!=="off";
 
 if(!Array.isArray(completed))
   completed=[];
@@ -791,6 +947,16 @@ function save(){
     "nd_sound",
     sound?"on":"off"
   );
+
+  localStorage.setItem(
+    "nd_effects",
+    effects?"on":"off"
+  );
+
+  localStorage.setItem(
+    "nd_vibration",
+    vibration?"on":"off"
+  );
 }
 
 
@@ -798,11 +964,8 @@ function completedTotal(){
 
   let n=0;
 
-  for(let i=0;i<levels.length;i++){
-
-    if(completed[i])
-      n++;
-  }
+  for(let i=0;i<levels.length;i++)
+    if(completed[i])n++;
 
   return n;
 }
@@ -812,70 +975,27 @@ function coinsTotal(){
 
   let n=0;
 
-  for(let i=0;i<levels.length;i++){
-
-    n+=Number(
-      levelCoins[i]||0
-    );
-  }
+  for(let i=0;i<levels.length;i++)
+    n+=Number(levelCoins[i]||0);
 
   return n;
 }
 
 
-/* =====================================================
+/* =========================
    OSIĄGNIĘCIA
-===================================================== */
+========================= */
 
 const achievementData=[
 
-  [
-    "first",
-    "🚀 PIERWSZY KROK",
-    "Ukończ pierwszy poziom."
-  ],
-
-  [
-    "three",
-    "🔥 ROZGRZEWKA",
-    "Ukończ 3 poziomy."
-  ],
-
-  [
-    "six",
-    "⚡ POŁOWA DROGI",
-    "Ukończ 6 poziomów."
-  ],
-
-  [
-    "all",
-    "👑 NEON MASTER",
-    "Ukończ wszystkie poziomy."
-  ],
-
-  [
-    "coins10",
-    "🪙 KOLEKCJONER",
-    "Zdobądź 10 monet."
-  ],
-
-  [
-    "coins25",
-    "💰 SKARBNIK",
-    "Zdobądź 25 monet."
-  ],
-
-  [
-    "perfect",
-    "💎 PERFEKCJA",
-    "Zdobądź wszystkie 3 monety w poziomie."
-  ],
-
-  [
-    "survivor",
-    "☠️ SURVIVOR",
-    "Ukończ poziom bez śmierci."
-  ]
+  ["first","🚀 PIERWSZY KROK","Ukończ pierwszy poziom."],
+  ["three","🔥 ROZGRZEWKA","Ukończ 3 poziomy."],
+  ["six","⚡ POŁOWA DROGI","Ukończ 6 poziomów."],
+  ["all","👑 NEON MASTER","Ukończ wszystkie poziomy."],
+  ["coins10","🪙 KOLEKCJONER","Zdobądź 10 monet."],
+  ["coins25","💰 SKARBNIK","Zdobądź 25 monet."],
+  ["perfect","💎 PERFEKCJA","Zdobądź 3/3 monety w poziomie."],
+  ["survivor","☠️ SURVIVOR","Ukończ poziom bez śmierci."]
 ];
 
 
@@ -883,11 +1003,8 @@ function achievementTotal(){
 
   let n=0;
 
-  for(const a of achievementData){
-
-    if(achievements[a[0]])
-      n++;
-  }
+  for(const a of achievementData)
+    if(achievements[a[0]])n++;
 
   return n;
 }
@@ -895,14 +1012,19 @@ function achievementTotal(){
 
 function checkAchievements(){
 
-  let unlockedNow=[];
-
   function unlock(id){
 
     if(!achievements[id]){
 
       achievements[id]=true;
-      unlockedNow.push(id);
+
+      const a=
+        achievementData.find(
+          x=>x[0]===id
+        );
+
+      if(a)
+        toast("🏆 "+a[1]);
     }
   }
 
@@ -931,23 +1053,12 @@ function checkAchievements(){
     unlock("survivor");
 
   save();
-
-  if(unlockedNow.length){
-
-    const a=
-      achievementData.find(
-        x=>x[0]===unlockedNow[0]
-      );
-
-    if(a)
-      toast("🏆 "+a[1]);
-  }
 }
 
 
-/* =====================================================
+/* =========================
    DOM
-===================================================== */
+========================= */
 
 const home=
   document.getElementById("home");
@@ -1003,74 +1114,43 @@ const barFill=
 const soundButton=
   document.getElementById("soundButton");
 
-const settingsSoundButton=
-  document.getElementById(
-    "settingsSoundButton"
-  );
+const soundToggle=
+  document.getElementById("soundToggle");
+
+const effectsToggle=
+  document.getElementById("effectsToggle");
+
+const vibrationToggle=
+  document.getElementById("vibrationToggle");
 
 const mobileJump=
-  document.getElementById(
-    "mobileJump"
-  );
+  document.getElementById("mobileJump");
 
 const winInfo=
   document.getElementById("winInfo");
 
+const winCoins=
+  document.getElementById("winCoins");
+
+const winPercent=
+  document.getElementById("winPercent");
+
 const nextLevelButton=
-  document.getElementById(
-    "nextLevelButton"
-  );
+  document.getElementById("nextLevelButton");
 
 const levelTitle=
   document.getElementById("levelTitle");
 
-const toastElement=
-  document.getElementById("toast");
-
 const deadInfo=
   document.getElementById("deadInfo");
 
-
-/* =====================================================
-   MENU GWIAZDY
-===================================================== */
-
-function createMenuStars(){
-
-  const container=
-    document.getElementById(
-      "menuStars"
-    );
-
-  container.innerHTML="";
-
-  for(let i=0;i<70;i++){
-
-    const star=
-      document.createElement("div");
-
-    star.className="menuStar";
-
-    star.style.left=
-      Math.random()*100+"%";
-
-    star.style.animationDuration=
-      3+Math.random()*7+"s";
-
-    star.style.animationDelay=
-      -Math.random()*8+"s";
-
-    star.style.opacity=
-      .2+Math.random()*.8;
-
-    container.appendChild(star);
-  }
-}
+const toastElement=
+  document.getElementById("toast");
 
 
-/* =====================================================
+/* =========================
    CANVAS
-===================================================== */
+========================= */
 
 let W=0;
 let H=0;
@@ -1090,11 +1170,8 @@ function resize(){
   canvas.width=W*dpr;
   canvas.height=H*dpr;
 
-  canvas.style.width=
-    W+"px";
-
-  canvas.style.height=
-    H+"px";
+  canvas.style.width=W+"px";
+  canvas.style.height=H+"px";
 
   ctx.setTransform(
     dpr,0,0,dpr,0,0
@@ -1109,9 +1186,9 @@ window.addEventListener(
 );
 
 
-/* =====================================================
-   STAN GRY
-===================================================== */
+/* =========================
+   GRA
+========================= */
 
 let currentLevel=0;
 
@@ -1125,14 +1202,13 @@ let lastTime=0;
 
 let obstacles=[];
 let coins=[];
-let pads=[];
-let portals=[];
 let particles=[];
 let stars=[];
 let trail=[];
+let pads=[];
+let portals=[];
 
 let collected=0;
-
 let currentSpeed=1;
 let gravityDir=1;
 
@@ -1142,115 +1218,92 @@ let shake=0;
 let flash=0;
 
 
-/* =====================================================
+/* =========================
    GRACZ
-===================================================== */
+========================= */
 
 const player={
-
   x:120,
   y:0,
   size:32,
   vy:0,
   grounded:true,
   rotation:0
-
 };
 
-
 function ground(){
-
   return H*.78;
 }
 
-
 function ceiling(){
-
   return 75;
 }
 
 
-/* =====================================================
-   GWIAZDY W GRZE
-===================================================== */
+/* =========================
+   GWIAZDY
+========================= */
 
 function makeStars(){
 
   stars=[];
 
-  for(let i=0;i<110;i++){
+  for(let i=0;i<100;i++){
 
     stars.push({
-
       x:Math.random()*W,
-
-      y:Math.random()*H*.72,
-
+      y:Math.random()*H*.7,
       r:.5+Math.random()*1.7,
-
       speed:.2+Math.random()*.8
-
     });
   }
 }
 
 
-/* =====================================================
-   TWORZENIE POZIOMU
-===================================================== */
+/* =========================
+   POZIOM
+========================= */
 
 function createLevel(){
 
   obstacles=[];
   coins=[];
-  pads=[];
-  portals=[];
   particles=[];
   trail=[];
+  pads=[];
+  portals=[];
 
   progress=0;
   collected=0;
-
   currentSpeed=1;
   gravityDir=1;
-
   levelDeaths=0;
 
   const length=
     levels[currentLevel][3];
 
-
-  /* PRZESZKODY */
-
   let x=500;
 
-  while(
-    x<length-450
-  ){
+  while(x<length-450){
 
-    const type=
-      Math.random();
+    const type=Math.random();
 
     if(type<.50){
 
       obstacles.push({
-
         type:"spike",
         x:x,
         w:38,
         h:40
-
       });
 
-      if(Math.random()<.20){
+      if(Math.random()<.2){
 
         obstacles.push({
-
           type:"spike",
           x:x+42,
           w:38,
           h:40
-
         });
 
         x+=42;
@@ -1259,144 +1312,75 @@ function createLevel(){
     }else if(type<.72){
 
       obstacles.push({
-
         type:"saw",
         x:x,
         w:46,
         h:46
-
       });
 
     }else{
 
       obstacles.push({
-
         type:"gap",
         x:x,
-        w:80+
-          Math.random()*35
-
+        w:80+Math.random()*35
       });
     }
 
-    x+=
-      280+
-      Math.random()*260;
+    x+=280+Math.random()*260;
   }
 
 
-  /* JUMP PADY */
+  /* PADY */
 
   pads=[
-
-    {
-      x:length*.20,
-      power:13
-    },
-
-    {
-      x:length*.47,
-      power:15
-    },
-
-    {
-      x:length*.76,
-      power:14
-    }
-
+    {x:length*.20,power:13},
+    {x:length*.47,power:15},
+    {x:length*.76,power:14}
   ];
 
 
   /* PORTALE */
 
   portals=[
-
-    {
-      x:length*.34,
-      type:"speed",
-      mult:1.25,
-      used:false
-    },
-
-    {
-      x:length*.52,
-      type:"gravity",
-      mult:1,
-      used:false
-    },
-
-    {
-      x:length*.62,
-      type:"speed",
-      mult:.82,
-      used:false
-    },
-
-    {
-      x:length*.72,
-      type:"gravity",
-      mult:1,
-      used:false
-    },
-
-    {
-      x:length*.86,
-      type:"speed",
-      mult:1.35,
-      used:false
-    }
-
+    {x:length*.34,type:"speed",mult:1.25,used:false},
+    {x:length*.52,type:"gravity",mult:1,used:false},
+    {x:length*.62,type:"speed",mult:.82,used:false},
+    {x:length*.72,type:"gravity",mult:1,used:false},
+    {x:length*.86,type:"speed",mult:1.35,used:false}
   ];
 
 
-  /* MONETY */
+  /* 3 MONETY */
 
   const positions=[
-
     length*.27,
     length*.55,
     length*.80
-
   ];
 
   for(let i=0;i<3;i++){
 
     coins.push({
-
       x:positions[i],
-
-      y:
-        ground()-
-        100-
-        (i===1?70:0),
-
+      y:ground()-100-(i===1?65:0),
       collected:false,
-
       r:11
-
     });
   }
 
 
-  /* GRACZ */
-
   player.x=120;
-
-  player.y=
-    ground()-
-    player.size;
-
+  player.y=ground()-player.size;
   player.vy=0;
-
   player.grounded=true;
-
   player.rotation=0;
 }
 
 
-/* =====================================================
+/* =========================
    TŁO
-===================================================== */
+========================= */
 
 function drawBackground(){
 
@@ -1430,43 +1414,32 @@ function drawBackground(){
   );
 
 
-  /* GWIAZDY */
+  if(effects){
 
-  for(const s of stars){
+    for(const s of stars){
 
-    let x=
-      (
-        s.x-
-        progress*
-        s.speed*
-        .08
-      )%(W+30);
+      let x=
+        (s.x-progress*s.speed*.08)%
+        (W+30);
 
-    if(x<0)
-      x+=W+30;
+      if(x<0)x+=W+30;
 
-    ctx.fillStyle="#fff";
+      ctx.fillStyle="#fff";
+      ctx.globalAlpha=.2+s.speed*.4;
 
-    ctx.globalAlpha=
-      .2+s.speed*.4;
+      ctx.beginPath();
 
-    ctx.beginPath();
+      ctx.arc(
+        x,s.y,s.r,
+        0,Math.PI*2
+      );
 
-    ctx.arc(
-      x,
-      s.y,
-      s.r,
-      0,
-      Math.PI*2
-    );
+      ctx.fill();
+    }
 
-    ctx.fill();
+    ctx.globalAlpha=1;
   }
 
-  ctx.globalAlpha=1;
-
-
-  /* SIATKA */
 
   ctx.strokeStyle=
     color+"25";
@@ -1486,37 +1459,20 @@ function drawBackground(){
     ctx.moveTo(x,g);
 
     ctx.lineTo(
-      W/2+
-      (x-W/2)*.2,
+      W/2+(x-W/2)*.2,
       H
     );
 
     ctx.stroke();
   }
 
-  for(
-    let y=g;
-    y<H;
-    y+=35
-  ){
 
-    ctx.beginPath();
-
-    ctx.moveTo(0,y);
-    ctx.lineTo(W,y);
-
-    ctx.stroke();
-  }
-
-
-  /* BŁYSK */
-
-  if(flash>0){
+  if(effects&&flash>0){
 
     ctx.fillStyle=color;
 
     ctx.globalAlpha=
-      Math.min(.25,flash);
+      Math.min(.3,flash);
 
     ctx.fillRect(
       0,0,W,H
@@ -1527,9 +1483,9 @@ function drawBackground(){
 }
 
 
-/* =====================================================
+/* =========================
    ZIEMIA
-===================================================== */
+========================= */
 
 function drawGround(){
 
@@ -1546,7 +1502,9 @@ function drawGround(){
 
   ctx.fillStyle=color;
 
-  ctx.shadowBlur=15;
+  ctx.shadowBlur=
+    effects?15:0;
+
   ctx.shadowColor=color;
 
   ctx.fillRect(
@@ -1556,10 +1514,7 @@ function drawGround(){
   if(gravityDir<0){
 
     ctx.fillRect(
-      0,
-      ceiling(),
-      W,
-      3
+      0,ceiling(),W,3
     );
   }
 
@@ -1567,11 +1522,14 @@ function drawGround(){
 }
 
 
-/* =====================================================
-   ŚLAD
-===================================================== */
+/* =========================
+   TRAIL
+========================= */
 
 function drawTrail(){
+
+  if(!effects)
+    return;
 
   const color=
     levels[currentLevel][1];
@@ -1585,13 +1543,12 @@ function drawTrail(){
     const t=trail[i];
 
     ctx.globalAlpha=
-      (i/trail.length)*.32;
+      (i/trail.length)*.3;
 
     ctx.fillStyle=color;
 
     ctx.fillRect(
-      t.x,
-      t.y,
+      t.x,t.y,
       player.size,
       player.size
     );
@@ -1601,9 +1558,9 @@ function drawTrail(){
 }
 
 
-/* =====================================================
+/* =========================
    GRACZ
-===================================================== */
+========================= */
 
 function drawPlayer(){
 
@@ -1613,17 +1570,17 @@ function drawPlayer(){
   ctx.save();
 
   ctx.translate(
-    player.x+
-      player.size/2,
-    player.y+
-      player.size/2
+    player.x+player.size/2,
+    player.y+player.size/2
   );
 
   ctx.rotate(
     player.rotation
   );
 
-  ctx.shadowBlur=18;
+  ctx.shadowBlur=
+    effects?18:0;
+
   ctx.shadowColor=color;
 
   ctx.fillStyle="#fff";
@@ -1649,9 +1606,9 @@ function drawPlayer(){
 }
 
 
-/* =====================================================
+/* =========================
    PRZESZKODY
-===================================================== */
+========================= */
 
 function drawObstacle(o){
 
@@ -1661,30 +1618,25 @@ function drawObstacle(o){
   const x=
     o.x-progress;
 
-  if(
-    x<-100||
-    x>W+100
-  )
+  if(x<-100||x>W+100)
     return;
 
   ctx.save();
-
 
   if(o.type==="spike"){
 
     ctx.fillStyle=color;
 
-    ctx.shadowBlur=14;
+    ctx.shadowBlur=
+      effects?14:0;
+
     ctx.shadowColor=color;
 
     if(gravityDir>0){
 
       ctx.beginPath();
 
-      ctx.moveTo(
-        x,
-        ground()
-      );
+      ctx.moveTo(x,ground());
 
       ctx.lineTo(
         x+o.w/2,
@@ -1703,10 +1655,7 @@ function drawObstacle(o){
 
       ctx.beginPath();
 
-      ctx.moveTo(
-        x,
-        ceiling()
-      );
+      ctx.moveTo(x,ceiling());
 
       ctx.lineTo(
         x+o.w/2,
@@ -1722,29 +1671,24 @@ function drawObstacle(o){
       ctx.fill();
     }
 
-
   }else if(o.type==="saw"){
 
-    const cx=
-      x+o.w/2;
+    const cx=x+o.w/2;
 
     const cy=
       gravityDir>0
-      ? ground()-o.h/2
-      : ceiling()+o.h/2;
+      ?ground()-o.h/2
+      :ceiling()+o.h/2;
 
-    ctx.translate(
-      cx,
-      cy
-    );
+    ctx.translate(cx,cy);
 
-    ctx.rotate(
-      progress*.012
-    );
+    ctx.rotate(progress*.012);
 
     ctx.fillStyle=color;
 
-    ctx.shadowBlur=15;
+    ctx.shadowBlur=
+      effects?15:0;
+
     ctx.shadowColor=color;
 
     const teeth=12;
@@ -1757,19 +1701,15 @@ function drawObstacle(o){
       i++
     ){
 
-      const a=
-        i*Math.PI/teeth;
+      const a=i*Math.PI/teeth;
 
       const r=
         i%2===0
-        ? o.w/2
-        : o.w*.34;
+        ?o.w/2
+        :o.w*.34;
 
-      const px=
-        Math.cos(a)*r;
-
-      const py=
-        Math.sin(a)*r;
+      const px=Math.cos(a)*r;
+      const py=Math.sin(a)*r;
 
       if(i===0)
         ctx.moveTo(px,py);
@@ -1790,27 +1730,22 @@ function drawObstacle(o){
 
     ctx.fill();
 
-
-  }else if(o.type==="gap"){
+  }else{
 
     ctx.fillStyle="#000";
 
     if(gravityDir>0){
 
       ctx.fillRect(
-        x,
-        ground(),
-        o.w,
-        H-ground()
+        x,ground(),
+        o.w,H-ground()
       );
 
     }else{
 
       ctx.fillRect(
-        x,
-        0,
-        o.w,
-        ceiling()
+        x,0,
+        o.w,ceiling()
       );
     }
   }
@@ -1819,9 +1754,9 @@ function drawObstacle(o){
 }
 
 
-/* =====================================================
+/* =========================
    MONETY
-===================================================== */
+========================= */
 
 function drawCoins(){
 
@@ -1830,31 +1765,26 @@ function drawCoins(){
     if(c.collected)
       continue;
 
-    const x=
-      c.x-progress;
+    const x=c.x-progress;
 
-    if(
-      x<-30||
-      x>W+30
-    )
+    if(x<-30||x>W+30)
       continue;
 
     ctx.save();
 
     ctx.translate(
-      x,
-      c.y
+      x,c.y
     );
 
     ctx.rotate(
-      Math.sin(
-        progress*.02
-      )*.2
+      Math.sin(progress*.02)*.2
     );
 
     ctx.fillStyle="#ffd900";
 
-    ctx.shadowBlur=18;
+    ctx.shadowBlur=
+      effects?18:0;
+
     ctx.shadowColor="#ffd900";
 
     ctx.beginPath();
@@ -1882,9 +1812,9 @@ function drawCoins(){
 }
 
 
-/* =====================================================
-   JUMP PADY
-===================================================== */
+/* =========================
+   PADY
+========================= */
 
 function drawPads(){
 
@@ -1893,20 +1823,19 @@ function drawPads(){
     const x=
       pad.x-progress;
 
-    if(
-      x<-60||
-      x>W+60
-    )
+    if(x<-60||x>W+60)
       continue;
 
     const y=
       gravityDir>0
-      ? ground()-8
-      : ceiling()+8;
+      ?ground()-8
+      :ceiling()+8;
 
     ctx.save();
 
-    ctx.shadowBlur=20;
+    ctx.shadowBlur=
+      effects?20:0;
+
     ctx.shadowColor="#00ff66";
 
     ctx.fillStyle="#00ff66";
@@ -1914,19 +1843,16 @@ function drawPads(){
     ctx.beginPath();
 
     ctx.arc(
-      x+16,
-      y,
+      x+16,y,
       14,
-      0,
-      Math.PI*2
+      0,Math.PI*2
     );
 
     ctx.fill();
 
     ctx.fillStyle="#fff";
 
-    ctx.font=
-      "bold 16px Arial";
+    ctx.font="bold 16px Arial";
 
     ctx.textAlign="center";
 
@@ -1941,9 +1867,9 @@ function drawPads(){
 }
 
 
-/* =====================================================
+/* =========================
    PORTALE
-===================================================== */
+========================= */
 
 function drawPortals(){
 
@@ -1952,50 +1878,43 @@ function drawPortals(){
     const x=
       portal.x-progress;
 
-    if(
-      x<-80||
-      x>W+80
-    )
+    if(x<-80||x>W+80)
       continue;
 
     const y=H*.43;
 
     ctx.save();
 
+    ctx.shadowBlur=
+      effects?25:0;
+
     if(portal.type==="speed"){
 
       ctx.strokeStyle=
         portal.mult>1
-        ? "#00ff88"
-        : "#ff5577";
+        ?" #00ff88"
+        :"#ff5577";
 
-      ctx.shadowBlur=25;
-
-      ctx.shadowColor=
+      ctx.strokeStyle=
         portal.mult>1
-        ? "#00ff88"
-        : "#ff5577";
+        ?"#00ff88"
+        :"#ff5577";
 
       ctx.lineWidth=6;
 
       ctx.beginPath();
 
       ctx.ellipse(
-        x,
-        y,
-        27,
-        55,
-        0,
-        0,
-        Math.PI*2
+        x,y,
+        27,55,
+        0,0,Math.PI*2
       );
 
       ctx.stroke();
 
       ctx.fillStyle="#fff";
 
-      ctx.font=
-        "bold 13px Arial";
+      ctx.font="bold 13px Arial";
 
       ctx.textAlign="center";
 
@@ -2003,15 +1922,13 @@ function drawPortals(){
         portal.mult>1
         ?"SPEED +"
         :"SPEED -",
-        x,
-        y+5
+        x,y+5
       );
 
     }else{
 
       ctx.strokeStyle="#b85cff";
 
-      ctx.shadowBlur=25;
       ctx.shadowColor="#b85cff";
 
       ctx.lineWidth=7;
@@ -2019,26 +1936,21 @@ function drawPortals(){
       ctx.beginPath();
 
       ctx.arc(
-        x,
-        y,
-        35,
-        0,
-        Math.PI*2
+        x,y,35,
+        0,Math.PI*2
       );
 
       ctx.stroke();
 
       ctx.fillStyle="#fff";
 
-      ctx.font=
-        "bold 12px Arial";
+      ctx.font="bold 12px Arial";
 
       ctx.textAlign="center";
 
       ctx.fillText(
         "GRAVITY",
-        x,
-        y+4
+        x,y+4
       );
     }
 
@@ -2047,16 +1959,16 @@ function drawPortals(){
 }
 
 
-/* =====================================================
+/* =========================
    CZĄSTECZKI
-===================================================== */
+========================= */
 
 function spawnParticles(
-  x,
-  y,
-  color,
-  count
+  x,y,color,count
 ){
+
+  if(!effects)
+    return;
 
   for(let i=0;i<count;i++){
 
@@ -2065,28 +1977,25 @@ function spawnParticles(
       x:x,
       y:y,
 
-      vx:
-        (Math.random()-.5)*8,
+      vx:(Math.random()-.5)*8,
+      vy:(Math.random()-.5)*8,
 
-      vy:
-        (Math.random()-.5)*8,
+      life:25+Math.random()*35,
 
-      life:
-        25+
-        Math.random()*35,
-
-      size:
-        2+
-        Math.random()*4,
+      size:2+Math.random()*4,
 
       color:color
-
     });
   }
 }
 
 
 function updateParticles(dt){
+
+  if(!effects){
+    particles=[];
+    return;
+  }
 
   for(
     let i=particles.length-1;
@@ -2109,6 +2018,9 @@ function updateParticles(dt){
 
 function drawParticles(){
 
+  if(!effects)
+    return;
+
   for(const p of particles){
 
     ctx.globalAlpha=
@@ -2120,10 +2032,8 @@ function drawParticles(){
     ctx.fillStyle=p.color;
 
     ctx.fillRect(
-      p.x,
-      p.y,
-      p.size,
-      p.size
+      p.x,p.y,
+      p.size,p.size
     );
   }
 
@@ -2131,9 +2041,9 @@ function drawParticles(){
 }
 
 
-/* =====================================================
+/* =========================
    AUDIO
-===================================================== */
+========================= */
 
 let audio=null;
 
@@ -2145,7 +2055,7 @@ function initAudio(){
   try{
 
     audio=
-      new (
+      new(
         window.AudioContext||
         window.webkitAudioContext
       )();
@@ -2154,10 +2064,7 @@ function initAudio(){
 }
 
 
-function beep(
-  freq,
-  duration
-){
+function beep(freq,duration){
 
   if(!sound)
     return;
@@ -2177,8 +2084,7 @@ function beep(
 
     osc.type="square";
 
-    osc.frequency.value=
-      freq;
+    osc.frequency.value=freq;
 
     gain.gain.value=.035;
 
@@ -2192,13 +2098,11 @@ function beep(
 
     gain.gain.exponentialRampToValueAtTime(
       .001,
-      audio.currentTime+
-      duration
+      audio.currentTime+duration
     );
 
     osc.stop(
-      audio.currentTime+
-      duration
+      audio.currentTime+duration
     );
 
   }catch(e){}
@@ -2217,38 +2121,40 @@ function soundDeath(){
   beep(120,.18);
 }
 
-function soundPortal(){
-  beep(500,.08);
-  setTimeout(()=>{
-    beep(800,.10);
-  },70);
-}
-
-function soundPad(){
-  beep(750,.07);
-  setTimeout(()=>{
-    beep(1100,.08);
-  },60);
-}
-
 function soundWin(){
+
   beep(600,.08);
+
   setTimeout(()=>{
     beep(800,.08);
   },90);
+
+  setTimeout(()=>{
+    beep(1000,.13);
+  },180);
 }
 
 
-/* =====================================================
+function vibrate(pattern){
+
+  if(
+    vibration&&
+    navigator.vibrate
+  ){
+
+    navigator.vibrate(pattern);
+  }
+}
+
+
+/* =========================
    SKOK
-===================================================== */
+========================= */
 
 function jump(){
 
-  if(!playing)
-    return;
-
-  if(paused||
+  if(!playing||
+     paused||
      dead||
      won)
     return;
@@ -2261,22 +2167,22 @@ function jump(){
     player.grounded=false;
 
     spawnParticles(
-      player.x+
-        player.size/2,
-      player.y+
-        player.size/2,
+      player.x+player.size/2,
+      player.y+player.size/2,
       levels[currentLevel][1],
       10
     );
 
     soundJump();
+
+    vibrate(12);
   }
 }
 
 
-/* =====================================================
+/* =========================
    FIZYKA
-===================================================== */
+========================= */
 
 function updatePhysics(dt){
 
@@ -2289,18 +2195,14 @@ function updatePhysics(dt){
     player.vy*
     dt;
 
-
   if(gravityDir>0){
 
     if(
-      player.y+
-      player.size>=
-      ground()
+      player.y+player.size>=ground()
     ){
 
       player.y=
-        ground()-
-        player.size;
+        ground()-player.size;
 
       player.vy=0;
       player.grounded=true;
@@ -2312,9 +2214,7 @@ function updatePhysics(dt){
 
   }else{
 
-    if(
-      player.y<=ceiling()
-    ){
+    if(player.y<=ceiling()){
 
       player.y=ceiling();
 
@@ -2345,9 +2245,9 @@ function updatePhysics(dt){
 }
 
 
-/* =====================================================
+/* =========================
    KOLIZJE
-===================================================== */
+========================= */
 
 function updateCollisions(){
 
@@ -2359,38 +2259,20 @@ function updateCollisions(){
   };
 
 
-  /* PRZESZKODY */
-
   for(const o of obstacles){
 
-    const x=
-      o.x-progress;
-
+    const x=o.x-progress;
 
     if(o.type==="spike"){
 
       const hitX=
-        p.x<x+o.w &&
+        p.x<x+o.w&&
         p.x+p.w>x;
 
-      let hitY=false;
-
-      if(gravityDir>0){
-
-        hitY=
-          p.y+p.h>
-          ground()-
-          o.h+
-          8;
-
-      }else{
-
-        hitY=
-          p.y<
-          ceiling()+
-          o.h-
-          8;
-      }
+      const hitY=
+        gravityDir>0
+        ?p.y+p.h>ground()-o.h+8
+        :p.y<ceiling()+o.h-8;
 
       if(hitX&&hitY){
 
@@ -2398,44 +2280,32 @@ function updateCollisions(){
         return;
       }
 
-
     }else if(o.type==="saw"){
 
-      const cx=
-        x+o.w/2;
+      const cx=x+o.w/2;
 
       const cy=
         gravityDir>0
-        ? ground()-o.h/2
-        : ceiling()+o.h/2;
+        ?ground()-o.h/2
+        :ceiling()+o.h/2;
 
       const closestX=
         Math.max(
           p.x,
-          Math.min(
-            cx,
-            p.x+p.w
-          )
+          Math.min(cx,p.x+p.w)
         );
 
       const closestY=
         Math.max(
           p.y,
-          Math.min(
-            cy,
-            p.y+p.h
-          )
+          Math.min(cy,p.y+p.h)
         );
 
-      const dx=
-        cx-closestX;
-
-      const dy=
-        cy-closestY;
+      const dx=cx-closestX;
+      const dy=cy-closestY;
 
       if(
-        dx*dx+
-        dy*dy<
+        dx*dx+dy*dy<
         (o.w*.43)*
         (o.w*.43)
       ){
@@ -2444,12 +2314,11 @@ function updateCollisions(){
         return;
       }
 
-
-    }else if(o.type==="gap"){
+    }else{
 
       if(
-        player.grounded &&
-        p.x<x+o.w &&
+        player.grounded&&
+        p.x<x+o.w&&
         p.x+p.w>x
       ){
 
@@ -2467,48 +2336,41 @@ function updateCollisions(){
     if(c.collected)
       continue;
 
-    const x=
-      c.x-progress;
+    const x=c.x-progress;
 
     const dx=
-      player.x+
-      player.size/2-
-      x;
+      player.x+player.size/2-x;
 
     const dy=
-      player.y+
-      player.size/2-
-      c.y;
+      player.y+player.size/2-c.y;
 
     const radius=
-      c.r+
-      player.size*.45;
+      c.r+player.size*.45;
 
     if(
-      dx*dx+
-      dy*dy<
+      dx*dx+dy*dy<
       radius*radius
     ){
 
       c.collected=true;
-
       collected++;
 
       spawnParticles(
-        x,
-        c.y,
+        x,c.y,
         "#ffd900",
         18
       );
 
       soundCoin();
 
+      vibrate(20);
+
       flash=.15;
     }
   }
 
 
-  /* JUMP PADY */
+  /* PADY */
 
   for(const pad of pads){
 
@@ -2516,14 +2378,12 @@ function updateCollisions(){
       pad.x-progress;
 
     const center=
-      player.x+
-      player.size/2;
+      player.x+player.size/2;
 
     if(
       Math.abs(
-        center-
-        (x+16)
-      )<25 &&
+        center-(x+16)
+      )<25&&
       player.grounded
     ){
 
@@ -2536,15 +2396,17 @@ function updateCollisions(){
       spawnParticles(
         x+16,
         gravityDir>0
-        ? ground()
-        : ceiling(),
+        ?ground()
+        :ceiling(),
         "#00ff66",
         15
       );
 
-      soundPad();
+      beep(850,.07);
 
-      shake=3;
+      vibrate(25);
+
+      shake=4;
     }
   }
 
@@ -2561,17 +2423,13 @@ function updateCollisions(){
 
     if(
       Math.abs(
-        player.x+
-        player.size/2-
-        x
+        player.x+player.size/2-x
       )<24
     ){
 
       portal.used=true;
 
-      if(
-        portal.type==="speed"
-      ){
+      if(portal.type==="speed"){
 
         currentSpeed=
           Math.max(
@@ -2585,8 +2443,8 @@ function updateCollisions(){
 
         toast(
           portal.mult>1
-          ?"⚡ PRĘDKOŚĆ +"
-          :"🐢 PRĘDKOŚĆ -"
+          ?"⚡ SPEED +"
+          :"🐢 SPEED -"
         );
 
       }else{
@@ -2596,34 +2454,37 @@ function updateCollisions(){
         player.vy=0;
         player.grounded=false;
 
-        toast(
-          "🌀 GRAWITACJA!"
-        );
+        toast("🌀 GRAWITACJA!");
       }
 
       spawnParticles(
-        player.x+
-          player.size/2,
-        player.y+
-          player.size/2,
+        player.x+player.size/2,
+        player.y+player.size/2,
         portal.type==="gravity"
         ?"#b85cff"
         :"#00ffff",
         25
       );
 
-      soundPortal();
+      beep(
+        portal.type==="gravity"
+        ?500
+        :800,
+        .1
+      );
+
+      vibrate([20,30,20]);
 
       flash=.25;
-      shake=5;
+      shake=6;
     }
   }
 }
 
 
-/* =====================================================
+/* =========================
    ŚMIERĆ
-===================================================== */
+========================= */
 
 function die(){
 
@@ -2636,15 +2497,15 @@ function die(){
   levelDeaths++;
 
   spawnParticles(
-    player.x+
-      player.size/2,
-    player.y+
-      player.size/2,
+    player.x+player.size/2,
+    player.y+player.size/2,
     levels[currentLevel][1],
     45
   );
 
   soundDeath();
+
+  vibrate([30,50,30]);
 
   shake=12;
   flash=.5;
@@ -2665,9 +2526,71 @@ function die(){
 }
 
 
-/* =====================================================
+/* =========================
+   CONFETTI
+========================= */
+
+function createConfetti(){
+
+  if(!effects)
+    return;
+
+  winPanel
+    .querySelector(".winBox")
+    .querySelectorAll(".confetti")
+    .forEach(x=>x.remove());
+
+  const box=
+    winPanel.querySelector(
+      ".winBox"
+    );
+
+  for(let i=0;i<65;i++){
+
+    const c=
+      document.createElement(
+        "div"
+      );
+
+    c.className="confetti";
+
+    const colors=[
+      "#00ffff",
+      "#ff35bb",
+      "#ffd900",
+      "#75ff70",
+      "#ffffff",
+      "#8a2cff"
+    ];
+
+    c.style.background=
+      colors[
+        Math.floor(
+          Math.random()*
+          colors.length
+        )
+      ];
+
+    c.style.left=
+      Math.random()*100+"%";
+
+    c.style.animationDuration=
+      1.5+
+      Math.random()*2+
+      "s";
+
+    c.style.animationDelay=
+      Math.random()*.4+
+      "s";
+
+    box.appendChild(c);
+  }
+}
+
+
+/* =========================
    WYGRANA
-===================================================== */
+========================= */
 
 function win(){
 
@@ -2696,14 +2619,22 @@ function win(){
 
   soundWin();
 
+  vibrate([40,60,40]);
+
+  shake=8;
+  flash=.8;
+
   winInfo.textContent=
-    "Poziom: "+
-    levels[currentLevel][0]+
-    " • Monety: "+
+    levels[currentLevel][0];
+
+  winCoins.textContent=
     Number(
       levelCoins[currentLevel]||0
     )+
     "/3";
+
+  winPercent.textContent=
+    "100%";
 
   if(
     currentLevel===
@@ -2719,6 +2650,8 @@ function win(){
       "block";
   }
 
+  createConfetti();
+
   winPanel.style.display=
     "flex";
 
@@ -2726,9 +2659,9 @@ function win(){
 }
 
 
-/* =====================================================
+/* =========================
    UPDATE
-===================================================== */
+========================= */
 
 function update(dt){
 
@@ -2738,14 +2671,14 @@ function update(dt){
      won)
     return;
 
-  const baseSpeed=
+  const speed=
     levels[currentLevel][2];
 
   const length=
     levels[currentLevel][3];
 
   progress+=
-    baseSpeed*
+    speed*
     currentSpeed*
     dt;
 
@@ -2765,36 +2698,37 @@ function update(dt){
   updateParticles(dt);
 
 
-  /* ŚLAD */
+  if(effects){
 
-  trail.push({
-    x:player.x,
-    y:player.y
-  });
+    trail.push({
+      x:player.x,
+      y:player.y
+    });
 
-  if(trail.length>14)
-    trail.shift();
+    if(trail.length>14)
+      trail.shift();
+
+  }else{
+
+    trail=[];
+  }
 
 
   shake*=.88;
+  flash*=.88;
 
   if(shake<.1)
     shake=0;
 
-  flash*=.88;
-
   barFill.style.width=
-    (
-      progress/
-      length*
-      100
-    )+"%";
+    progress/length*100+
+    "%";
 }
 
 
-/* =====================================================
+/* =========================
    RYSOWANIE
-===================================================== */
+========================= */
 
 function draw(){
 
@@ -2804,31 +2738,25 @@ function draw(){
 
   ctx.save();
 
-  if(shake>0){
+  if(effects&&shake>0){
 
     ctx.translate(
-      (Math.random()-.5)*
-      shake,
-      (Math.random()-.5)*
-      shake
+      (Math.random()-.5)*shake,
+      (Math.random()-.5)*shake
     );
   }
 
   drawBackground();
-
   drawGround();
 
   drawPads();
-
   drawPortals();
 
   for(const o of obstacles)
     drawObstacle(o);
 
   drawCoins();
-
   drawTrail();
-
   drawParticles();
 
   if(!dead)
@@ -2838,9 +2766,9 @@ function draw(){
 }
 
 
-/* =====================================================
-   PĘTLA
-===================================================== */
+/* =========================
+   LOOP
+========================= */
 
 function loop(time){
 
@@ -2853,26 +2781,20 @@ function loop(time){
 
   lastTime=time;
 
-  dt=Math.min(
-    dt,
-    2
-  );
+  dt=Math.min(dt,2);
 
   update(dt);
-
   draw();
 
-  requestAnimationFrame(
-    loop
-  );
+  requestAnimationFrame(loop);
 }
 
 requestAnimationFrame(loop);
 
 
-/* =====================================================
-   START GRY
-===================================================== */
+/* =========================
+   START
+========================= */
 
 function startGame(){
 
@@ -2937,7 +2859,7 @@ function startLevel(index){
   initAudio();
 
   if(
-    audio &&
+    audio&&
     audio.state==="suspended"
   ){
 
@@ -2946,9 +2868,9 @@ function startLevel(index){
 }
 
 
-/* =====================================================
+/* =========================
    RESTART
-===================================================== */
+========================= */
 
 function restartLevel(){
 
@@ -2968,9 +2890,9 @@ function restartLevel(){
 }
 
 
-/* =====================================================
+/* =========================
    PAUZA
-===================================================== */
+========================= */
 
 function pauseGame(){
 
@@ -3001,9 +2923,9 @@ function resumeGame(){
 }
 
 
-/* =====================================================
+/* =========================
    POZIOMY
-===================================================== */
+========================= */
 
 function openLevelsMenu(){
 
@@ -3022,9 +2944,7 @@ function openLevelsMenu(){
 
 function showLevels(){
 
-  pausePanel.style.display="none";
-  deadPanel.style.display="none";
-  winPanel.style.display="none";
+  closeAllPanels();
 
   playing=false;
   paused=true;
@@ -3043,8 +2963,7 @@ function closeLevels(){
 
   if(
     game.style.display==="block"&&
-    !dead&&
-    !won
+    !dead&&!won
   ){
 
     paused=false;
@@ -3077,11 +2996,9 @@ function buildMenuLevels(){
 
     button.className=
       "levelButton "+
-      (
-        unlocked
-        ?"unlocked"
-        :"locked"
-      );
+      (unlocked
+       ?"unlocked"
+       :"locked");
 
     button.innerHTML=
       (i+1)+
@@ -3121,31 +3038,9 @@ function buildMenuLevels(){
 }
 
 
-/* =====================================================
-   NASTĘPNY POZIOM
-===================================================== */
-
-function nextLevel(){
-
-  if(
-    currentLevel<
-    levels.length-1
-  ){
-
-    startLevel(
-      currentLevel+1
-    );
-
-  }else{
-
-    backHome();
-  }
-}
-
-
-/* =====================================================
+/* =========================
    OSIĄGNIĘCIA
-===================================================== */
+========================= */
 
 function openAchievements(){
 
@@ -3171,19 +3066,11 @@ function openAchievements(){
 
     div.className=
       "achievement "+
-      (
-        done
-        ?"done"
-        :""
-      );
+      (done?"done":"");
 
     div.innerHTML=
       "<b>"+
-      (
-        done
-        ?"✅ "
-        :"🔒 "
-      )+
+      (done?"✅ ":"🔒 ")+
       a[1]+
       "</b><br>"+
       "<small>"+
@@ -3200,9 +3087,9 @@ function openAchievements(){
 }
 
 
-/* =====================================================
+/* =========================
    USTAWIENIA
-===================================================== */
+========================= */
 
 function openSettings(){
 
@@ -3212,67 +3099,112 @@ function openSettings(){
   playing=false;
   paused=true;
 
-  updateSettingsButton();
+  updateSettings();
 
   settingsPanel.style.display=
     "flex";
 }
 
 
-function updateSettingsButton(){
+function updateSettings(){
 
-  settingsSoundButton.textContent=
+  soundToggle.textContent=
+    sound?"ON":"OFF";
+
+  effectsToggle.textContent=
+    effects?"ON":"OFF";
+
+  vibrationToggle.textContent=
+    vibration?"ON":"OFF";
+
+  soundToggle.classList.toggle(
+    "on",
     sound
-    ?"🔊 DŹWIĘK: WŁĄCZONY"
-    :"🔇 DŹWIĘK: WYŁĄCZONY";
+  );
+
+  effectsToggle.classList.toggle(
+    "on",
+    effects
+  );
+
+  vibrationToggle.classList.toggle(
+    "on",
+    vibration
+  );
+
+  soundButton.textContent=
+    sound?"🔊":"🔇";
 }
 
 
-/* =====================================================
-   ZAMYKANIE PANELI
-===================================================== */
+function toggleSound(){
 
-function closeAllPanels(){
+  sound=!sound;
 
-  pausePanel.style.display="none";
+  save();
+  updateSettings();
 
-  levelsPanel.style.display="none";
-
-  achievementsPanel.style.display=
-    "none";
-
-  settingsPanel.style.display="none";
-
-  deadPanel.style.display="none";
-
-  winPanel.style.display="none";
+  if(sound)
+    beep(700,.06);
 }
 
 
-function closeExtraPanel(){
+function toggleEffects(){
 
-  achievementsPanel.style.display=
-    "none";
+  effects=!effects;
 
-  settingsPanel.style.display=
-    "none";
+  save();
+  updateSettings();
 
-  if(game.style.display==="block"){
-
-    game.style.display="none";
-    home.style.display="block";
-
-    playing=false;
-    paused=false;
-
-    updateHome();
-  }
+  toast(
+    effects
+    ?"✨ Efekty włączone"
+    :"✨ Efekty wyłączone"
+  );
 }
 
 
-/* =====================================================
+function toggleVibration(){
+
+  vibration=!vibration;
+
+  save();
+  updateSettings();
+
+  if(vibration)
+    vibrate(30);
+}
+
+
+/* =========================
+   RESET
+========================= */
+
+function resetProgress(){
+
+  if(
+    !confirm(
+      "Na pewno chcesz usunąć cały postęp?"
+    )
+  )
+    return;
+
+  completed=[];
+  levelCoins=[];
+  achievements={};
+
+  save();
+  updateHome();
+
+  toast(
+    "🗑️ Postęp usunięty."
+  );
+}
+
+
+/* =========================
    MENU GŁÓWNE
-===================================================== */
+========================= */
 
 function backHome(){
 
@@ -3290,278 +3222,53 @@ function backHome(){
 }
 
 
-/* =====================================================
-   RESET
-===================================================== */
+function closeAllPanels(){
 
-function resetProgress(){
-
-  const ok=
-    confirm(
-      "Na pewno chcesz usunąć cały postęp?"
-    );
-
-  if(!ok)
-    return;
-
-  completed=[];
-  levelCoins=[];
-  achievements={};
-
-  save();
-
-  updateHome();
-
-  updateAchievementsPanel();
-
-  toast(
-    "🗑️ Postęp został zresetowany."
-  );
+  pausePanel.style.display="none";
+  levelsPanel.style.display="none";
+  achievementsPanel.style.display="none";
+  settingsPanel.style.display="none";
+  deadPanel.style.display="none";
+  winPanel.style.display="none";
 }
 
 
-function updateAchievementsPanel(){
+/* =========================
+   NASTĘPNY POZIOM
+========================= */
 
-  achievementList.innerHTML="";
+function nextLevel(){
 
-  for(
-    const a of achievementData
+  if(
+    currentLevel<
+    levels.length-1
   ){
 
-    const done=
-      !!achievements[a[0]];
-
-    const div=
-      document.createElement(
-        "div"
-      );
-
-    div.className=
-      "achievement "+
-      (
-        done
-        ?"done"
-        :""
-      );
-
-    div.innerHTML=
-      "<b>"+
-      (
-        done
-        ?"✅ "
-        :"🔒 "
-      )+
-      a[1]+
-      "</b><br><small>"+
-      a[2]+
-      "</small>";
-
-    achievementList.appendChild(
-      div
+    startLevel(
+      currentLevel+1
     );
+
+  }else{
+
+    backHome();
   }
 }
 
 
-/* =====================================================
-   DŹWIĘK
-===================================================== */
-
-function toggleSound(){
-
-  sound=!sound;
-
-  soundButton.textContent=
-    sound
-    ?"🔊"
-    :"🔇";
-
-  updateSettingsButton();
-
-  save();
-
-  if(sound)
-    beep(700,.06);
-}
-
-
-/* =====================================================
-   TOAST
-===================================================== */
-
-let toastTimer=null;
-
-function toast(text){
-
-  toastElement.textContent=
-    text;
-
-  toastElement.classList.add(
-    "show"
-  );
-
-  clearTimeout(
-    toastTimer
-  );
-
-  toastTimer=
-    setTimeout(()=>{
-      toastElement.classList.remove(
-        "show"
-      );
-    },1800);
-}
-
-
-/* =====================================================
-   KLAWIATURA
-===================================================== */
-
-window.addEventListener(
-  "keydown",
-  function(e){
-
-    if(
-      e.code==="Space"||
-      e.code==="ArrowUp"||
-      e.code==="KeyW"
-    ){
-
-      e.preventDefault();
-
-      if(!e.repeat)
-        jump();
-    }
-
-
-    if(
-      e.code==="Escape"
-    ){
-
-      if(
-        game.style.display==="block"&&
-        playing
-      ){
-
-        pauseGame();
-      }
-    }
-
-
-    if(
-      e.code==="KeyR"&&
-      game.style.display==="block"
-    ){
-
-      restartLevel();
-    }
-  }
-);
-
-
-/* =====================================================
-   MYSZ / KLIK
-===================================================== */
-
-canvas.addEventListener(
-  "pointerdown",
-  function(e){
-
-    if(
-      e.pointerType==="mouse"||
-      e.pointerType==="pen"
-    ){
-
-      jump();
-    }
-  }
-);
-
-
-/* =====================================================
-   TELEFON
-===================================================== */
-
-mobileJump.addEventListener(
-  "pointerdown",
-  function(e){
-
-    e.preventDefault();
-
-    jump();
-  }
-);
-
-
-canvas.addEventListener(
-  "touchstart",
-  function(e){
-
-    e.preventDefault();
-
-    jump();
-
-  },
-  {
-    passive:false
-  }
-);
-
-
-/* =====================================================
-   AUTO PAUZA
-===================================================== */
-
-document.addEventListener(
-  "visibilitychange",
-  function(){
-
-    if(
-      document.hidden&&
-      playing&&
-      !dead&&
-      !won
-    ){
-
-      pauseGame();
-    }
-  }
-);
-
-
-window.addEventListener(
-  "blur",
-  function(){
-
-    if(
-      playing&&
-      !dead&&
-      !won
-    ){
-
-      pauseGame();
-    }
-  }
-);
-
-
-/* =====================================================
-   AKTUALIZACJA MENU
-===================================================== */
+/* =========================
+   HOME
+========================= */
 
 function updateHome(){
 
   completedCount.textContent=
-    completedTotal()+
-    "/12";
+    completedTotal()+"/12";
 
   coinCount.textContent=
-    coinsTotal()+
-    "/36";
+    coinsTotal()+"/36";
 
   achievementCount.textContent=
-    achievementTotal()+
-    "/8";
+    achievementTotal()+"/8";
 
   levelList.innerHTML="";
 
@@ -3582,11 +3289,7 @@ function updateHome(){
 
     card.className=
       "levelCard "+
-      (
-        unlocked
-        ?""
-        :"locked"
-      );
+      (unlocked?"":"locked");
 
     card.style.borderColor=
       unlocked
@@ -3614,27 +3317,165 @@ function updateHome(){
       )+
       "</div>";
 
-    levelList.appendChild(
-      card
-    );
+    levelList.appendChild(card);
   }
 }
 
 
-/* =====================================================
-   START
-===================================================== */
+/* =========================
+   TOAST
+========================= */
 
-createMenuStars();
+let toastTimer;
+
+function toast(text){
+
+  toastElement.textContent=
+    text;
+
+  toastElement.classList.add(
+    "show"
+  );
+
+  clearTimeout(
+    toastTimer
+  );
+
+  toastTimer=
+    setTimeout(()=>{
+      toastElement.classList.remove(
+        "show"
+      );
+    },1800);
+}
+
+
+/* =========================
+   KLAWIATURA
+========================= */
+
+window.addEventListener(
+  "keydown",
+  function(e){
+
+    if(
+      e.code==="Space"||
+      e.code==="ArrowUp"||
+      e.code==="KeyW"
+    ){
+
+      e.preventDefault();
+
+      if(!e.repeat)
+        jump();
+    }
+
+    if(
+      e.code==="Escape"
+    ){
+
+      if(
+        game.style.display==="block"&&
+        playing
+      )
+        pauseGame();
+    }
+
+    if(
+      e.code==="KeyR"&&
+      game.style.display==="block"
+    ){
+
+      restartLevel();
+    }
+  }
+);
+
+
+/* =========================
+   MYSZ
+========================= */
+
+canvas.addEventListener(
+  "pointerdown",
+  function(e){
+
+    if(
+      e.pointerType==="mouse"||
+      e.pointerType==="pen"
+    )
+      jump();
+  }
+);
+
+
+/* =========================
+   TELEFON
+========================= */
+
+mobileJump.addEventListener(
+  "pointerdown",
+  function(e){
+
+    e.preventDefault();
+
+    jump();
+  }
+);
+
+
+canvas.addEventListener(
+  "touchstart",
+  function(e){
+
+    e.preventDefault();
+
+    jump();
+
+  },
+  {passive:false}
+);
+
+
+/* =========================
+   AUTO PAUZA
+========================= */
+
+document.addEventListener(
+  "visibilitychange",
+  function(){
+
+    if(
+      document.hidden&&
+      playing&&
+      !dead&&
+      !won
+    )
+      pauseGame();
+  }
+);
+
+window.addEventListener(
+  "blur",
+  function(){
+
+    if(
+      playing&&
+      !dead&&
+      !won
+    )
+      pauseGame();
+  }
+);
+
+
+/* =========================
+   START
+========================= */
 
 resize();
 
-soundButton.textContent=
-  sound
-  ?"🔊"
-  :"🔇";
-
-updateSettingsButton();
+updateSettings();
 
 updateHome();
 
