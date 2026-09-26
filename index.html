@@ -1,1545 +1,700 @@
 ```html
-<!DOCTYPE html>
-<html lang="pl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Neon Dash</title>
-<style>
-*{box-sizing:border-box}
-html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050510;color:white;font-family:Arial,sans-serif}
-button{font:inherit}
-#app{width:100%;height:100%;position:relative}
-.screen{position:absolute;inset:0;display:none;overflow:hidden}
-.screen.active{display:block}
+<!--
+  NEON DASH
+  NOWE MENU:
+  - animowane neonowe tło
+  - gwiazdy i cząsteczki
+  - neonowe logo
+  - panel statystyk
+  - licznik monet
+  - liczba ukończonych poziomów
+  - przyciski z animacjami
+  - podświetlenie przy najechaniu
+  - responsywność PC + telefon
+  - zachowane istniejące funkcje gry
+
+  WSTAW TEN BLOK CSS DO SWOJEGO index.html
+  zamiast starego CSS MENU.
+*/
+
+/* =========================
+   NOWE NEONOWE MENU
+========================= */
 
 #menu{
+  position:absolute;
+  inset:0;
+  overflow:hidden;
+
   background:
-    radial-gradient(circle at 50% 25%,#18205c 0,#080a22 35%,#03030d 80%);
+    radial-gradient(
+      circle at 50% 35%,
+      #14275c 0%,
+      #0a102c 30%,
+      #050718 62%,
+      #02030b 100%
+    );
 }
-.menu-stars{position:absolute;inset:0;overflow:hidden}
+
+/* delikatna siatka */
+
+#menu::before{
+  content:"";
+  position:absolute;
+  inset:-100px;
+
+  background-image:
+    linear-gradient(#00eaff12 1px,transparent 1px),
+    linear-gradient(90deg,#00eaff12 1px,transparent 1px);
+
+  background-size:50px 50px;
+
+  transform:perspective(500px)
+            rotateX(60deg)
+            translateY(160px)
+            scale(1.5);
+
+  animation:menuGrid 7s linear infinite;
+
+  pointer-events:none;
+}
+
+@keyframes menuGrid{
+  from{
+    background-position:0 0,0 0;
+  }
+  to{
+    background-position:0 50px,50px 0;
+  }
+}
+
+/* gwiazdy */
+
+.menu-stars{
+  position:absolute;
+  inset:0;
+  overflow:hidden;
+  pointer-events:none;
+}
+
 .menu-star{
-  position:absolute;width:2px;height:2px;background:#fff;border-radius:50%;
-  opacity:.7;animation:twinkle 2s infinite alternate
+  position:absolute;
+  width:2px;
+  height:2px;
+
+  background:#fff;
+  border-radius:50%;
+
+  box-shadow:
+    0 0 5px #fff,
+    0 0 10px #00eaff;
+
+  animation:
+    menuStarMove linear infinite,
+    menuStarBlink ease-in-out infinite alternate;
 }
-@keyframes twinkle{from{opacity:.2}to{opacity:1}}
+
+@keyframes menuStarMove{
+  from{
+    transform:translateY(0);
+  }
+  to{
+    transform:translateY(110vh);
+  }
+}
+
+@keyframes menuStarBlink{
+  from{opacity:.15}
+  to{opacity:1}
+}
+
+/* główne centrum */
 
 .menu-content{
-  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
-  width:min(92%,520px);text-align:center
+  position:absolute;
+
+  left:50%;
+  top:50%;
+
+  transform:translate(-50%,-50%);
+
+  width:min(94%,560px);
+
+  text-align:center;
+
+  z-index:5;
 }
+
+/* LOGO */
+
 .logo{
-  font-size:clamp(45px,9vw,85px);font-weight:900;letter-spacing:4px;
-  color:#fff;text-shadow:0 0 8px #00ffff,0 0 25px #00ffff,0 0 55px #0088ff;
-  margin-bottom:35px
+  position:relative;
+
+  margin-bottom:8px;
+
+  font-size:clamp(48px,9vw,88px);
+
+  font-weight:1000;
+
+  letter-spacing:5px;
+
+  color:#fff;
+
+  text-transform:uppercase;
+
+  animation:
+    logoFloat 3s ease-in-out infinite,
+    logoGlow 2s ease-in-out infinite alternate;
+
+  user-select:none;
 }
-.menu-buttons{display:grid;gap:12px}
+
+.logo::before{
+  content:"NEON DASH";
+
+  position:absolute;
+  left:50%;
+  top:50%;
+
+  transform:translate(-50%,-50%);
+
+  color:#00ffff;
+
+  opacity:.22;
+
+  filter:blur(14px);
+
+  z-index:-1;
+
+  white-space:nowrap;
+}
+
+@keyframes logoFloat{
+  0%,100%{
+    transform:translateY(0);
+  }
+  50%{
+    transform:translateY(-7px);
+  }
+}
+
+@keyframes logoGlow{
+  from{
+    text-shadow:
+      0 0 5px #00ffff,
+      0 0 15px #00ffff,
+      0 0 35px #0088ff;
+  }
+  to{
+    text-shadow:
+      0 0 8px #fff,
+      0 0 20px #00ffff,
+      0 0 45px #00aaff,
+      0 0 75px #0066ff;
+  }
+}
+
+/* napis pod logo */
+
+.menu-subtitle{
+  color:#8cefff;
+  font-size:12px;
+  letter-spacing:5px;
+  margin-bottom:22px;
+  opacity:.8;
+}
+
+/* statystyki */
+
+.menu-stats{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+
+  margin:0 auto 18px;
+
+  width:min(100%,480px);
+}
+
+.menu-stat{
+  flex:1;
+
+  min-width:0;
+
+  padding:10px 8px;
+
+  border:1px solid #00dfff55;
+
+  border-radius:10px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #071a32cc,
+      #071020cc
+    );
+
+  box-shadow:
+    inset 0 0 20px #00eaff08,
+    0 0 15px #00eaff0d;
+
+  backdrop-filter:blur(5px);
+}
+
+.menu-stat-value{
+  font-size:21px;
+  font-weight:900;
+  color:#fff;
+
+  text-shadow:
+    0 0 8px #00eaff;
+}
+
+.menu-stat-label{
+  margin-top:3px;
+
+  font-size:9px;
+  letter-spacing:1px;
+
+  color:#79ddeb;
+}
+
+/* przyciski */
+
+.menu-buttons{
+  display:grid;
+  gap:10px;
+
+  width:min(100%,460px);
+
+  margin:auto;
+}
+
 .menu-btn{
-  border:2px solid #00eaff;background:#07182c;color:#fff;
-  padding:15px;border-radius:10px;font-size:20px;font-weight:bold;
-  cursor:pointer;box-shadow:0 0 12px #00aaff55;
-  transition:.15s
-}
-.menu-btn:hover{transform:scale(1.03);background:#0a2945;box-shadow:0 0 20px #00eaff88}
+  position:relative;
 
-#game{background:#050510}
-canvas{display:block;width:100%;height:100%}
-#hud{
-  position:absolute;left:0;right:0;top:0;padding:12px 16px;
-  pointer-events:none
-}
-.hud-row{display:flex;align-items:center;gap:10px}
-#levelName{font-weight:bold;font-size:18px;text-shadow:0 0 8px currentColor}
-#progressBox{
-  flex:1;height:12px;border:1px solid #fff;border-radius:10px;overflow:hidden;
-  background:#ffffff18
-}
-#progress{height:100%;width:0;background:#00ffff;box-shadow:0 0 10px #00ffff}
-#coinHud{font-weight:bold}
-#pauseBtn{
-  pointer-events:auto;border:1px solid #fff;background:#111a;color:#fff;
-  border-radius:7px;padding:7px 12px;cursor:pointer
-}
-#mobileJump{
-  position:absolute;right:25px;bottom:25px;width:90px;height:90px;
-  border-radius:50%;border:3px solid #fff;background:#00ffff33;color:#fff;
-  font-size:18px;font-weight:bold;display:none;touch-action:none
+  min-height:54px;
+
+  border:1px solid #00eaff;
+
+  border-radius:12px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #061426,
+      #0a2038,
+      #061426
+    );
+
+  color:white;
+
+  font-size:17px;
+  font-weight:900;
+
+  letter-spacing:1px;
+
+  cursor:pointer;
+
+  overflow:hidden;
+
+  box-shadow:
+    0 0 10px #00eaff22,
+    inset 0 0 20px #00eaff08;
+
+  transition:
+    transform .15s,
+    border-color .15s,
+    box-shadow .15s,
+    background .15s;
 }
 
-.overlay{
-  position:absolute;inset:0;background:#000b;display:none;
-  align-items:center;justify-content:center;text-align:center
-}
-.overlay.show{display:flex}
-.panel{
-  width:min(92%,650px);max-height:88vh;overflow:auto;
-  background:#081020;border:2px solid #00eaff;border-radius:16px;
-  padding:25px;box-shadow:0 0 30px #00cfff44
-}
-.panel h2{font-size:35px;margin:0 0 20px}
-.panel-buttons{display:grid;gap:10px}
-.panel button,.level-card,.skin-card{
-  border:1px solid #00d9ff;background:#071a2c;color:white;
-  border-radius:10px;padding:12px;cursor:pointer
-}
-.panel button:hover,.level-card:hover,.skin-card:hover{background:#0d3049}
+/* światło przechodzące po przycisku */
 
-.level-grid,.skin-grid,.achievement-grid{
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px
-}
-.level-card{text-align:left;min-height:95px}
-.level-number{font-size:13px;opacity:.7}
-.level-title{font-weight:bold;margin-top:5px}
-.level-status{font-size:13px;margin-top:8px}
-.locked{opacity:.45;cursor:not-allowed}
-.skin-card{min-height:120px}
-.skin-preview{
-  width:42px;height:42px;margin:0 auto 8px;border:2px solid #fff;
-  box-shadow:0 0 10px currentColor
-}
-.price{font-size:13px;color:#ffe66d}
-.selected{outline:3px solid #fff}
+.menu-btn::before{
+  content:"";
 
-.setting{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:14px;border-bottom:1px solid #ffffff18
-}
-.setting input{width:22px;height:22px}
+  position:absolute;
 
-#deathTitle{color:#ff4050;text-shadow:0 0 15px #ff4050}
-#winTitle{color:#7dff8b;text-shadow:0 0 15px #7dff8b}
-.big{font-size:50px;font-weight:900}
-.small{opacity:.75}
+  top:0;
+  left:-100%;
+
+  width:60%;
+  height:100%;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      #ffffff20,
+      transparent
+    );
+
+  transform:skewX(-20deg);
+
+  transition:left .45s;
+}
+
+.menu-btn:hover::before{
+  left:140%;
+}
+
+.menu-btn:hover{
+  transform:
+    translateY(-2px)
+    scale(1.025);
+
+  border-color:#fff;
+
+  background:
+    linear-gradient(
+      90deg,
+      #08233e,
+      #0d3654,
+      #08233e
+    );
+
+  box-shadow:
+    0 0 10px #00eaff88,
+    0 0 30px #00eaff33,
+    inset 0 0 25px #00eaff12;
+}
+
+.menu-btn:active{
+  transform:scale(.97);
+}
+
+/* główny przycisk GRAJ */
+
+.menu-btn.play{
+  min-height:66px;
+
+  font-size:22px;
+
+  border:2px solid #00ffff;
+
+  background:
+    linear-gradient(
+      90deg,
+      #063a45,
+      #07596a,
+      #063a45
+    );
+
+  box-shadow:
+    0 0 15px #00ffff66,
+    0 0 35px #00ffff22;
+}
+
+.menu-btn.play:hover{
+  box-shadow:
+    0 0 20px #00ffffaa,
+    0 0 50px #00ffff44;
+}
+
+/* dolny pasek */
+
+.menu-footer{
+  margin-top:17px;
+
+  font-size:9px;
+
+  color:#608797;
+
+  letter-spacing:2px;
+}
+
+/* wersja */
+
+.menu-version{
+  position:absolute;
+
+  right:12px;
+  bottom:10px;
+
+  font-size:9px;
+
+  color:#42606e;
+
+  letter-spacing:1px;
+}
+
+/* =========================
+   NOWE KARTY POZIOMÓW
+========================= */
+
+#levels{
+  background:
+    radial-gradient(
+      circle at 50% 20%,
+      #102452,
+      #050817 70%
+    );
+}
+
+#levels .panel{
+  border-color:#00eaff;
+  box-shadow:
+    0 0 25px #00eaff22,
+    inset 0 0 35px #00eaff06;
+}
+
+#levels .panel h2{
+  text-shadow:
+    0 0 10px #00eaff,
+    0 0 25px #0088ff;
+}
+
+.level-grid{
+  display:grid;
+
+  grid-template-columns:
+    repeat(auto-fit,minmax(170px,1fr));
+
+  gap:11px;
+}
+
+.level-card{
+  position:relative;
+
+  min-height:105px;
+
+  overflow:hidden;
+
+  text-align:left;
+
+  border:1px solid #00d9ff55;
+
+  background:
+    linear-gradient(
+      145deg,
+      #071a2d,
+      #071020
+    );
+
+  transition:
+    transform .15s,
+    box-shadow .15s;
+}
+
+.level-card:hover{
+  transform:translateY(-3px);
+
+  box-shadow:
+    0 0 18px #00eaff44;
+}
+
+.level-card::after{
+  content:"";
+
+  position:absolute;
+
+  left:0;
+  right:0;
+  bottom:0;
+
+  height:3px;
+
+  background:currentColor;
+
+  box-shadow:0 0 10px currentColor;
+}
+
+.level-number{
+  font-size:10px;
+  color:#6f9baa;
+  letter-spacing:1px;
+}
+
+.level-title{
+  margin-top:7px;
+
+  font-size:16px;
+  font-weight:900;
+}
+
+.level-status{
+  margin-top:10px;
+
+  font-size:11px;
+  color:#a5c9d2;
+}
+
+/* =========================
+   RESPONSYWNOŚĆ
+========================= */
 
 @media(max-width:700px){
-  #mobileJump{display:block}
-  .menu-btn{font-size:17px;padding:12px}
-}
-</style>
-</head>
-<body>
-<div id="app">
 
-<section id="menu" class="screen active">
-  <div class="menu-stars" id="menuStars"></div>
-  <div class="menu-content">
-    <div class="logo">NEON DASH</div>
-    <div class="menu-buttons">
-      <button class="menu-btn" onclick="showLevels()">▶ GRAJ</button>
-      <button class="menu-btn" onclick="showLevels()">⚡ POZIOMY</button>
-      <button class="menu-btn" onclick="showSkins()">🎨 SKLEP SKÓREK</button>
-      <button class="menu-btn" onclick="showAchievements()">🏆 OSIĄGNIĘCIA</button>
-      <button class="menu-btn" onclick="showSettings()">⚙ USTAWIENIA</button>
-    </div>
-  </div>
-</section>
-
-<section id="game" class="screen">
-  <canvas id="canvas"></canvas>
-
-  <div id="hud">
-    <div class="hud-row">
-      <span id="levelName"></span>
-      <div id="progressBox"><div id="progress"></div></div>
-      <span id="coinHud">🪙 0/3</span>
-      <button id="pauseBtn" onclick="pauseGame()">Ⅱ</button>
-    </div>
-  </div>
-
-  <button id="mobileJump">JUMP</button>
-
-  <div id="pauseOverlay" class="overlay">
-    <div class="panel">
-      <h2>PAUZA</h2>
-      <div class="panel-buttons">
-        <button onclick="resumeGame()">▶ WRÓĆ DO GRY</button>
-        <button onclick="restartLevel()">↻ RESTART</button>
-        <button onclick="backHome()">⌂ MENU</button>
-      </div>
-    </div>
-  </div>
-
-  <div id="deathOverlay" class="overlay">
-    <div class="panel">
-      <div id="deathTitle" class="big">ROZBITY!</div>
-      <p id="deathText"></p>
-      <div class="panel-buttons">
-        <button onclick="restartLevel()">↻ SPRÓBUJ PONOWNIE</button>
-        <button onclick="backHome()">⌂ MENU</button>
-      </div>
-    </div>
-  </div>
-
-  <div id="winOverlay" class="overlay">
-    <div class="panel">
-      <div id="winTitle" class="big">LEVEL COMPLETE!</div>
-      <p>100%</p>
-      <p id="winCoins"></p>
-      <div class="panel-buttons">
-        <button onclick="nextLevel()">▶ NASTĘPNY POZIOM</button>
-        <button onclick="restartLevel()">↻ ZAGRAJ JESZCZE RAZ</button>
-        <button onclick="backHome()">⌂ MENU</button>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="levels" class="screen">
-  <div class="panel" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)">
-    <h2>POZIOMY</h2>
-    <div id="levelGrid" class="level-grid"></div>
-    <br>
-    <button onclick="backHome()">← MENU</button>
-  </div>
-</section>
-
-<section id="skins" class="screen">
-  <div class="panel" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)">
-    <h2>SKLEP SKÓREK</h2>
-    <p>Monety: 🪙 <span id="shopCoins">0</span></p>
-    <div id="skinGrid" class="skin-grid"></div>
-    <br>
-    <button onclick="backHome()">← MENU</button>
-  </div>
-</section>
-
-<section id="achievements" class="screen">
-  <div class="panel" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)">
-    <h2>OSIĄGNIĘCIA</h2>
-    <div id="achievementGrid" class="achievement-grid"></div>
-    <br>
-    <button onclick="backHome()">← MENU</button>
-  </div>
-</section>
-
-<section id="settings" class="screen">
-  <div class="panel" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)">
-    <h2>USTAWIENIA</h2>
-
-    <div class="setting">
-      <span>🎵 Muzyka</span>
-      <input id="musicToggle" type="checkbox" checked onchange="settings.music=this.checked;saveData();if(settings.music&&playing)startMusic();else stopMusic()">
-    </div>
-
-    <div class="setting">
-      <span>🔊 Dźwięki</span>
-      <input id="soundToggle" type="checkbox" checked onchange="settings.sound=this.checked;saveData()">
-    </div>
-
-    <div class="setting">
-      <span>✨ Efekty</span>
-      <input id="fxToggle" type="checkbox" checked onchange="settings.fx=this.checked;saveData()">
-    </div>
-
-    <br>
-    <button onclick="backHome()">← MENU</button>
-  </div>
-</section>
-
-</div>
-
-<script>
-/* =========================
-   DANE
-========================= */
-
-const levels=[
-["NEON RUSH","#00ffff",5.8,7000,150,261.63,[0,2,4,7,4,2,0,4]],
-["CRYSTAL DRIVE","#6fa8ff",6.0,7300,128,220,[0,4,7,9,7,4,2,4]],
-["LAVA PULSE","#ff482e",6.2,7600,172,164.81,[0,3,5,7,5,3,2,0]],
-["SKY CIRCUIT","#75ff70",6.4,7900,138,196,[0,2,5,7,9,7,5,2]],
-["VIOLET RUN","#c86cff",6.6,8200,160,246.94,[0,3,7,10,7,5,3,0]],
-["SHADOW FACTORY","#aaaabb",6.8,8500,118,146.83,[0,2,0,5,7,5,2,0]],
-["CYBER STORM","#00aaff",7.0,8800,180,185,[0,4,7,11,9,7,4,2]],
-["INFERNO CORE","#ff7800",7.2,9000,190,130.81,[0,3,7,8,7,3,10,7]],
-["ELECTRIC VOID","#eeff00",7.4,9200,165,220,[0,2,4,8,11,8,4,2]],
-["GRAVITY BREAK","#ff35bb",7.6,9400,145,174.61,[0,5,7,10,12,10,7,5]],
-["OVERDRIVE","#00ff88",7.8,9600,200,196,[0,4,5,9,12,9,5,4]],
-["FINAL CHAOS","#ffffff",8.0,10000,210,130.81,[0,2,7,10,12,10,7,2]],
-["STARFALL","#58a6ff",8.2,10400,132,233.08,[0,4,7,11,9,7,4,2]],
-["QUANTUM","#b76cff",8.4,10800,175,196,[0,3,6,10,12,10,6,3]],
-["NEON INFERNO","#ff4f81",8.6,11200,198,155.56,[0,4,8,11,8,4,7,3]],
-["ZERO GRAVITY","#45ffff",8.8,11600,125,174.61,[0,7,9,12,9,7,5,0]],
-["NIGHTMARE","#ff3333",9.0,12000,205,123.47,[0,1,5,7,10,7,5,1]],
-["ULTIMATE DASH","#ffffff",9.3,12600,220,261.63,[0,4,7,12,14,12,7,4]]
-];
-
-const skins=[
-["CLASSIC","#ffffff",0],
-["CYAN","#00ffff",10],
-["LIME","#8cff5a",20],
-["VIOLET","#c86cff",30],
-["FIRE","#ff4b2e",40],
-["GOLD","#ffd83d",60],
-["PINK","#ff55c8",80],
-["ICE","#8eeeff",100]
-];
-
-const achievements=[
-["first","Pierwszy krok","Ukończ pierwszy poziom"],
-["three","Trzy poziomy","Ukończ 3 poziomy"],
-["six","Sześć poziomów","Ukończ 6 poziomów"],
-["all","Mistrz","Ukończ wszystkie poziomy"],
-["coins10","Łowca monet","Zbierz 10 monet"],
-["coins25","Kolekcjoner","Zbierz 25 monet"],
-["perfect","Perfekcja","Ukończ poziom bez śmierci"],
-["survivor","Niezniszczalny","Ukończ poziom po 5+ próbach"]
-];
-
-/* =========================
-   ZAPIS
-========================= */
-
-let data=JSON.parse(localStorage.getItem("neonDashSave")||"null")||{
-  unlocked:1,
-  completed:[],
-  coins:0,
-  collected:[],
-  ownedSkins:[0],
-  selectedSkin:0,
-  achievements:[],
-  settings:{music:true,sound:true,fx:true}
-};
-
-let settings=data.settings;
-function saveData(){
-  data.settings=settings;
-  localStorage.setItem("neonDashSave",JSON.stringify(data));
-}
-
-/* =========================
-   EKRANY
-========================= */
-
-const screens=document.querySelectorAll(".screen");
-function show(id){
-  screens.forEach(x=>x.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
-}
-
-function backHome(){
-  stopLoop();
-  stopMusic();
-  playing=false;
-  victoryAnimation=false;
-  document.querySelectorAll(".overlay").forEach(x=>x.classList.remove("show"));
-  show("menu");
-}
-
-function showLevels(){
-  renderLevels();
-  show("levels");
-}
-
-function showSkins(){
-  renderSkins();
-  show("skins");
-}
-
-function showAchievements(){
-  renderAchievements();
-  show("achievements");
-}
-
-function showSettings(){
-  musicToggle.checked=settings.music;
-  soundToggle.checked=settings.sound;
-  fxToggle.checked=settings.fx;
-  show("settings");
-}
-
-/* =========================
-   AUDIO
-========================= */
-
-let audioCtx=null;
-let masterGain=null;
-let musicGain=null;
-let musicTimer=null;
-let musicStep=0;
-let musicRunning=false;
-
-function initAudio(){
-  if(!audioCtx){
-    const AC=window.AudioContext||window.webkitAudioContext;
-    if(!AC)return false;
-
-    audioCtx=new AC();
-
-    masterGain=audioCtx.createGain();
-    musicGain=audioCtx.createGain();
-
-    masterGain.gain.value=.85;
-    musicGain.gain.value=.34;
-
-    musicGain.connect(masterGain);
-    masterGain.connect(audioCtx.destination);
+  .menu-content{
+    width:92%;
   }
 
-  if(audioCtx.state==="suspended"){
-    audioCtx.resume().catch(()=>{});
+  .logo{
+    font-size:clamp(42px,13vw,70px);
   }
 
-  return true;
-}
-
-/* Ważna poprawka:
-   muzyka ma osobny kanał i jest uruchamiana po kliknięciu GRAJ. */
-
-function note(freq,duration=.12,type="square",volume=.12,when=0){
-  if(!audioCtx||!settings.music)return;
-
-  const osc=audioCtx.createOscillator();
-  const gain=audioCtx.createGain();
-
-  osc.type=type;
-  osc.frequency.setValueAtTime(freq,when);
-
-  gain.gain.setValueAtTime(.0001,when);
-  gain.gain.exponentialRampToValueAtTime(Math.max(.0001,volume),when+.008);
-  gain.gain.exponentialRampToValueAtTime(.0001,when+duration);
-
-  osc.connect(gain);
-  gain.connect(musicGain);
-
-  osc.start(when);
-  osc.stop(when+duration+.02);
-}
-
-function kick(when){
-  if(!audioCtx||!settings.music)return;
-
-  const osc=audioCtx.createOscillator();
-  const gain=audioCtx.createGain();
-
-  osc.type="sine";
-  osc.frequency.setValueAtTime(130,when);
-  osc.frequency.exponentialRampToValueAtTime(45,when+.12);
-
-  gain.gain.setValueAtTime(.22,when);
-  gain.gain.exponentialRampToValueAtTime(.001,when+.13);
-
-  osc.connect(gain);
-  gain.connect(musicGain);
-
-  osc.start(when);
-  osc.stop(when+.15);
-}
-
-function snare(when){
-  if(!audioCtx||!settings.music)return;
-
-  const buffer=audioCtx.createBuffer(1,audioCtx.sampleRate*.08,audioCtx.sampleRate);
-  const ch=buffer.getChannelData(0);
-
-  for(let i=0;i<ch.length;i++){
-    ch[i]=(Math.random()*2-1)*(1-i/ch.length);
+  .menu-subtitle{
+    font-size:9px;
+    letter-spacing:3px;
   }
 
-  const src=audioCtx.createBufferSource();
-  const gain=audioCtx.createGain();
-
-  src.buffer=buffer;
-  gain.gain.value=.08;
-
-  src.connect(gain);
-  gain.connect(musicGain);
-
-  src.start(when);
-}
-
-function hat(when){
-  if(!audioCtx||!settings.music)return;
-
-  const buffer=audioCtx.createBuffer(1,audioCtx.sampleRate*.035,audioCtx.sampleRate);
-  const ch=buffer.getChannelData(0);
-
-  for(let i=0;i<ch.length;i++){
-    ch[i]=(Math.random()*2-1)*(1-i/ch.length);
+  .menu-stats{
+    gap:6px;
   }
 
-  const src=audioCtx.createBufferSource();
-  const gain=audioCtx.createGain();
-
-  src.buffer=buffer;
-  gain.gain.value=.035;
-
-  src.connect(gain);
-  gain.connect(musicGain);
-
-  src.start(when);
-}
-
-function startMusic(){
-  if(!settings.music)return;
-  if(!playing)return;
-
-  initAudio();
-  if(!audioCtx)return;
-
-  stopMusic();
-
-  musicRunning=true;
-  musicStep=0;
-
-  const level=levels[currentLevel];
-  const beat=60/level[4];
-
-  function schedule(){
-    if(!musicRunning||!playing||paused||dead||won)return;
-
-    const now=audioCtx.currentTime+.03;
-
-    for(let i=0;i<8;i++){
-      const step=musicStep+i;
-      const t=now+i*beat/2;
-
-      const melody=level[6][step%level[6].length];
-      const freq=level[5]*Math.pow(2,melody/12);
-
-      note(freq,beat*.38,"square",.105,t);
-
-      if(step%2===0){
-        const bass=level[5]/2*Math.pow(2,level[6][(step/2)%level[6].length]/12);
-        note(bass,beat*.7,"triangle",.085,t);
-        kick(t);
-      }
-
-      if(step%4===2)snare(t);
-      hat(t);
-      if(step%8===4){
-        const harmony=freq*1.5;
-        note(harmony,beat*.25,"sawtooth",.035,t);
-      }
-    }
-
-    musicStep+=8;
-    musicTimer=setTimeout(schedule,beat*4000);
+  .menu-stat{
+    padding:8px 5px;
   }
 
-  schedule();
-}
-
-function stopMusic(){
-  musicRunning=false;
-  if(musicTimer){
-    clearTimeout(musicTimer);
-    musicTimer=null;
-  }
-}
-
-function sfx(freq,duration=.08,type="square",volume=.08){
-  if(!settings.sound)return;
-  initAudio();
-  if(!audioCtx)return;
-
-  const osc=audioCtx.createOscillator();
-  const gain=audioCtx.createGain();
-
-  osc.type=type;
-  osc.frequency.value=freq;
-
-  gain.gain.setValueAtTime(volume,audioCtx.currentTime);
-  gain.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+duration);
-
-  osc.connect(gain);
-  gain.connect(masterGain);
-
-  osc.start();
-  osc.stop(audioCtx.currentTime+duration+.02);
-}
-
-/* =========================
-   GRA
-========================= */
-
-const canvas=document.getElementById("canvas");
-const ctx=canvas.getContext("2d");
-
-let W=innerWidth,H=innerHeight;
-function resize(){
-  W=canvas.width=innerWidth;
-  H=canvas.height=innerHeight;
-}
-addEventListener("resize",resize);
-resize();
-
-let currentLevel=0;
-let playing=false;
-let paused=false;
-let dead=false;
-let won=false;
-let animationFrame=null;
-
-let player;
-let obstacles=[];
-let coins=[];
-let pads=[];
-let portals=[];
-let particles=[];
-let trail=[];
-let stars=[];
-let attempts=0;
-let levelCoins=0;
-let cameraX=0;
-let worldSpeed=6;
-let victoryAnimation=false;
-let victoryStart=0;
-
-function createStars(){
-  stars=[];
-  for(let i=0;i<100;i++){
-    stars.push({
-      x:Math.random()*14000,
-      y:Math.random()*Math.max(250,H*.75),
-      r:Math.random()*1.7+.3,
-      a:Math.random()*.8+.2
-    });
-  }
-}
-
-function createLevel(){
-  const level=levels[currentLevel];
-
-  obstacles=[];
-  coins=[];
-  pads=[];
-  portals=[];
-  particles=[];
-  trail=[];
-  createStars();
-
-  worldSpeed=level[2];
-
-  player={
-    x:130,
-    y:H*.5-30,
-    w:36,
-    h:36,
-    vy:0,
-    rotation:0,
-    grounded:false,
-    blink:0,
-    walk:0
-  };
-
-  /* podłoże */
-  for(let x=0;x<level[3];x+=420){
-    if(x<500||Math.random()>.15){
-      obstacles.push({type:"ground",x:x,y:H*.78,w:420,h:H*.3});
-    }
+  .menu-stat-value{
+    font-size:17px;
   }
 
-  /* przeszkody */
-  let x=700;
-
-  while(x<level[3]-400){
-    const type=Math.random();
-
-    if(type<.45){
-      obstacles.push({type:"spike",x,y:H*.78-38,w:38,h:38});
-      if(Math.random()>.68)
-        obstacles.push({type:"spike",x:x+42,y:H*.78-38,w:38,h:38});
-    }else if(type<.7){
-      obstacles.push({type:"saw",x:x+25,y:H*.78-65,r:28});
-    }else if(type<.84){
-      obstacles.push({type:"block",x:x+15,y:H*.78-75,w:70,h:75});
-    }else{
-      obstacles.push({type:"gap",x,y:H*.78,w:100,h:H*.3});
-    }
-
-    if(Math.random()>.72){
-      pads.push({x:x+140,y:H*.78-14,w:55,h:14});
-    }
-
-    x+=180+Math.random()*220;
+  .menu-stat-label{
+    font-size:8px;
   }
 
-  /* monety */
-  const coinPositions=[
-    level[3]*.25,
-    level[3]*.52,
-    level[3]*.78
-  ];
-
-  coinPositions.forEach((cx,i)=>{
-    coins.push({
-      x:cx,
-      y:H*.55-(i%2)*90,
-      r:12,
-      taken:false,
-      index:i
-    });
-  });
-
-  /* portale */
-  portals.push({x:level[3]*.4,y:H*.5,r:35});
-  portals.push({x:level[3]*.7,y:H*.5,r:35});
-
-  cameraX=0;
-  levelCoins=0;
-
-  updateHUD();
-}
-
-function updateHUD(){
-  document.getElementById("levelName").textContent=
-    `${currentLevel+1}. ${levels[currentLevel][0]}`;
-
-  document.getElementById("levelName").style.color=levels[currentLevel][1];
-
-  document.getElementById("coinHud").textContent=
-    `🪙 ${levelCoins}/3`;
-
-  const p=Math.min(100,Math.max(0,
-    ((player?.x||0)/levels[currentLevel][3])*100
-  ));
-
-  document.getElementById("progress").style.width=p+"%";
-  document.getElementById("progress").style.background=levels[currentLevel][1];
-}
-
-/* =========================
-   START / RESTART
-========================= */
-
-function startLevel(index){
-  if(index>data.unlocked-1)return;
-
-  currentLevel=index;
-  attempts=0;
-  paused=false;
-  dead=false;
-  won=false;
-  victoryAnimation=false;
-
-  document.querySelectorAll(".overlay").forEach(x=>x.classList.remove("show"));
-
-  createLevel();
-
-  playing=true;
-  show("game");
-
-  /*
-    KLUCZOWE:
-    initAudio() wykonuje się w reakcji na kliknięcie
-    przycisku poziomu, czyli przeglądarka traktuje to
-    jako dozwoloną interakcję użytkownika.
-  */
-  initAudio();
-
-  if(settings.music){
-    startMusic();
+  .menu-btn{
+    min-height:48px;
+    font-size:15px;
   }
 
-  startLoop();
-}
-
-function restartLevel(){
-  if(!playing)return;
-
-  stopLoop();
-  stopMusic();
-
-  paused=false;
-  dead=false;
-  won=false;
-  victoryAnimation=false;
-
-  attempts++;
-  createLevel();
-
-  playing=true;
-
-  initAudio();
-
-  if(settings.music)startMusic();
-
-  startLoop();
-}
-
-function pauseGame(){
-  if(!playing||dead||won)return;
-
-  paused=true;
-  stopMusic();
-  document.getElementById("pauseOverlay").classList.add("show");
-}
-
-function resumeGame(){
-  if(!playing)return;
-
-  paused=false;
-  document.getElementById("pauseOverlay").classList.remove("show");
-
-  initAudio();
-  if(settings.music)startMusic();
-
-  startLoop();
-}
-
-function nextLevel(){
-  if(currentLevel<levels.length-1){
-    startLevel(currentLevel+1);
-  }else{
-    backHome();
+  .menu-btn.play{
+    min-height:58px;
+    font-size:19px;
   }
 }
 
 /* =========================
-   STEROWANIE
+   REDUCED MOTION
 ========================= */
 
-function jump(){
-  if(!playing||paused||dead||won)return;
+@media(prefers-reduced-motion:reduce){
 
-  initAudio();
+  .menu-star,
+  .logo,
+  #menu::before{
+    animation:none!important;
+  }
 
-  if(player.grounded){
-    player.vy=-12;
-    player.grounded=false;
-    sfx(520,.08,"square",.08);
+  .menu-btn{
+    transition:none;
   }
 }
-
-addEventListener("keydown",e=>{
-  if(e.code==="Space"||e.code==="ArrowUp"||e.code==="KeyW"){
-    e.preventDefault();
-    jump();
-  }
-
-  if(e.code==="Escape"){
-    if(paused)resumeGame();
-    else pauseGame();
-  }
-});
-
-const mobileJump=document.getElementById("mobileJump");
-
-mobileJump.addEventListener("pointerdown",e=>{
-  e.preventDefault();
-  jump();
-});
-
-/* =========================
-   FIZYKA
-========================= */
-
-function update(){
-  if(!playing||paused||dead||won)return;
-
-  player.x+=worldSpeed;
-
-  player.vy+=.65;
-  player.y+=player.vy;
-
-  const groundY=H*.78-player.h;
-
-  player.grounded=false;
-
-  if(player.y>=groundY){
-    player.y=groundY;
-    player.vy=0;
-    player.grounded=true;
-  }
-
-  /* kolizje z blokami */
-  for(const o of obstacles){
-    if(o.type==="block"&&rectHit(player,o)){
-      if(player.vy>=0&&player.y+player.h<=o.y+20){
-        player.y=o.y-player.h;
-        player.vy=0;
-        player.grounded=true;
-      }else{
-        die();
-        return;
-      }
-    }
-
-    if(o.type==="spike"){
-      const hit={
-        x:o.x+7,y:o.y+8,w:o.w-14,h:o.h-8
-      };
-      if(rectHit(player,hit)){
-        die();
-        return;
-      }
-    }
-
-    if(o.type==="saw"){
-      const dx=(player.x+player.w/2)-o.x;
-      const dy=(player.y+player.h/2)-o.y;
-      if(Math.hypot(dx,dy)<o.r+18){
-        die();
-        return;
-      }
-    }
-
-    if(o.type==="gap"){
-      if(
-        player.x+player.w>o.x &&
-        player.x<o.x+o.w &&
-        player.y+player.h>=H*.78-3
-      ){
-        die();
-        return;
-      }
-    }
-  }
-
-  /* pady */
-  for(const p of pads){
-    if(rectHit(player,p)&&player.vy>=0){
-      player.y=p.y-player.h;
-      player.vy=-14;
-      sfx(700,.09,"square",.08);
-    }
-  }
-
-  /* monety */
-  for(const c of coins){
-    if(c.taken)continue;
-
-    const dx=(player.x+18)-c.x;
-    const dy=(player.y+18)-c.y;
-
-    if(Math.hypot(dx,dy)<28){
-      c.taken=true;
-      levelCoins++;
-      data.coins++;
-      sfx(900,.1,"triangle",.1);
-
-      if(settings.fx){
-        burst(c.x,c.y,levels[currentLevel][1],12);
-      }
-
-      checkAchievements();
-      saveData();
-    }
-  }
-
-  /* portale */
-  for(const p of portals){
-    const dx=(player.x+18)-p.x;
-    const dy=(player.y+18)-p.y;
-
-    if(Math.hypot(dx,dy)<p.r){
-      sfx(260,.15,"sawtooth",.06);
-    }
-  }
-
-  /* animacja */
-  player.rotation+=player.grounded?.09:.16;
-  player.walk+=.22;
-  player.blink++;
-
-  if(player.blink>240+Math.random()*180){
-    player.blink=0;
-  }
-
-  /* trail */
-  trail.push({
-    x:player.x,
-    y:player.y,
-    life:1
-  });
-
-  if(trail.length>25)trail.shift();
-
-  trail.forEach(t=>t.life-=.055);
-
-  /* cząsteczki */
-  particles.forEach(p=>{
-    p.x+=p.vx;
-    p.y+=p.vy;
-    p.vy+=.08;
-    p.life-=.025;
-  });
-
-  particles=particles.filter(p=>p.life>0);
-
-  cameraX=Math.max(0,player.x-W*.28);
-
-  updateHUD();
-
-  if(player.x>=levels[currentLevel][3]){
-    win();
-  }
-}
-
-function rectHit(a,b){
-  return a.x<b.x+b.w &&
-         a.x+a.w>b.x &&
-         a.y<b.y+b.h &&
-         a.y+a.h>b.y;
-}
-
-/* =========================
-   ŚMIERĆ / WYGRANA
-========================= */
-
-function die(){
-  if(dead||won)return;
-
-  dead=true;
-  attempts++;
-
-  stopMusic();
-
-  sfx(100,.3,"sawtooth",.12);
-
-  if(settings.fx){
-    for(let i=0;i<35;i++){
-      burst(
-        player.x+18,
-        player.y+18,
-        "#ff304f",
-        1
-      );
-    }
-  }
-
-  document.getElementById("deathText").textContent=
-    `Próba: ${attempts}`;
-
-  document.getElementById("deathOverlay").classList.add("show");
-
-  checkAchievements();
-  saveData();
-}
-
-function win(){
-  if(won)return;
-
-  won=true;
-  victoryAnimation=true;
-  victoryStart=performance.now();
-
-  stopMusic();
-
-  sfx(523,.12,"square",.1);
-  setTimeout(()=>sfx(659,.12,"square",.1),120);
-  setTimeout(()=>sfx(784,.25,"square",.12),240);
-
-  if(!data.completed.includes(currentLevel)){
-    data.completed.push(currentLevel);
-  }
-
-  data.unlocked=Math.max(
-    data.unlocked,
-    Math.min(levels.length,currentLevel+2)
-  );
-
-  checkAchievements();
-
-  document.getElementById("winCoins").textContent=
-    `Zebrane monety: ${levelCoins}/3`;
-
-  saveData();
-
-  setTimeout(()=>{
-    if(won){
-      document.getElementById("winOverlay").classList.add("show");
-    }
-  },1100);
-
-  if(settings.fx){
-    for(let i=0;i<80;i++){
-      particles.push({
-        x:player.x+Math.random()*100,
-        y:player.y+Math.random()*100,
-        vx:(Math.random()-.5)*8,
-        vy:(Math.random()-.5)*8,
-        life:1,
-        color:levels[currentLevel][1]
-      });
-    }
-  }
-}
-
-/* =========================
-   EFEKTY
-========================= */
-
-function burst(x,y,color,count=1){
-  for(let i=0;i<count;i++){
-    particles.push({
-      x,y,
-      vx:(Math.random()-.5)*7,
-      vy:(Math.random()-.5)*7,
-      life:1,
-      color
-    });
-  }
-}
-
-/* =========================
-   RYSOWANIE
-========================= */
-
-function draw(){
-  ctx.clearRect(0,0,W,H);
-
-  const color=levels[currentLevel][1];
-
-  /* niebo */
-  const grad=ctx.createLinearGradient(0,0,0,H);
-  grad.addColorStop(0,"#050518");
-  grad.addColorStop(1,"#0a1020");
-  ctx.fillStyle=grad;
-  ctx.fillRect(0,0,W,H);
-
-  /* gwiazdy */
-  for(const s of stars){
-    const sx=s.x-cameraX*.2;
-    if(sx<-5||sx>W+5)continue;
-
-    ctx.globalAlpha=s.a;
-    ctx.fillStyle="#fff";
-    ctx.beginPath();
-    ctx.arc(sx,s.y,s.r,0,Math.PI*2);
-    ctx.fill();
-  }
-  ctx.globalAlpha=1;
-
-  /* grid */
-  ctx.strokeStyle=color+"22";
-  ctx.lineWidth=1;
-
-  const grid=50;
-  const offset=-(cameraX%grid);
-
-  for(let x=offset;x<W;x+=grid){
-    ctx.beginPath();
-    ctx.moveTo(x,0);
-    ctx.lineTo(x,H);
-    ctx.stroke();
-  }
-
-  for(let y=0;y<H;y+=grid){
-    ctx.beginPath();
-    ctx.moveTo(0,y);
-    ctx.lineTo(W,y);
-    ctx.stroke();
-  }
-
-  /* ziemia */
-  ctx.fillStyle="#121b2a";
-  ctx.fillRect(0,H*.78,W,H*.22);
-
-  ctx.strokeStyle=color;
-  ctx.lineWidth=3;
-  ctx.beginPath();
-  ctx.moveTo(0,H*.78);
-  ctx.lineTo(W,H*.78);
-  ctx.stroke();
-
-  /* obiekty */
-  for(const o of obstacles){
-    const x=o.x-cameraX;
-
-    if(o.type==="ground"){
-      ctx.fillStyle="#16243a";
-      ctx.fillRect(x,o.y,o.w,o.h);
-    }
-
-    if(o.type==="block"){
-      ctx.fillStyle="#182d47";
-      ctx.fillRect(x,o.y,o.w,o.h);
-      ctx.strokeStyle=color;
-      ctx.strokeRect(x,o.y,o.w,o.h);
-    }
-
-    if(o.type==="spike"){
-      ctx.fillStyle="#fff";
-      ctx.shadowBlur=10;
-      ctx.shadowColor=color;
-      ctx.beginPath();
-      ctx.moveTo(x,o.y+o.h);
-      ctx.lineTo(x+o.w/2,o.y);
-      ctx.lineTo(x+o.w,o.y+o.h);
-      ctx.closePath();
-      ctx.fill();
-      ctx.shadowBlur=0;
-    }
-
-    if(o.type==="saw"){
-      const sx=x;
-      ctx.save();
-      ctx.translate(sx,o.y);
-      ctx.rotate(performance.now()/500);
-      ctx.fillStyle="#ddd";
-      ctx.beginPath();
-
-      for(let i=0;i<16;i++){
-        const a=i*Math.PI/8;
-        const r=i%2?o.r*.78:o.r;
-        const px=Math.cos(a)*r;
-        const py=Math.sin(a)*r;
-
-        if(i===0)ctx.moveTo(px,py);
-        else ctx.lineTo(px,py);
-      }
-
-      ctx.closePath();
-      ctx.fill();
-
-      ctx.fillStyle="#111";
-      ctx.beginPath();
-      ctx.arc(0,0,8,0,Math.PI*2);
-      ctx.fill();
-      ctx.restore();
-    }
-
-    if(o.type==="gap"){
-      ctx.fillStyle="#020205";
-      ctx.fillRect(x,o.y,o.w,o.h);
-    }
-  }
-
-  /* pady */
-  for(const p of pads){
-    const x=p.x-cameraX;
-    ctx.fillStyle="#ffe34d";
-    ctx.shadowBlur=15;
-    ctx.shadowColor="#ffe34d";
-    ctx.fillRect(x,p.y,p.w,p.h);
-    ctx.shadowBlur=0;
-  }
-
-  /* portale */
-  for(const p of portals){
-    const x=p.x-cameraX;
-    ctx.strokeStyle=color;
-    ctx.lineWidth=5;
-    ctx.shadowBlur=20;
-    ctx.shadowColor=color;
-    ctx.beginPath();
-    ctx.arc(x,p.y,p.r,0,Math.PI*2);
-    ctx.stroke();
-    ctx.shadowBlur=0;
-  }
-
-  /* monety */
-  for(const c of coins){
-    if(c.taken)continue;
-
-    const x=c.x-cameraX;
-    const pulse=1+Math.sin(performance.now()/180+c.index)*.08;
-
-    ctx.save();
-    ctx.translate(x,c.y);
-    ctx.scale(pulse,pulse);
-
-    ctx.fillStyle="#ffe65c";
-    ctx.shadowBlur=15;
-    ctx.shadowColor="#ffe65c";
-
-    ctx.beginPath();
-    ctx.arc(0,0,c.r,0,Math.PI*2);
-    ctx.fill();
-
-    ctx.fillStyle="#fff2a0";
-    ctx.font="bold 14px Arial";
-    ctx.textAlign="center";
-    ctx.textBaseline="middle";
-    ctx.fillText("★",0,1);
-
-    ctx.restore();
-    ctx.shadowBlur=0;
-  }
-
-  /* trail */
-  for(const t of trail){
-    const x=t.x-cameraX;
-
-    ctx.globalAlpha=Math.max(0,t.life)*.35;
-    ctx.fillStyle=color;
-    ctx.fillRect(x-8,t.y-8,16,16);
-  }
-  ctx.globalAlpha=1;
-
-  /* gracz */
-  if(player&&!dead){
-    const px=player.x-cameraX;
-    const py=player.y;
-
-    const skin=skins[data.selectedSkin][1];
-
-    ctx.save();
-    ctx.translate(px+18,py+18);
-    ctx.rotate(player.rotation);
-
-    ctx.fillStyle=skin;
-    ctx.shadowBlur=18;
-    ctx.shadowColor=skin;
-    ctx.fillRect(-18,-18,36,36);
-    ctx.shadowBlur=0;
-
-    /* nogi */
-    const leg=Math.sin(player.walk)*4;
-
-    ctx.strokeStyle="#111";
-    ctx.lineWidth=4;
-
-    ctx.beginPath();
-    ctx.moveTo(-8,17);
-    ctx.lineTo(-8+leg,25);
-    ctx.moveTo(8,17);
-    ctx.lineTo(8-leg,25);
-    ctx.stroke();
-
-    /* ręce */
-    ctx.beginPath();
-    ctx.moveTo(-17,0);
-    ctx.lineTo(-24,-5+leg);
-    ctx.moveTo(17,0);
-    ctx.lineTo(24,-5-leg);
-    ctx.stroke();
-
-    /* oczy */
-    ctx.fillStyle="#111";
-
-    if(player.blink<8){
-      ctx.fillRect(-10,-7,5,2);
-      ctx.fillRect(5,-7,5,2);
-    }else{
-      ctx.fillRect(-10,-10,5,7);
-      ctx.fillRect(5,-10,5,7);
-    }
-
-    /* usta */
-    ctx.fillRect(-5,6,10,3);
-
-    ctx.restore();
-  }
-
-  /* particles */
-  for(const p of particles){
-    ctx.globalAlpha=Math.max(0,p.life);
-    ctx.fillStyle=p.color||color;
-    ctx.fillRect(p.x-cameraX,p.y,4,4);
-  }
-  ctx.globalAlpha=1;
-
-  /* victory */
-  if(victoryAnimation){
-    const elapsed=performance.now()-victoryStart;
-
-    ctx.fillStyle=`rgba(255,255,255,${Math.max(0,1-elapsed/450)})`;
-    ctx.fillRect(0,0,W,H);
-
-    const cx=W/2;
-    const cy=H/2;
-
-    ctx.strokeStyle=color;
-    ctx.lineWidth=5;
-
-    for(let i=0;i<5;i++){
-      const r=80+elapsed*.45+i*35;
-
-      ctx.globalAlpha=Math.max(0,1-(elapsed-i*100)/1600);
-      ctx.beginPath();
-      ctx.arc(cx,cy,r,0,Math.PI*2);
-      ctx.stroke();
-    }
-
-    ctx.globalAlpha=1;
-
-    ctx.fillStyle="#fff";
-    ctx.font="900 48px Arial";
-    ctx.textAlign="center";
-    ctx.fillText("LEVEL COMPLETE!",cx,cy);
-  }
-}
-
-/* =========================
-   PĘTLA
-========================= */
-
-function loop(){
-  if(!playing)return;
-
-  update();
-  draw();
-
-  if(playing&&!paused&&!dead&&!won){
-    animationFrame=requestAnimationFrame(loop);
-  }else if(victoryAnimation){
-    animationFrame=requestAnimationFrame(loop);
-  }
-}
-
-function startLoop(){
-  stopLoop();
-  animationFrame=requestAnimationFrame(loop);
-}
-
-function stopLoop(){
-  if(animationFrame){
-    cancelAnimationFrame(animationFrame);
-    animationFrame=null;
-  }
-}
-
-/* =========================
-   MENU POZIOMÓW
-========================= */
-
-function renderLevels(){
-  const grid=document.getElementById("levelGrid");
-  grid.innerHTML="";
-
-  levels.forEach((l,i)=>{
-    const unlocked=i<data.unlocked;
-
-    const div=document.createElement("button");
-    div.className="level-card"+(unlocked?"":" locked");
-
-    const complete=data.completed.includes(i);
-
-    div.innerHTML=`
-      <div class="level-number">POZIOM ${i+1}</div>
-      <div class="level-title" style="color:${l[1]}">${l[0]}</div>
-      <div class="level-status">
-        ${!unlocked?"🔒 ZABLOKOWANY":complete?"✅ UKOŃCZONY":"▶ ZAGRAJ"}
-      </div>
-    `;
-
-    if(unlocked){
-      div.onclick=()=>startLevel(i);
-    }
-
-    grid.appendChild(div);
-  });
-}
-
-/* =========================
-   SKINY
-========================= */
-
-function renderSkins(){
-  document.getElementById("shopCoins").textContent=data.coins;
-
-  const grid=document.getElementById("skinGrid");
-  grid.innerHTML="";
-
-  skins.forEach((s,i)=>{
-    const owned=data.ownedSkins.includes(i);
-
-    const div=document.createElement("button");
-    div.className="skin-card"+(data.selectedSkin===i?" selected":"");
-
-    div.innerHTML=`
-      <div class="skin-preview" style="background:${s[1]};color:${s[1]}"></div>
-      <b>${s[0]}</b>
-      <div class="price">
-        ${owned?(data.selectedSkin===i?"✓ WYBRANA":"POSIADANA"):`🪙 ${s[2]}`}
-      </div>
-    `;
-
-    div.onclick=()=>{
-      if(owned){
-        data.selectedSkin=i;
-        saveData();
-        renderSkins();
-        return;
-      }
-
-      if(data.coins>=s[2]){
-        data.coins-=s[2];
-        data.ownedSkins.push(i);
-        data.selectedSkin=i;
-        saveData();
-        renderSkins();
-      }
-    };
-
-    grid.appendChild(div);
-  });
-}
-
-/* =========================
-   OSIĄGNIĘCIA
-========================= */
-
-function checkAchievements(){
-  const unlock=id=>{
-    if(!data.achievements.includes(id)){
-      data.achievements.push(id);
-    }
-  };
-
-  if(data.completed.length>=1)unlock("first");
-  if(data.completed.length>=3)unlock("three");
-  if(data.completed.length>=6)unlock("six");
-  if(data.completed.length>=18)unlock("all");
-  if(data.coins>=10)unlock("coins10");
-  if(data.coins>=25)unlock("coins25");
-  if(won&&attempts<=1)unlock("perfect");
-  if(won&&attempts>=5)unlock("survivor");
-
-  saveData();
-}
-
-function renderAchievements(){
-  const grid=document.getElementById("achievementGrid");
-  grid.innerHTML="";
-
-  achievements.forEach(a=>{
-    const unlocked=data.achievements.includes(a[0]);
-
-    const div=document.createElement("div");
-    div.className="skin-card";
-
-    div.style.opacity=unlocked?"1":".45";
-
-    div.innerHTML=`
-      <div style="font-size:35px">${unlocked?"🏆":"🔒"}</div>
-      <b>${a[1]}</b>
-      <div class="small">${a[2]}</div>
-    `;
-
-    grid.appendChild(div);
-  });
-}
-
-/* =========================
-   TŁO MENU
-========================= */
-
-const menuStars=document.getElementById("menuStars");
-
-for(let i=0;i<90;i++){
-  const s=document.createElement("div");
-  s.className="menu-star";
-  s.style.left=Math.random()*100+"%";
-  s.style.top=Math.random()*100+"%";
-  s.style.animationDelay=Math.random()*2+"s";
-  menuStars.appendChild(s);
-}
-
-/* =========================
-   ZAPIS USTAWIEŃ
-========================= */
-
-if(data.settings){
-  settings=data.settings;
-}
-
-/* Kliknięcie w ekran menu również przygotowuje audio,
-   ale muzyka startuje dopiero po wejściu do poziomu. */
-document.addEventListener("pointerdown",()=>{
-  if(audioCtx&&audioCtx.state==="suspended"){
-    audioCtx.resume().catch(()=>{});
-  }
-},{passive:true});
-
-/* pierwsze otwarcie */
-renderLevels();
-renderSkins();
-renderAchievements();
-</script>
-</body>
-</html>
 ```
+
+A teraz **w HTML menu** ustaw taki układ:
+
+```html
+<section id="menu" class="screen">
+
+  <div class="menu-stars" id="menuStars"></div>
+
+  <div class="menu-content">
+
+    <div class="logo">NEON DASH</div>
+
+    <div class="menu-subtitle">
+      RUN • JUMP • SURVIVE
+    </div>
+
+    <div class="menu-stats">
+
+      <div class="menu-stat">
+        <div class="menu-stat-value" id="menuCompleted">0</div>
+        <div class="menu-stat-label">POZIOMY</div>
+      </div>
+
+      <div class="menu-stat">
+        <div class="menu-stat-value" id="menuCoins">0</div>
+        <div class="menu-stat-label">MONETY</div>
+      </div>
+
+      <div class="menu-stat">
+        <div class="menu-stat-value" id="menuAchievements">0</div>
+        <div class="menu-stat-label">OSIĄGNIĘCIA</div>
+      </div>
+
+    </div>
+
+    <div class="menu-buttons">
+
+      <button class="menu-btn play" onclick="showLevels()">
+        ▶ &nbsp; GRAJ
+      </button>
+
+      <button class="menu-btn" onclick="showLevels()">
+        ⚡ &nbsp; POZIOMY
+      </button>
+
+      <button class="menu-btn" onclick="showSkins()">
+        🎨 &nbsp; SKLEP SKÓREK
+      </button>
+
+      <button class="menu-btn" onclick="showAchievements()">
+        🏆 &nbsp; OSIĄGNIĘCIA
+      </button>
+
+      <button class="menu-btn" onclick="showSettings()">
+        ⚙ &nbsp; USTAWIENIA
+      </button>
+
+    </div>
+
+    <div class="menu-footer">
+      READY FOR THE NEXT RUN?
+    </div>
+
+  </div>
+
+  <div class="menu-version">
+    NEON DASH v2.0
+  </div>
+
+</section>
+```
+
+I dodaj tę funkcję do JavaScriptu:
+
+```javascript
+function updateMenuStats(){
+
+  const completed =
+    document.getElementById("menuCompleted");
+
+  const coins =
+    document.getElementById("menuCoins");
+
+  const achievements =
+    document.getElementById("menuAchievements");
+
+  if(completed){
+    completed.textContent =
+      data.completed.length + "/" + levels.length;
+  }
+
+  if(coins){
+    coins.textContent = data.coins;
+  }
+
+  if(achievements){
+    achievements.textContent =
+      data.achievements.length + "/" + achievements.length;
+  }
+}
+```
+
+Po każdym `saveData()` możesz też wywołać:
+
+```javascript
+updateMenuStats();
+```
+
+oraz po uruchomieniu gry:
+
+```javascript
+updateMenuStats();
+```
+
+**Efekt:** menu będzie wyglądało dużo bardziej jak prawdziwa gra — neonowe tło, animowana siatka, świecące logo, statystyki i przyciski z efektem świetlnym. ✨
