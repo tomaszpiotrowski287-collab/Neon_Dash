@@ -1,4 +1,4 @@
-```html
+
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -28,8 +28,6 @@ button{
     border:0;
     cursor:pointer;
     touch-action:manipulation;
-    user-select:none;
-    -webkit-user-select:none;
 }
 
 #app{
@@ -60,13 +58,12 @@ button{
     align-items:center;
     justify-content:center;
     padding:20px;
-    z-index:1000;
+    z-index:100;
     pointer-events:auto;
 }
 
 #menu{
-    z-index:5000;
-    pointer-events:auto;
+    z-index:500;
 }
 
 .logo{
@@ -78,13 +75,11 @@ button{
         0 0 8px #0ff,
         0 0 25px #08f;
     margin-bottom:25px;
-    pointer-events:none;
 }
 
 .subtitle{
     color:#aaa;
     margin:-15px 0 25px;
-    pointer-events:none;
 }
 
 .menuButtons{
@@ -92,13 +87,11 @@ button{
     display:flex;
     flex-direction:column;
     gap:12px;
-    position:relative;
-    z-index:6000;
 }
 
 .menuBtn{
     position:relative;
-    z-index:7000;
+    z-index:9999;
     min-height:58px;
     border-radius:14px;
     border:2px solid #0ff;
@@ -106,15 +99,11 @@ button{
     box-shadow:0 0 15px rgba(0,255,255,.18);
     font-size:20px;
     font-weight:900;
-    pointer-events:auto!important;
+    pointer-events:auto;
 }
 
 .menuBtn:hover{
     background:rgba(0,255,255,.2);
-}
-
-.menuBtn:active{
-    transform:scale(.97);
 }
 
 .back{
@@ -193,12 +182,10 @@ button{
     inset:0;
     display:none;
     z-index:1;
-    pointer-events:none;
 }
 
 #game.active{
     display:block;
-    pointer-events:auto;
 }
 
 #canvas{
@@ -272,18 +259,17 @@ button{
     box-shadow:0 0 20px #0ff4;
     z-index:16;
     font-weight:900;
-    pointer-events:auto;
 }
 
 /* ================= PAUSE / RESULT ================= */
 
 #pauseScreen{
-    z-index:6000;
+    z-index:600;
     background:#000b;
 }
 
 #result{
-    z-index:7000;
+    z-index:700;
     background:#000b;
 }
 
@@ -316,14 +302,14 @@ button{
     border:1px solid #0ff;
 }
 
-/* AUDIO */
+/* ================= AUDIO ================= */
 
 #audioUnlock{
     display:none!important;
     pointer-events:none!important;
 }
 
-/* SETTINGS */
+/* ================= SETTINGS ================= */
 
 .setting{
     display:flex;
@@ -377,37 +363,26 @@ button{
     <div class="menuButtons">
 
         <button
-            type="button"
             id="playBtn"
-            class="menuBtn">
+            class="menuBtn"
+            onclick="startGameDirect()"
+        >
             ▶ GRAJ
         </button>
 
-        <button
-            type="button"
-            id="levelsBtn"
-            class="menuBtn">
+        <button id="levelsBtn" class="menuBtn">
             ☷ POZIOMY
         </button>
 
-        <button
-            type="button"
-            id="shopBtn"
-            class="menuBtn">
+        <button id="shopBtn" class="menuBtn">
             ◆ SKLEP
         </button>
 
-        <button
-            type="button"
-            id="achievementsBtn"
-            class="menuBtn">
+        <button id="achievementsBtn" class="menuBtn">
             ★ OSIĄGNIĘCIA
         </button>
 
-        <button
-            type="button"
-            id="settingsBtn"
-            class="menuBtn">
+        <button id="settingsBtn" class="menuBtn">
             ⚙ USTAWIENIA
         </button>
 
@@ -418,7 +393,7 @@ button{
 
 <section id="levelsScreen" class="screen hidden">
 
-    <button type="button" class="back" id="levelsBack">
+    <button class="back" id="levelsBack">
         ← Wróć
     </button>
 
@@ -433,7 +408,7 @@ button{
 
 <section id="shopScreen" class="screen hidden">
 
-    <button type="button" class="back" id="shopBack">
+    <button class="back" id="shopBack">
         ← Wróć
     </button>
 
@@ -456,7 +431,7 @@ button{
 
 <section id="achievementsScreen" class="screen hidden">
 
-    <button type="button" class="back" id="achievementsBack">
+    <button class="back" id="achievementsBack">
         ← Wróć
     </button>
 
@@ -466,8 +441,8 @@ button{
 
         <div
             id="achievementGrid"
-            class="achievementGrid">
-        </div>
+            class="achievementGrid"
+        ></div>
 
     </div>
 
@@ -477,7 +452,7 @@ button{
 
 <section id="settingsScreen" class="screen hidden">
 
-    <button type="button" class="back" id="settingsBack">
+    <button class="back" id="settingsBack">
         ← Wróć
     </button>
 
@@ -490,12 +465,10 @@ button{
             <span>Muzyka</span>
 
             <button
-                type="button"
                 id="musicSwitch"
-                class="switch on">
-
+                class="switch on"
+            >
                 <i></i>
-
             </button>
 
         </div>
@@ -505,12 +478,10 @@ button{
             <span>Dźwięki</span>
 
             <button
-                type="button"
                 id="soundSwitch"
-                class="switch on">
-
+                class="switch on"
+            >
                 <i></i>
-
             </button>
 
         </div>
@@ -520,12 +491,10 @@ button{
             <span>Efekty</span>
 
             <button
-                type="button"
                 id="fxSwitch"
-                class="switch on">
-
+                class="switch on"
+            >
                 <i></i>
-
             </button>
 
         </div>
@@ -558,9 +527,7 @@ button{
 
             </div>
 
-            <button
-                type="button"
-                id="pause">
+            <button id="pause">
                 Ⅱ
             </button>
 
@@ -568,9 +535,7 @@ button{
 
     </div>
 
-    <button
-        type="button"
-        id="mobileJump">
+    <button id="mobileJump">
         JUMP
     </button>
 
@@ -587,23 +552,23 @@ button{
         <div class="menuButtons">
 
             <button
-                type="button"
                 id="resumeBtn"
-                class="menuBtn">
+                class="menuBtn"
+            >
                 ▶ WRÓĆ DO GRY
             </button>
 
             <button
-                type="button"
                 id="pauseRestart"
-                class="menuBtn">
+                class="menuBtn"
+            >
                 ↻ RESTART
             </button>
 
             <button
-                type="button"
                 id="pauseMenu"
-                class="menuBtn">
+                class="menuBtn"
+            >
                 ⌂ MENU
             </button>
 
@@ -627,21 +592,15 @@ button{
 
         <div class="resultButtons">
 
-            <button
-                type="button"
-                id="resultRestart">
+            <button id="resultRestart">
                 ↻ JESZCZE RAZ
             </button>
 
-            <button
-                type="button"
-                id="resultNext">
+            <button id="resultNext">
                 ▶ NASTĘPNY
             </button>
 
-            <button
-                type="button"
-                id="resultMenu">
+            <button id="resultMenu">
                 ⌂ MENU
             </button>
 
@@ -657,62 +616,62 @@ button{
 "use strict";
 
 /* =========================================================
-   LEVELS
+   POZIOMY
 ========================================================= */
 
 const levels=[
-["NEON RUSH","#00ffff",5.8,7000,150,261.63],
-["CRYSTAL DRIVE","#6fa8ff",6,7300,128,220],
-["LAVA PULSE","#ff482e",6.2,7600,172,164.81],
-["SKY CIRCUIT","#75ff70",6.4,7900,138,196],
-["VIOLET RUN","#c86cff",6.6,8200,160,246.94],
-["SHADOW FACTORY","#aaaabb",6.8,8500,118,146.83],
-["CYBER STORM","#00aaff",7,8800,180,185],
-["INFERNO CORE","#ff7800",7.2,9000,190,130.81],
-["ELECTRIC VOID","#eeff00",7.4,9200,165,220],
-["GRAVITY BREAK","#ff35bb",7.6,9400,145,174.61],
-["OVERDRIVE","#00ff88",7.8,9600,200,196],
-["FINAL CHAOS","#fff",8,10000,210,130.81],
-["STARFALL","#58a6ff",8.2,10400,132,233.08],
-["QUANTUM","#b76cff",8.4,10800,175,196],
-["NEON INFERNO","#ff4f81",8.6,11200,198,155.56],
-["ZERO GRAVITY","#45ffff",8.8,11600,125,174.61],
-["NIGHTMARE","#ff3333",9,12000,205,123.47],
-["ULTIMATE DASH","#fff",9.3,12600,220,261.63]
+    ["NEON RUSH","#00ffff",5.8,7000,150,261.63],
+    ["CRYSTAL DRIVE","#6fa8ff",6,7300,128,220],
+    ["LAVA PULSE","#ff482e",6.2,7600,172,164.81],
+    ["SKY CIRCUIT","#75ff70",6.4,7900,138,196],
+    ["VIOLET RUN","#c86cff",6.6,8200,160,246.94],
+    ["SHADOW FACTORY","#aaaabb",6.8,8500,118,146.83],
+    ["CYBER STORM","#00aaff",7,8800,180,185],
+    ["INFERNO CORE","#ff7800",7.2,9000,190,130.81],
+    ["ELECTRIC VOID","#eeff00",7.4,9200,165,220],
+    ["GRAVITY BREAK","#ff35bb",7.6,9400,145,174.61],
+    ["OVERDRIVE","#00ff88",7.8,9600,200,196],
+    ["FINAL CHAOS","#fff",8,10000,210,130.81],
+    ["STARFALL","#58a6ff",8.2,10400,132,233.08],
+    ["QUANTUM","#b76cff",8.4,10800,175,196],
+    ["NEON INFERNO","#ff4f81",8.6,11200,198,155.56],
+    ["ZERO GRAVITY","#45ffff",8.8,11600,125,174.61],
+    ["NIGHTMARE","#ff3333",9,12000,205,123.47],
+    ["ULTIMATE DASH","#fff",9.3,12600,220,261.63]
 ];
 
 /* =========================================================
-   SKINS
+   SKINY
 ========================================================= */
 
 const skins=[
-["CLASSIC","#fff",0],
-["CYAN","#0ff",10],
-["LIME","#75ff70",20],
-["VIOLET","#c86cff",30],
-["FIRE","#ff482e",40],
-["GOLD","#ffe600",60],
-["PINK","#ff35bb",80],
-["ICE","#75ddff",100]
+    ["CLASSIC","#fff",0],
+    ["CYAN","#0ff",10],
+    ["LIME","#75ff70",20],
+    ["VIOLET","#c86cff",30],
+    ["FIRE","#ff482e",40],
+    ["GOLD","#ffe600",60],
+    ["PINK","#ff35bb",80],
+    ["ICE","#75ddff",100]
 ];
 
 /* =========================================================
-   ACHIEVEMENTS
+   OSIĄGNIĘCIA
 ========================================================= */
 
 const achievements=[
-["first","Pierwszy krok","Ukończ pierwszy poziom"],
-["three","Rozgrzewka","Ukończ 3 poziomy"],
-["six","Coraz dalej","Ukończ 6 poziomów"],
-["all","Mistrz","Ukończ wszystkie poziomy"],
-["coins10","Kolekcjoner","Zbierz 10 monet"],
-["coins25","Łowca monet","Zbierz 25 monet"],
-["perfect","Perfekcja","Ukończ poziom bez śmierci"],
-["survivor","Nie poddaję się","Ukończ poziom po 5+ próbach"]
+    ["first","Pierwszy krok","Ukończ pierwszy poziom"],
+    ["three","Rozgrzewka","Ukończ 3 poziomy"],
+    ["six","Coraz dalej","Ukończ 6 poziomów"],
+    ["all","Mistrz","Ukończ wszystkie poziomy"],
+    ["coins10","Kolekcjoner","Zbierz 10 monet"],
+    ["coins25","Łowca monet","Zbierz 25 monet"],
+    ["perfect","Perfekcja","Ukończ poziom bez śmierci"],
+    ["survivor","Nie poddaję się","Ukończ poziom po 5+ próbach"]
 ];
 
 /* =========================================================
-   SAVE
+   ZAPIS
 ========================================================= */
 
 let save;
@@ -726,6 +685,7 @@ try{
 }
 
 if(!save){
+
     save={
         unlocked:1,
         coins:0,
@@ -742,13 +702,21 @@ if(!save){
     };
 }
 
-save.unlocked=Math.max(
-    1,
-    Math.min(
-        levels.length,
-        Number(save.unlocked)||1
-    )
-);
+if(!Array.isArray(save.attempts)){
+    save.attempts=Array(levels.length).fill(0);
+}
+
+while(save.attempts.length<levels.length){
+    save.attempts.push(0);
+}
+
+if(!save.settings){
+    save.settings={
+        music:true,
+        sound:true,
+        fx:true
+    };
+}
 
 function saveGame(){
 
@@ -761,7 +729,7 @@ function saveGame(){
 }
 
 /* =========================================================
-   ELEMENTS
+   ELEMENTY
 ========================================================= */
 
 const $=id=>document.getElementById(id);
@@ -788,10 +756,9 @@ const coinCount=$("coinCount");
 const progressBar=$("progressBar");
 const levelName=$("levelName");
 const mobileJump=$("mobileJump");
-const playBtn=$("playBtn");
 
 /* =========================================================
-   GAME VARIABLES
+   ZMIENNE GRY
 ========================================================= */
 
 let currentLevel=0;
@@ -826,25 +793,347 @@ let levelColor="#0ff";
 
 let lastTime=0;
 
+/* ================= MRUGANIE ================= */
+
+let blinkTimer=0;
+let blinking=false;
+
+function updateBlink(dt){
+
+    blinkTimer-=dt;
+
+    if(blinkTimer<=0){
+
+        blinking=true;
+
+        setTimeout(()=>{
+            blinking=false;
+        },110);
+
+        blinkTimer=
+            2.5+
+            Math.random()*3;
+    }
+}
+
 /* =========================================================
-   SCREEN FUNCTIONS
+   AUDIO
 ========================================================= */
 
-function hideAllScreens(){
+let audioCtx=null;
+let masterGain=null;
+let musicGain=null;
+let musicTimer=null;
+let musicStep=0;
+
+function initAudio(){
+
+    if(audioCtx)
+        return true;
+
+    try{
+
+        const AudioContext=
+            window.AudioContext||
+            window.webkitAudioContext;
+
+        if(!AudioContext)
+            return false;
+
+        audioCtx=new AudioContext();
+
+        masterGain=
+            audioCtx.createGain();
+
+        musicGain=
+            audioCtx.createGain();
+
+        masterGain.gain.value=.24;
+        musicGain.gain.value=.65;
+
+        musicGain.connect(masterGain);
+        masterGain.connect(audioCtx.destination);
+
+        return true;
+
+    }catch(e){
+
+        console.error("Audio init error:",e);
+
+        return false;
+    }
+}
+
+async function unlockAudio(){
+
+    if(!initAudio())
+        return false;
+
+    try{
+
+        if(audioCtx.state==="suspended"){
+            await audioCtx.resume();
+        }
+
+        return audioCtx.state==="running";
+
+    }catch(e){
+
+        return false;
+    }
+}
+
+function note(
+    freq,
+    duration,
+    type="sine",
+    volume=.08
+){
+
+    if(
+        !audioCtx||
+        !save.settings.music
+    )
+        return;
+
+    const osc=
+        audioCtx.createOscillator();
+
+    const gain=
+        audioCtx.createGain();
+
+    osc.type=type;
+    osc.frequency.value=freq;
+
+    gain.gain.setValueAtTime(
+        .0001,
+        audioCtx.currentTime
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+        volume,
+        audioCtx.currentTime+.01
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+        .0001,
+        audioCtx.currentTime+duration
+    );
+
+    osc.connect(gain);
+    gain.connect(musicGain);
+
+    osc.start();
+
+    osc.stop(
+        audioCtx.currentTime+
+        duration+
+        .02
+    );
+}
+
+function startMusic(){
+
+    stopMusic();
+
+    if(
+        !audioCtx||
+        !save.settings.music
+    )
+        return;
+
+    if(audioCtx.state==="suspended")
+        return;
+
+    const data=
+        levels[currentLevel];
+
+    const bpm=data[4];
+    const root=data[5];
+
+    const interval=
+        60000/bpm/2;
+
+    musicStep=0;
+
+    /* pierwszy dźwięk od razu */
+
+    playMusicStep();
+
+    musicTimer=
+        setInterval(
+            playMusicStep,
+            interval
+        );
+}
+
+function playMusicStep(){
+
+    if(
+        !audioCtx||
+        !save.settings.music||
+        !running||
+        paused
+    )
+        return;
+
+    const data=
+        levels[currentLevel];
+
+    const root=data[5];
+
+    const scale=[
+        1,
+        1.122,
+        1.26,
+        1.335,
+        1.498,
+        1.682,
+        1.888,
+        2
+    ];
+
+    note(
+        root*
+        scale[
+            musicStep%
+            scale.length
+        ],
+        .16,
+        "square",
+        .035
+    );
+
+    if(musicStep%4===0){
+
+        note(
+            root/2,
+            .14,
+            "triangle",
+            .045
+        );
+    }
+
+    if(musicStep%8===4){
+
+        note(
+            root*2,
+            .08,
+            "sine",
+            .025
+        );
+    }
+
+    musicStep++;
+}
+
+function stopMusic(){
+
+    if(musicTimer){
+
+        clearInterval(
+            musicTimer
+        );
+
+        musicTimer=null;
+    }
+}
+
+function sfx(
+    freq,
+    duration=.08,
+    type="square"
+){
+
+    if(
+        !audioCtx||
+        !save.settings.sound
+    )
+        return;
+
+    const osc=
+        audioCtx.createOscillator();
+
+    const gain=
+        audioCtx.createGain();
+
+    osc.type=type;
+    osc.frequency.value=freq;
+
+    gain.gain.setValueAtTime(
+        .0001,
+        audioCtx.currentTime
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+        .12,
+        audioCtx.currentTime+.01
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+        .0001,
+        audioCtx.currentTime+duration
+    );
+
+    osc.connect(gain);
+    gain.connect(masterGain);
+
+    osc.start();
+
+    osc.stop(
+        audioCtx.currentTime+
+        duration+
+        .02
+    );
+}
+
+function sfxJump(){
+    sfx(500,.07,"square");
+}
+
+function sfxCoin(){
+    sfx(900,.1,"triangle");
+}
+
+function sfxDeath(){
+    sfx(120,.3,"sawtooth");
+}
+
+function sfxWin(){
+
+    if(
+        !audioCtx||
+        !save.settings.sound
+    )
+        return;
+
+    setTimeout(
+        ()=>sfx(523,.12,"square"),
+        0
+    );
+
+    setTimeout(
+        ()=>sfx(659,.12,"square"),
+        130
+    );
+
+    setTimeout(
+        ()=>sfx(784,.2,"square"),
+        260
+    );
+}
+
+/* =========================================================
+   EKRANY
+========================================================= */
+
+function showOnly(screen){
 
     menu.classList.add("hidden");
     levelsScreen.classList.add("hidden");
     shopScreen.classList.add("hidden");
     achievementsScreen.classList.add("hidden");
     settingsScreen.classList.add("hidden");
-
-    pauseScreen.classList.add("hidden");
-    result.classList.add("hidden");
-}
-
-function showOnly(screen){
-
-    hideAllScreens();
 
     screen.classList.remove("hidden");
 }
@@ -858,126 +1147,64 @@ function openMenu(){
 
     game.classList.remove("active");
 
-    hideAllScreens();
+    pauseScreen.classList.add("hidden");
+    result.classList.add("hidden");
 
-    menu.classList.remove("hidden");
+    showOnly(menu);
 }
 
 function openLevels(){
 
     running=false;
+    stopMusic();
 
     game.classList.remove("active");
 
     showOnly(levelsScreen);
-
     renderLevels();
 }
 
 function openShop(){
 
     running=false;
+    stopMusic();
 
     game.classList.remove("active");
 
     showOnly(shopScreen);
-
     renderSkins();
 }
 
 function openAchievements(){
 
     running=false;
+    stopMusic();
 
     game.classList.remove("active");
 
     showOnly(achievementsScreen);
-
     renderAchievements();
 }
 
 function openSettings(){
 
     running=false;
+    stopMusic();
 
     game.classList.remove("active");
 
     showOnly(settingsScreen);
-
     renderSettings();
 }
 
 /* =========================================================
-   MENU BUTTONS
+   MENU
 ========================================================= */
 
-playBtn.addEventListener(
-    "pointerdown",
-    function(e){
-
-        e.preventDefault();
-        e.stopPropagation();
-
-        startGameDirect();
-
-    },
-    {passive:false}
-);
-
-playBtn.addEventListener(
-    "click",
-    function(e){
-
-        e.preventDefault();
-        e.stopPropagation();
-
-        /*
-          pointerdown normalnie już uruchomił grę.
-          To jest dodatkowe zabezpieczenie dla myszy.
-        */
-
-        if(!running){
-            startGameDirect();
-        }
-
-    }
-);
-
-$("levelsBtn").addEventListener(
-    "click",
-    function(e){
-        e.preventDefault();
-        e.stopPropagation();
-        openLevels();
-    }
-);
-
-$("shopBtn").addEventListener(
-    "click",
-    function(e){
-        e.preventDefault();
-        e.stopPropagation();
-        openShop();
-    }
-);
-
-$("achievementsBtn").addEventListener(
-    "click",
-    function(e){
-        e.preventDefault();
-        e.stopPropagation();
-        openAchievements();
-    }
-);
-
-$("settingsBtn").addEventListener(
-    "click",
-    function(e){
-        e.preventDefault();
-        e.stopPropagation();
-        openSettings();
-    }
-);
+$("levelsBtn").onclick=openLevels;
+$("shopBtn").onclick=openShop;
+$("achievementsBtn").onclick=openAchievements;
+$("settingsBtn").onclick=openSettings;
 
 $("levelsBack").onclick=openMenu;
 $("shopBack").onclick=openMenu;
@@ -985,31 +1212,29 @@ $("achievementsBack").onclick=openMenu;
 $("settingsBack").onclick=openMenu;
 
 /* =========================================================
-   START — NAJWAŻNIEJSZA CZĘŚĆ
+   START GRY
 ========================================================= */
 
-function startGameDirect(){
+async function startGameDirect(){
+
+    console.log("GRAJ — startGameDirect()");
 
     /*
-      Natychmiast chowamy menu.
-      Nie czekamy na audio.
-      Nie czekamy na inne funkcje.
+       Audio jest odblokowywane bezpośrednio
+       po kliknięciu GRAJ.
     */
 
-    hideAllScreens();
-
-    menu.classList.add("hidden");
-
-    game.classList.add("active");
-
-    running=true;
-    paused=false;
+    try{
+        await unlockAudio();
+    }catch(e){
+        console.log("Audio unlock:",e);
+    }
 
     startLevel(0);
 }
 
 /* =========================================================
-   LEVEL MENU
+   POZIOMY
 ========================================================= */
 
 function renderLevels(){
@@ -1018,9 +1243,8 @@ function renderLevels(){
 
     levels.forEach((lv,i)=>{
 
-        const b=document.createElement("button");
-
-        b.type="button";
+        const b=
+            document.createElement("button");
 
         b.className=
             "level "+
@@ -1034,7 +1258,6 @@ function renderLevels(){
             `<strong>
                 ${i+1}. ${lv[0]}
              </strong>
-
              <small>
                 ${
                     i<save.unlocked
@@ -1045,22 +1268,20 @@ function renderLevels(){
 
         if(i<save.unlocked){
 
-            b.addEventListener(
-                "click",
-                function(){
-                    startLevel(i);
-                }
-            );
+            b.onclick=async()=>{
 
+                await unlockAudio();
+
+                startLevel(i);
+            };
         }
 
         levelGrid.appendChild(b);
-
     });
 }
 
 /* =========================================================
-   SHOP
+   SKLEP
 ========================================================= */
 
 function renderSkins(){
@@ -1075,8 +1296,6 @@ function renderSkins(){
 
         const b=
             document.createElement("button");
-
-        b.type="button";
 
         b.className=
             "skin "+
@@ -1109,6 +1328,7 @@ function renderSkins(){
             if(owned){
 
                 save.selectedSkin=i;
+
                 saveGame();
                 renderSkins();
 
@@ -1119,7 +1339,6 @@ function renderSkins(){
                 save.selectedSkin=i;
 
                 saveGame();
-
                 renderSkins();
             }
         };
@@ -1129,7 +1348,7 @@ function renderSkins(){
 }
 
 /* =========================================================
-   ACHIEVEMENTS
+   ACHIEVEMENTY
 ========================================================= */
 
 function renderAchievements(){
@@ -1186,47 +1405,64 @@ function checkAchievements(){
         if(deaths===0)
             save.achievements.perfect=true;
 
-        if(save.attempts[currentLevel]>=5)
+        if(
+            save.attempts[currentLevel]>=5
+        ){
             save.achievements.survivor=true;
+        }
     }
 
     saveGame();
 }
 
 /* =========================================================
-   SETTINGS
+   USTAWIENIA
 ========================================================= */
 
 function renderSettings(){
 
-    $("musicSwitch").classList.toggle(
-        "on",
-        save.settings.music
-    );
+    $("musicSwitch")
+        .classList
+        .toggle(
+            "on",
+            save.settings.music
+        );
 
-    $("soundSwitch").classList.toggle(
-        "on",
-        save.settings.sound
-    );
+    $("soundSwitch")
+        .classList
+        .toggle(
+            "on",
+            save.settings.sound
+        );
 
-    $("fxSwitch").classList.toggle(
-        "on",
-        save.settings.fx
-    );
+    $("fxSwitch")
+        .classList
+        .toggle(
+            "on",
+            save.settings.fx
+        );
 }
 
-$("musicSwitch").onclick=()=>{
+$("musicSwitch").onclick=async()=>{
 
     save.settings.music=
         !save.settings.music;
 
     saveGame();
+
     renderSettings();
 
-    if(save.settings.music)
-        startMusic();
-    else
+    if(save.settings.music){
+
+        await unlockAudio();
+
+        if(running&&!paused)
+            startMusic();
+
+    }else{
+
         stopMusic();
+    }
 };
 
 $("soundSwitch").onclick=()=>{
@@ -1235,6 +1471,7 @@ $("soundSwitch").onclick=()=>{
         !save.settings.sound;
 
     saveGame();
+
     renderSettings();
 };
 
@@ -1244,6 +1481,7 @@ $("fxSwitch").onclick=()=>{
         !save.settings.fx;
 
     saveGame();
+
     renderSettings();
 };
 
@@ -1265,7 +1503,7 @@ addEventListener(
 resize();
 
 /* =========================================================
-   CREATE LEVEL
+   TWORZENIE POZIOMU
 ========================================================= */
 
 function createLevel(){
@@ -1280,6 +1518,8 @@ function createLevel(){
     cameraX=0;
     collectedThisLevel=0;
 
+    progressBar.style.width="0%";
+
     const ground=
         canvas.height-100;
 
@@ -1291,6 +1531,9 @@ function createLevel(){
     player.vy=0;
     player.grounded=true;
     player.rotation=0;
+
+    blinkTimer=2;
+    blinking=false;
 
     for(let i=0;i<90;i++){
 
@@ -1306,9 +1549,12 @@ function createLevel(){
 
     let x=600;
 
-    while(x<levelLength-500){
+    while(
+        x<levelLength-500
+    ){
 
-        const type=Math.random();
+        const type=
+            Math.random();
 
         if(type<.45){
 
@@ -1371,7 +1617,9 @@ function createLevel(){
             });
         }
 
-        x+=180+Math.random()*250;
+        x+=
+            180+
+            Math.random()*250;
     }
 
     for(let i=0;i<8;i++){
@@ -1389,10 +1637,10 @@ function createLevel(){
 }
 
 /* =========================================================
-   START LEVEL
+   START POZIOMU
 ========================================================= */
 
-function startLevel(index){
+async function startLevel(index){
 
     if(
         index<0||
@@ -1410,7 +1658,9 @@ function startLevel(index){
     const data=
         levels[index];
 
-    levelName.textContent=data[0];
+    levelName.textContent=
+        data[0];
+
     levelColor=data[1];
     levelSpeed=data[2];
     levelLength=data[3];
@@ -1421,12 +1671,14 @@ function startLevel(index){
 
     deaths=0;
 
-    /*
-      NAJPIERW GRA.
-      AUDIO NIE MOŻE ZABLOKOWAĆ STARTU.
-    */
+    menu.classList.add("hidden");
+    levelsScreen.classList.add("hidden");
+    shopScreen.classList.add("hidden");
+    achievementsScreen.classList.add("hidden");
+    settingsScreen.classList.add("hidden");
 
-    hideAllScreens();
+    pauseScreen.classList.add("hidden");
+    result.classList.add("hidden");
 
     game.classList.add("active");
 
@@ -1437,81 +1689,93 @@ function startLevel(index){
 
     lastTime=0;
 
-    requestAnimationFrame(
-        gameLoop
-    );
+    requestAnimationFrame(gameLoop);
 
     /*
-      Audio dopiero po uruchomieniu gry.
+       Odblokowanie audio także dla:
+       - poziomów
+       - restartu
+       - następnego poziomu
     */
 
-    setTimeout(
-        function(){
+    try{
 
-            unlockAudio().then(
-                function(){
+        const audioReady=
+            await unlockAudio();
 
-                    if(
-                        running&&
-                        !paused
-                    ){
-                        startMusic();
-                    }
+        if(
+            audioReady&&
+            running&&
+            !paused&&
+            save.settings.music
+        ){
+            startMusic();
+        }
 
-                }
-            );
+    }catch(e){
 
-        },
-        0
-    );
+        console.log(
+            "Muzyka niedostępna:",
+            e
+        );
+    }
 }
 
 /* =========================================================
-   JUMP
+   SKOK
 ========================================================= */
 
 function jump(){
 
-    if(!running||paused)
+    if(
+        !running||
+        paused
+    ){
         return;
+    }
 
     if(player.grounded){
 
         player.vy=-14;
+
         player.grounded=false;
 
         sfxJump();
     }
 }
 
+/* =========================================================
+   DOTYK
+========================================================= */
+
 gameTouch.addEventListener(
     "pointerdown",
-    function(e){
+    e=>{
 
         e.preventDefault();
 
         jump();
-
-    },
-    {passive:false}
+    }
 );
 
 mobileJump.addEventListener(
     "pointerdown",
-    function(e){
+    e=>{
 
         e.preventDefault();
         e.stopPropagation();
 
         jump();
-
-    },
-    {passive:false}
+    }
 );
+
+/* =========================================================
+   KLAWIATURA
+========================================================= */
 
 document.addEventListener(
     "keydown",
-    function(e){
+    e=>{
 
         if(
             e.code==="Space"||
@@ -1523,17 +1787,28 @@ document.addEventListener(
             if(!e.repeat)
                 jump();
         }
+
+        if(
+            e.code==="Escape"||
+            e.code==="KeyP"
+        ){
+
+            if(running){
+
+                if(paused)
+                    resumeGame();
+                else
+                    pauseGame();
+            }
+        }
     }
 );
 
 /* =========================================================
-   PAUSE
+   PAUZA
 ========================================================= */
 
-$("pause").onclick=function(e){
-
-    e.preventDefault();
-    e.stopPropagation();
+function pauseGame(){
 
     if(!running)
         return;
@@ -1545,9 +1820,12 @@ $("pause").onclick=function(e){
     pauseScreen.classList.remove(
         "hidden"
     );
-};
+}
 
-$("resumeBtn").onclick=function(){
+function resumeGame(){
+
+    if(!running)
+        return;
 
     paused=false;
 
@@ -1555,22 +1833,37 @@ $("resumeBtn").onclick=function(){
         "hidden"
     );
 
-    lastTime=performance.now();
+    lastTime=
+        performance.now();
 
     if(save.settings.music)
         startMusic();
+}
+
+$("pause").onclick=e=>{
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    pauseGame();
 };
 
-$("pauseRestart").onclick=function(){
+$("resumeBtn").onclick=()=>{
+    resumeGame();
+};
+
+$("pauseRestart").onclick=async()=>{
 
     pauseScreen.classList.add(
         "hidden"
     );
 
-    startLevel(currentLevel);
+    await startLevel(
+        currentLevel
+    );
 };
 
-$("pauseMenu").onclick=function(){
+$("pauseMenu").onclick=()=>{
 
     pauseScreen.classList.add(
         "hidden"
@@ -1580,23 +1873,34 @@ $("pauseMenu").onclick=function(){
 };
 
 /* =========================================================
-   COLLISION
+   KOLIZJE
 ========================================================= */
 
 function overlap(a,b){
 
     return(
-        a.x<b.x+b.w&&
-        a.x+a.w>b.x&&
-        a.y<b.y+b.h&&
+        a.x<b.x+b.w &&
+        a.x+a.w>b.x &&
+        a.y<b.y+b.h &&
         a.y+a.h>b.y
     );
 }
 
 function collision(){
 
+    /*
+       WAŻNA POPRAWKA:
+       player.x jest pozycją na ekranie,
+       więc do kolizji używamy jego pozycji
+       w świecie: cameraX + player.x.
+    */
+
+    const playerWorldX=
+        cameraX+
+        player.x;
+
     const p={
-        x:player.x,
+        x:playerWorldX,
         y:player.y,
         w:player.size,
         h:player.size
@@ -1631,8 +1935,12 @@ function collision(){
 
             if(overlap(p,h)){
 
+                /*
+                   Lądowanie na bloku.
+                */
+
                 if(
-                    player.vy>0&&
+                    player.vy>0 &&
                     player.y+
                     player.size-
                     player.vy<=o.y
@@ -1661,7 +1969,7 @@ function collision(){
                 o.y-o.h/2;
 
             const px=
-                player.x+
+                playerWorldX+
                 player.size/2;
 
             const py=
@@ -1683,13 +1991,17 @@ function collision(){
 }
 
 /* =========================================================
-   COINS
+   MONETY
 ========================================================= */
 
 function collectCoins(){
 
+    const playerWorldX=
+        cameraX+
+        player.x;
+
     const px=
-        player.x+
+        playerWorldX+
         player.size/2;
 
     const py=
@@ -1723,8 +2035,10 @@ function collectCoins(){
                 particles.push({
                     x:c.x,
                     y:c.y,
-                    vx:(Math.random()-.5)*5,
-                    vy:(Math.random()-.5)*5,
+                    vx:
+                        (Math.random()-.5)*5,
+                    vy:
+                        (Math.random()-.5)*5,
                     life:30
                 });
             }
@@ -1733,7 +2047,7 @@ function collectCoins(){
 }
 
 /* =========================================================
-   DEATH
+   ŚMIERĆ
 ========================================================= */
 
 function die(){
@@ -1749,27 +2063,34 @@ function die(){
 
     sfxDeath();
 
+    const playerWorldX=
+        cameraX+
+        player.x;
+
     for(let i=0;i<35;i++){
 
         particles.push({
-            x:player.x,
+            x:playerWorldX,
             y:player.y,
-            vx:(Math.random()-.5)*10,
-            vy:(Math.random()-.5)*10,
+            vx:
+                (Math.random()-.5)*10,
+            vy:
+                (Math.random()-.5)*10,
             life:50
         });
     }
 
     setTimeout(
-        function(){
+        async()=>{
 
-            if(
+            const again=
                 confirm(
                     "Zginąłeś! Chcesz spróbować ponownie?"
-                )
-            ){
+                );
 
-                startLevel(
+            if(again){
+
+                await startLevel(
                     currentLevel
                 );
 
@@ -1784,7 +2105,7 @@ function die(){
 }
 
 /* =========================================================
-   WIN
+   WYGRANA
 ========================================================= */
 
 function win(){
@@ -1808,7 +2129,7 @@ function win(){
     }
 
     if(
-        currentLevel+1<levels.length&&
+        currentLevel+1<levels.length &&
         save.unlocked<=currentLevel+1
     ){
 
@@ -1836,21 +2157,21 @@ function win(){
 }
 
 /* =========================================================
-   RESULT BUTTONS
+   RESULT
 ========================================================= */
 
-$("resultRestart").onclick=function(){
+$("resultRestart").onclick=async()=>{
 
     result.classList.add(
         "hidden"
     );
 
-    startLevel(
+    await startLevel(
         currentLevel
     );
 };
 
-$("resultNext").onclick=function(){
+$("resultNext").onclick=async()=>{
 
     if(
         currentLevel<
@@ -1861,13 +2182,13 @@ $("resultNext").onclick=function(){
             "hidden"
         );
 
-        startLevel(
+        await startLevel(
             currentLevel+1
         );
     }
 };
 
-$("resultMenu").onclick=function(){
+$("resultMenu").onclick=()=>{
 
     result.classList.add(
         "hidden"
@@ -1882,17 +2203,27 @@ $("resultMenu").onclick=function(){
 
 function update(dt){
 
-    if(!running||paused)
+    if(
+        !running||
+        paused
+    )
         return;
 
-    worldX+=levelSpeed*dt;
+    worldX+=
+        levelSpeed*dt;
 
     const ground=
         canvas.height-100;
 
-    player.vy+=.72*dt;
+    /*
+       Grawitacja.
+    */
 
-    player.y+=player.vy*dt;
+    player.vy+=
+        .72*dt;
+
+    player.y+=
+        player.vy*dt;
 
     if(
         player.y+
@@ -1912,12 +2243,15 @@ function update(dt){
 
         player.grounded=false;
 
-        player.rotation+=.15*dt;
+        player.rotation+=
+            .15*dt;
     }
 
-    collision();
+    updateBlink(dt);
 
-    collectCoins();
+    /*
+       Kamera.
+    */
 
     cameraX=
         Math.max(
@@ -1925,28 +2259,48 @@ function update(dt){
             worldX-200
         );
 
+    collision();
+
+    if(!running)
+        return;
+
+    collectCoins();
+
     progressBar.style.width=
         Math.min(
             100,
             worldX/levelLength*100
         )+"%";
 
-    trail.push({
-        x:player.x,
-        y:player.y,
-        life:18
-    });
+    /*
+       Trail.
+    */
 
-    if(trail.length>25)
-        trail.shift();
+    if(save.settings.fx){
 
-    for(const t of trail)
-        t.life--;
+        trail.push({
+            x:
+                cameraX+
+                player.x,
+            y:player.y,
+            life:18
+        });
 
-    trail=
-        trail.filter(
-            t=>t.life>0
-        );
+        if(trail.length>25)
+            trail.shift();
+
+        for(const t of trail)
+            t.life--;
+
+        trail=
+            trail.filter(
+                t=>t.life>0
+            );
+    }
+
+    /*
+       Cząsteczki.
+    */
 
     for(const p of particles){
 
@@ -1961,14 +2315,16 @@ function update(dt){
             p=>p.life>0
         );
 
-    if(worldX>=levelLength){
+    if(
+        worldX>=levelLength
+    ){
 
         win();
     }
 }
 
 /* =========================================================
-   DRAW
+   RYSOWANIE
 ========================================================= */
 
 function draw(){
@@ -1982,6 +2338,10 @@ function draw(){
 
     const ground=
         canvas.height-100;
+
+    /*
+       TŁO
+    */
 
     const grad=
         ctx.createLinearGradient(
@@ -2010,7 +2370,9 @@ function draw(){
         canvas.height
     );
 
-    /* GWIAZDY */
+    /*
+       GWIAZDY
+    */
 
     ctx.fillStyle=
         "rgba(255,255,255,.7)";
@@ -2018,7 +2380,8 @@ function draw(){
     for(const s of stars){
 
         let sx=
-            s.x-cameraX*.3;
+            s.x-
+            cameraX*.3;
 
         if(sx<-10)
             sx+=levelLength;
@@ -2042,7 +2405,9 @@ function draw(){
         }
     }
 
-    /* GRID */
+    /*
+       GRID
+    */
 
     ctx.strokeStyle=
         "rgba(0,255,255,.06)";
@@ -2055,10 +2420,7 @@ function draw(){
 
         ctx.beginPath();
 
-        ctx.moveTo(
-            x,
-            0
-        );
+        ctx.moveTo(x,0);
 
         ctx.lineTo(
             x,
@@ -2076,10 +2438,7 @@ function draw(){
 
         ctx.beginPath();
 
-        ctx.moveTo(
-            0,
-            y
-        );
+        ctx.moveTo(0,y);
 
         ctx.lineTo(
             canvas.width,
@@ -2089,7 +2448,9 @@ function draw(){
         ctx.stroke();
     }
 
-    /* ZIEMIA */
+    /*
+       ZIEMIA
+    */
 
     ctx.fillStyle="#10102a";
 
@@ -2109,7 +2470,9 @@ function draw(){
         3
     );
 
-    /* PRZESZKODY */
+    /*
+       PRZESZKODY
+    */
 
     for(const o of obstacles){
 
@@ -2125,7 +2488,8 @@ function draw(){
         ctx.shadowBlur=15;
         ctx.shadowColor=levelColor;
 
-        ctx.strokeStyle=levelColor;
+        ctx.strokeStyle=
+            levelColor;
 
         ctx.fillStyle=
             "rgba(0,0,0,.45)";
@@ -2213,16 +2577,20 @@ function draw(){
                 const py=
                     Math.sin(a)*r;
 
-                if(i===0)
+                if(i===0){
+
                     ctx.moveTo(
                         px,
                         py
                     );
-                else
+
+                }else{
+
                     ctx.lineTo(
                         px,
                         py
                     );
+                }
             }
 
             ctx.closePath();
@@ -2236,7 +2604,9 @@ function draw(){
         ctx.shadowBlur=0;
     }
 
-    /* MONETY */
+    /*
+       MONETY
+    */
 
     for(const c of coins){
 
@@ -2286,7 +2656,9 @@ function draw(){
         ctx.fill();
     }
 
-    /* TRAIL */
+    /*
+       TRAIL
+    */
 
     if(save.settings.fx){
 
@@ -2298,11 +2670,19 @@ function draw(){
                     t.life/18
                 );
 
+            const x=
+                t.x-cameraX;
+
             ctx.fillStyle=
-                `rgba(0,255,255,${alpha*.25})`;
+                `rgba(
+                    0,
+                    255,
+                    255,
+                    ${alpha*.25}
+                )`;
 
             ctx.fillRect(
-                t.x-cameraX+8,
+                x+8,
                 t.y+8,
                 22,
                 22
@@ -2310,7 +2690,15 @@ function draw(){
         }
     }
 
-    /* PLAYER */
+    /*
+       ============================
+       POSTAĆ
+       ============================
+
+       TYLKO KWADRAT + OCZY.
+       BEZ RĄK.
+       BEZ NÓG.
+    */
 
     const skin=
         skins[save.selectedSkin];
@@ -2318,8 +2706,10 @@ function draw(){
     ctx.save();
 
     ctx.translate(
-        player.x+player.size/2,
-        player.y+player.size/2
+        player.x+
+        player.size/2,
+        player.y+
+        player.size/2
     );
 
     ctx.rotate(
@@ -2340,91 +2730,50 @@ function draw(){
 
     ctx.shadowBlur=0;
 
-    /* OCZY */
+    /*
+       OCZY
+    */
 
     ctx.fillStyle="#050510";
 
-    ctx.fillRect(
-        -10,
-        -8,
-        5,
-        7
-    );
+    if(blinking){
 
-    ctx.fillRect(
-        5,
-        -8,
-        5,
-        7
-    );
+        ctx.fillRect(
+            -11,
+            -5,
+            7,
+            2
+        );
 
-    /* ANIMACJA */
+        ctx.fillRect(
+            4,
+            -5,
+            7,
+            2
+        );
 
-    const walk=
-        player.grounded
-        ?Math.sin(
-            performance.now()/90
-        )*5
-        :0;
+    }else{
 
-    ctx.strokeStyle="#050510";
-    ctx.lineWidth=5;
+        ctx.fillRect(
+            -10,
+            -8,
+            5,
+            7
+        );
 
-    /* NOGI */
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-        -7,
-        18
-    );
-
-    ctx.lineTo(
-        -10+walk,
-        27
-    );
-
-    ctx.moveTo(
-        7,
-        18
-    );
-
-    ctx.lineTo(
-        10-walk,
-        27
-    );
-
-    ctx.stroke();
-
-    /* RĘCE */
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-        -18,
-        -1
-    );
-
-    ctx.lineTo(
-        -27-walk/2,
-        8
-    );
-
-    ctx.moveTo(
-        18,
-        -1
-    );
-
-    ctx.lineTo(
-        27+walk/2,
-        8
-    );
-
-    ctx.stroke();
+        ctx.fillRect(
+            5,
+            -8,
+            5,
+            7
+        );
+    }
 
     ctx.restore();
 
-    /* PARTICLES */
+    /*
+       PARTICLES
+    */
 
     for(const p of particles){
 
@@ -2434,7 +2783,8 @@ function draw(){
                 p.life/50
             );
 
-        ctx.fillStyle=levelColor;
+        ctx.fillStyle=
+            levelColor;
 
         ctx.fillRect(
             p.x-cameraX,
@@ -2448,13 +2798,10 @@ function draw(){
 }
 
 /* =========================================================
-   GAME LOOP
+   PĘTLA GRY
 ========================================================= */
 
 function gameLoop(time){
-
-    if(!running&&!paused)
-        return;
 
     if(!lastTime)
         lastTime=time;
@@ -2470,10 +2817,12 @@ function gameLoop(time){
     );
 
     update(dt);
-
     draw();
 
-    if(running||paused){
+    if(
+        running||
+        paused
+    ){
 
         requestAnimationFrame(
             gameLoop
@@ -2482,315 +2831,7 @@ function gameLoop(time){
 }
 
 /* =========================================================
-   AUDIO
-========================================================= */
-
-let audioCtx=null;
-let masterGain=null;
-let musicGain=null;
-let musicTimer=null;
-let musicStep=0;
-
-function initAudio(){
-
-    if(audioCtx)
-        return true;
-
-    try{
-
-        audioCtx=
-            new(
-                window.AudioContext||
-                window.webkitAudioContext
-            )();
-
-        masterGain=
-            audioCtx.createGain();
-
-        musicGain=
-            audioCtx.createGain();
-
-        masterGain.gain.value=.24;
-        musicGain.gain.value=.65;
-
-        musicGain.connect(
-            masterGain
-        );
-
-        masterGain.connect(
-            audioCtx.destination
-        );
-
-        return true;
-
-    }catch(e){
-
-        return false;
-    }
-}
-
-async function unlockAudio(){
-
-    if(!initAudio())
-        return;
-
-    try{
-
-        if(
-            audioCtx.state==="suspended"
-        ){
-
-            await audioCtx.resume();
-        }
-
-    }catch(e){}
-}
-
-function note(
-    freq,
-    duration,
-    type="sine",
-    volume=.08
-){
-
-    if(
-        !audioCtx||
-        !save.settings.music
-    )
-        return;
-
-    const osc=
-        audioCtx.createOscillator();
-
-    const gain=
-        audioCtx.createGain();
-
-    osc.type=type;
-    osc.frequency.value=freq;
-
-    gain.gain.setValueAtTime(
-        .0001,
-        audioCtx.currentTime
-    );
-
-    gain.gain.exponentialRampToValueAtTime(
-        volume,
-        audioCtx.currentTime+.01
-    );
-
-    gain.gain.exponentialRampToValueAtTime(
-        .0001,
-        audioCtx.currentTime+duration
-    );
-
-    osc.connect(gain);
-    gain.connect(musicGain);
-
-    osc.start();
-
-    osc.stop(
-        audioCtx.currentTime+
-        duration+
-        .02
-    );
-}
-
-function startMusic(){
-
-    if(
-        !audioCtx||
-        !save.settings.music
-    )
-        return;
-
-    stopMusic();
-
-    const data=
-        levels[currentLevel];
-
-    const bpm=data[4];
-    const root=data[5];
-
-    const interval=
-        60000/bpm/2;
-
-    musicStep=0;
-
-    musicTimer=
-        setInterval(
-            function(){
-
-                if(
-                    !running||
-                    paused
-                )
-                    return;
-
-                const scale=[
-                    1,
-                    1.122,
-                    1.26,
-                    1.335,
-                    1.498,
-                    1.682,
-                    1.888
-                ];
-
-                note(
-                    root*
-                    scale[
-                        musicStep%
-                        scale.length
-                    ],
-                    .16,
-                    "square",
-                    .035
-                );
-
-                if(
-                    musicStep%4===0
-                ){
-
-                    note(
-                        root/2,
-                        .12,
-                        "triangle",
-                        .045
-                    );
-                }
-
-                musicStep++;
-
-            },
-            interval
-        );
-}
-
-function stopMusic(){
-
-    if(musicTimer){
-
-        clearInterval(
-            musicTimer
-        );
-
-        musicTimer=null;
-    }
-}
-
-function sfx(
-    freq,
-    duration=.08,
-    type="square"
-){
-
-    if(
-        !audioCtx||
-        !save.settings.sound
-    )
-        return;
-
-    const osc=
-        audioCtx.createOscillator();
-
-    const gain=
-        audioCtx.createGain();
-
-    osc.type=type;
-    osc.frequency.value=freq;
-
-    gain.gain.setValueAtTime(
-        .0001,
-        audioCtx.currentTime
-    );
-
-    gain.gain.exponentialRampToValueAtTime(
-        .12,
-        audioCtx.currentTime+.01
-    );
-
-    gain.gain.exponentialRampToValueAtTime(
-        .0001,
-        audioCtx.currentTime+duration
-    );
-
-    osc.connect(gain);
-    gain.connect(masterGain);
-
-    osc.start();
-
-    osc.stop(
-        audioCtx.currentTime+
-        duration+
-        .02
-    );
-}
-
-function sfxJump(){
-
-    sfx(
-        500,
-        .07,
-        "square"
-    );
-}
-
-function sfxCoin(){
-
-    sfx(
-        900,
-        .1,
-        "triangle"
-    );
-}
-
-function sfxDeath(){
-
-    sfx(
-        120,
-        .3,
-        "sawtooth"
-    );
-}
-
-function sfxWin(){
-
-    if(
-        !audioCtx||
-        !save.settings.sound
-    )
-        return;
-
-    setTimeout(
-        ()=>sfx(
-            523,
-            .12,
-            "square"
-        ),
-        0
-    );
-
-    setTimeout(
-        ()=>sfx(
-            659,
-            .12,
-            "square"
-        ),
-        130
-    );
-
-    setTimeout(
-        ()=>sfx(
-            784,
-            .2,
-            "square"
-        ),
-        260
-    );
-}
-
-/* =========================================================
-   START
+   URUCHOMIENIE
 ========================================================= */
 
 renderLevels();
@@ -2798,21 +2839,7 @@ renderSkins();
 renderAchievements();
 renderSettings();
 
-/*
-  Na samym końcu upewniamy się,
-  że menu jest widoczne i gra ukryta.
-*/
-
-game.classList.remove("active");
-pauseScreen.classList.add("hidden");
-result.classList.add("hidden");
-
-menu.classList.remove("hidden");
-menu.style.pointerEvents="auto";
-
-playBtn.style.pointerEvents="auto";
-</script>
-
-</body>
-</html>
+console.log(
+    "NEON DASH — gra załadowana poprawnie."
+);
 ```
